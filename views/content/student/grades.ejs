@@ -1,0 +1,1146 @@
+<% layout('./layouts/boilerplate.ejs') %>
+    <div class="content" id="content-menu">
+        <%- include('../../layouts/partials/settings.ejs') %>
+
+            <div class="tops flex justify-center mt-1 ">
+
+                <!-- <button type="submit" class="inline-flex items-center py-1 px-2.5 ml-2 text-sm font-medium text-white bg-slate-800 rounded-lg border border-blue-700 hover:bg-blue-800 ">
+                    <i class="bi bi-bell text-lg"></i> 
+                </button> -->
+            </div>
+            <div class="grade-content pl-3 pr-3 "> <br>
+                <div class="grade-header flex justify-between">
+                    <span>Gradebook Classes For <%= student.CurrentSchool %> </span>
+                    <form action="/markingpd" method="post">
+                        <select name="mp" id="mp" onchange="this.form.submit()"
+                            class="w-20 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">
+                            <option value="4">MP3 </option>
+                            <option value="3">MP2</option>
+                            <option value="1">MP1 </option>
+                            <option selected>MP </option>
+
+                        </select>
+                    </form>
+
+                </div>
+                <br>
+                <div class="gpa flex  justify-around">
+                    <span class="text-xl font-simi-bold">OVERALL GPA: <span style="background: transparent;"
+                            class="font-semi-bold totalgpa font-bold text-red-700" disabled></span></span>
+                    <span class="text-xl font-simi-bold">Weight GPA: <span style="background: transparent;"
+                            class="font-semi-bold weightgpa font-bold text-red-700" disabled></span></span>
+
+                </div>
+                <div class="classes-set mb-11">
+
+                    <div class="firstpiroid">
+                        <div class="classes-content flex ">
+                            <span>1:</span>
+
+                            <div class="classesheading justify-between flex w-full">
+
+                                <span class="class-title <%= firstclass.Title %> text-lg">
+                                    <%= firstclass.Title %>
+                                </span>
+
+                                <div class="staff-details">
+                                    <a class="staff" target="_blank"
+                                        href="https://mail.google.com/mail/u/0/?fs=1&to=<%= firstclass.StaffEMail %>&su=SUBJECT&body=BODY&tf=cm ">
+                                        <%= firstclass.Staff%><i class="bi bi-envelope ml-2"></i>
+                                    </a> <span class="text-xs ml-3 text-gray-400">
+                                        <%= firstclass.Room %>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="gradeshow flex justify-between">
+                            <span> <button id="classclose" class="text-lg font-lg class-out"><i
+                                        class="bi bi-caret-right"></i></button>
+                                <%= firstclass.Marks.Mark.MarkName %>:
+                            </span>
+
+                            <div class="gradedisplay mr-2 block flex flex-col text-center ml-2  p-1  rounded-md">
+                                <span class="classgrade font-semibold"> </span>
+                                <span class="ml-2 classpercent"></span>
+                            </div>
+                            <div></div>
+                        </div>
+
+                        <div class="toggle-out mt-3 ">
+                            <button id="add-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-white bg-red-700">Add
+                                Assignment</button>
+                            <button id="remove-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-black bg-gray-100">Remove
+                                added</button>
+
+                            <div class="addpoints pointcard rounded-md ml-3  mb-2 p-2 border border-solid ">
+                                <input class="add-Mesure form-control" placeholder="Enter Assiment Title" type="text">
+                                <label for="task" class="text-sm">Type</label>
+                                <select class="form-control" id="task">
+                                    <option value="All Task">All Tasks / Assessments</option>
+                                    <option value="Pracetice Preparation">Practice / Preparation</option>
+                                </select>
+
+                                <span class="late"></span>
+                                <div class="dates flex">
+                                    <span class="pl-1">Date:</span><br>
+                                    <span class="pl-3">Duedate:</span><br>
+                                </div>
+                                <!-- <span></span>  notes -->
+                                <div class="pooints flex">
+                                    <input name="points" class="form-control w-20 add-points  text-xs ml-2   "
+                                        value="0.00" type="number"> /
+                                    <input class="form-control w-20  add-total-points text-xs  " value="0.00"
+                                        type="number">
+                                </div>
+                                <div class="w-full content-center" style="justify-content: center; display: flex;">
+                                    <button id="assimentsubmit" class="p-2 bg-blue-200 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Submit</button>
+                                    <button id="assimentcancel" class="p-2 bg-gray-100 ml-2 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Cancel</button>
+
+
+                                </div>
+                            </div>
+
+                            <div class="grading-content  ">
+
+                                <div class="addedpoint flex flex-wrap ">
+
+                                </div>
+                                <% if(ns=='yes' ){ %>
+
+                                    <%for(let point of firstpirod){ %>
+                                        <% if(point.Score=="Not Due" || point.Score=="Not Graded" ){ %>
+                                            <div
+                                                class="pointcard rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                <span class="text-md font-semibold">
+                                                    <%= point.Measure %>
+                                                </span><br>
+                                                <span class="text-sm">
+                                                    <%=point.Type %>
+                                                </span><br>
+                                                <span class="late text-yellow-400 ">Up coming assiments</span><br>
+                                                <div class="dates flex justify-end">
+                                                    <span class="pl-1">Date:<%=point.Date %></span><br>
+                                                    <span class="pl-3">Duedate:<%=point.DueDate %></span><br>
+                                                </div>
+                                                <span class="text-xs"
+                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                    <%=point.MeasureDescription %>
+                                                </span><br>
+                                                <div class="pooints flex">
+                                                    <input name="points"
+                                                        class="form-control w-20 text-xs ml-2 firstclass <%= point.Type %>"
+                                                        value="<%= point.Points.split('/')[0].trim() %>" type="number">
+                                                    <input
+                                                        class="form-control w-20 total-points text-xs <%= point.Type %>"
+                                                        value="<%= point.Points.split('/')[1].trim() %>" type="text">
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                                <% } %>
+                                                    <%for(let point of firstpirod){ %>
+                                                        <% if(point.Score !=="Not Due" && point.Score !=="Not Graded" ){
+                                                            %>
+                                                            <div
+                                                                class="pointcard rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                                <span class="text-md font-semibold">
+                                                                    <%= point.Measure %>
+                                                                </span><br>
+                                                                <span class="text-sm">
+                                                                    <%=point.Type %>
+                                                                </span><br>
+                                                                <span class="late text-red-400 ">
+                                                                    <%=point.Notes %>
+                                                                </span><br>
+                                                                <div class="dates flex justify-end">
+                                                                    <span class="pl-1 ">Date:<%=point.Date %>
+                                                                    </span><br>
+                                                                    <span class="pl-3">Duedate:<%=point.DueDate %>
+                                                                    </span><br>
+                                                                </div>
+                                                                <span href="<%=point.MeasureDescription %>"
+                                                                    class="text-xs w-full"
+                                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                                    <%=point.MeasureDescription %>
+                                                                </span><br>
+                                                                <div class="pooints flex">
+                                                                    <input name="points"
+                                                                        class="form-control w-20 text-xs ml-2 firstclass <%= point.Type %>"
+                                                                        value="<%= point.Points.split('/')[0].trim() %>"
+                                                                        type="number">
+                                                                    <input
+                                                                        class="form-control w-20 total-points text-xs <%= point.Type %>"
+                                                                        value="<%= point.Points.split('/')[1].trim() %>"
+                                                                        type="text">
+                                                                </div>
+                                                            </div>
+                                                            <% } %>
+                                                                <% } %>
+                                                                    <% } %>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="secondpiroid">
+                        <div class="classes-content flex ">
+                            <span>2:</span>
+
+                            <div class="classesheading justify-between  flex w-full">
+                                <span class="class-title <%= secondclass.Title %> text-lg">
+                                    <%= secondclass.Title %>
+                                </span>
+
+
+
+                                <div class="staff-details">
+                                    <a class="staff" target="_blank"
+                                        href="https://mail.google.com/mail/u/0/?fs=1&to=<%= secondclass.StaffEMail %>&su=SUBJECT&body=BODY&tf=cm">
+                                        <%= secondclass.Staff%><i class="bi bi-envelope ml-2"></i>
+                                    </a> <span class="text-xs ml-3 text-gray-400">
+                                        <%= secondclass.Room %>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="gradeshow flex justify-between">
+                            <span> <button id="classclose" class="text-lg font-lg class-out"><i
+                                        class="bi bi-caret-right"></i></button>
+                                <%= secondclass.Marks.Mark.MarkName %>:
+                            </span>
+
+                            <div class="gradedisplay block flex flex-col text-center ml-2  p-1  rounded-md">
+                                <span class="classgrade2 font-semibold"></span>
+                                <span class="ml-2 classpercent"></span>
+                            </div>
+                            <div></div>
+                        </div>
+
+                        <div class="toggle-out mt-3 ">
+                            <button id="add-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-white bg-red-700">Add
+                                Assignment</button>
+                            <button id="remove-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-black bg-gray-100">Remove
+                                added</button>
+
+                            <div class="addpoints pointcard rounded-md ml-3  mb-2 p-2 border border-solid ">
+                                <input class="add-Mesure form-control" placeholder="Enter Assiment Title" type="text">
+                                <label for="task" class="text-sm">Type</label>
+                                <select class="form-control" id="task">
+                                    <option value="All Task">All Tasks / Assessments</option>
+                                    <option value="Pracetice Preparation">Practice / Preparation</option>
+                                </select>
+
+                                <span class="late"></span>
+                                <div class="dates flex">
+                                    <span class="pl-1">Date:</span><br>
+                                    <span class="pl-3">Duedate:</span><br>
+                                </div>
+                                <!-- <span></span>  notes -->
+                                <div class="pooints flex">
+                                    <input name="points" class="form-control w-20 add-points  text-xs ml-2   "
+                                        value="0.00" type="number"> /
+                                    <input class="form-control w-20  add-total-points text-xs  " value="0.00"
+                                        type="number">
+                                </div>
+                                <div class="w-full content-center" style="justify-content: center; display: flex;">
+                                    <button id="assimentsubmit" class="p-2 bg-blue-200 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Submit</button>
+                                    <button id="assimentcancel" class="p-2 bg-gray-100 ml-2 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Cancel</button>
+
+
+                                </div>
+                            </div>
+
+                            <div class="grading-content  ">
+
+                                <div class="addedpoint flex flex-wrap ">
+
+                                </div>
+                                <% if(ns=='yes' ){ %>
+
+                                    <%for(let point of secondpirod){ %>
+                                        <% if(point.Score=="Not Due" || point.Score=="Not Graded" ){ %>
+                                            <div
+                                                class="pointcard pointcard1 rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                <span class="text-md font-semibold">
+                                                    <%= point.Measure %>
+                                                </span><br>
+                                                <span class="text-sm">
+                                                    <%=point.Type %>
+                                                </span><br>
+                                                <span class="late text-yellow-400 ">Up coming assiments</span><br>
+                                                <div class="dates flex justify-end">
+                                                    <span class="pl-1">Date:<%=point.Date %></span><br>
+                                                    <span class="pl-3">Duedate:<%=point.DueDate %></span><br>
+                                                </div>
+                                                <span class="text-xs"
+                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                    <%=point.MeasureDescription %>
+                                                </span><br>
+                                                <div class="pooints flex">
+                                                    <input name="points"
+                                                        class="form-control w-20  text-xs ml-2 comingclass <%=point.Type %> "
+                                                        value="0" type="number" disabled> /
+                                                    <input
+                                                        class="form-control w-20 coming-points  text-xs <%=point.Type %> "
+                                                        value="<%= point.Points[0] +  point.Points[1] +  point.Points[2] +  point.Points[3] *1  %> "
+                                                        type="text" disabled>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                                <% } %>
+                                                    <%for(let point of secondpirod){ %>
+                                                        <% if(point.Score !=="Not Due" && point.Score !=="Not Graded" ){
+                                                            %>
+                                                            <div
+                                                                class="pointcard rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                                <span class="text-md font-semibold">
+                                                                    <%= point.Measure %>
+                                                                </span><br>
+                                                                <span class="text-sm">
+                                                                    <%=point.Type %>
+                                                                </span><br>
+                                                                <span class="late text-red-400 ">
+                                                                    <%=point.Notes %>
+                                                                </span><br>
+                                                                <div class="dates flex justify-end">
+                                                                    <span class="pl-1 ">Date:<%=point.Date %>
+                                                                    </span><br>
+                                                                    <span class="pl-3">Duedate:<%=point.DueDate %>
+                                                                    </span><br>
+                                                                </div>
+                                                                <span href="<%=point.MeasureDescription %>"
+                                                                    class="text-xs w-full"
+                                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                                    <%=point.MeasureDescription %>
+                                                                </span><br>
+                                                                <div class="pooints flex">
+                                                                    <input name="points"
+                                                                        class="form-control w-20  text-xs ml-2 firstclass2 <%=point.Type %> "
+                                                                        value="<%= point.Points[0] +  point.Points[1] +  point.Points[2] +  point.Points[3] *1  %>"
+                                                                        type="number"> /
+                                                                    <input
+                                                                        class="form-control w-20 total-points2  text-xs <%=point.Type %> "
+                                                                        value="<%= point.Points[7] + point.Points[8] + point.Points[9] + point.Points[10]+ point.Points[11]+ point.Points[12]%> "
+                                                                        type="text">
+                                                                </div>
+                                                            </div>
+                                                            <% } %>
+                                                                <% } %>
+                                                                    <% } %>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="thirdpiroid">
+                        <div class="classes-content flex ">
+                            <span>3:</span>
+                            <div class="classesheading  justify-between  flex w-full">
+
+                                <span class="class-title <%= thirdclass.Title %> text-lg">
+                                    <%= thirdclass.Title %>
+                                </span>
+                                <div class="staff-details">
+                                    <a class="staff" target="_blank"
+                                        href="https://mail.google.com/mail/u/0/?fs=1&to=<%= thirdclass.StaffEMail %>&su=SUBJECT&body=BODY&tf=cm ">
+                                        <%= thirdclass.Staff%><i class="bi bi-envelope ml-2"></i>
+                                    </a> <span class="text-xs ml-3 text-gray-400">
+                                        <%= thirdclass.Room %>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gradeshow  flex justify-between">
+                            <span> <button id="classclose" class="text-lg font-lg class-out"><i
+                                        class="bi bi-caret-right"></i></button>
+                                <%= thirdclass.Marks.Mark.MarkName %>:
+                            </span>
+
+                            <div class="gradedisplay block flex flex-col text-center ml-2  p-1  rounded-md">
+                                <span class="classgrade font-semibold"></span>
+                                <span class="ml-2 classpercent"></span>
+                            </div>
+
+                            <div></div>
+                        </div>
+                        <div class="toggle-out mt-3 ">
+                            <button id="add-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-white bg-red-700">Add
+                                Assignment</button>
+                            <button id="remove-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-black bg-gray-100">Remove
+                                added</button>
+
+                            <div class="addpoints pointcard rounded-md ml-3  mb-2 p-2 border border-solid ">
+                                <input class="add-Mesure form-control" placeholder="Enter Assiment Title" type="text">
+                                <label for="task" class="text-sm">Type</label>
+                                <select class="form-control" id="task">
+                                    <option value="All Task">All Tasks / Assessments</option>
+                                    <option value="Pracetice Preparation">Practice / Preparation</option>
+                                </select>
+
+                                <span class="late"></span>
+                                <div class="dates flex">
+                                    <span class="pl-1">Date:</span><br>
+                                    <span class="pl-3">Duedate:</span><br>
+                                </div>
+                                <!-- <span></span>  notes -->
+                                <div class="pooints flex">
+                                    <input name="points" class="form-control w-20 add-points  text-xs ml-2   "
+                                        value="0.00" type="number"> /
+                                    <input class="form-control w-20 add-total-points text-xs  " value="0.00"
+                                        type="number">
+                                </div>
+                                <div class="w-full content-center" style="justify-content: center; display: flex;">
+                                    <button id="assimentsubmit" class="p-2 bg-blue-200 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Submit</button>
+                                    <button id="assimentcancel" class="p-2 bg-gray-100 ml-2 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Cancel</button>
+
+
+                                </div>
+                            </div>
+
+                            <div class="grading-content  ">
+
+                                <div class="addedpoint flex flex-wrap ">
+
+                                </div>
+                                <% if(ns=='yes' ){ %>
+
+                                    <%for(let point of thirdpirod){ %>
+                                        <% if(point.Score=="Not Due" || point.Score=="Not Graded" && point.Score.length>
+                                            18
+                                            ){ %>
+                                            <div
+                                                class="pointcard pointcard1 rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                <span class="text-md font-semibold">
+                                                    <%= point.Measure %>
+                                                </span><br>
+                                                <span class="text-sm">
+                                                    <%=point.Type %>
+                                                </span><br>
+                                                <span class="late text-yellow-400 ">Up coming assiments</span><br>
+                                                <div class="dates flex justify-end">
+                                                    <span class="pl-1">Date:<%=point.Date %></span><br>
+                                                    <span class="pl-3">Duedate:<%=point.DueDate %></span><br>
+                                                </div>
+                                                <span class="text-xs"
+                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                    <%=point.MeasureDescription %>
+                                                </span><br>
+                                                <div class="pooints flex">
+                                                    <input name="points"
+                                                        class="form-control w-20 text-xs ml-2 firstclass <%= point.Type %>"
+                                                        value="<%= point.Points.split('/')[0].trim() %>" type="number">
+                                                    <input
+                                                        class="form-control w-20 total-points text-xs <%= point.Type %>"
+                                                        value="<%= point.Points.split('/')[1].trim() %>" type="text">
+                                                </div>
+                                            </div>
+                                            <% } %>
+
+                                                <% } %>
+                                                    <%for(let point of thirdpirod){ %>
+                                                        <% if(point.Score !=="Not Due" && point.Score !=="Not Graded" &&
+                                                            point.Score.length< 18){ %>
+                                                            <div
+                                                                class="pointcard rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                                <span class="text-md font-semibold">
+                                                                    <%= point.Measure %>
+                                                                </span><br>
+                                                                <span class="text-sm">
+                                                                    <%=point.Type %>
+                                                                </span><br>
+                                                                <span class="late text-red-400 ">
+                                                                    <%=point.Notes %>
+                                                                </span><br>
+                                                                <div class="dates flex justify-end">
+                                                                    <span class="pl-1 ">Date:<%=point.Date %>
+                                                                    </span><br>
+                                                                    <span class="pl-3">Duedate:<%=point.DueDate %>
+                                                                    </span><br>
+                                                                </div>
+                                                                <span href="<%=point.MeasureDescription %>"
+                                                                    class="text-xs w-full"
+                                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                                    <%=point.MeasureDescription %>
+                                                                </span><br>
+                                                                <div class="pooints flex">
+                                                                    <input name="points"
+                                                                        class="form-control w-20  text-xs ml-2 firstclass3 <%=point.Type %> "
+                                                                        value="<%= point.Points[0] +  point.Points[1] +  point.Points[2] +  point.Points[3] +  point.Points[4] *1  %>"
+                                                                        type="number"> /
+                                                                    <input
+                                                                        class="form-control w-20 total-points3  text-xs <%=point.Type %> "
+                                                                        value="<%= point.Points[7] + point.Points[8] + point.Points[9] + point.Points[10]+ point.Points[11]%> "
+                                                                        type="text">
+
+                                                                </div>
+                                                            </div>
+                                                            <% } else if(point.Score.length==18){ %>
+                                                                <div
+                                                                    class="pointcard rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                                    <span class="text-md font-semibold">
+                                                                        <%= point.Measure %>
+                                                                    </span><br>
+                                                                    <span class="text-sm">
+                                                                        <%=point.Type %>
+                                                                    </span><br>
+                                                                    <span class="late text-red-400 ">
+                                                                        <%=point.Notes %>
+                                                                    </span><br>
+                                                                    <div class="dates flex justify-end">
+                                                                        <span class="pl-1 ">Date:<%=point.Date %>
+                                                                        </span><br>
+                                                                        <span class="pl-3">Duedate:<%=point.DueDate %>
+                                                                        </span><br>
+                                                                    </div>
+                                                                    <span href="<%=point.MeasureDescription %>"
+                                                                        class="text-xs w-full"
+                                                                        style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                                        <%=point.MeasureDescription %>
+                                                                    </span><br>
+                                                                    <div class="pooints flex">
+                                                                        <input name="points"
+                                                                            class="form-control w-20  text-xs ml-2 firstclass3 <%=point.Type %> "
+                                                                            value="<%= point.Points[0] +  point.Points[1] +  point.Points[2] +  point.Points[3] +  point.Points[4] *1  %>"
+                                                                            type="number"> /
+                                                                        <input
+                                                                            class="form-control w-20 total-points3  text-xs <%=point.Type %> "
+                                                                            value="<%= point.Points[8] + point.Points[9] + point.Points[10]+ point.Points[11]%> "
+                                                                            type="text">
+
+                                                                    </div>
+                                                                </div>
+                                                                <% } %>
+                                                                    <% } %>
+                                                                        <% } %>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="forthpiroid">
+                        <div class="classes-content flex ">
+                            <span>4:</span>
+                            <div class="classesheading  justify-between  flex w-full">
+
+                                <span class="class-title <%= forthclass.Title %> text-lg">
+                                    <%= forthclass.Title %>
+                                </span>
+                                <div class="staff-details">
+                                    <a class="staff" target="_blank"
+                                        href="https://mail.google.com/mail/u/0/?fs=1&to=<%= forthclass.StaffEMail %>&su=SUBJECT&body=BODY&tf=cm">
+                                        <%= forthclass.Staff%><i class="bi bi-envelope ml-2"></i>
+                                    </a> <span class="text-xs ml-3 text-gray-400">
+                                        <%= forthclass.Room %>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gradeshow  flex justify-between">
+                            <span> <button id="classclose" class="text-lg font-lg class-out"><i
+                                        class="bi bi-caret-right"></i></button>
+                                <%= forthclass.Marks.Mark.MarkName %>:
+                            </span>
+
+                            <div class="gradedisplay block flex flex-col text-center ml-2  p-1  rounded-md">
+                                <span class="classgrade font-semibold"></span>
+                                <span class="ml-2 classpercent"></span>
+                            </div>
+
+                            <div></div>
+                        </div>
+                        <div class="toggle-out mt-3 ">
+                            <button id="add-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-white bg-red-700">Add
+                                Assignment</button>
+                            <button id="remove-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-black bg-gray-100">Remove
+                                added</button>
+
+                            <div class="addpoints pointcard rounded-md ml-3  mb-2 p-2 border border-solid ">
+                                <input class="add-Mesure form-control" placeholder="Enter Assiment Title" type="text">
+                                <label for="task" class="text-sm">Type</label>
+                                <select class="form-control" id="task">
+                                    <option value="All Task">All Tasks / Assessments</option>
+                                    <option value="Pracetice Preparation">Practice / Preparation</option>
+                                </select>
+
+                                <span class="late"></span>
+                                <div class="dates flex">
+                                    <span class="pl-1">Date:</span><br>
+                                    <span class="pl-3">Duedate:</span><br>
+                                </div>
+                                <!-- <span></span>  notes -->
+                                <div class="pooints flex">
+                                    <input name="points" class="form-control w-20 add-points  text-xs ml-2   "
+                                        value="0.00" type="number"> /
+                                    <input class="form-control w-20 add-total-points text-xs  " value="0.00"
+                                        type="number">
+                                </div>
+                                <div class="w-full content-center" style="justify-content: center; display: flex;">
+                                    <button id="assimentsubmit" class="p-2 bg-blue-200 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Submit</button>
+                                    <button id="assimentcancel" class="p-2 bg-gray-100 ml-2 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Cancel</button>
+
+
+                                </div>
+                            </div>
+
+                            <div class="grading-content  ">
+
+                                <div class="addedpoint flex flex-wrap ">
+
+                                </div>
+                                <% if(ns=='yes' ){ %>
+
+                                    <%for(let point of forthpiroid){ %>
+                                        <% if(point.Score=="Not Due" || point.Score=="Not Graded" ){ %>
+                                            <div
+                                                class="pointcard pointcard1 rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                <span class="text-md font-semibold">
+                                                    <%= point.Measure %>
+                                                </span><br>
+                                                <span class="text-sm">
+                                                    <%=point.Type %>
+                                                </span><br>
+                                                <span class="late text-yellow-400 ">Up coming assiments</span><br>
+                                                <div class="dates flex justify-end">
+                                                    <span class="pl-1">Date:<%=point.Date %></span><br>
+                                                    <span class="pl-3">Duedate:<%=point.DueDate %></span><br>
+                                                </div>
+                                                <span class="text-xs"
+                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                    <%=point.MeasureDescription %>
+                                                </span><br>
+                                                <div class="pooints flex">
+                                                    <input name="points"
+                                                        class="form-control w-20  text-xs ml-2 comingclass2 <%=point.Type %> "
+                                                        value="0" type="number" disabled> /
+                                                    <input
+                                                        class="form-control w-20 coming-points2  text-xs <%=point.Type %> "
+                                                        value="<%= point.Points[0] +  point.Points[1] +  point.Points[2] +  point.Points[3] *1  %> "
+                                                        type="text" disabled>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                                <% } %>
+                                                    <%for(let point of forthpiroid){ %>
+                                                        <% if(point.Score !=="Not Due" && point.Score !=="Not Graded" ){
+                                                            %>
+                                                            <div
+                                                                class="pointcard rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                                <span class="text-md font-semibold">
+                                                                    <%= point.Measure %>
+                                                                </span><br>
+                                                                <span class="text-sm">
+                                                                    <%=point.Type %>
+                                                                </span><br>
+                                                                <span class="late text-red-400 ">
+                                                                    <%=point.Notes %>
+                                                                </span><br>
+                                                                <div class="dates flex justify-end">
+                                                                    <span class="pl-1 ">Date:<%=point.Date %>
+                                                                    </span><br>
+                                                                    <span class="pl-3">Duedate:<%=point.DueDate %>
+                                                                    </span><br>
+                                                                </div>
+                                                                <span href="<%=point.MeasureDescription %>"
+                                                                    class="text-xs w-full"
+                                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                                    <%=point.MeasureDescription %>
+                                                                </span><br>
+                                                                <div class="pooints flex">
+                                                                    <input name="points"
+                                                                        class="form-control w-20  text-xs ml-2 firstclass4 <%=point.Type %> "
+                                                                        value="<%= point.Points[0] +  point.Points[1] +  point.Points[2] +  point.Points[3] *1  %>"
+                                                                        type="number"> /
+                                                                    <input
+                                                                        class="form-control w-20 total-points4  text-xs <%=point.Type %> "
+                                                                        value="<%= point.Points[7] + point.Points[8] + point.Points[9] + point.Points[10]+ point.Points[11]+ point.Points[12] *1%> "
+                                                                        type="text">
+                                                                </div><br>
+                                                            </div>
+                                                            <% } %>
+                                                                <% } %>
+                                                                    <% } %>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="fifthpiroid">
+                        <div class="classes-content flex ">
+                            <span>5:</span>
+                            <div class="classesheading  justify-between  flex w-full">
+
+                                <span class="class-title <%= fifthclass.Title %> text-lg">
+                                    <%= fifthclass.Title %>
+                                </span>
+                                <div class="staff-details">
+                                    <a class="staff" target="_blank"
+                                        href="https://mail.google.com/mail/u/0/?fs=1&to=<%= fifthclass.StaffEMail %>&su=SUBJECT&body=BODY&tf=cm ">
+                                        <%= fifthclass.Staff%><i class="bi bi-envelope ml-2"></i>
+                                    </a> <span class="text-xs ml-3 text-gray-400">
+                                        <%= fifthclass.Room %>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gradeshow  flex justify-between">
+                            <span> <button id="classclose" class="text-lg font-lg class-out"><i
+                                        class="bi bi-caret-right"></i></button>
+                                <%= fifthclass.Marks.Mark.MarkName %>:
+                            </span>
+
+                            <div class="gradedisplay block flex flex-col text-center ml-2  p-1  rounded-md">
+                                <span class="classgrade font-semibold"></span>
+                                <span class="ml-2 classpercent"></span>
+                            </div>
+
+                            <div></div>
+                        </div>
+                        <div class="toggle-out mt-3 ">
+                            <button id="add-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-white bg-red-700">Add
+                                Assignment</button>
+                            <button id="remove-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-black bg-gray-100">Remove
+                                added</button>
+
+                            <div class="addpoints pointcard rounded-md ml-3  mb-2 p-2 border border-solid ">
+                                <input class="add-Mesure form-control" placeholder="Enter Assiment Title" type="text">
+                                <label for="task" class="text-sm">Type</label>
+                                <select class="form-control" id="task">
+                                    <option value="All Task">All Tasks / Assessments</option>
+                                    <option value="Pracetice Preparation">Practice / Preparation</option>
+                                </select>
+
+                                <span class="late"></span>
+                                <div class="dates flex">
+                                    <span class="pl-1">Date:</span><br>
+                                    <span class="pl-3">Duedate:</span><br>
+                                </div>
+                                <!-- <span></span>  notes -->
+                                <div class="pooints flex">
+                                    <input name="points" class="form-control w-20 add-points  text-xs ml-2 firstclass  "
+                                        value="0.00" type="number"> /
+                                    <input class="form-control w-20 total-points add-total-points text-xs  "
+                                        value="0.00" type="number">
+                                </div>
+                                <div class="w-full content-center" style="justify-content: center; display: flex;">
+                                    <button id="assimentsubmit" class="p-2 bg-blue-200 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Submit</button>
+                                    <button id="assimentcancel" class="p-2 bg-gray-100 ml-2 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Cancel</button>
+
+
+                                </div>
+                            </div>
+
+                            <div class="grading-content  ">
+
+                                <div class="addedpoint flex flex-wrap ">
+
+                                </div>
+                                <% if(ns=='yes' ){ %>
+                                    <%for(let point of fifthpiroid){ %>
+                                        <% if(point.Score=="Not Due" || point.Score=="Not Graded" ){ %>
+                                            <div
+                                                class="pointcard pointcard1 rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                <span class="text-md font-semibold">
+                                                    <%= point.Measure %>
+                                                </span><br>
+                                                <span class="text-sm">
+                                                    <%=point.Type %>
+                                                </span><br>
+                                                <span class="late text-yellow-400 ">Up coming assiments</span><br>
+                                                <div class="dates flex justify-end">
+                                                    <span class="pl-1">Date:<%=point.Date %></span><br>
+                                                    <span class="pl-3">Duedate:<%=point.DueDate %></span><br>
+                                                </div>
+                                                <span class="text-xs"
+                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                    <%=point.MeasureDescription %>
+                                                </span><br>
+                                                <div class="pooints flex">
+                                                    <input name="points"
+                                                        class="form-control w-20  text-xs ml-2 comingclass2 <%=point.Type %> "
+                                                        value="0" type="number" disabled> /
+                                                    <input
+                                                        class="form-control w-20 coming-points2  text-xs <%=point.Type %> "
+                                                        value="<%= point.Points[0] +  point.Points[1] +  point.Points[2] +  point.Points[3] *1  %> "
+                                                        type="text" disabled>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                                <% } %>
+                                                    <%for(let point of fifthpiroid){ %>
+                                                        <% if(point.Score !=="Not Due" && point.Score !=="Not Graded" ){
+                                                            %>
+                                                            <div
+                                                                class="pointcard rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                                <span class="text-md font-semibold">
+                                                                    <%= point.Measure %>
+                                                                </span><br>
+                                                                <span class="text-sm">
+                                                                    <%=point.Type %>
+                                                                </span><br>
+                                                                <span class="late text-red-400 ">
+                                                                    <%=point.Notes %>
+                                                                </span><br>
+                                                                <div class="dates flex justify-end">
+                                                                    <span class="pl-1 ">Date:<%=point.Date %>
+                                                                    </span><br>
+                                                                    <span class="pl-3">Duedate:<%=point.DueDate %>
+                                                                    </span><br>
+                                                                </div>
+                                                                <span href="<%=point.MeasureDescription %>"
+                                                                    class="text-xs w-full"
+                                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                                    <%=point.MeasureDescription %>
+                                                                </span><br>
+                                                                <div class="pooints flex">
+                                                                    <input name="points"
+                                                                        class="form-control w-20  text-xs ml-2 firstclass5 <%=point.Type %> "
+                                                                        value="<%= point.Points[0] +  point.Points[1] +  point.Points[2] +  point.Points[3] *1  %>"
+                                                                        type="number"> /
+                                                                    <input
+                                                                        class="form-control w-20 total-points5  text-xs <%=point.Type %> "
+                                                                        value="<%= point.Points[7] + point.Points[8] + point.Points[9] + point.Points[10]+ point.Points[11]+ point.Points[12]%> "
+                                                                        type="text">
+                                                                </div>
+                                                            </div>
+                                                            <% } %>
+                                                                <% } %>
+                                                                    <% } %>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="sixthpiroid">
+                        <div class="classes-content flex ">
+                            <span>6:</span>
+                            <div class="classesheading  justify-between  flex w-full">
+
+                                <span class="class-title <%= sixthclass.Title %> text-lg">
+                                    <%= sixthclass.Title %>
+                                </span>
+                                <div class="staff-details">
+                                    <a class="staff" target="_blank"
+                                        href="https://mail.google.com/mail/u/0/?fs=1&to=<%= sixthclass.StaffEMail %>&su=SUBJECT&body=BODY&tf=cm">
+                                        <%= sixthclass.Staff%><i class="bi bi-envelope ml-2"></i>
+                                    </a> <span class="text-xs ml-3 text-gray-400">
+                                        <%= sixthclass.Room %>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gradeshow  flex justify-between">
+                            <span> <button id="classclose" class="text-lg font-lg class-out"><i
+                                        class="bi bi-caret-right"></i></button>
+                                <%= firstclass.Marks.Mark.MarkName %>:
+                            </span>
+
+                            <div class="gradedisplay block flex flex-col text-center ml-2  p-1  rounded-md">
+                                <span class="classgrade font-semibold"></span>
+                                <span class="ml-2 classpercent"></span>
+                            </div>
+
+                            <div></div>
+                        </div>
+                        <div class="toggle-out mt-3 ">
+                            <button id="add-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-white bg-red-700">Add
+                                Assignment</button>
+                            <button id="remove-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-black bg-gray-100">Remove
+                                added</button>
+
+                            <div class="addpoints pointcard rounded-md ml-3  mb-2 p-2 border border-solid ">
+                                <input class="add-Mesure form-control" placeholder="Enter Assiment Title" type="text">
+                                <label for="task" class="text-sm">Type</label>
+                                <select class="form-control" id="task">
+                                    <option value="All Task">All Tasks / Assessments</option>
+                                    <option value="Pracetice Preparation">Practice / Preparation</option>
+                                </select>
+
+                                <span class="late"></span>
+                                <div class="dates flex">
+                                    <span class="pl-1">Date:</span><br>
+                                    <span class="pl-3">Duedate:</span><br>
+                                </div>
+                                <!-- <span></span>  notes -->
+                                <div class="pooints flex">
+                                    <input name="points" class="form-control w-20 add-points  text-xs ml-2   "
+                                        value="0.00" type="number"> /
+                                    <input class="form-control w-20 add-total-points text-xs  " value="0.00"
+                                        type="number">
+                                </div>
+                                <div class="w-full content-center" style="justify-content: center; display: flex;">
+                                    <button id="assimentsubmit" class="p-2 bg-blue-200 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Submit</button>
+                                    <button id="assimentcancel" class="p-2 bg-gray-100 ml-2 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Cancel</button>
+
+
+                                </div>
+                            </div>
+
+                            <div class="grading-content  ">
+
+                                <div class="addedpoint flex flex-wrap ">
+
+                                </div>
+                                <% if(ns=='yes' ){ %>
+                                    <%for(let point of sixthpiroid){ %>
+                                        <% if(point.Score=="Not Due" || point.Score=="Not Graded" ){ %>
+                                            <div
+                                                class="pointcard pointcard1 rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                <span class="text-md font-semibold">
+                                                    <%= point.Measure %>
+                                                </span><br>
+                                                <span class="text-sm">
+                                                    <%=point.Type %>
+                                                </span><br>
+                                                <span class="late text-yellow-400 ">Up coming assiments</span><br>
+                                                <div class="dates flex justify-end">
+                                                    <span class="pl-1">Date:<%=point.Date %></span><br>
+                                                    <span class="pl-3">Duedate:<%=point.DueDate %></span><br>
+                                                </div>
+                                                <span class="text-xs"
+                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                    <%=point.MeasureDescription %>
+                                                </span><br>
+                                                <div class="pooints flex">
+                                                    <input name="points"
+                                                        class="form-control w-20  text-xs ml-2 comingclass2 <%=point.Type %> "
+                                                        value="0" type="number" disabled> /
+                                                    <input
+                                                        class="form-control w-20 coming-points2  text-xs <%=point.Type %> "
+                                                        value="<%= point.Points[0] +  point.Points[1] +  point.Points[2] +  point.Points[3] *1  %> "
+                                                        type="text" disabled>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                                <% } %>
+                                                    <%for(let point of sixthpiroid){ %>
+                                                        <% if(point.Score !=="Not Due" && point.Score !=="Not Graded" ){
+                                                            %>
+                                                            <div
+                                                                class="pointcard rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                                <span class="text-md font-semibold">
+                                                                    <%= point.Measure %>
+                                                                </span><br>
+                                                                <span class="text-sm">
+                                                                    <%=point.Type %>
+                                                                </span><br>
+                                                                <span class="late text-red-400 ">
+                                                                    <%=point.Notes %>
+                                                                </span><br>
+                                                                <div class="dates flex justify-end">
+                                                                    <span class="pl-1 ">Date:<%=point.Date %>
+                                                                    </span><br>
+                                                                    <span class="pl-3">Duedate:<%=point.DueDate %>
+                                                                    </span><br>
+                                                                </div>
+                                                                <span href="<%=point.MeasureDescription %>"
+                                                                    class="text-xs w-full"
+                                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                                    <%=point.MeasureDescription %>
+                                                                </span><br>
+                                                                <div class="pooints flex">
+                                                                    <input name="points"
+                                                                        class="form-control w-20  text-xs ml-2 firstclass6 <%=point.Type %> "
+                                                                        value="<%= point.Points[0] +  point.Points[1] +  point.Points[2] +  point.Points[3] *1  %>"
+                                                                        type="number"> /
+                                                                    <input
+                                                                        class="form-control w-20 total-points6  text-xs <%=point.Type %> "
+                                                                        value="<%= point.Points[7] + point.Points[8] + point.Points[9] + point.Points[10]+ point.Points[11]+ point.Points[12]%> "
+                                                                        type="text">
+                                                                </div>
+                                                            </div>
+                                                            <% } %>
+                                                                <% } %>
+                                                                    <% } %>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="seventhpiroid">
+                        <div class="classes-content flex ">
+                            <span>7:</span>
+                            <div class="classesheading  justify-between  flex w-full">
+
+                                <span class="class-title <%= seventhclass.Title %> text-lg">
+                                    <%= seventhclass.Title %>
+                                </span>
+                                <div class="staff-details">
+                                    <a class="staff" target="_blank"
+                                        href="https://mail.google.com/mail/u/0/?fs=1&to=<%= seventhclass.StaffEMail %>&su=SUBJECT&body=BODY&tf=cm">
+                                        <%= seventhclass.Staff%><i class="bi bi-envelope ml-2"></i>
+                                    </a> <span class="text-xs ml-3 text-gray-400">
+                                        <%= seventhclass.Room %>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gradeshow  flex justify-between">
+                            <span> <button id="classclose" class="text-lg font-lg class-out"><i
+                                        class="bi bi-caret-right"></i></button>
+                                <%= seventhclass.Marks.Mark.MarkName %>:
+                            </span>
+
+                            <div class="gradedisplay block flex flex-col text-center ml-2  p-1  rounded-md">
+                                <span class="classgrade font-semibold"></span>
+                                <span class="ml-2 classpercent"></span>
+                            </div>
+
+                            <div></div>
+                        </div>
+                        <div class="toggle-out mt-3 ">
+                            <button id="add-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-white bg-red-700">Add
+                                Assignment</button>
+                            <button id="remove-assiments"
+                                class="add-assiments p-2 mb-1 rounded-lg text-black bg-gray-100">Remove
+                                added</button>
+
+                            <div class="addpoints pointcard rounded-md ml-3  mb-2 p-2 border border-solid ">
+                                <input class="add-Mesure form-control" placeholder="Enter Assiment Title" type="text">
+                                <label for="task" class="text-sm">Type</label>
+                                <select class="form-control" id="task">
+                                    <option value="All Task">All Tasks / Assessments</option>
+                                    <option value="Pracetice Preparation">Practice / Preparation</option>
+                                </select>
+
+                                <span class="late"></span>
+                                <div class="dates flex">
+                                    <span class="pl-1">Date:</span><br>
+                                    <span class="pl-3">Duedate:</span><br>
+                                </div>
+                                <!-- <span></span>  notes -->
+                                <div class="pooints flex">
+                                    <input name="points" class="form-control w-20 add-points  text-xs ml-2 firstclass  "
+                                        value="0.00" type="number"> /
+                                    <input class="form-control w-20 total-points add-total-points text-xs  "
+                                        value="0.00" type="number">
+                                </div>
+                                <div class="w-full content-center" style="justify-content: center; display: flex;">
+                                    <button id="assimentsubmit" class="p-2 bg-blue-200 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Submit</button>
+                                    <button id="assimentcancel" class="p-2 bg-gray-100 ml-2 rounded-md mt-1 "
+                                        style="justify-content: center;" type="submit">Cancel</button>
+
+
+                                </div>
+                            </div>
+
+                            <div class="grading-content  ">
+
+                                <div class="addedpoint flex flex-wrap ">
+
+                                </div>
+                                <% if(ns=='yes' ){ %>
+
+                                    <%for(let point of seventhpiroid){ %>
+                                        <% if(point.Score=="Not Due" || point.Score=="Not Graded" ){ %>
+                                            <div
+                                                class="pointcard pointcard1 rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                <span class="text-md font-semibold">
+                                                    <%= point.Measure %>
+                                                </span><br>
+                                                <span class="text-sm">
+                                                    <%=point.Type %>
+                                                </span><br>
+                                                <span class="late text-yellow-400 ">Up coming assiments</span><br>
+                                                <div class="dates flex justify-end">
+                                                    <span class="pl-1">Date:<%=point.Date %></span><br>
+                                                    <span class="pl-3">Duedate:<%=point.DueDate %></span><br>
+                                                </div>
+                                                <span class="text-xs"
+                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                    <%=point.MeasureDescription %>
+                                                </span><br>
+                                                <div class="pooints flex">
+                                                    <input name="points"
+                                                        class="form-control w-20  text-xs ml-2 comingclass2 <%=point.Type %> "
+                                                        value="0" type="number" disabled> /
+                                                    <input
+                                                        class="form-control w-20 coming-points2  text-xs <%=point.Type %> "
+                                                        value="<%= point.Points[0] +  point.Points[1] +  point.Points[2] +  point.Points[3] *1  %> "
+                                                        type="text" disabled>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                                <% } %>
+                                                    <%for(let point of seventhpiroid){ %>
+                                                        <% if(point.Score !=="Not Due" && point.Score !=="Not Graded" ){
+                                                            %>
+                                                            <div
+                                                                class="pointcard rounded-md ml-3  mb-2 p-2 border border-solid <%=point.Type %>">
+                                                                <span class="text-md font-semibold">
+                                                                    <%= point.Measure %>
+                                                                </span><br>
+                                                                <span class="text-sm">
+                                                                    <%=point.Type %>
+                                                                </span><br>
+                                                                <span class="late text-red-400 ">
+                                                                    <%=point.Notes %>
+                                                                </span><br>
+                                                                <div class="dates flex justify-end">
+                                                                    <span class="pl-1 ">Date:<%=point.Date %>
+                                                                    </span><br>
+                                                                    <span class="pl-3">Duedate:<%=point.DueDate %>
+                                                                    </span><br>
+                                                                </div>
+                                                                <span href="<%=point.MeasureDescription %>"
+                                                                    class="text-xs w-full"
+                                                                    style="font-size: 0.1em;max-width: 0.4em;overflow: scroll;">
+                                                                    <%=point.MeasureDescription %>
+                                                                </span><br>
+                                                                <div class="pooints flex">
+                                                                    <input name="points"
+                                                                        class="form-control w-20  text-xs ml-2 firstclass7 <%=point.Type %> "
+                                                                        value="<%= point.Points[0] +  point.Points[1] +  point.Points[2] +  point.Points[3] *1  %>"
+                                                                        type="number"> /
+                                                                    <input
+                                                                        class="form-control w-20 total-points7  text-xs <%=point.Type %> "
+                                                                        value="<%= point.Points[7] + point.Points[8] + point.Points[9] + point.Points[10]+ point.Points[11]+ point.Points[12]%> "
+                                                                        type="text">
+                                                                </div>
+                                                            </div>
+                                                            <% } %>
+                                                                <% } %>
+                                                                    <% } %>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+    </div>
+
+    <script src="/javascript/home/student/grades.js"></script>
+    <link rel="stylesheet" href="/stylesheet/home/student/grades.css">

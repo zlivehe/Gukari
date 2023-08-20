@@ -1,0 +1,1041 @@
+<% layout('./layouts/boilerplate.ejs')%>
+<%- include('../../../layouts/partials/settings.ejs') %>
+<style>
+  body{
+    overflow: scroll;
+  }
+  .disliked{
+    color: black;
+  }
+  .liked{
+    color: red;
+  }
+</style>
+<% const timeDifference = Date.now() - uplaod.createdAt.getTime();
+let formattedDate = '';
+
+// Calculate the difference in milliseconds
+const minuteInMs = 60 * 1000;
+const hourInMs = 60 * minuteInMs;
+const dayInMs = 24 * hourInMs;
+const weekInMs = 7 * dayInMs;
+
+// Format the date based on the time difference
+if (timeDifference < minuteInMs) {
+  formattedDate = Math.floor(timeDifference / 1000) + ' seconds ago';
+} else if (timeDifference < hourInMs) {
+  formattedDate = Math.floor(timeDifference / minuteInMs) + ' minutes ago';
+} else if (timeDifference < dayInMs) {
+  formattedDate = Math.floor(timeDifference / hourInMs) + ' hours ago';
+} else if (timeDifference < weekInMs) {
+  formattedDate = Math.floor(timeDifference / dayInMs) + ' days ago';
+} else {
+  formattedDate = uplaod.createdAt.toDateString(); // Use the full date if it's more than a week ago
+} %>
+
+<style>
+    .video-card {
+        width: 70%;
+    }
+    .comments-reco{
+        width: 30%;
+    }
+    .liked{
+        color: black;
+    }
+    @media screen and (max-width: 858px) {
+        .video-card {
+            width: 100%;
+        }
+        .centers {
+           flex-direction: column;
+        }
+        .comments-reco{
+            width: 100%;
+        }
+
+        
+    }
+    .gradient-icon {
+    background: linear-gradient(45deg, #ff0000, #00ff00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+    .disliked{
+        color: black;
+    }
+    .bg-opacity-50{
+      display: none;
+    }
+
+</style>
+
+<div class="content fullscreen" id="content-menu" style="overflow: scroll;">
+    <div class="centers flex">
+
+    <div class="video-card p-3" >
+      <video id="videoElement" class="rounded-sm w-full" height="350" controls>
+        <% if (uplaod.VideoUrl) { %>
+          <source class="rounded-lg w-full" src="<%= uplaod.VideoUrl %>" type="video/mp4">
+          <source class="rounded-lg h-full" src="<%= uplaod.VideoUrl %>" type="video/webm">
+          <source class="rounded-lg h-full" src="<%= uplaod.VideoUrl %>" type="video/ogg">
+          Your browser does not support the video tag.
+        <% } %>
+      </video>
+      
+      <div id="timestampDisplay"></div>
+          <span>
+            <h1 class="text-xl font-medium  "><%= uplaod.title %></h1>
+          </span>
+          <div class="cotegory flex align-center justify-between">
+            <span class="cotegory">
+              
+              <i class="bi bi-globe gradient-icon"></i>
+              
+
+                <b class="text-sm"><%=uplaod.category %></b>
+            </span>
+            <span class="stats flex ">
+                <div class="views mr-14 text-gray-600 flex">
+                    <div class="">
+                    <i class="bi text-red-700 text-xl bi-eye-fill"></i>
+                    <%= uplaod.viewcount %> views. <%= formattedDate %>
+
+
+                </div>
+                </div>
+                <div class="flex content-center">
+                    <div class="like mr-3">
+                      <% if(currentUser){ %>
+                      <%
+                         let dislikefill =''
+                         if(uplaod.dislikes.includes(currentUser._id)){
+                            dislikefill = 'bi-hand-thumbs-down-fill'
+                         }else{
+                            dislikefill = 'bi-hand-thumbs-down'
+                          }
+                          %>
+                      <% } %>
+
+                          <% if(currentUser){ %>
+                      <% let likefill = '' 
+                      if(uplaod.likes.includes(currentUser._id)){
+                        likefill = 'bi-hand-thumbs-up-fill'
+                      } else{
+                        likefill = 'bi-hand-thumbs-up'
+                      }
+                      %>
+                      <% } %>
+                      <% let likefill = 'bi-hand-thumbs-up' %>
+                      <% let dislikefill = 'bi-hand-thumbs-down' %>
+
+                        <button class="likebtn ">
+                          <i class="bi mr-1 text-gray-500 <%=likefill %> text-xl "></i>
+                        </button>  
+                        <span class="likes">
+                          <%= uplaod.likes.length %>
+                        </span>
+                      </div>
+                      
+                      <div class="dislike">
+                        <button class="dislikebtn" data-video-id="<%= uplaod._id %>">
+                          <i class="bi mr-1 text-gray-500 text-xl <%=dislikefill %> "></i>
+                        </button>  
+                        <span class="dislikes"> 
+                          <%= uplaod.dislikes.length %>
+                        </span>
+                      </div>
+                  </div>
+            </span>
+          </div>
+          <div class="mt-3"> 
+            <div class="flex justify-between"> 
+          <div class="user flex">
+            <img class="user-img rounded-full mt-1 w-10 h-10" src="<%= uplaod.author[0].photourl%>" alt="" srcset="">
+            <div class="user-name ml-2 flex flex-col mb-2">
+              <span class="font-medium text-xl"><%= uplaod.author[0].username%></span>
+              <span class="text-gray-700 text-sm mb-1">21.3M Subscribes</span>
+            </div>
+          </div>
+          <div class="sub">
+            <div class="flex">
+                <button class="mr-3">
+                    <i class="bi   text-gray-500 text-2xl  bi-tv"></i>
+
+                </button>
+           
+                <button>
+                    <i class="bi text-gray-500 text-2xl bi-bookmark-plus "></i>
+                </button>
+                <button class="ml-3"> 
+                    <i class="bi text-gray-500 text-2xl   bi-link"></i>
+                </button>
+            
+                <button class="p-3 ml-2 bg-blue-600 text-white rounded-3xl">Subscribe</button>
+                <% if(currentUser){ %>
+                <% if(uplaod.author[0]._id.equals(currentUser._id)){ %>
+                <a href="/home/video/<%= uplaod._id %>/edit" class="p-3 ml-2 bg-blue-600 text-white rounded-3xl">Edit</a>
+                  <% } %>
+                  <% } %>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="description bg-gray-200 rounded-lg p-3 mt-2">
+            <span class="text-gray-700 text-sm">
+                <div class="flex">
+                <b><%= uplaod.createdAt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) %>                </b>
+                <% for(let tag of uplaod.tags){ %>
+                    <span class="text-blue-500 ml-1">#<%= tag %> </span>
+                <% } %>
+            </div>
+         
+    
+                <%= uplaod.description %>   
+            </span>
+        </div>
+          <br>
+
+
+    </div>
+    <div class="comments-reco flex flex-col" >
+        <div class="comments-card  p-2 background  " style="width: 100%; height: 450px;">
+            <div class="flex">
+              <span><%= uplaod.comments.length%> comments</span>
+              <span class="ml-auto">View all</span>
+            </div>
+               
+
+            <div class="comments p-3" style="height: 20em; overflow: scroll;">
+              <% for(let comment of uplaod.comments){ %>
+                <div class="flex items-center w-full mb-2 align-center" id="livecommetn-<%= comment._id%>-<%= comment.user[0]._id %>">
+                  <div>
+                    <div class="like mr-1 bg-gray-200 p-2 rounded" style="position: relative; height: 5em; display: flex; justify-content: center; align-items: center;">
+                      <div class="flex text-center items-center flex-col">
+                        <% if(currentUser){ %>
+                        <% let likefill = comment.likes.includes(currentUser._id) ? 'bi-caret-up-fill' : 'bi-caret-up'; %>
+                        <button id="likebtn<%= comment._id %>" class="like-commets <%= likefill %>" onclick="likeComment('<%= comment._id %>')"></button>
+                        <% }else{ %>
+                          <button class="like-commets bi-caret-up" onclick="likeComment('<%= comment._id %>')"></button>
+                        <% } %>
+                        <% 
+                        let likes = comment.likes.length;
+                        let dislikes = comment.dislikes.length;
+                        let avrage = likes - dislikes;
+                        %>
+                        <span class="like-dislike-count" id="<%= comment._id %>"><%= avrage %></span>
+                        <% if(currentUser){ %>
+                        <% let dislikefill = comment.dislikes.includes(currentUser._id) ? 'bi-caret-down-fill' : 'bi-caret-down'; %>
+                        <button id="dislikebtn<%= comment._id %>" class="dislike-commets <%= dislikefill %>" onclick="dislikeComment('<%= comment._id %>')"></button>
+                        <% }else{ %>
+                          <button class="dislike-commets bi-caret-down" onclick="dislikeComment('<%= comment._id %>')"></button>
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment w-full mb-3 flex">
+                    <% if(!comment.user[0].photourl || comment.user[0].photourl === '') { %>
+                      <div class="user-img rounded-full bg-blue-200 w-7 h-7 text-center flex justify-center" src="https://yt3.ggpht.com/ytc/AOPolaSHoC37xAqzya3OaA1wyAKEqd9623gkoy6D5oMylA=s88-c-k-c0x00ffffff-no-rj" alt="" srcset="">
+                        <span  class="mt-1 font-medium text-sm"><%= comment.user[0].username.substring(0, 1) %></span>
+                      </div>
+                    <% } else { %>
+                      <img class="user-img rounded-full w-7 h-7" src="<%= comment.user[0].photourl %>" alt="" srcset="">
+                    <% } %>
+                    <div class="comment-text ml-1" style="width: 82%;">
+                      <div class="flex w-full justify-between">
+                        <% const commentDate = new Date(comment.createdAt);
+                        const currentDate = new Date();
+                        const timeDiff = Math.abs(currentDate - commentDate);
+                        const minutes = Math.floor(timeDiff / (1000 * 60));
+                        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+                        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                        const months = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 30));
+                        const years = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365));
+                        let formattedDate;
+                        if (minutes < 60) {
+                          formattedDate = minutes + ' minutes ago';
+                        } else if (hours < 24) {
+                          formattedDate = hours + ' hours ago';
+                        } else if (days < 30) {
+                          formattedDate = days + ' days ago';
+                        } else if (months < 12) {
+                          formattedDate = months + ' months ago';
+                        } else {
+                          formattedDate = years + ' years ago';
+                        }
+                        %>
+                        <span class="text-sm">@<%= comment.user[0].username %> <span class="text-gray-500 text-md"><%= formattedDate %></span></span>
+                        <button  data-modal-target="more<%= comment.user[0]._id%>popup" data-modal-toggle="more<%= comment.user[0]._id%>popup"><i class="bi bi-three-dots ml-2"></i></button>
+                          <!-- Dropdown menu -->
+<div id="more<%= comment.user[0]._id%>popup" id="dropdownDelay" class="z-10 hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-16 dark:bg-gray-700">
+  <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
+    <% if(currentUser){ %>
+    <% if (comment.user[0]._id.equals(currentUser._id)) { %>
+      <li>
+      <button  data-modal-hide="more<%= comment.user[0]._id%>popup"  data-modal-target="edit<%= comment.user[0]._id%>popup"  data-modal-toggle="edit<%= comment.user[0]._id%>popup" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</button>
+    </li>
+    <li>
+      <button href="#"  data-modal-hide="more<%= comment.user[0]._id%>popup" onclick="Deletecommets('<%= uplaod._id%>','<%=comment._id%>','<%= comment.user[0]._id%>')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</button>
+    </li>
+    <% } else{ %>
+    <li>
+      <a href="#"  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
+    </li>
+    <% } %>
+    <% } %>
+  </ul>
+</div>
+
+                      </div>
+                      <span id="comment-<%=comment._id %>" class="text-gray-700 text-sm"><%= comment.content %></span><br>
+                      <% if (comment.replies && comment.replies.length> 0) { %>
+
+                  <button  data-modal-target="replying<%=comment.replies[0]%>Modal" data-modal-toggle="replying<%=comment.replies[0]%>Modal"><i class="bi bi-chevron-down"></i>
+                    <%=comment.replies.length%> replies</button>
+              
+                  <div class="flex replies-class hidden" id="replying<%=comment.replies[0]%>Modal"  data-modal-backdrop="static" > 
+                    <div class="flex flex-col w-full" >
+              <% for(let replies of comment.replies){%>
+                <div class="flex mb-1 " id="livereply-<%=replies._id %>-<%= replies.user[0]._id%>">
+                  <div class="like mr-1 bg-gray-200 p-1 rounded" style="height: 3.3em;">
+                    <div class="flex text-center items-center flex-col" style="font-size: 0.5em;">
+                      <% let likes = replies.likes.length;
+                       let dislikes = replies.dislikes.length; 
+                       let avrage = likes - dislikes;
+                       const commentDate1 = new Date(replies.createdAt);
+                            const currentDate1 = new Date();
+                            const timeDiff1 = Math.abs(currentDate1 - commentDate1);
+                            const minutes1 = Math.floor(timeDiff1 / (1000 * 60));
+                            const hours1 = Math.floor(timeDiff1 / (1000 * 60 * 60));
+                            const days1 = Math.floor(timeDiff1 / (1000 * 60 * 60 * 24));
+                            const months1 = Math.floor(timeDiff1 / (1000 * 60 * 60 * 24 * 30));
+                            const years1 = Math.floor(timeDiff1 / (1000 * 60 * 60 * 24 * 365));
+                            let formattedDate1;
+                            if (minutes1 < 60) {
+                              formattedDate1 = minutes1 + ' minutes ago';
+                            } else if (hours1 < 24) {
+                              formattedDate1 = hours1 + ' hours ago';
+                            } else if (days1 < 30) {
+                              formattedDate1 = days1 + ' days ago';
+                            } else if (months1 < 12) {
+                              formattedDate1 = months1 + ' months ago';
+                            } else {
+                              formattedDate1 = years1 + ' years ago';
+                            }
+
+                        %>
+                        <% if(currentUser){ %>
+                          <%                             let likefill = replies.likes.includes(currentUser._id) ? 'bi-caret-up-fill' : 'bi-caret-up';
+                          let dislikefill = replies.dislikes.includes(currentUser._id) ? 'bi-caret-down-fill' : 'bi-caret-down'; %>
+                        
+                        <button id="likebtn<%= replies._id %>" class="like-reply <%= likefill %>" onclick="likeReply('<%= comment._id %>', '<%= replies._id %>')"></button>
+
+                      <span class="avrage" id="<%= replies._id %>"><%=avrage %></span>
+                      <button id="dislikebtn<%= replies._id %>" class="dislike-reply <%= dislikefill %>" onclick="dislikeReply('<%= comment._id %>', '<%= replies._id %>')"></button>
+                        <% }else{ %>
+
+                          <button id="likebtn<%= replies._id %>" class="like-reply bi-caret-up " onclick="likeReply('<%= comment._id %>', '<%= replies._id %>')"></button>
+
+                      <span class="avrage" id="<%= replies._id %>"><%=avrage %></span>
+                      <button id="dislikebtn<%= replies._id %>" class="dislike-reply bi-caret-down" onclick="dislikeReply('<%= comment._id %>', '<%= replies._id %>')"></button>
+                        <% } %>
+                    </div>
+                </div>
+                   <div class="p-2 rereply">
+                <div class="flex">
+                  <% if(!comment.user[0].photourl && comment.user[0].photourl == '') { %>
+                <div class="user-img rounded-full bg-red-200 w-8 h-8 text-center flex justify-center" src="https://yt3.ggpht.com/ytc/AOPolaSHoC37xAqzya3OaA1wyAKEqd9623gkoy6D5oMylA=s88-c-k-c0x00ffffff-no-rj" alt="" srcset=""> <span class="mt-2 font-medium text-md"> <%= replies.user[0].username %></span></div>
+                <%} else{%>
+                    <img class="user-img rounded-full w-4 h-4" src="<%= replies.user[0].photourl %>" alt="" srcset="">
+                    <% } %>
+               <span class="ml-1 text-xs">@<%= replies.user[0].username %> <span class="text-gray-500 text-xs"><%=formattedDate1 %> </span> <span>     <button  data-modal-target="re-more<%= replies.user[0]._id%>popup" data-modal-toggle="re-more<%= replies.user[0]._id%>popup"><i class="bi bi-three-dots ml-2"></i></button>               </span> </span>
+               <div id="re-more<%= replies.user[0]._id%>popup" id="dropdownDelay" class="z-10 hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-16 dark:bg-gray-700">
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
+                  <% if(currentUser){ %>
+                  <% if (comment.user[0]._id.equals(currentUser._id)) { %>
+                    <li>
+                    <button  data-modal-hide="re-more<%= replies.user[0]._id%>popup"  data-modal-target="re-reply<%= replies.user[0]._id%>edit"  data-modal-toggle="re-reply<%= replies.user[0]._id%>edit" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</button>
+                  </li>
+                  <li>
+                    <button  href="#" data-modal-hide="re-more<%= comment.user[0]._id%>popup" onclick="Deletereply('<%= uplaod._id%>','<%=comment._id%>' ,'<%= replies._id%>' ,'<%= replies.user[0]._id%>')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</button>
+                  </li>
+                  <% } else{ %>
+                  <li>
+                    <a href="#"  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
+                  </li>
+                  <% } %>
+                  <% } %>
+                </ul>
+              </div>
+              </div>
+              <div>
+                <% if (replies.targetuser ) { %>
+                  <span   class=" text-white text-xs p-1 rounded border-0 bg-blue-900"><%= replies.targetuser[0].username %></span> <span id="repyied-<%=replies._id %>" > <%= replies.content %></span> 
+                  <% }else{%>
+
+              <span id="repyied-<%=replies._id %>" class="text-xs text-gray-600"><%= replies.content %></span>
+            <% } %>
+
+              </div>
+              <div class="reply-reply">
+                <button  data-modal-target="<%=replies._id %>ReplayreplyModal" data-modal-toggle="<%=replies._id %>ReplayreplyModal"  class="replsy-btn text-sm" >
+                  <i class="bi bi-reply text-sm"></i>
+                      Reply</button>
+                    <!-- //re reEdit -->
+                      <div style="margin-left: -3em;" class="kd w-full hidden " id="re-reply<%= replies.user[0]._id%>edit" >
+                        <div class="flex flex-col">
+    
+                        <span> Editing  eplying to  <b class="text-red-700"> <%=replies.user[0]._id %></b></span>
+    <form id="re-replyeditform" action="/video/<%=uplaod._id %>/comments/<%=comment._id %>/replies/<%=replies._id %>/edit" data-comment-id="<%=replies._id %>" method="post">
+                          <div class="flex items-center  p-1 border rounded-lg bg-gray-50">
+    
+                        <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                            <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                          </svg>
+                          <span class="sr-only">Upload image</span>
+                        </button>
+                       
+                        <textarea id="chat" name="comment" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea>
+                        <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                          <svg class="w-5 h-5 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                            <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
+                          </svg>
+                          <span class="sr-only">Send message</span>
+                        </button>
+                      </div>
+                    </div>
+    
+                    </form>
+    
+                      </div>
+                      <!-- /Edit -->
+                      <div style="margin-left: -3em;" class="kd w-full hidden " id="<%=replies._id %>ReplayreplyModal" >
+                        <div class="flex flex-col">
+    
+                        <span>re Replying to  <b class="text-red-700"> <%=replies.user[0]._id %></b></span>
+    <form id="replyform" action="/video/<%=uplaod._id %>/comments/<%=comment._id %>/replies/<%=replies.user[0]._id %>" data-comment-id="<%=comment._id %>" method="post">
+                          <div class="flex items-center  p-1 border rounded-lg bg-gray-50">
+    
+                        <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                            <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                          </svg>
+                          <span class="sr-only">Upload image</span>
+                        </button>
+                       
+                        <textarea id="chat" name="comment" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea>
+                        <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                          <svg class="w-5 h-5 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                            <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
+                          </svg>
+                          <span class="sr-only">Send message</span>
+                        </button>
+                      </div>
+                    </div>
+    
+                    </form>
+    
+                      </div>
+                    
+              </div>
+
+              </div>
+
+
+                </div>
+              <% } %>
+          
+                  </div>
+                  
+
+                   
+                  </div>
+                  <% } %>
+
+                  <div class="flex justify-between w-full" style="    width: 100%;
+                  margin-left: -2em;">
+                    <button  data-modal-target="<%=comment._id %>ReplayModal" data-modal-toggle="<%=comment._id %>ReplayModal"  class="replsy-btn" >
+                        <i class="bi bi-reply"></i>
+                            Reply</button>
+                           
+                            
+                          
+                        </div>
+                  <!-- Editmodel -->
+                  <form id="replyeditform" action="/video/<%=uplaod._id %>/comments/<%=comment._id %>/edit" data-comment-id="<%=comment._id %>" method="post">
+                  <div style="margin-left: -3em;" class="kd w-full hidden " id="edit<%= comment.user[0]._id%>popup"  >
+                    <div class="flex flex-col">
+
+                    <span>Editing to  <b class="text-red-700"> <%=comment.user[0].username %></b></span>
+                      <div class="flex items-center px-3 py-2 border rounded-lg bg-gray-50">
+
+                    <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                      <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                        <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                      </svg>
+                      <span class="sr-only">Upload image</span>
+                    </button>
+                   
+                    <textarea id="commesnt-<%=comment._id %>" name="comment" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."><%=comment.content%></textarea>
+                    <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                      <svg class="w-5 h-5 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                        <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
+                      </svg>
+                      <span class="sr-only">Send message</span>
+                    </button>
+                  </div>
+                </div>
+
+
+                  </div>
+                </form>
+
+                  <!-- //end of edit model -->
+
+
+                  <div style="margin-left: -3em;" class="kd w-full hidden " id="<%=comment._id %>ReplayModal" >
+                    <div class="flex flex-col">
+
+                    <span>Replying to  <b class="text-red-700"> <%=comment.user[0].username %></b></span>
+                <form id="replyform" action="/video/<%=uplaod._id %>/comments/<%=comment._id %>/replies/<%=comment.user[0]._id %>" data-comment-id="<%=comment._id %>" method="post">
+                      <div class="flex items-center px-3 py-2 border rounded-lg bg-gray-50">
+
+                    <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                      <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                        <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                      </svg>
+                      <span class="sr-only">Upload image</span>
+                    </button>
+                   
+                    <textarea id="chat" name="comment" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea>
+                    <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                      <svg class="w-5 h-5 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                        <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
+                      </svg>
+                      <span class="sr-only">Send message</span>
+                    </button>
+                  </div>
+                </div>
+
+                </form>
+
+                  </div>
+
+                </div>
+                
+              </div>
+              
+                          </div>
+                          
+
+
+              <% } %>
+
+            </div>
+
+            
+            <div class="add-comment " >
+                <div id="replymsgd" class="replydisplay bg-blue-200 rounded p-1 hidden">
+                    <span id="replymsg">slsl</span>
+
+                </div>
+                <form id="newcomments" action="/video/<%=uplaod._id %>/comments"   method="POST">
+                    <div class="flex items-center px-3 py-2 border rounded-lg bg-gray-50">
+                  <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                      <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                    </svg>
+                    <span class="sr-only">Upload image</span>
+                  </button>
+                 
+                  <textarea id="chat" name="comment" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea>
+                  <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                    <svg class="w-5 h-5 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                      <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
+                    </svg>
+                    <span class="sr-only">Send message</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <input class="hidden" type="text" value="<%=uplaod._id  %>" name="" id="videoid">
+        <div class="reco ">
+            <div class="recomandation flex justify-between">
+                <span class="text-2xl">Top category </span>
+                <button class="border rounded-md hover:bg-gray-600 hover:text-white">View all</button>
+
+            </div>
+            <br>
+            <div class="flex flex-col">
+                <% for(let video of allvideo){ %>
+                    <% const Timed = Date.now() - video.createdAt;
+                    let VideoformattedDate = '';
+                    
+                    // Calculate the difference in milliseconds
+                    const minuteInMs = 60 * 1000;
+                    const hourInMs = 60 * minuteInMs;
+                    const dayInMs = 24 * hourInMs;
+                    const weekInMs = 7 * dayInMs;
+                    
+                    // Format the date based on the time difference
+                    if (Timed < minuteInMs) {
+                      VideoformattedDate = Math.floor(Timed / 1000) + ' seconds ago';
+                    } else if (Timed < hourInMs) {
+                      VideoformattedDate = Math.floor(Timed / minuteInMs) + ' minutes ago';
+                    } else if (Timed < dayInMs) {
+                      VideoformattedDate = Math.floor(Timed / hourInMs) + ' hours ago';
+                    } else if (Timed < weekInMs) {
+                      VideoformattedDate = Math.floor(Timed / dayInMs) + ' days ago';
+                    } else {
+                      VideoformattedDate = uplaod.createdAt.toDateString(); // Use the full date if it's more than a week ago
+                    } %>
+                    <% if(video.VideoUrl && video.VideoUrl !== ''){ %>
+                        <a href="/home/video/<%=video._id %>" class="flex mb-4"> 
+                            <div class="video-container">
+                                <%if(video.thumbnail ){ %>
+                           
+                              <img class="rounded-lg" style="    min-width: 11em;
+                              min-height: 7em; max-width: 7em; max-height: 11em;" src="<%=video.thumbnail %>" alt="" srcset="">
+                              <div class="video-overlay"></div>
+                                <% }else{ %>
+                                  
+                                    <video class="rounded-md" style="     min-width: 9em;
+                                    width: 22em; max-width: 9em;" height="350"  controlsList="nodownload noremoteplayback nofullscreen">
+                                      <% if (video.VideoUrl) { %>
+                                        <source src="<%= video.VideoUrl %>" type="video/mp4">
+                                        <source src="<%= video.VideoUrl %>" type="video/webm">
+                                        <source src="<%= video.VideoUrl %>" type="video/ogg">
+                                        Your browser does not support the video tag.
+                                      <% } %>
+                                    </video>
+                                    <% } %>
+                            </div>
+                            <div class="ml-2" style="    margin-top: -0.5em;">
+                                <span class="title font-medium">
+
+                                
+                                <% let title = video.title.length > 44 ? video.title.substring(0, 41) + '...' : video.title; %>
+
+                                <%= title %>
+                            </span>
+
+                                <div class="author">
+                                    <% if (video.author && video.author.length > 0) { %>
+                                         <%= video.author[0].username %>
+                                      <% } %>
+                                </div>
+                              <div class="text-gray-600">
+                                <i class="bi text-red-700 text-xl bi-eye-fill"></i>
+                                <%= video.viewcount %> views <b class="mb-1">.</b><%=VideoformattedDate %>
+                              </div>
+                            </div>
+                          </a>
+                          
+                <% } %>
+                    <% } %>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<input id="videoid" type="text" value="<%=uplaod._id %>">
+<br><br><br><br>
+</div>
+<br><br><br><br>
+<script>
+    const replymsg = document.getElementById('replymsg');
+    const replymsgd = document.getElementById('replymsgd');
+    const replyButtons = document.querySelectorAll('.reply-btn');
+    const videoElement = document.getElementById('videoElement');
+  const timestampDisplay = document.getElementById('timestampDisplay');
+  let formatedstamp  = 0;
+  // Update the timestamp display
+  function updateTimestamp() {
+    const timestamp = videoElement.currentTime;
+    console.log('dwdwdw' + formatedstamp);
+    formatedstamp = formatTimestamp(timestamp);
+    timestampDisplay.textContent = formatTimestamp(timestamp);
+  }
+
+  // Format the timestamp value
+  function formatTimestamp(timestamp) {
+    // Implement your desired timestamp formatting logic here
+    // Example: Convert seconds to minutes and seconds
+    const minutes = Math.floor(timestamp / 60);
+    const seconds = Math.floor(timestamp % 60);
+    return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+  }
+
+  // Add event listener to update timestamp while playing
+  videoElement.addEventListener('timeupdate', updateTimestamp);
+
+// Handle reply button click
+function handleReply(event) {
+  const username = event.target.getAttribute('data-username');
+  const replyMessage = `Replying to ${username}`;
+
+  // Insert the reply message at the top of the comment input field
+  const commentInput = document.getElementById('chat');
+  replymsgd.classList.remove('hidden');
+    replymsg.innerHTML = replyMessage;
+  commentInput.focus();
+}
+
+    const videoi = document.getElementById('videoid').value;
+    const form = document.getElementById('newcomments');
+form.addEventListener('submit', handleCommentSubmission);
+
+function handleCommentSubmission(event) {
+  event.preventDefault();
+
+  const formData = new FormData(form);
+  const comment = formData.get('comment');
+  
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', form.action);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
+        const newComment = response.newComment;
+        const user = response.user;
+
+        // Create the HTML for the new comment
+        const commentHTML = `
+         
+          <div class="flex items-center w-full mb-1 align-center">
+                        <div class="like mr-1 bg-gray-200 p-2 rounded">
+                            <div class="flex text-center items-center flex-col">
+                                <button><i class="bi bi-caret-up"></i>
+                                </i>
+                                </button>
+                                <span>0</span>
+                                <button><i class="bi bi-caret-down"></i>
+                                </i>
+                                </button>
+                            </div>
+                        </div>
+
+              <div class="comment w-full mb-2 flex">
+               
+                    <div class="user-img rounded-full bg-blue-200 w-12 h-12 text-center flex justify-center"  src="https://yt3.ggpht.com/ytc/AOPolaSHoC37xAqzya3OaA1wyAKEqd9623gkoy6D5oMylA=s88-c-k-c0x00ffffff-no-rj" alt="" srcset=""> <span class="mt-2 font-medium text-xl">${user.username}</span></div>
+
+                <div class="comment-text ml-2" style="width: 82%;">
+                    <div class="flex w-full justify-between">
+
+                  <span class="">@${user.username}</span>
+                  <button><i class="bi bi-three-dots ml-2"></i>
+
+        `;
+
+        // Append the new comment to the comments card
+        const commentsContainer = document.querySelector('.comments');
+        commentsContainer.insertAdjacentHTML('beforeend', commentHTML);
+
+        // Clear the comment input
+        form.reset();
+      } else {  
+        // Error occurred during comment submission
+        // You can handle the error here, if needed
+      }
+    }
+  };
+  xhr.send(`comment=${encodeURIComponent(comment)}`);
+}
+
+document.querySelectorAll('.likebtn').forEach((btn) => {
+  btn.addEventListener('click', handleLike);
+  btn.classList.remove('text-gray-500');
+});
+
+// Event listener for the dislike button
+document.querySelectorAll('.dislikebtn').forEach((btn) => {
+  btn.addEventListener('click', handleDislike);
+});
+
+// Function to handle the like button click event
+function handleLike(event) {
+  const videoId = event.target.getAttribute('data-video-id');
+  const isLiked = event.target.classList.toggle('liked');
+  sendLikeOrDislikeRequest(videoId, 'like');
+  updateLocalStorage(videoId, 'liked', isLiked);
+}
+
+// Function to handle the dislike button click event
+function handleDislike(event) {
+  const videoId = event.target.getAttribute('data-video-id');
+  const isDisliked = event.target.classList.toggle('disliked');
+  sendLikeOrDislikeRequest(videoId, 'dislike');
+  updateLocalStorage(videoId, 'disliked', isDisliked);
+}
+// function updateLocalStorage(videoId, action, value) {
+//   const storedVideos = JSON.parse(localStorage.getItem('likedVideos')) || {};
+//   if (!storedVideos[videoId]) {
+//     storedVideos[videoId] = {};
+//   }
+//   storedVideos[videoId][action] = value;
+//   localStorage.setItem('likedVideos', JSON.stringify(storedVideos));
+// }
+// // Function to apply the toggle classes based on the stored values
+// function applyToggleClasses() {
+//   const storedVideos = JSON.parse(localStorage.getItem('likedVideos')) || {};
+//   const likeButtons = document.querySelectorAll('.likebtn');
+//   const dislikeButtons = document.querySelectorAll('.dislikebtn');
+
+//   likeButtons.forEach((btn) => {
+//     const videoId = btn.getAttribute('data-video-id');
+//     if (storedVideos[videoId] && storedVideos[videoId].liked) {
+//       btn.classList.add('liked');
+//     }
+//   });
+
+//   dislikeButtons.forEach((btn) => {
+//     const videoId = btn.getAttribute('data-video-id');
+//     if (storedVideos[videoId] && storedVideos[videoId].disliked) {
+//       btn.classList.add('disliked');
+//     }
+//   });
+// }
+
+// // Call the function to apply the toggle classes on page load
+// applyToggleClasses();
+
+// Function to send the like or dislike request
+function sendLikeOrDislikeRequest(videoId, action) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', `/home/video/${videoi}/${action}`);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Request successful
+        const Response = JSON.parse(xhr.responseText);
+        console.log(Response);
+
+        // You can handle the response here, if needed
+        updateReactionCounts(Response.likesCount, Response.dislikesCount);
+
+      } else {
+        // Error occurred
+        // You can handle the error here, if needed
+      }
+    }
+  };
+  xhr.send();
+}
+
+function updateReactionCounts(likesCount, dislikesCount) {
+  const likeCountElements = document.querySelector('.likes');
+  const dislikeCountElements = document.querySelector('.dislikes');
+
+  likeCountElements.innerHTML =  likesCount;
+
+  dislikeCountElements.innerHTML = dislikesCount;
+  
+
+    
+}
+
+
+document.querySelectorAll('form#replyform').forEach((form) => {
+  form.addEventListener('submit', handleReply);
+});
+
+function handleReply(event) {
+  event.preventDefault();
+  const commentId = event.target.getAttribute('data-comment-id');
+  
+  console.log('commentid' + commentId);
+  const replyModalId = `${commentId}ReplayModal`;
+  const replyForm = event.target;
+  const replyContent = replyForm.querySelector('textarea[name="comment"]').value;
+  console.log('replaymodel' + replyModalId);
+  console.log('replyform' + replyForm);
+  console.log('replycontent' + replyContent);
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', replyForm.action);
+  
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Reply added successfully
+        const response = JSON.parse(xhr.responseText);
+        // const comment = response.comment;
+        // const reply = response.reply;
+
+        // Update the UI with the new reply (if needed)
+
+        // Clear the reply form
+        replyForm.reset();
+      } else {
+        // Error occurred while adding the reply
+        // You can handle the error here, if needed
+      }
+    }
+  };
+  xhr.send(`content=${encodeURIComponent(replyContent)}`);
+}
+
+
+document.querySelectorAll('form#replyeditform').forEach((form) => {
+  form.addEventListener('submit', handleReply);
+});
+
+function handleReply(event) {
+  console.log(event);
+
+  event.preventDefault();
+  const commentId = event.target.getAttribute('data-comment-id');
+  
+  console.log('commentid' + commentId);
+  const replyModalId = `${commentId}ReplayModal`;
+  const replyForm = event.target;
+  const replyContent = replyForm.querySelector('textarea[name="comment"]').value;
+  console.log('replaymodel' + replyModalId);
+  console.log('replyform' + replyForm);
+  console.log('replycontent' + replyContent);
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', replyForm.action);
+  
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Reply added successfully
+        const response = JSON.parse(xhr.responseText);
+        const reply = response.foundcomment;
+        const changedcommet = document.querySelector(`#comment-${commentId}`);
+        changedcommet.innerHTML = replyContent;
+        // Update the UI with the new reply (if needed)
+        console.log(response.foundcomment.user[0])
+        const editPopup = document.querySelector(`#edit${response.foundcomment.user[0]}popup`);
+    editPopup.classList.toggle('hidden');
+
+
+        // Clear the reply form
+        replyForm.reset();
+      } else {
+        // Error occurred while adding the reply
+        // You can handle the error here, if needed
+      }
+    }
+  };
+  xhr.send(`content=${encodeURIComponent(replyContent)}`);
+}
+
+function Deletecommets(videoId, action,useid) {
+  console.log(videoId + 'action' + action)
+  const livecommetn = document.querySelector(`#livecommetn-${action}-${useid}`);
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', `/video/${videoId}/comments/${action}/delete`);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Request successful
+        const Response = JSON.parse(xhr.responseText);
+        console.log(Response);
+        livecommetn.classList.toggle('hidden');
+        // You can handle the response here, if needed
+
+      } else {
+        // Error occurred
+        // You can handle the error here, if needed
+      }
+    }
+  };
+  xhr.send();
+}
+
+
+document.querySelectorAll('form#re-replyeditform').forEach((form) => {
+  form.addEventListener('submit', handleReply1);
+});
+
+function handleReply1(event) {
+  console.log(event);
+
+  event.preventDefault();
+  const commentId = event.target.getAttribute('data-comment-id');
+  
+  console.log('commentid' + commentId);
+  const replyModalId = `${commentId}ReplayModal`;
+  const replyForm = event.target;
+  const replyContent = replyForm.querySelector('textarea[name="comment"]').value;
+  console.log('replaymodel' + replyModalId);
+  console.log('replyform' + replyForm);
+  console.log('replycontent' + replyContent);
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', replyForm.action);
+  
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Reply added successfully
+        const response = JSON.parse(xhr.responseText);
+        const reply = response.foundcomment;
+        const changedcommet = document.querySelector(`#repyied-${commentId}`);
+        changedcommet.innerHTML = replyContent;
+        // Update the UI with the new reply (if needed)
+        const editPopup = document.querySelector(`#re-reply${response.reply.user[0]._id}edit`);
+    editPopup.classList.toggle('hidden');
+
+
+        // Clear the reply form
+        replyForm.reset();
+      } else {
+        // Error occurred while adding the reply
+        // You can handle the error here, if needed
+      }
+    }
+  };
+  xhr.send(`content=${encodeURIComponent(replyContent)}`);
+}
+
+function Deletereply(videoId, action,reply,useid) {
+  console.log(videoId + 'action' + action)
+  const livecommetn = document.querySelector(`#livereply-${reply}-${useid}`);
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', `/video/${videoId}/comments/${action}/replies/${reply}/delete`);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Request successful
+        const Response = JSON.parse(xhr.responseText);
+        console.log(livecommetn);
+        livecommetn.classList.toggle('hidden');
+        // You can handle the response here, if needed
+
+      } else {
+        // Error occurred
+        // You can handle the error here, if needed
+      }
+    }
+  };
+  xhr.send();
+}
+
+
+</script>

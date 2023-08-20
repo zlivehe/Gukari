@@ -1,0 +1,610 @@
+<% layout('./layouts/boilerplate.ejs')%>
+<%- include('../../layouts/partials/settings.ejs') %>
+
+<style>
+  .selected{
+    border: solid rgb(0, 208, 255) 1px !important;
+
+  }
+</style>
+<div class="content fullscreen" id="content-menu">
+
+  <div class="creates pl-16 pr-16 pt-9 pb-9 bg-gray-200">
+    <div class="flex justify-between w-full  items-center">
+      <span>Start a new project</span>
+      <div class="flex">
+        <button class="hover:bg-red-400 p-2 rounded-lg">
+          Template View <i class="bi bi-funnel"></i>
+        </button>
+        <button class="ml-2">
+          <i class="text-bold bi bi-three-dots-vertical"></i>
+        </button>
+      </div>
+    </div>
+    <div class="flex w-full">
+      <div class="addproject w-32 h-46">
+        <a
+          href="/new"
+          class="imgc hover:border-blue-700 flex justify-center items-center content-center p-3 w-32 h-40 border bg-white rounded"
+        >
+          <img
+            class="w-16 h-16"
+            src="https://img.freepik.com/free-icon/add-button_318-757580.jpg"
+            alt=""
+            srcset=""
+          />
+        </a>
+
+        <span>Blank</span>
+      </div>
+      <div class="addproject ml-2 w-32 h-40">
+        <button
+          data-modal-target="popup-modal"
+          data-modal-toggle="popup-modal"
+          class="imgc hover:border-blue-700 flex justify-center items-center content-center p-3 w-32 h-40 border bg-white rounded"
+        >
+          <img
+            class="w-full h-full"
+            src="/imgs/home/boards.png"
+            alt=""
+            srcset=""
+          />
+        </button>
+
+        <span>Todo task</span><br />
+        <span class="text-gray-600 font-slim">Free</span>
+<div style="width: 23em;"> 
+        <div
+          id="popup-modal"
+          tabindex="-1"
+          class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+        >
+          <div class="relative w-full max-w-xl max-h-full">
+            <form action="/workspace" method="post" enctype="multipart/form-data">
+            <div class="relative bg-white rounded-lg shadow">
+              <div class="p-2">
+                <button
+                  type="button"
+                  class="absolute right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                  data-modal-hide="popup-modal"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                  <span class="sr-only">Close modal</span>
+                </button>
+                <span class="text-2xl font-medium">Create a new kaban</span>
+              </div>
+
+              <div class="p-2">
+                <div class="flex justify-center">
+                    <img src="	https://trello.com/assets/d1f066971350650d3346.svg" alt="" srcset="">
+
+                </div>
+                <div>
+                  <div class="theme">
+                    <div class="flex justify-between">
+                      <span> Theme  </span>
+                    </div>
+
+                    <div class="imgs flex flex-wrap justify-between">
+                      <button class="mb-2 sample-img rounded-md">
+                        <img
+                          id="imgwall"
+                          class="h-11 w-16 rounded-md bg-img-wall"
+                          src="https://lh5.ggpht.com/cEY8_OawWNzn-gEEnAPHrVGCjievGuzoBkdjaPMePDY_UkMQl1v1ersgu4PsMgJlenKtDlZsHYQ
+                                "
+                          alt=""
+                          srcset=""
+                        />
+                      </button>
+                      <button class="mb-2 sample-img rounded-md">
+                        <img
+                          id="imgwall"
+                          class="h-12 w-16 rounded-md"
+                          src="https://lh5.ggpht.com/cEY8_OawWNzn-gEEnAPHrVGCjievGuzoBkdjaPMePDY_UkMQl1v1ersgu4PsMgJlenKtDlZsHYQ"
+                          alt=""
+                          srcset=""
+                        />
+
+                      <button class="mb-2 sample-img rounded-md">
+                        <img
+                          id="imgwall"
+                          class="h-12 w-16 rounded-md"
+                          src="https://lh4.ggpht.com/ijOFBK0v9wOnES4VInPb5p75LCZDDnH8TNIW6ia9u5ioOPU7QUNnZJd_8L254fDHhwJsCB_aN4BQ"
+                          alt=""
+                          srcset=""
+                        />
+                      </button>
+                      <button class="mb-2 sample-img rounded-md">
+                        <img
+                          id="imgwall"
+                          class="h-12 w-16 rounded-md"
+                          src="https://wallpaperaccess.com/full/2560180.jpg"
+                          alt=""
+                          srcset=""
+                        />
+                      </button>
+                      <button class="mb-2 sample-img rounded-md">
+                        <img
+                          id="imgwall"
+                          class="h-12 w-16 rounded-md"
+                          src="https://www.pixelstalk.net/wp-content/uploads/images6/Aesthetic-Anime-Wallpaper-Sky-Light.jpg"
+                          alt=""
+                          srcset=""
+                        />
+                      </button>
+
+                      <button class="mb-2 sample-img rounded-md">
+                        <img
+                          id="imgwall"
+                          class="h-12 w-16 rounded-md"
+                          src="	https://lh5.ggpht.com/c_eVVW1VvG_8TYIzU5q1rNnPe_MCNb9gzEw8Rtgn2zjG_UpizcokPjS1vLQgfnEGSdDC8Hj7Y60"
+                          alt=""
+                          srcset=""
+                        />
+                      </button>
+                      <button class="mb-2 sample-img rounded-md">
+                        <img
+                          id="imgwall"
+                          class="h-12 w-16 rounded-md"
+                          src="https://lh3.ggpht.com/fhG5y8Tg1CqaF8F-jSnvRHJOm_yLsL35awa0Neaswypu8AZzJozpmYT_j9oTAnahWRO-LeMCxg
+                                "
+                          alt=""
+                          srcset=""
+                        />
+                      </button>
+                      <button class="mb-2 sample-img rounded-md">
+                        <img
+                          id="imgwall"
+                          class="h-12 w-16 rounded-md"
+                          src="https://ssl.gstatic.com/ui/v1/icons/mail/themes/tree/previewHD.png
+                                "
+                          alt=""
+                          srcset=""
+                        />
+                      </button>
+                    </button>
+                    <input
+                     type="file" 
+                      name="image"
+                      id="imgwall"
+                      class=" rounded-md mb-2 rounded-md"
+                     
+                    >
+
+                    </div>
+                    <input type="text" id="wpimage" name="img" class="hidden">
+                    <label for="title" class="right flex justify-left"
+                      >Workspace title</label
+                    >
+                    <input type="text" name="title" class="border w-full rounded p-3" />
+                    <br /> <br>
+                    <label
+                      for="small"
+                      class="block mb-2 text-sm font-medium text-gray-900 "
+                      >Workspace type</label
+                    >
+                    <select
+                      id="small"
+                      name="type"
+                      class="block w-full p-3 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                    >
+                      <option  selected value="buisness">Buisness</option>
+                      <option value="marking">Marking</option>
+                      <option value="education">Education</option>
+                      <option value="Sales">Sales</option>
+                      <option value="smallbuisness">SmallBuisness</option>
+                      <option value="operation">Operation</option>
+                      <option value="other">Other</option>
+                    </select>
+                    
+
+                    <label for="title" class="right flex justify-left"
+                      >Workspace description</label
+                    >
+                    <textarea name="description" class="w-full rounded border p-2" id="" cols="30" rows="5"></textarea>
+                    <br /> <br>
+                    <div class=" mt-3 relative z-0 w-full mb-6 group">
+                        <div>
+                            <input type="text" id="tag_input"
+                                class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+                            <label for="tag_input"
+                                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tags</label>
+                        </div>
+                        <br>
+                        <input id="tags-post" class="hidden tags-post" type="text" value="ef,fe" name="tags">
+                        <div class="tags flex flex-wrap" id="tags_container">
+
+                        </div>
+                        
+                    </div>
+                    <br>
+
+                  </div>
+                </div>
+                <br />
+                <button
+                  type="submit"
+                  class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+                >
+                  Create
+                </button>
+              </div>
+            </form>
+
+            </div>
+          </div>
+
+        </div>
+    </div>
+      </div>
+    </div>
+  </div>
+  <br /><br /><br />
+  <div class="workspace">
+    <span class="text-2xl">Workspace</span>
+    <div class="p-2 flex justify-between">
+      <%for(let wp of userWorkspace){  %>
+      <a href="/home/workspace/<%=wp._id %>" class="workspace-card border rounded-md p-2" style="width: 17em;">
+      <img class="wpcover" src="" alt="" srcset="">
+      <div class="des">
+
+        <span class="font-medium text-lg"> <%=wp.title %> </span>
+        <br>
+        <span class="text-sm"> <%=wp.description %> </span>
+
+      </div>
+      </a>
+        <% } %>
+    </div>
+  </div>
+  <div class="recent overflow-y-scroll">
+    <span class="text-2xl">Your projects(<%=userQuizCards.length %>)</span>
+    <div class="flex justify-between flex-wrap">
+      <%for(quiz of userQuizCards){ %>
+      <a
+        href="/home/quiz/<%=quiz._id %>"
+        class="mb-2 ml-2 p-3 recent-cardd rounded-lg shadow border"
+        style="width: 17em"
+      >
+        <div class="kr flex justify-between rounded-lg">
+          <span class="font-medium text-lg"> <%=quiz.title %> </span>
+          <button><i class="bi bi-three-dots"></i></button>
+        </div>
+        <br />
+        <div class="flex justify-center items-center">
+          <%if(quiz.imageUrl){%>
+          <img
+            style="
+              height: 8em;
+              max-height: 8em;
+              max-width: 15em;
+              min-width: 15em;
+            "
+            class="w-full rounded-md"
+            src="<%=quiz.imageUrl %>"
+            alt=""
+            srcset=""
+          />
+          <%}%>
+        </div>
+        <div class="flex justify-between">
+          <span class="text text-gray-600">
+            <%=quiz.cards.length %> tearms
+          </span>
+
+          <span class="text text-white"> <%=quiz.plays %> plays </span>
+        </div>
+        <br />
+
+        <div>
+          <span>Tags</span>
+          <div class="flex flex-wrap" style="width: 8em">
+            <% let counter=0; %> <% quiz.tags.forEach(tag=> { %> <% if (counter
+            < 4) { %>
+            <span
+              class="w-11 <%= tag.color %> mb-3 text-xs text-black font-medium mr-2 px-2.5 py-0.5 rounded"
+            >
+              <%= tag.name %>
+            </span>
+            <% counter++; %> <% } %> <% }) %>
+          </div>
+        </div>
+        <br />
+        <div style="margin-top: 0em" class="about flex w-full justify-between">
+          <div class="flex items-center text-center">
+            <img
+              class="rounded-full w-8 h-8"
+              src="https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/89bf5368873d6a613c99caec072e8a52.jpg"
+              alt=""
+              srcset=""
+            />
+            <span class="ml-2"> <%=user.username %> </span>
+          </div>
+          <div class="tags text-center items-center content-center ml-5 flex">
+            <span
+              class="bg-red-700 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
+            >
+              <%=user.category%>
+            </span>
+          </div>
+        </div>
+      </a>
+      <% } %>
+    </div>
+  </div>
+  <br />
+  <div class="recent">
+    <span class="text-2xl">Recent projects</span>
+    <div class="flex justify-between">
+      <a href="#" class="p-3 recent-cardd rounded-lg bg-blue-200">
+        <div class="kr flex justify-between rounded-lg">
+          <span class="font-medium text-lg">Korean words</span>
+          <button><i class="bi bi-three-dots"></i></button>
+        </div>
+        <br />
+        <span class="text text-gray-600">12 tearms</span><br />
+
+        <div>
+          <span>Tags</span>
+          <div class="flex flex-wrap" style="width: 11em">
+            <span
+              class="bg-yellow-100 mb-1 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
+              >Yellow</span
+            >
+            <span
+              class="bg-indigo-100 mb-1 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
+              >Indigo</span
+            >
+            <span
+              class="bg-purple-100 mb-1 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
+              >Purple</span
+            >
+            <span
+              class="bg-red-100 mb-1 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
+              >Red</span
+            >
+          </div>
+        </div>
+        <br />
+        <div style="margin-top: 0em" class="about flex w-full justify-between">
+          <div class="flex items-center text-center">
+            <img
+              class="rounded-full w-8 h-8"
+              src="https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/89bf5368873d6a613c99caec072e8a52.jpg"
+              alt=""
+              srcset=""
+            />
+            <span class="ml-2">Sam altma</span>
+          </div>
+          <div class="tags text-center items-center content-center ml-5 flex">
+            <span
+              class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
+              >learning</span
+            >
+          </div>
+        </div>
+      </a>
+      <a href="#" class="" style="width: 16em">
+        <img
+          class="rounded-lg"
+          style="width: 100%"
+          src="https://i.ytimg.com/vi/YNstP0ESndU/maxresdefault.jpg"
+          alt=""
+          srcset=""
+        />
+
+        <div class="p-2 recent-cardd">
+          <!-- <span>4:22</span> -->
+          <div class="content-card flex items-center content-center">
+            <img
+              src="https://api.time.com/wp-content/uploads/2014/09/brave.jpg?quality=85&w=2100"
+              class="userimg mb-3 w-10 rounded h-10 rounded-full"
+              alt=""
+              srcset=""
+            />
+            <div class="card-info ml-2">
+              <span class="text-md font-medium w-full leading-3"
+                >How to make calcu equons</span
+              ><br />
+              <div class="flex">
+                <span class="text-sm text-gray-400">Saml altma</span>
+                <span class="ml-3 text-sm text-gray-400">23k plays</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="" style="width: 16em">
+        <img
+          class="rounded-lg"
+          style="width: 100%; height: 11em"
+          src="https://d2vlcm61l7u1fs.cloudfront.net/media%2Fc24%2Fc24fdc8d-27bb-469d-a434-14700fcffcf7%2FphptzEMaV.png"
+          alt=""
+          srcset=""
+        />
+        <div class="p-2 recent-cardd bg-white">
+          <!-- <span>4:22</span> -->
+          <div class="content-card flex items-center content-center">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQAtUR9Zy_KJuFOEfasNLBRQOSPWfELPIN9Q&usqp=CAU"
+              class="userimg mb-3 w-10 rounded h-10 rounded-full"
+              alt=""
+              srcset=""
+            />
+            <div class="card-info ml-2">
+              <span class="text-md font-medium w-full leading-3"
+                >Physics thermaldynamics</span
+              ><br />
+              <div class="flex">
+                <span class="text-sm text-gray-400">Saml altma</span>
+                <span
+                  class="ml-5 bg-gray-100 mb-1 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
+                  >Pdf</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+      <a
+        href="#"
+        style="
+          background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWlZ-uAlRxct6EER4KcPminE1vaPZ3jrwLEx6MpximHg&s');
+          background-repeat: no-repeat;
+          background-size: cover;
+        "
+        class="p-3 recent-cardd rounded-lg 0"
+      >
+        <div class="kr flex justify-between rounded-lg">
+          <span class="font-medium text-lg text-white">Programing flow</span>
+          <button><i class="bi bi-three-dots text-white"></i></button>
+        </div>
+        <br />
+        <span class="text text-white text-gray-300">12 rows</span><br />
+
+        <div>
+          <span class="text-white">Tags</span>
+          <div class="flex flex-wrap" style="width: 11em">
+            <span
+              class="bg-yellow-100 mb-1 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
+              >Yellow</span
+            >
+            <span
+              class="bg-indigo-100 mb-1 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
+              >Indigo</span
+            >
+            <span
+              class="bg-purple-100 mb-1 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
+              >Purple</span
+            >
+            <span
+              class="bg-red-100 mb-1 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
+              >Red</span
+            >
+          </div>
+        </div>
+        <br />
+        <div style="margin-top: 0em" class="about flex w-full justify-between">
+          <div class="flex items-center text-center">
+            <img
+              class="rounded-full w-8 h-8"
+              src="https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/89bf5368873d6a613c99caec072e8a52.jpg"
+              alt=""
+              srcset=""
+            />
+            <span class="ml-2 text-gray-400">Sam altma</span>
+          </div>
+          <div
+            class="tags text-center items-center content-center ml-5 flex"
+          ></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <br />
+  <div class="library"></div>
+  <br />
+</div>
+
+<script>
+  const imgButtons = document.querySelectorAll('.sample-img');
+  const wpimage = document.querySelector('#wpimage').value;
+  imgButtons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Remove 'selected' class from all buttons
+      imgButtons.forEach((btn) => {
+        btn.classList.remove('selected');
+      });
+
+      // Add 'selected' class to the clicked button
+      button.classList.add('selected');
+
+      // Get the src value of the clicked image
+      const src = button.querySelector('img').src;
+      console.log(src); // You can use the 'src' variable as needed
+      document.querySelector('#wpimage').value = src;
+    });
+  });
+
+
+
+    const tagInput1 = document.getElementById('tag_input');
+    const tagsContainer1 = document.getElementById('tags_container');
+    const posttagsInput1 = document.querySelector('.tags-post');
+    let inputElement1 = document.getElementById("tags-post");
+   
+        function getRandomColor() {
+            const colors = ['bg-red-200', 'bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-purple-200'];
+            const randomIndex = Math.floor(Math.random() * colors.length);
+            return colors[randomIndex];
+        }
+        // Replace the existing initialization of values1 with this code
+        const values1 = inputElement1.value.split(',');
+
+        tagInput1.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const tag = tagInput1.value.trim();
+                if (tag !== '') {
+                    const tagElement = document.createElement('span');
+                    const randomColor = getRandomColor();
+                    tagElement.classList.add(
+                        'text-xs',
+                        'ml-3',
+                        'font-semibold',
+                        'inline-block',
+                        'mb-2',
+                        'py-1',
+                        'px-2',
+                        'uppercase',
+                        'rounded',
+                        'text-gray-600',
+                        randomColor,
+                        'uppercase',
+                        'last:mr-0',
+                        'mr-1'
+                    );
+                    tagElement.innerText = tag;
+
+                    // Create a color input element
+                    const colorInput = document.createElement('input');
+                    colorInput.type = 'hidden';
+                    colorInput.name = 'color[]';
+                    colorInput.value = randomColor;
+                    tagElement.appendChild(colorInput);
+
+                    // Push the tag to the values1 array
+                    values1.push(tag);
+
+                    // Update the value of the inputElement1
+                    inputElement1.value = values1.join(',');
+                    console.log(inputElement1.value);
+
+                    tagsContainer1.appendChild(tagElement);
+
+                    tagInput1.value = '';
+                }
+            }
+        });
+
+        tagsContainer1.addEventListener('click', function (event) {
+            if (event.target.classList.contains('tag-remove')) {
+                event.target.parentNode.remove();
+            }
+        });
+
+    </script>

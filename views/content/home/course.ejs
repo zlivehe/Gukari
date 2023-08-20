@@ -1,0 +1,133 @@
+<% layout('./layouts/boilerplate.ejs')%>
+<%- include('../../layouts/partials/settings.ejs') %>
+
+    <div class="content" id="content-menu">
+
+        <div class="flex justify-between">
+            <span class="text-2xl font-medium">Active courses</span>
+
+            <button class="p-2 rounded-lg text-white hover:bg-purple-700 bg-purple-600">Edit course</button>
+        </div>
+        <div class="mb-4">
+            <ul class="flex border rounded-lg white-black mt-2 flex-wrap -mb-px text-sm font-medium text-center"
+                id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+                <li class="mr-2" role="presentation">
+                    <button
+                        class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'IT' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
+                        id="IT-tab" data-tabs-target="#IT" type="button" role="tab" aria-controls="IT"
+                        aria-selected="{{activeTab === 'IT' ? 'true' : 'false'}}"><i
+                            class="bi bi-train-freight-front"></i>IT
+                        Courses</button>
+                </li>
+                <li class="mr-2" role="presentation">
+                    <button
+                        class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'dashboard' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
+                        id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab"
+                        aria-controls="dashboard"
+                        aria-selected="{{activeTab === 'dashboard' ? 'true' : 'false'}}">Dashboard</button>
+                </li>
+                <li class="mr-2" role="presentation">
+                    <button
+                        class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'settings' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
+                        id="settings-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings"
+                        aria-selected="{{activeTab === 'settings' ? 'true' : 'false'}}">Settings</button>
+                </li>
+                <li role="presentation">
+                    <button
+                        class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'contacts' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
+                        id="contacts-tab" data-tabs-target="#contacts" type="button" role="tab" aria-controls="contacts"
+                        aria-selected="{{activeTab === 'contacts' ? 'true' : 'false'}}">Contacts</button>
+                </li>
+            </ul>
+        </div>
+        <div id="myTabContent">
+            <div class="hidden p-4 rounded-lg ap-ct " id="IT" role="tabpanel" aria-labelledby="IT-tab">
+                <div class="flex">
+                    <a href="#" class="html" style="width: 14em;">
+                        <img class="rounded-md" src="https://html.com/wp-content/uploads/html-hpg-featured-new.png"
+                            alt="" srcset="">
+                        <div class="html-details">
+
+                            <span class="text-yellow-500 text-sm">HTML</span><br>
+                            <span class="text-lg font-medium">Front-end Development</span><br>
+                            <span class="text-sm text-gray-400">30 Lessons | 23 Hours</span> <br>
+                            <button class="bg-purple-600  mt-3 hover:bg-purple-700 p-2 text-white rounded-xl"><i
+                                    class="bi bi-shield-lock-fill mr-1 mb-2"></i>Enroll Now</button>
+                        </div>
+                    </a>
+                    <a href="#" class="html ml-3" style="width: 14em;">
+                        <img class="rounded-md"
+                            src="https://www.classcentral.com/report/wp-content/uploads/2022/07/SEO-BCG-Banner-2.png"
+                            alt="" srcset="">
+                        <div class="html-details">
+
+                            <span class="text-purple-500 text-sm">SEO</span><br>
+                            <span class="text-lg font-medium">SEO-Biginers</span><br>
+                            <span class="text-sm text-gray-400">23 Lessons | 14 Hours</span> <br>
+                            <button class="bg-purple-100 mt-3 hover:bg-purple-200 p-2 text-purple-500 rounded-xl"><i
+                                    class="bi bi-shield-lock-fill  mr-1 mb-"></i>Enroll
+                                Now</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="hidden p-2 rounded-lg ap-ct " id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
+                    <a href="#">
+                        <img class="rounded-t-lg" src="https://mrmoylan.com/assets/img/apcsa.jpg" alt="" />
+                    </a>
+                    <div class="p-3">
+                        <a href="#">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">AP Computer Science A
+                            </h5>
+                        </a>
+                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Get familiar with the concepts and
+                            You'll do
+                            hands-on work to design, write, and test computer programs that solve problems or accomplish
+                            tasks.</p>
+                        <div class="both-split flex justify-between">
+
+                            <a href="/course/ap/lang"
+                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 ">
+                                Read more
+                                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor"
+                                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                            <a href="#"
+                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-600 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 ">
+                                Calculate
+
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="hidden p-4 rounded-lg ap-ct " id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                <p class="text-sm  ">This is some placeholder content the <strong
+                        class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>.
+                    Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps
+                    classes to control the content visibility and styling.</p>
+            </div>
+            <div class="hidden p-4 rounded-lg ap-ct " id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+                <p class="text-sm  ">This is some placeholder content the <strong
+                        class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>.
+                    Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps
+                    classes to control the content visibility and styling.</p>
+            </div>
+        </div>
+
+
+
+        <script>
+            const search = document.getElementById('searchinput')
+            const recentSearch = document.getElementById('saerch-recent')
+            search.addEventListener('click', function (e) {
+                recentSearch.classList.toggle('hidden')
+            })
+        </script>
+    </div>

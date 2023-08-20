@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>IPTV Channels</title>
+    <style>
+        bod .video-card {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function playVideo(videoElement) {
+            videoElement.play();
+        }
+    </script>
+</head>
+
+<body>
+    <% if (channels.length> 0) { %>
+        <h1>Channels in the playlist:</h1>
+        <% let currentCountry=null; %>
+            <% channels.forEach((channel)=> { %>
+                <% if (channel.country !==currentCountry) { %>
+                    <% currentCountry=channel.country; %>
+                        <h2>
+                            <%= currentCountry %>
+                        </h2>
+                        <% } %>
+                            <div class="video-card">
+                                <h3>
+                                    <%= channel.name %>
+                                </h3>
+                                <video controls width="400">
+                                    <source src="<%= channel.uri %>" type="application/x-mpegURL">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <button onclick="playVideo(this.previousElementSibling)">Play</button>
+                            </div>
+                            <% }) %>
+                                <% } else { %>
+                                    <h1>No channels found in the playlist.</h1>
+                                    <% } %>
+</body>
+
+</html>
+
+<div class="creates flex flex-wrap items-center content-center justify-between">
+    <a href="/" class="bg-gray-100 hover:bg-gray-200 border mt-2 create-card quizflash">
+        <div class="card-content flex items-center">
+            <img class="w-16 h-16" src="https://cdn-icons-png.flaticon.com/512/3813/3813683.png" alt="" srcset="">
+            <div class="title flex flex-col text-2xl ml-2">
+                <span class="mid-limit-text">Create New Flshcard</span>
+                <span class="text-sm text-limit">build the most facinating flash card of all
+                    time</span>
+            </div>
+        </div>
+    </a>
+    <a href="/" class="bg-gray-100 border mt-2 hover:bg-gray-200  ml-2 create-card quizflash">
+        <div class="flex "><img class="w-16 h-16" src="https://cdn-icons-png.flaticon.com/512/2784/2784539.png" alt=""
+                srcset="">
+            <div class="title flex ml-2 flex-col text-2xl">
+                <span class="mid-limit-text">Create Booklet</span>
+                <span class="text-sm text-limit">Booklet lets you keep all your content in
+                    tact</span>
+
+            </div>
+        </div>
+    </a>
+    <a href="/" class="bg-gray-100 border mt-2 hover:bg-gray-200 ml-2  create-card quizflash">
+        <div class="flex "><img class="w-16 h-16" src="https://cdn-icons-png.flaticon.com/512/2270/2270665.png" alt=""
+                srcset="">
+            <div class="title flex ml-2 flex-col text-2xl">
+                <span class="mid-limit-text">Upload</span>
+                <span class="text-sm text-limit">Upload video/img with gukari and get
+                    strarted</span>
+
+            </div>
+        </div>
+    </a>
+    <a href="/" class="bg-gray-100 border mt-2 hover:bg-gray-200 ml-2  create-card quizflash">
+        <div class="flex "><img class="w-16 h-16"
+                src="https://cdn4.iconfinder.com/data/icons/project-management-104/1600/agile_board_ieration_scrum_tasks_completed-512.png"
+                alt="" srcset="">
+
+            <div class="title flex ml-2 flex-col text-2xl">
+                <span class="mid-limit-text">Create Board</span>
+                <span class="text-sm text-limit">Public board everyone admir see you
+                    ideas</span>
+
+            </div>
+        </div>
+    </a>
+</div>

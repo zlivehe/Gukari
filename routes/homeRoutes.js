@@ -1,0 +1,421 @@
+const express = require('express')
+const Router = express.Router()
+const multer = require('multer');
+const catchAsync = require('../views/utilities/catchAsync')
+const path = require('path');
+const Video = require('../model/home/upload/videoupload')
+const User = require('../model/auth/user')
+const {login,getDistrictUrls } = require('studentvue.js')
+const QuizCard = require('../model/home/quizapp/quizcard');
+const { use } = require('passport');
+const ObjectId = require('mongoose').Types.ObjectId;
+const Reminder = require('../model/home/reminder/Reminder')
+const Workspace = require('../model/home/workspace/workspace')
+const Board = require('../model/home/workspace/kanbanboard')
+const Event = require('../model/home/reminder/event')
+const VideoUpload = require('../model/home/upload/videoupload')
+const ImageUpload = require('../model/home/upload/upload')
+
+
+const isLoggedIn = (req,res,next)=>{
+    if(!req.isAuthenticated()){
+        req.flash('error','You must be signed in')
+        return res.redirect('/login')
+    }
+    next()
+}
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './public/uploads/videos');
+        },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname);
+        }
+    });
+const upload = multer({ storage: storage });
+
+
+Router.get('/',isLoggedIn,catchAsync(async(req,res)=>{
+    const route = req.params
+
+    const user = await User.findById(req.user._id).populate({
+      path: 'reminder',
+      populate: {
+        path: 'Event',
+        model: 'Event'
+      }
+    });
+    console.log(user)
+    console.log(req.user)
+  
+    const Tasks = user.reminder.flatMap(reminder => reminder.Event);
+    const recentlyview = []
+    for(let viewof of user.recentCard){
+        const view = await QuizCard.findById(viewof)
+        recentlyview.push(view)
+    }
+
+    res.render('content/home/index.ejs',{route,user,Tasks,recentlyview})
+}))
+Router.get('/board',(req,res)=>{
+    res.render('content/home/board.ejs')
+})
+
+Router.get('/calendar', isLoggedIn,catchAsync(async(req,res)=>{
+    const {id} = req.user
+    const user = await User.findById(id)
+    const mainuser = await User.findById(user).populate({
+        path: 'reminder',
+        populate: {
+          path: 'Event',
+          model: 'Event'
+        }
+      });
+    console.log(mainuser.reminder)
+      const Tasks = mainuser.reminder.flatMap(reminder => reminder.Event);
+      console.log(Tasks)
+    res.render('content/home/calender.ejs', { Tasks, user })
+}))
+Router.get('/project',isLoggedIn,catchAsync(async(req,res)=>{
+    const user = req.user;
+    const quizCardIds = user.quizCard.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
+    const userQuizCards = await QuizCard.find({ _id: { $in: quizCardIds } });
+    const userWorkspace = await Workspace.find({author: user._id});
+
+    res.render('content/home/project.ejs',{user,userQuizCards,userWorkspace})
+}))
+
+Router.get('/course',(req,res)=>{
+    res.render('content/home/course.ejs')
+})
+Router.get('/discover',(req,res)=>{
+    res.render('content/home/discover.ejs')
+})
+
+Router.get('/create/upload',(req,res)=>{
+    res.render('content/home/create/upload.ejs')
+})
+Router.get('/create/board',(req,res)=>{
+    res.render('content/home/create/board.ejs')
+})
+
+
+Router.get('/create/folder',(req,res)=>{
+    res.render('content/home/create/folder.ejs')
+})
+
+Router.get('/profile/:id',async(req,res)=>{
+    const id = req.params.id
+    const user = await User.findById(id)
+    console.log(user)
+    const userQuizCards = await QuizCard.find({author: user._id});
+    res.render('content/home/profile.ejs', { user, userQuizCards })
+})
+Router.get('/student',async(req,res)=>{
+    const DISTRICT_URL = 'https://md-mcps-psv.edupoint.com/';
+    const USERNAME = '206840';
+    const PASSWORD = 'Wereiflivehe123456';
+
+    try {
+        let client = await login(DISTRICT_URL, USERNAME, PASSWORD);
+        let attendanceData = await client.getGradebook(2).then((value) => JSON.parse(value));
+        console.log(attendanceData)
+        res.render('content/home/student.ejs', { attendanceData });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred while retrieving attendance data.');
+    }
+})
+
+Router.get('/create/booklet',isLoggedIn,(req,res)=>{
+    res.render('content/home/create/booklet.ejs')
+})
+Router.get('/test',(req,res)=>{
+res.send('hello')
+})
+
+
+//Quiz Routes
+Router.get('/quiz/:id',catchAsync(async(req,res)=>{
+    
+    const {id} = req.params
+    console.log(id)
+    const foundquiz =await  QuizCard.findById(id)
+    foundquiz.viewcount += 1;
+    await foundquiz.save()
+    const quizowner = await User.findById(foundquiz.author)
+    const totalquiz = await QuizCard.find({})
+    if(!req.user.recentCard.includes(foundquiz._id)){
+        req.user.recentCard.push(foundquiz)
+        await req.user.save()
+    }
+    await req.user.save()
+
+    res.render('content/home/create/quiz/quizid.ejs',{foundquiz,quizowner,totalquiz})
+
+}))
+Router.get('/quiz/:id/ext',catchAsync(async(req,res)=>{
+    
+    const {id} = req.params
+    console.log(id)
+    const foundquiz = await  QuizCard.findById(id)
+    foundquiz.viewcount += 1;
+    await foundquiz.save()
+    const quizowner = await User.findById(foundquiz.author)
+    const totalquiz = await QuizCard.find({})
+
+    res.status(200).json({foundquiz,quizowner,totalquiz})
+
+}))
+
+Router.get('/quiz/:id/edit',catchAsync(async(req,res)=>{
+    const {id} = req.params
+    const foundquiz =await QuizCard.findById(id)
+    console.log(foundquiz)
+
+    const quizowner = await User.findById(foundquiz.author)
+
+    
+    res.render('content/home/create/quiz/quizedit.ejs',{foundquiz,quizowner})
+
+}))
+Router.get('/quiz/:id/delete',catchAsync(async(req,res)=>{
+    const {id} = req.params
+    const foundquiz = await QuizCard.findByIdAndDelete(id)
+    res.redirect('/home')
+}))
+Router.get('/quiz/:id/cards',catchAsync(async(req,res)=>{
+    const {id} = req.params
+    const foundquiz = await QuizCard.findById(id)
+    const quizowner = await User.findById(foundquiz.author)
+    // foundquiz.plays += 1;
+    // await foundquiz.save()
+
+    res.render('content/home/create/quiz/quizcards.ejs',{foundquiz,quizowner})
+}))
+Router.get('/quiz/:id/match',catchAsync(async(req,res)=>{
+    const {id} = req.params
+    const foundquiz = await QuizCard.findById(id)
+    const quizowner = await User.findById(foundquiz.author)
+    // foundquiz.plays += 1;
+    // await foundquiz.save()
+
+    res.render('content/home/create/quiz/quizmatch.ejs',{foundquiz,quizowner})
+}))
+Router.get('/quiz/:id/quiz',catchAsync(async(req,res)=>{
+    const {id} = req.params
+    const foundquiz = await QuizCard.findById(id)
+    const cards = foundquiz.cards
+    const quizowner = await User.findById(foundquiz.author)
+    // foundquiz.plays += 1;
+    // await foundquiz.save()
+
+    res.render('content/home/create/quiz/quiz.ejs',{foundquiz,quizowner,cards})
+}))
+Router.get('/quizcard/:id/delete',  isLoggedIn,catchAsync(async(req, res) => {
+    const { id } = req.params;
+    const foundquiz = await QuizCard.findById(id)
+    const quizowner = await User.findById(foundquiz.author)
+    if(!foundquiz.author.equals(req.user._id)){
+        req.flash('error', 'You do not have permission to do that!');
+        return res.redirect(`/quiz/${id}`);
+    }
+    await QuizCard.findByIdAndDelete(id)
+    req.flash('success', 'Successfully deleted quiz');
+    await quizowner.quizCard.pull(id)
+    await quizowner.save()
+    res.redirect(`/home/project`);
+}));
+
+
+//Reminder Routes
+Router.get('/reminder',(req,res)=>{
+    res.render('content/home/reminder/reminder.ejs')
+})
+Router.get('/reminder/today',catchAsync(async(req,res)=>{
+    const tasks = await Event.find({}).sort({ position: 1 }); // Fetch tasks sorted by position
+    const foundreminder = await Reminder.find({});
+    const user = await User.findById(req.user._id).populate({
+      path: 'reminder',
+      populate: {
+        path: 'Event',
+        model: 'Event'  
+      }
+    });
+  
+    const Task = user.reminder.flatMap(reminder => reminder.Event);
+    
+    res.render('content/home/reminder/today.ejs',{ foundreminder, tasks, Task })
+}))
+Router.get('/reminder/all', catchAsync(async (req, res) => {
+    const tasks = await Event.find({}).sort({ position: 1 }); // Fetch tasks sorted by position
+    const foundreminder = await Reminder.find({});
+    const user = await User.findById(req.user._id).populate({
+      path: 'reminder',
+      populate: {
+        path: 'Event',
+        model: 'Event'
+      }
+    });
+  
+    const Task = user.reminder.flatMap(reminder => reminder.Event);
+    
+  
+    res.render('content/home/reminder/all.ejs', { foundreminder, tasks, Task });
+}));
+
+Router.get('/reminder/schedule',catchAsync(async(req,res)=>{
+    const tasks = await Event.find({})
+    const foundreminder = await Reminder.find({})
+    res.render('content/home/reminder/scheduled.ejs',{foundreminder, tasks})
+}))
+    
+Router.get('/reminder/completed',catchAsync(async(req,res)=>{
+    const tasks = await Event.find({}).sort({ position: 1 }); // Fetch tasks sorted by position
+    const foundreminder = await Reminder.find({});
+    const user = await User.findById(req.user._id).populate({
+      path: 'reminder',
+      populate: {
+        path: 'Event',
+        model: 'Event'
+      }
+    });
+  
+    const Task = user.reminder.flatMap(reminder => reminder.Event);
+    
+    res.render('content/home/reminder/completed.ejs',{foundreminder, tasks, Task})
+}))
+
+
+
+//Workspace Routes
+Router.get('/workspace/:id',catchAsync(async(req,res)=>{
+    const { id } = req.params;
+    const workspace = await Workspace.findById(id)
+    const boardIds = workspace.kanbanboard.map(board => board._id);
+    const wpboard = await Board.find({ _id: { $in: boardIds } });
+  
+    res.render('content/home/workspace/home.ejs', { workspace, wpboard });
+}))
+Router.get('/b/:id',catchAsync(async(req,res)=>{
+    const {id} = req.params
+
+    const wpboard = await Board.findById(id)
+    res.render('content/home/workspace/board.ejs',{wpboard})
+}))
+
+
+
+Router.get('/user/:id/task',catchAsync(async(req,res)=>{
+    const {id} = req.params
+    const user = await User.findById(id)
+    const mainuser = await User.findById(user).populate({
+        path: 'reminder',
+        populate: {
+          path: 'Event',
+          model: 'Event'
+        }
+      });
+    
+      const Tasks = mainuser.reminder.flatMap(reminder => reminder.Event);
+  
+    res.render('content/home/user/task.ejs',{mainuser,Tasks})
+}
+))
+Router.get('/user/:id/task',async(req,res)=>{
+    const {id} = req.params
+    const user = await User.findById(id)
+    const mainuser = await User.findById(user).populate({
+        path: 'reminder',
+        populate: {
+          path: 'Event',
+          model: 'Event'
+        }
+      });
+    
+      const Tasks = mainuser.reminder.flatMap(reminder => reminder.Event);
+  
+    res.render('content/home/user/task.ejs',{mainuser,Tasks})
+}
+)
+
+//uploades
+
+Router.get('/video/:id',catchAsync(async(req,res)=>{
+    const { id } = req.params;
+    const uplaod = await VideoUpload.findById(id).populate({
+      path: 'author',
+      model: 'User',
+    }).populate({
+      path: 'comments.user',
+      model: 'User',
+    });
+    const allvideo = await VideoUpload.find({}).populate('author comments.user');
+    uplaod.viewcount += 1;
+    console.log(uplaod)
+
+    await uplaod.save();
+    
+  
+    res.render('content/home/upload/watch.ejs', { uplaod, allvideo });
+  }));
+
+  Router.get('/video/:id/edit', catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const upload = await VideoUpload.findById(id);
+     
+    // Check if upload exists
+    // if (!upload.author._id.equals(req.user._id)) {
+    //     req.flash('error', 'You do not have permission to do that!');
+    //     return res.redirect(`/video/${id}`);
+    //   }
+    
+    // // Check if the current user is the author of the upload
+    // // Make sure upload.author is an array and has at least one element
+    // if (!Array.isArray(upload.author) || upload.author.length === 0 || !upload.author[0]._id.equals(req.user._id)) {
+    //   req.flash('error', 'You do not have permission to do that!');
+    //   return res.redirect(`/video/${id}`);
+    // }
+    
+    const foundquiz = await QuizCard.findById(id);
+    const objectIdString = upload.author[0]._id.toString();
+
+    const quizowner = await User.findById(objectIdString);
+    const totalquiz = await QuizCard.find({});
+    
+    res.render('content/home/upload/edit.ejs', { upload, totalquiz, quizowner });
+  }));
+  
+  
+  
+  
+  
+  
+  
+Router.get('/image/:id',catchAsync(async(req,res)=>{
+    const {id} = req.params
+    const upload = await ImageUpload.findById(id)
+
+
+    res.render('content/home/upload/image.ejs',{upload})
+}))
+
+
+module.exports = Router
+
+
+{/* <div class="flex justify-center align-center content-center">
+<div class="card-stack">
+    <div class="card-flip active">
+        <div class="border  p-3 term rounded card-flips card-front flex justify-center items-center text-center" id="term">
+            <span>
+                <!-- change the randomIndex ot an randomINdex that comes from the javascript -->
+                <span id="next-term" class="nexte-term"></span>   
+                <input type="text" id="termid" class="hidden" value="">
+                <textarea name="d" id="foundquiz" class="hidden" cols="30" rows="10"><%= JSON.stringify(foundquiz) %></textarea>
+            </span>
+            <br>
+        </div>
+    </div>
+</div>
+</div> */}

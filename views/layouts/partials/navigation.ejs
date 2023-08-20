@@ -1,0 +1,901 @@
+<style>
+
+  
+    .navactive {
+        background-color: rgba(0, 132, 255, 0.876);
+        color: white;
+    }
+    .remove-vid{
+        margin-left: 27em;
+    }
+
+
+    .nav-link:hover {
+        background-color: rgba(0, 132, 255, 0.968);
+        color: white;
+    }
+    .custom-file-upload {
+        display: inline-block;
+    padding: 43px 67px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 8px;
+}
+
+.custom-file-upload input[type="file"] {
+  display: none;
+}
+
+    .nav-icons {
+        font-size: 1.3em;
+    }
+    #videoContainer {
+    position: relative;
+    width: 100%;
+    display: none;
+    height: 0;
+    width: 28em;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio, adjust as needed */
+    background-color: #000;
+  }
+
+  .spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+</style>
+
+<!-- Side Navbar -->
+<div id="default-sidebar" class=" bg-theme-transparent flex-shrink-0 sidenav hidden   py-22" style="overflow: scroll;">
+    <div href="" class="flex items-center">
+        <!-- <i class="bi  nav-icons bi-list"></i> -->
+        <!-- <button id="closeside" class="close-side">
+            <i class="text-xl mr-2 bi  nav-icons bi-list"></i>
+        </button> -->
+    
+    </div>
+
+    <!-- Sidebar Content -->
+    <nav style="z-index: 999;" class="text-gray-400 mt-6 ml-1 mr-1 text-sm">
+        <div class="flex">
+
+            <button id="multiLevelDropdownButton" data-dropdown-toggle="dropdown" type="button"
+                class="nav-itemz border-none items-center items-center justify-center flex border p-2 rounded-md mb-3 w-full bg-purple-900 text-white">
+                <i class="bi   nav-icons bi-plus-square "></i>
+                <span class=" ml-1 navtext"> Create</span>
+            </button>
+            <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
+                <ul class="py-2 text-sm text-gray-700 " aria-labelledby="multiLevelDropdownButton">
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Board</a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Upload</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Booklet</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <a href="/home/discover"
+            class="discover nav-link mb-4  flex items-center p-3  text-gray-500  rounded-md  nav-itemz">
+            <i class="bi  nav-icons bi-globe"></i>
+            <span class="ml-3 navtext">Discover</span>
+        </a>
+        <a href="/home" class="home nav-link mb-4   flex items-center p-3 text-gray-500 rounded-md  nav-itemz">
+            <i class="bi   nav-icons bi-grid-1x2 "></i>
+            <span class="ml-3 navtext">Dashboard</span>
+        </a>
+        
+        <a href="/home/project"
+            class="project nav-link mb-4  flex items-center p-3 text-gray-500 rounded-md  nav-itemz">
+            <i class="bi  nav-icons  bi-journal-bookmark"></i>
+            <span class="ml-3 navtext">Project</span>
+        </a>
+        <!-- <a href="/home/board" class="board nav-link mb-4  flex items-center p-3 text-gray-500 rounded-md  nav-itemz">
+            <i class="bi  nav-icons bi-kanban"></i>
+            <span class="ml-3 navtext">Boards</span>
+        </a> -->
+        <a href="/home/reminder/today"
+            class="reminder nav-link mb-4  flex items-center p-3 text-gray-500 rounded-md  nav-itemz">
+            <i class="bi  nav-icons bi-check2-square"></i>
+            <span class="ml-3 navtext">Reminder</span>
+        </a>
+        
+        <a href="/home/calendar"
+            class="calendar nav-link mb-4  flex items-center p-3 text-gray-500 rounded-md  nav-itemz">
+            <i class="bi  nav-icons bi-calendar"></i>
+            <span class="ml-3 navtext">Calendar</span>
+        </a>
+
+      
+        <hr>
+        <div class="">
+            <span class=" nav-link ml-2 font-medium">Explore</span>
+            <div class="flex flex-col">
+                <a href="/home/global"
+                class="setting nav-link mb-0  flex items-center p-2 text-gray-500 rounded-md  nav-itemz">
+                <i class="bi  nav-icons bi-globe"></i>
+
+                <span class="ml-2 navtext">Global</span>
+            </a>
+            <a href="/home/music"
+            class="setting nav-link mb-0  flex items-center p-2 text-gray-500 rounded-md  nav-itemz">
+            <i class="bi bi-music-note-beamed"></i>
+
+            <span class="ml-2 navtext">Music</span>
+        </a>
+
+
+            </div>
+        </div>
+<br>
+    <div class="end">
+
+        <hr>
+
+        <a href="/home/setting"
+            class="setting nav-link mb-4  flex items-center p-3 text-gray-500 rounded-md  nav-itemz">
+            <i class="bi  nav-icons bi-gear"></i>
+            <span class="ml-3 navtext">Setting</span>
+        </a>
+       
+        <a href="/home/feedback"
+            class="feedback nav-link mb-4  flex items-center p-3 text-gray-500 rounded-md  nav-itemz">
+            <i class="bi  nav-icons bi-chat-left-text"></i>
+            <span class="ml-3 navtext">Feedback</span>
+        </a>
+        <a href="/home/help"
+            class="help nav-link mb-4  flex items-center p-3 text-gray-500 rounded-md  nav-itemz">
+            <i class="bi  nav-icons bi-question-circle"></i>
+            <span class="ml-3 navtext">Help</span>
+        </a>
+        <a href="/home/privacy"
+            class="privacy nav-link mb-4  flex items-center p-3 text-gray-500 rounded-md  nav-itemz">
+            <i class="bi  nav-icons bi-shield-lock"></i>
+            <span class="ml-3 navtext">Privacy</span>
+        </a>
+       
+      <hr>
+    </div>
+
+    <br>
+
+        <% if(currentUser && currentUser.Istudent==true) {%>
+
+            <button id="" data-dropdown-toggle="dropdown"
+                class=" student nav-link mb-4 w-full flex items-center p-3 text-gray-500 rounded-md student-nav nav-itemz"
+                type="button">
+                <i class="bi  nav-icons bi-person"></i>
+                <span class="navtext ml-3"> Student</span>
+
+                <svg class="w-4 h-4 " style="margin-left: 6em;" aria-hidden="true" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg></button>
+            <!-- Dropdown menu -->
+            <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-full pl-3 pr-3 "
+                style="
+                    position: absolute;
+    inset: 0px auto auto 0px;
+    padding: 1;
+    width: 96%;
+    margin-left: 5px;
+    transform: translate3d(0px, 545.5px, 0px);">
+                <ul class="py-2 text-sm text-gray-700 " aria-labelledby="dropdownDefaultButton">
+                    <li>
+                        <a href="/student/schedule"
+                            class="nav-item block rounded-lg px-4 py-2 hover:bg-gray-100 ">Schedule</a>
+                    </li>
+                    <li>
+                        <a href="/student/grades" class="nav-item block px-4 py-2 hover:bg-gray-100 ">Grades</a>
+                    </li>
+                    <li>
+                        <a href="/student/attendance" class="nav-item block px-4 py-2 hover:bg-gray-100 ">Attendance</a>
+                    </li>
+                    <li>
+                        <a href="/student/calender" class=" nav-item block px-4 py-2 hover:bg-gray-100 ">Calender</a>
+                    </li>
+                </ul>
+            </div>
+            <% } %>
+
+
+                <div class="left text-mode text-center  ">
+
+
+                    <div class="timed bg-gray-300 text-black rounded-md p-2 ">11 AM</div><br>
+                    <div class="w-full bottom-icons justify-around flex flex-wrap">
+
+                        <button id="leftBtn" class=" mb-1 toggleBtn rounded-lg border text-black p-2"><i
+                                class=" bi bi-layout-sidebar"></i></button>
+                        <a href="/synergy/logout" id="toggleBtn"
+                            class="rounded-lg mb-1 text-black border p-2 toggleBtn"> <i
+                                class="bi bi-box-arrow-in-left"></i></a>
+
+                        <a href="/synergy/settings" id="toggleBtn"
+                            class="rounded-lg text-black mb-1 border p-2 toggleBtn"> <i class="bi bi-gear"></i></a>
+                    </div>
+                </div>
+    </nav>
+
+
+</div>
+
+
+
+<div id="uploadmodel" tabindex="-1"
+    class="fixed top-0  flex left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative white-black  rounded max-h-full" style="    width: 63em; margin-bottom: 0 em;">
+        <div class="relative  white-black rounded-md shadow ">
+            <div class="flex justify-between p-2">
+
+                <span class="text-xl">Upload Content</span>
+                <button type="button"
+                    class="  right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                    data-modal-hide="uploadmodel">
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <hr>
+            <br>
+
+
+            <div class=" uplod-type p-6 text-center">
+                <div class="flex justify-between flex-wrap">
+                    <button id="video"
+                        class="p-4  hover:bg-gray-300 rounded-md bg-gray-200 flex flex-col justify-center items-center content-center"
+                        style="width: 12em; height: 12em;">
+                        <i class=" text-5xl bi bi-cloud-arrow-up-fill"></i>
+                        <span class="text-2xl mb-1">Video</span>
+                    </button>
+                    <button id="image-0"
+                        class="p-4 hover:bg-gray-300 mb-3 rounded-md bg-gray-200 flex flex-col justify-center items-center content-center"
+                        style="width: 12em; height: 12em;">
+                        <img width="64" height="64"
+                            src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/external-image-multimedia-kiranshastry-lineal-kiranshastry-1.png"
+                            alt="external-image-multimedia-kiranshastry-lineal-kiranshastry-1" /> <span
+                            class="text-2xl mb-1">Image</span>
+                    </button>
+                    <button id="text"
+                        class="p-4 hover:bg-gray-300 mb-3 rounded-md bg-gray-200 flex flex-col justify-center items-center content-center"
+                        style="width: 12em; height: 12em;">
+                        <i class="text-5xl bi bi-textarea-t"></i>
+                        <span class="text-2xl mb-1">Text/Blog</span>
+                    </button>
+
+
+                </div>
+                <br><br><br><br>
+                <div class="w-full p-3 flex justify-center content-center items-center text-center">
+
+                    <span class="text-sm">By submiting content make sure it does not interfire with our <a href="#"
+                            class="text-blue-500">Private Policy </a>
+                        data also all content must be appropriate if not penalities will be face upload what's right for
+                        nto
+                        just you but everyone <a href="" class="text-blue-500">Learn more</a></span>
+                </div>
+            </div>
+            <form id="videoform" class="hidden videoform" action="/videoupload" method="post" enctype="multipart/form-data">
+                <div class="p-3 ">
+
+                    <div class="grid gap-6 mb-3 md:grid-cols-2">
+                        <div class="video-content md:grid-cols-3 overflow-y-scroll" style="height: 32em;">
+                            <div> <button type="button" id="returnbtn"><i class="bi text-2xl bi-chevron-left"></i>
+                                </button>
+                                <div class="flex justify-between ">
+                                    <span class="text-2xl font-medium">Details</span>
+                                    <button class="text-blue-500">Template</button>
+                                </div>
+                                <div class="mb-6 ">
+                                    <label for="large-input"
+                                        class="block mb-2 text-sm font-medium text-gray-500 ">Title</label>
+                                    <input name="title" type="text" id="large-input"
+                                        class="block w-full p-4 text-gray-900 border border-gray-300 rounded bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500" required>
+                                </div>
+                                <label for="message" class="block mb-2 text-sm font-medium text-gray-500 ">Description
+                                </label>
+                                <textarea name="description" id="message" rows="4"
+                                    class="block p-2.5 w-full text-sm text-gray-500 bg-gray-50 rounded border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
+                                    placeholder="Write your thoughts here..."></textarea>
+                            </div>
+                            <br><br>
+
+                            <br>
+                            <div class="thumbnail">
+                                <span>Thumbnail</span> <br>
+                                <span class="text-sm text-gray-500">
+                                  Select or upload a picture that shows what's in your video. A good thumbnail stands out and draws viewers' attention. <a href="#" class="text-blue-500">Learn more</a>
+                                </span>
+                                <br>
+                                <div>
+                                  <img id="thumbnailPreview" class="w-full rounded" src="" alt="Thumbnail Preview" style="display: none;" />
+                                </div>
+                                <div>
+                                  <label class="w-26 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue">
+                                    <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                      <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                                    </svg>
+                                    <span class="mt-2 text-base leading-normal">Select a file</span>
+                                    <input name="thumbnail" type='file' id="thumbnailInput" class="hidden" accept="image/*" />
+                                  </label>
+                                </div>
+                              </div>
+                            <br><br>
+                            <input type="text" name="visabi" id="visa" class="visa ">
+
+                            <div class="visability">
+                                <span class="text-2xl">Visibility</span><br>
+                                <span class="text-sm">Choose when to publish and who can see your video
+                                </span>
+                                <div class="border rounded-md p-3">
+                                    <div class="flex">
+                                      <div class="flex items-center h-5">
+                                        <input id="helper-checkbox" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="w-4 h-4 rounded-full text-blue-600 bg-gray-100 border-gray-300 rounded">
+                                      </div>
+                                      <div class="ml-2 text-sm">
+                                        <label for="helper-checkbox" class="font-medium text-gray-900">Save or publish</label>
+                                        <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Make your video public, unlisted, or private</p>
+                                        <div class="flex flex-col p-2">
+                                          <div class="flex flex-col">
+                                            <div class="private flex">
+                                              <input type="checkbox" name="visibility" value="private" class="rounded-md mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300" onclick="handleVisibilityChange('private')">
+                                              <div class="flex ml-1 flex-col">
+                                                <label for="helper-checkbox" class="font-medium text-gray-900">Private</label>
+                                                <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Only you and people chosen have access</p>
+                                              </div>
+                                            </div>
+                                            <div class="unlisted flex">
+                                              <input type="checkbox" name="visibility" value="unlisted" class="rounded-md mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300" onclick="handleVisibilityChange('unlisted')">
+                                              <div class="flex ml-1 flex-col">
+                                                <label for="helper-checkbox" class="font-medium text-gray-900">Unlisted</label>
+                                                <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Anyone with the video link can watch your video</p>
+                                              </div>
+                                            </div>
+                                            <div class="public flex">
+                                              <input type="checkbox" name="visibility" value="public" class="rounded-md mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300" onclick="handleVisibilityChange('public')">
+                                              <div class="flex ml-1 flex-col">
+                                                <label for="helper-checkbox" class="font-medium text-gray-900">Public</label>
+                                                <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Everyone has access</p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+
+                            <br><br>
+                            <div class="flex justify-between">
+                            <div class="tags">
+                                <span class="text-xl">Tags</span><br>
+                                <span class="text-xs">
+                                    Tags can be useful if content in your video.
+                                </span>
+                                <br>
+                                <div>
+                                    <div>
+                                        <input type="text" id="tag_input"
+                                            class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+                                        <label for="tag_input"
+                                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tags</label>
+                                    </div>
+                                    <br>
+                                    <input id="tags-post" class="hidden tags-post" type="text" value="" name="tags">
+                                  
+                                </div>
+                            </div>
+                            <div class="category">
+                                <div>
+
+                                    <label for="category" class="block text-sm font-medium">Categorie</label>
+                                    <br>
+                                    <select name="category" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                        <option selected="" value="general">General</option>
+                                        <option value="technology">Technology</option>
+                                        <option value="education">Education</option>
+                                        <option value="helth">Health and Fitness
+                                        </option>
+                                        <option value="sports">Sports</option>
+                                        <option value="food">Food and Cooking</option>
+                                        <option value="business">Business and Finance
+                                        </option>
+                                        <option value="art">Arts and Culture
+                                        </option>
+                                    </select>
+        
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="flex justify-center flex-col text-center items-center">
+                            <div>
+                                <div id="uploadContainer">
+                                    <label for="videoFile" class="custom-file-upload">
+                                        <span><i class="bi bi-cloud-upload"></i> Upload Video</span>
+                                        <input type="file" name="video" id="videoFile" accept="video/*">
+                                      </label>                                  </div>
+                                      <br>
+                                  <div  id="videoContainer"></div>
+                                  
+                                  
+                                <div class="bg-dark pb-3 text-left" >
+                                    <textarea style="overflow: scroll;
+                                    flex-wrap: wrap;
+                                    height: auto;
+                                    border: none;
+                                    cursor: none;
+                                    padding-right: 0.6em;
+                                    max-height: 5em;    
+                                    resize: none;
+                                    width: 100%;" class="text-2xl font-medium flex flex-wrap" id="titlePreview" ></textarea>
+                                  
+     <div style="    margin-left: -0.8em;" class="tags mb-3 flex flex-wrap" id="tags_container">
+        
+    </div>
+                                </div>
+                            </div>
+                          
+                        </div>
+                        <button class="p-4 rounded bg-red-300 hover:bg-red-500 text-white">Upload</button>
+            </form>
+        </div>
+
+
+    </div>
+
+    <form id="imageform" action="/imageupload" class="hidden imageform" method="POST" enctype="multipart/form-data">
+        <button type="button" id="returnimg"><i class="bi text-2xl bi-chevron-left"></i>
+        </button>
+        <div class="p-6 ">
+
+            <div class="flex justify-between ">
+                <span class="text-2xl font-medium">Details</span>
+                <button class="text-blue-500">Template</button>
+            </div>
+            <div class="mb-6 ">
+                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-500 ">Title</label>
+                <input name="title" type="text" id="large-input"
+                    class="block w-full p-4 text-gray-900 border border-gray-300 rounded bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500">
+            </div>
+
+            <div class="mb-6 ">
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="large_size">Large file
+                    input</label>
+                    <label for="upload">Choose file</label>
+
+                <input
+                    class="block p-2 w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 "
+                    id="uploadimg" name="image" type="file" >
+                    
+                    
+            </div>
+            <div>
+                <div id="imagePreview"></div>
+
+            </div>
+            <div class="tags">
+                <span class="text-xl">Categorie</span><br>
+                <span class="text-xs">
+                    Categorie can be useful if content in your Image.
+                </span>
+                <br>
+                <select name="category" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option selected="" value="general">General</option>
+                    <option value="technology">Technology</option>
+                    <option value="education">Education</option>
+                    <option value="helth">Health and Fitness
+                    </option>
+                    <option value="sports">Sports</option>
+                    <option value="food">Food and Cooking</option>
+                    <option value="business">Business and Finance
+                    </option>
+                    <option value="art">Arts and Culture
+                    </option>
+                </select>
+            </div>
+            <br>
+            <button type="submit" class="p-4 w-full rounded bg-red-300 hover:bg-red-500 text-white">Upload</button>
+
+        </div>
+    </form>
+
+    <form id="textform" action="textform" class="hidden ml-5 mr-5 imageform" method="post">
+        <button type="button" id="returntext"><i class="bi text-2xl bi-chevron-left"></i>
+        </button>
+        <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+            <div class="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
+                <div class="flex flex-wrap items-center divide-gray-200 sm:divide-x dark:divide-gray-600">
+                    <div class="flex items-center space-x-1 sm:pr-4">
+                        <button type="button"
+                            class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="sr-only">Attach file</span>
+                        </button>
+                        <button type="button"
+                            class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="sr-only">Embed map</span>
+                        </button>
+                        <button type="button"
+                            class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="sr-only">Upload image</span>
+                        </button>
+                        <button type="button"
+                            class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="sr-only">Format code</span>
+                        </button>
+                        <button type="button"
+                            class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="sr-only">Add emoji</span>
+                        </button>
+                    </div>
+                    <div class="flex flex-wrap items-center space-x-1 sm:pl-4">
+                        <button type="button"
+                            class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="sr-only">Add list</span>
+                        </button>
+                        <button type="button"
+                            class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="sr-only">Settings</span>
+                        </button>
+                        <button type="button"
+                            class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="sr-only">Timeline</span>
+                        </button>
+                        <button type="button"
+                            class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="sr-only">Download</span>
+                        </button>
+                    </div>
+                </div>
+                <button type="button" data-tooltip-target="tooltip-fullscreen"
+                    class="p-2 text-gray-500 rounded cursor-pointer sm:ml-auto hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 11-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15 13.586V12a1 1 0 011-1z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="sr-only">Full screen</span>
+                </button>
+                <div id="tooltip-fullscreen" role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                    Show full screen
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                </div>
+            </div>
+            <div class="px-4 py-2 bg-white rounded-b-lg dark:bg-gray-800">
+                <label for="editor" class="sr-only">Publish post</label>
+                <textarea id="editor" rows="8"
+                    class="block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                    placeholder="Write an article..." required></textarea>
+            </div>
+        </div>
+        <div class="tags">
+            <span class="text-xl">Tags</span><br>
+            <span class="text-xs">
+                Tags can be useful if content in your video.
+            </span>
+            <br>
+            <div>
+                <div>
+                    <input type="text" id="tag_input"
+                        class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+                    <label for="tag_input"
+                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tags</label>
+                </div>
+                <br>
+                <input id="tags-post" class="hidden tags-post" type="text" value="dff,34f,2sf,2323fdwsf" name="tags">
+            <div class="tags flex flex-wrap" id="tags_container">
+                    <span value="student"
+                        class="text-xs ml-3 mb-2 font-semibold inline-block py-1 px-2 uppercase rounded text-cyan-600 bg-cyan-200 uppercase last:mr-0 mr-1">
+                        computer
+                    </span>
+                    <span
+                        class="text-xs mb-2 font-semibold inline-block py-1 px-2 uppercase rounded text-slate-600 bg-slate-200 uppercase last:mr-0 mr-1">
+                        student
+                    </span>
+                </div>
+            </div>
+        </div>
+        <button type="submit"
+            class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+            Publish post
+        </button>
+    </form>
+
+</div>
+</div>
+</div>
+
+<!-- Option 1: Include in HTML -->
+<link rel=" stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+<!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+     // Get the input field and preview element
+  const input = document.getElementById('large-input');
+  const preview = document.getElementById('titlePreview');
+  const textarea = document.getElementById('message');
+  const textpreview = document.getElementById('descriptionPreview');
+  const fileInput = document.getElementById('uploadimg');
+  const imagePreviewContainer = document.getElementById('imagePreview');
+
+  // Add a change event listener to the file input
+  fileInput.addEventListener('change', function(event) {
+    // Remove any existing preview image
+    imagePreviewContainer.innerHTML = '';
+
+    // Get the selected file
+    const file = event.target.files[0];
+
+    // Create a FileReader to read the file
+    const reader = new FileReader();
+
+    // Set up the FileReader onload event
+    reader.onload = function(e) {
+      // Create an <img> element
+      const imgElement = document.createElement('img');
+      imgElement.src = e.target.result;
+
+      // Append the <img> element to the image preview container
+      imagePreviewContainer.appendChild(imgElement);
+    };
+
+    // Read the selected file as a data URL
+    reader.readAsDataURL(file);
+  });
+
+  // Add an input event listener to the textarea
+  textarea.addEventListener('input', function(event) {
+    // Update the preview element with the entered text
+    textpreview.textContent = event.target.value;
+  });
+  // Add an input event listener to the input field
+  input.addEventListener('input', function(event) {
+    // Update the preview element with the entered text
+    preview.textContent = event.target.value;
+  });
+    // Add event listener to the thumbnail file input
+
+
+
+  const videoform = document.getElementById('videoform')
+
+  
+    const videobtn = document.getElementById('video')
+    const imagebtn = document.getElementById('image')
+    const textbtn = document.getElementById('text')
+    const returnbtn = document.getElementById('returnbtn')
+    const returnimg = document.getElementById('returnimg')
+    const returntext = document.getElementById('returntext')
+
+    const uploadform = document.querySelector('.uplod-type')
+    const imageform = document.getElementById('imageform')
+    const textform = document.getElementById('textform')
+
+
+    textbtn.addEventListener('click', (req, res) => {
+        textform.classList.remove('hidden')
+        uploadform.classList.toggle('hidden')
+    })
+    returntext.addEventListener('click', (req, res) => {
+        textform.classList.toggle('hidden')
+        uploadform.classList.remove('hidden')
+    })
+
+    returnimg.addEventListener('click', (req, res) => {
+        imageform.classList.toggle('hidden')
+        uploadform.classList.remove('hidden')
+    })
+    imagebtn.addEventListener('click', (req, res) => {
+        imageform.classList.remove('hidden')
+        uploadform.classList.toggle('hidden')
+    })
+    videobtn.addEventListener('click', (req, res) => {
+        videoform.classList.remove('hidden')
+        uploadform.classList.toggle('hidden')
+    })
+    returnbtn.addEventListener('click', (req, res) => {
+        videoform.classList.toggle('hidden')
+        uploadform.classList.remove('hidden')
+    })
+    const tagInput = document.getElementById('tag_input');
+    const tagsContainer = document.getElementById('tags_container');
+    const inputElement = document.getElementById("tags-post");
+    const values = inputElement.value.split(",");
+
+    function getRandomColor() {
+        const colors = ['bg-red-200', 'bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-purple-200'];
+        const randomIndex = Math.floor(Math.random() * colors.length);
+        return colors[randomIndex];
+    }
+
+    tagInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const tag = tagInput.value.trim();
+            console.log('')
+            if (tag !== '') {
+                const tagElement = document.createElement('span');
+                const randomColor = getRandomColor();
+                tagElement.classList.add(
+                    'text-xs',
+                    'ml-3',
+                    'font-semibold',
+                    'inline-block',
+                    'mb-2',
+                    'py-1',
+                    'px-2',
+                    'uppercase',
+                    'rounded',
+                    'text-gray-600',
+                    randomColor,
+                    'uppercase',
+                    'last:mr-0',
+                    'mr-1'
+                );
+                tagElement.innerText = tag;
+                // Push the string "d" to the array.
+                values.push(tag);
+                console.log(values)
+
+                // Set the value of the input element to the new array.
+                inputElement.value = values.join(",");
+                tagElement.setAttribute('name', 'tags'); // Add name attribute to the tag element
+                tagsContainer.appendChild(tagElement);
+
+                tagInput.value = '';
+            }
+        }
+    });
+
+    tagsContainer.addEventListener('click', function (event) {
+        if (event.target.classList.contains('tag-remove')) {
+            event.target.parentNode.remove();
+        }
+    });
+    $(document).ready(function () {
+        // Get the current URL path
+        var path = window.location.pathname;
+        var student = $('.student-nav')
+        var home = $('.home')
+        var reminder = $('.reminder')
+        var calendar = $('.calendar')
+        var quizit = $('.project')
+        var course = $('.course')
+        var discover = $('.discover')
+        console.log(home)
+
+        // Find the corresponding navlink and add the 'active' class
+        $('.nav-link').each(function () {
+            var href = $(this).attr('href');
+            if (path === href) {
+                $(this).addClass('navactive');
+                $(this).find('i').addClass('bi-fill');
+            }
+            if (path === '/home') {
+
+                home.find('i').removeClass('bi-grid-1x2')
+                home.find('i').addClass('bi-grid-1x2-fill')
+            }
+            if (path === '/home/board') {
+                bord.find('i').removeClass('bi-kanban')
+                bord.find('i').addClass('bi-kanban-fill')
+            }
+            if (path === '/home/calendar') {
+                calendar.find('i').removeClass('bi-calendar')
+                calendar.find('i').addClass('bi-calendar-fill')
+            }
+            if (path === '/home/project') {
+                quizit.find('i').removeClass('bi-journal-bookmark')
+                quizit.find('i').addClass('bi-journal-bookmark-fill')
+            }
+
+            if (path === '/home/course') {
+                course.find('i').removeClass('bi-bookmark-star')
+                course.find('i').addClass('bi-bookmark-star-fill')
+            }
+            if (path === '/home/discover') {
+                discover.find('i').removeClass('bi-globe')
+                discover.find('i').addClass('bi-globe')
+            }
+            if (path.includes('student')) {
+                student.addClass('navactive');
+                discover.find('i').removeClass('bi-person')
+                student.find('i').addClass('bi-person-fill');
+            }
+            if (path.includes('quiz')) {
+                discover.addClass('navactive');
+
+            }
+            if (path.includes('reminder')) {
+                reminder.addClass('navactive');
+
+
+            }
+        });
+    });
+
+
+</script>

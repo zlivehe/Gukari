@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Attendance Chart</title>
+    <style>
+        /* Add CSS styles for the attendance chart */
+    </style>
+</head>
+
+<body>
+    <h1>Attendance Chart</h1>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Reason</th>
+            <!-- Add more table headers as needed -->
+        </tr>
+        <% attendanceData.Attendance.Absences.forEach((absence)=> { %>
+            <tr>
+                <td>
+                    <%= absence.AbsenceDate %>
+                </td>
+                <td>
+                    <%= absence.Reason %>
+                </td>
+                <!-- Add more table cells for other data fields -->
+            </tr>
+            <% }) %>
+    </table>
+</body>
+
+</html>

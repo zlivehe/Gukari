@@ -1,0 +1,595 @@
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.6/flowbite.min.js"></script>
+<link rel="stylesheet" href="/stylesheet/home/index.css">
+<script src="/javascript/home/main.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.6/flowbite.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.6/flowbite.min.css" rel="stylesheet" />
+<title>Gukari - <%=foundquiz.title %></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0 , user-scalable=0">
+<link rel="icon" href="/imgs/home/gukari2.png">
+
+<style>
+    .card-container {
+        perspective: 1000px;
+        display: flex;
+        height: 34em;
+        flex-wrap: wrap;
+        overflow: scroll;
+    }
+    .selected{
+        background-color: #000;
+    }
+    .card-matched{
+        background-color: green;
+        display: none;
+    }
+    .card-matched .term{
+        background-color: green;
+        display: none;
+    }
+    .card-matched .definition{
+        background-color: green;
+        display: none;
+    }
+    
+ 
+
+    .term,
+    .definition {
+        
+        border-radius: 50%;
+        font-size: 1em;
+        background-color: #ccc;
+        text-align: center;
+        color: white;
+        font-size: 2em;
+        margin: 10px;
+        cursor: pointer;
+    }
+
+
+
+    .matched {
+        display: none;
+    }
+
+    .card {
+        width: 100px;
+        height: 100px;
+        border: 1px solid black;
+        float: left;
+        margin: 10px;
+    }
+
+    .card-face-up {
+        background-color: #000;
+
+    }
+
+    .card-face-down {
+        background-color: black;
+    }
+
+    .card-matched {
+        background-color: green;
+        display: none;
+    }
+    .active{
+        background-color: #000;
+    }
+    .matched{
+        background-color: green;
+        opacity: 0.9;
+        
+    }
+    .card-randomizer {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        width: 75%;
+    }
+</style>
+
+<div class="content-c" style="overflow: hidden" id="content-menu">
+    <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="block hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+        Toggle modal
+      </button>
+   <div id="popup-modal" tabindex="-1" class="flex justify-center   fixed top-0 left-0 right-0 z-50  p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-3xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-hide="popup-modal">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-6 text-center">
+                <div class="flex justify-center">
+                    <img width="48" height="48" src="https://img.icons8.com/color-glass/48/bank-card-back-side.png" alt="bank-card-back-side"/>
+
+                </div>
+
+                <h3 class="mb-5 text-lg font-normal text-gray-500 ">Match every term to it's defintion untill there is nothing left </h3> <br><br><br>
+                <button data-modal-hide="popup-modal" id="game-start" type="button" class="text-blue-100 bg-purple-600 hover:bg-purple-800 text-blue-100 font-medium rounded-lg text-sm inline-flex items-center p-4 text-center mr-2">
+                    Start game
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="newgame-modal" tabindex="-1" class="flex justify-center hidden  fixed top-0 left-0 right-0 z-50  p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-3xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow">
+            
+            <div class="p-6 text-center">
+                <div class="flex justify-center">
+                    <img width="48" height="48" src="https://img.icons8.com/color-glass/48/bank-card-back-side.png" alt="bank-card-back-side"/>
+  
+                </div>
+  
+                <h3 class="mb-5 text-lg font-normal text-gray-500 ">Congratulations your time is .. </h3>
+                <button data-modal-hide="popup-modal" id="new-game" type="button" class="text-blue-100 bg-purple-600 hover:bg-purple-800 text-blue-100 font-medium rounded-lg text-sm inline-flex items-center p-4 text-center mr-2">
+                   Try again
+                </button>
+            </div>
+        </div>
+    </div>
+  </div>
+    <div style="overflow: hidden;" class=" top">
+        <div class="p-2 flex content-center items-center justify-between w-full">
+            <span>
+                <div class="flex">
+                    <img class="h-16 rounded" src="<%= foundquiz.imageUrl %>" alt="" srcset="">
+                    <div class="flex ml-2 flex-col">
+                        <span class="font-medium">
+                            <%= quizowner.username %>
+                        </span>
+                        <select id="countries"
+                            class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                            <option selected>FlashCards</option>
+                            <option value="US">Quiz</option>
+                            <option value="DE">Match</option>
+                        </select>
+                    </div>
+                </div>
+            </span>
+            <div class="flex flex-col text-center">
+                <span>
+                    <%= foundquiz.title %>
+                </span>
+                <span id="timer">0.0s</span>
+            </div>
+            <% if(currentUser){ %>
+                <% if(quizowner._id==currentUser._id) { %>
+                    <a href="/quiz/<%= foundquiz._id %>/edit" class="p-3 bg-blue-500 rounded">Edit</a>
+                    <% } else { %>
+                        <a href="/quiz/<%= foundquiz._id %>" class="p-3 bg-blue-500 rounded">X</a>
+                        <% } %>
+                            <% } else { %>
+                                <div>
+                                    <button data-modal-target="setting-model" data-modal-toggle="setting-model"
+                                        class="mr-2 p-3 border hover:bg-gray-300 rounded"><i
+                                            class="bi bi-gear"></i></button>
+                                    <a href="/home/quiz/<%= foundquiz._id %>"
+                                        class="p-3 text-center bg-blue-500 rounded">X</a>
+                                    <!-- Main modal -->
+                                    <div id="setting-model" tabindex="-1" aria-hidden="true"
+                                        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                        <div class="relative w-full max-w-2xl max-h-full">
+                                            <!-- Modal content -->
+                                            <div class="relative white-black rounded-lg shadow ">
+                                                <!-- Modal header -->
+                                                <div class="flex items-start justify-between p-4 border-b rounded-t ">
+                                                    <h3 class="text-xl font-semibold text-gray-900">
+                                                        Settings
+                                                    </h3>
+                                                    <button type="button"
+                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                        data-modal-hide="defaultModal">
+                                                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor"
+                                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                            <path fill-rule="evenodd"
+                                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                                clip-rule="evenodd"></path>
+                                                        </svg>
+                                                        <span class="sr-only">Close modal</span>
+                                                    </button>
+                                                </div>
+                                                <div class="p-3">
+                                                    <div class="flex flex-col">
+                                                        <div class="flex justify-between">
+                                                            <span class="font-medium">Card sorting</span>
+                                                            <div>
+                                                                <label
+                                                                    class="relative inline-flex items-center cursor-pointer">
+                                                                    <input id="soring" type="checkbox" value=""
+                                                                        class="card-soring sr-only peer">
+                                                                    <div
+                                                                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <span class="text-sm">Sort your cards to focus on the terms you
+                                                            need to review
+                                                            more. Turn sorting off if you want to quickly review your
+                                                            flashcards.
+                                                        </span> <br>
+                                                        <div class="flex justify-between">
+                                                            <span>Dark theme</span>
+                                                            <button class="" id="theme">
+                                                                <i id="togglechange" class="bi text-xl bi-moon"></i>
+                                                            </button>
+                                                        </div>
+                                                        <br>
+                                                        <div class="flex items-center justify-center w-full">
+                                                            <label for="dropzone-file"
+                                                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 ">
+                                                                <div
+                                                                    class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                                    <svg aria-hidden="true"
+                                                                        class="w-10 h-10 mb-3 text-gray-400" fill="none"
+                                                                        stroke="currentColor" viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path stroke-linecap="round"
+                                                                            stroke-linejoin="round" stroke-width="2"
+                                                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                                                        </path>
+                                                                    </svg>
+                                                                    <p class="mb-2 text-sm text-gray-500">
+                                                                        <span class="font-semibold">Click to
+                                                                            upload</span> or drag and
+                                                                        drop
+                                                                    </p>
+                                                                    <p class="text-xs text-gray-500">
+                                                                        SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                                </div>
+                                                                <input id="dropzone-file" type="file" class="hidden" />
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+        </div>
+        <br>
+        <br>
+        
+        <div class="card-container flex justify-flex flex-wrap scroll p-3">
+            <div class="card-stack flex">
+                <% function shuffleArray(array) { %>
+                    <% var currentIndex = array.length; %>
+                    <% var temporaryValue, randomIndex; %>
+        
+                    <% while (0 !== currentIndex) { %>
+                        <% randomIndex = Math.floor(Math.random() * currentIndex); %>
+                        <% currentIndex -= 1; %>
+        
+                        <% temporaryValue = array[currentIndex]; %>
+                        <% array[currentIndex] = array[randomIndex]; %>
+                        <% array[randomIndex] = temporaryValue; %>
+                    <% } %>
+        
+                    <% return array; %>
+                <% } %>
+        
+                <% const termCards = foundquiz.cards.filter(card => card.term && card.definition ); %>
+                
+                <% const definitionCards = foundquiz.cards.filter(card => card.term && card.definition); %>
+        
+                <% const shuffledTermCards = shuffleArray(termCards); %>
+                <% const shuffledDefinitionCards = shuffleArray(definitionCards); %>
+        
+                <% const selectedCards = []; %>
+                <% while (selectedCards.length < 5) { %>
+                    <% let randomIndex = Math.floor(Math.random() * shuffledTermCards.length); %>
+                    <% let termCard = shuffledTermCards[randomIndex]; %>
+                    <% let definitionCard = shuffledDefinitionCards.find(card => card.term === termCard.term && card.id == termCard.id ); %>
+                   
+
+                    <% if (definitionCard  ) { %>
+                        <% selectedCards.push({ term: termCard, definition: definitionCard }); %>
+                        <% shuffledTermCards.splice(randomIndex, 1); %>
+                        <% shuffledDefinitionCards.splice(shuffledDefinitionCards.indexOf(definitionCard), 1); %>
+                    <% } %>
+                <% } %>
+        
+                <% shuffleArray(selectedCards); %>
+             
+                <div class="card-randomizer">
+                    <textarea class="hidden" name="" id="termcard" cols="30" rows="10"><%=  JSON.stringify(foundquiz.cards) %></textarea>
+
+                    <% for (let i = 0; i < selectedCards.length; i++) { %>
+                        <% const card = selectedCards[i]; %>
+                        <% if(card.term.term == card.definition.definition ){
+                            //make both id equals
+                            card.term.id = card.definition.id;
+                            
+                        }
+                            %>
+                       
+
+                        <div class="border shadow <%= card.term.term %>  card-items p-7 term rounded card-flips card-front flex justify-center items-center text-center"
+                            <% const termStyle = `transform: translate(${Math.floor(Math.random() *10)}px, ${Math.floor(Math.random() * 50)}px); l`; %>
+                            <% const termOnClick = `toggleCard(event, this, '${card.term.id}', 'term', '${selectedCards.length}')`; %>
+                            style="<%= termStyle %>"
+                            onclick="<%= termOnClick %>">
+                            <span class="term-text">
+                                <%= card.term.term %>
+                            </span>
+                        </div>
+                        <div class="border <%= card.term.term %>  p-7 shadow card-items definition p-6 rounded card-flips card-back flex justify-center items-center text-center"
+                            <% const definitionStyle = `transform: translate(${Math.floor(Math.random() * 500)}px, ${Math.floor(Math.random() * 500)}px); l`; %>
+                            <% const definitionOnClick = `toggleCard(event, this, '${card.definition.id}', 'definition', '${selectedCards.length}')`; %>
+                            style="<%= definitionStyle %>"
+                            onclick="<%= definitionOnClick %>">
+                            <span class="definition-text">
+                                <%= card.definition.definition %>
+                            </span>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <br><br><br><br><br><br><br>
+        
+        <script>
+            const gamestart = document.querySelector('#game-start');
+            const newgamemodal = document.querySelector('#newgame-modal');
+            const roundedtimer = document.querySelector('#timer');
+            const termCardb = document.querySelector('#termcard');
+            const allCards = JSON.parse(document.querySelector('#termcard').value);
+
+            const definitoncards = document.querySelector('#definitoncards');
+            
+            const termCards = allCards.filter(card => card.term && card.definition);
+const definitionCards = allCards.filter(card => card.term && card.definition);
+
+            console.log(termCards);
+            console.log(definitionCards);
+
+            let activeTerm = null;
+            let activeDefinition = null;
+            let matchCount = 0;
+            let activeid = null;
+            let defid = null;
+            let totalCard = null;
+            let startTime;
+            let endTime;
+            let time = 0;
+            let isPlaying = false;
+          
+            function startTimer() {
+              const timerElement = document.getElementById('timer');
+          
+              function updateTimer() {
+                if (!isPlaying) {
+                  return;
+                }
+          
+                const currentTime = Date.now();
+                const elapsedTime = currentTime - startTime;
+          
+                // Convert elapsed time to seconds and milliseconds
+                const seconds = Math.floor(elapsedTime / 1000);
+                const milliseconds = elapsedTime % 1000;
+          
+                // Display the timer in the format "X.Xs"
+                timerElement.textContent = (seconds + milliseconds / 1000).toFixed(1) + 's';
+          
+                // Call the function again after 1 millisecond
+                requestAnimationFrame(updateTimer);
+              }
+          
+              // Start the timer
+              updateTimer();
+            }
+          
+            gamestart.addEventListener('click', () => {
+              if (!isPlaying) {
+                startTime = Date.now();
+                isPlaying = true;
+                startTimer();
+              }
+            });
+          
+            function toggleCard(event, element, id, type, totalCards) {
+              event.stopPropagation(); // Prevent click event bubbling to parent elements
+              totalCard = totalCards;
+              if (type === 'term') {
+                console.log(element);
+                if (activeTerm === element) {
+                  activeTerm.classList.remove('active');
+                  activeTerm = null;
+                } else {
+                  if (activeTerm) {
+                    activeTerm.classList.remove('active');
+                  }
+          
+                  element.classList.add('active');
+                  activeTerm = element;
+                  activeid = id;
+                }
+              }
+          
+              if (type === 'definition') {
+                console.log(element);
+                if (activeDefinition === element) {
+                  activeDefinition.classList.remove('active');
+                  activeDefinition = null;
+                } else {
+                  if (activeDefinition) {
+                    activeDefinition.classList.remove('active');
+                  }
+          
+                  element.classList.add('active');
+                  activeDefinition = element;
+                  defid = id;
+                }
+              }
+          
+              if (activeTerm && activeDefinition) {
+                console.log("Checking:", activeTerm.innerText.trim(), "with", activeDefinition.innerText.trim());
+                console.log("Checking:", activeTerm.classList, "with", activeDefinition.classList);
+                if (defid === activeid) {
+                  activeTerm.classList.add('matched');
+                  activeDefinition.classList.add('matched');
+                  matchCount += 1;
+                  defid = null;
+                  activeid = null;
+          
+                  if (matchCount === totalCards || matchCount === 5) {
+                    const cardStack = document.querySelector('.card-stack');
+                    newgamemodal.classList.remove('hidden');
+                    isPlaying = false;
+                  }
+          
+                  activeTerm = null;
+                  activeDefinition = null;
+                } else {
+                  setTimeout(() => {
+                    activeTerm.classList.remove('active');
+                    activeDefinition.classList.remove('active');
+                    defid = null;
+                    activeid = null;
+          
+                    activeTerm = null;
+                    activeDefinition = null;
+                  }, 800);
+                }
+              }
+            }
+            let flippedCard = null;
+          
+            function shuffle(array) {
+              var currentIndex = array.length,
+                temporaryValue, randomIndex;
+          
+              while (0 !== currentIndex) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+          
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+              }
+          
+              return array;
+            }
+          
+            const termCard = termCards.filter(card => card.term && card.definition); 
+            const definitionCard = definitionCards.filter(card => card.term && card.definition);
+        
+            function resetGame() {
+                // Reset game state
+                activeTerm = null;
+                activeDefinition = null;
+                matchCount = 0;
+                activeid = null;
+                defid = null;
+                isPlaying = false;
+
+                // Generate new sets of shuffled cards
+                const newTermCards = termCard.slice();
+                const newDefinitionCards = definitionCard.slice();
+                const shuffledTermCards = shuffle(newTermCards);
+                const shuffledDefinitionCards = shuffle(newDefinitionCards);
+
+                // Refresh display
+                refreshFlashcards(shuffledTermCards, shuffledDefinitionCards, numCardsToShow);
+            }
+            const tryAgainButton = document.getElementById('new-game');
+              tryAgainButton.addEventListener('click', function(e){
+                newgamemodal.classList.add('hidden');
+                isPlaying = true;
+                if (isPlaying) {
+                  startTime = Date.now();
+                  isPlaying = true;
+                  startTimer();
+                }
+                resetGame();
+
+            
+              });
+              function refreshFlashcards(shuffledTermCards, shuffledDefinitionCards, numCardsToShow) {
+            const cardStack = document.querySelector('.card-stack');
+            cardStack.innerHTML = '';
+
+          
+              for (let i = 0; i < numCardsToShow; i++) {
+  const termCard = shuffledTermCards[i];
+  const definitionCard = shuffledDefinitionCards.find(card => card.term === termCard.term && card.definition === termCard.definition && card._id === termCard._id);
+
+  const cardFlip = document.createElement('div');
+  cardFlip.classList.add('card-flip', 'p-2');
+
+  const termCardFront = document.createElement('div');
+  termCardFront.classList.add(
+    'border',
+    'shadow',
+    termCard.term.term,
+    'p-2',
+    'term',
+    'rounded',
+    'card-flips',
+    'card-front',
+    'flex',
+    'justify-center',
+    'items-center',
+    'text-center'
+  );
+  termCardFront.style.transform = `translate(${Math.floor(Math.random() * 10)}px, ${Math.floor(Math.random() * 50)}px)`;
+  termCardFront.onclick = (event) => {
+    toggleCard(event, termCardFront, termCard._id, 'term', );
+  
+
+  };
+  termCardFront.innerHTML = `
+    <span class="term-text">
+      ${termCard.term}
+    </span>
+  `;
+
+  const definitionCardBack = document.createElement('div');
+  definitionCardBack.classList.add(
+    'border',
+    termCard.term.term,
+    'p-2',
+    'shadow',
+    'definition',
+    'p-6',
+    'rounded',
+    'card-flips',
+    'card-back',
+    'flex',
+    'justify-center',
+    'items-center',
+    'text-center'
+  );
+  definitionCardBack.style.transform = `translate(${Math.floor(Math.random() * 500)}px, ${Math.floor(Math.random() * 500)}px)`;
+  definitionCardBack.onclick = (event) => {
+    toggleCard(event, definitionCardBack, definitionCard._id, 'definition', );
+    
+  };
+  definitionCardBack.innerHTML = `
+    <span class="definition-text">
+      ${definitionCard.definition}
+    </span>
+  `;
+
+  cardFlip.appendChild(termCardFront);
+  cardFlip.appendChild(definitionCardBack);
+  cardStack.appendChild(cardFlip);
+}
+              const allCards = Array.from(document.querySelectorAll('.card-flip'));
+          
+              // Add event listener to "Try again" button
+           
+            }
+          
+            // Ensure that shuffledTermCards and shuffledDefinitionCards are defined and contain the actual arrays
+            const numCardsToShow = 5; // Set the number of cards to display per refresh
+          </script>

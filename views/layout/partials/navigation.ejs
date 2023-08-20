@@ -1,0 +1,511 @@
+<style>
+
+</style>
+<div
+    class="absolute left-2/4 z-[999] my-4 flex w-full max-w-screen-2xl -translate-x-2/4 flex-wrap items-center px-4 lg:fixed undefined">
+    <nav
+        class="block w-full max-w-screen-2xl rounded-xl px-8 backdrop-saturate-200 backdrop-blur-2xl bg-opacity-80 border border-white/80 bg-white text-white py-4 pl-6 pr-2 lg:py-2.5 shadow shadow-blue-gray-500/10">
+        <div class="flex w-full items-center !justify-between text-[#1A237E] undefined">
+            <a class="py-2.375 text-size-sm mr-4 whitespace-nowrap font-bold text-inherit lg:ml-0" href="/"><img
+                    style="width: 9em" class="h-10 w-34" src="/imgs/home/logo.png" alt="" srcset="" /></a><button
+                class="relative align-middle select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none max-w-[40px] max-h-[40px] rounded-lg text-xs ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+                type="button">
+                <span class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2"><svg
+                        xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg></span>
+            </button>
+            <div class="lg:base-auto hidden flex-grow basis-full items-center overflow-hidden lg:flex lg-max:max-h-0">
+                <div class="flex  w-full flex-col lg:flex-row xl:ml-40">
+                    <ul
+                        class="mb-0 flex list-none flex-col gap-2 pl-0 text-inherit transition-all lg:ml-auto lg:flex-row lg:gap-4">
+                        <li>
+                            <a class="flex navlink  items-center px-1 py-2 font-normal transition-all duration-250 text-size-sm text-current font-light lg:px-2 cursor-pointer"
+                                href="/">
+                                <i class="bi mb-1.5 bi-house-door-fill mr-.5 h-[20px] w-[20px] opacity-85"></i>
+                                Home</a>
+                        </li>
+                        <li>
+                            <a class="flex navlink items-center px-1 py-2 font-normal transition-all duration-250 text-size-sm text-current font-light lg:px-2 cursor-pointer"
+                                href="/blocks"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="currentColor" class="mr-1.5 h-[18px] w-[18px] opacity-75">
+                                    <path fill-rule="evenodd"
+                                        d="M3 6a3 3 0 013-3h2.25a3 3 0 013 3v2.25a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm9.75 0a3 3 0 013-3H18a3 3 0 013 3v2.25a3 3 0 01-3 3h-2.25a3 3 0 01-3-3V6zM3 15.75a3 3 0 013-3h2.25a3 3 0 013 3V18a3 3 0 01-3 3H6a3 3 0 01-3-3v-2.25zm9.75 0a3 3 0 013-3H18a3 3 0 013 3V18a3 3 0 01-3 3h-2.25a3 3 0 01-3-3v-2.25z"
+                                        clip-rule="evenodd"></path>
+                                </svg>Activity</a>
+                        </li>
+                        <li>
+                            <a class="flex navlink items-center px-1 py-2 font-normal transition-all duration-250 text-size-sm text-current font-light lg:px-2 cursor-pointer"
+                                href="/blocks"> <i
+                                    class="bi mb-1.5 bi-camera-video-fill mr-.5 h-[20px] w-[20px] opacity-75"></i>
+                                Match</a>
+                        </li>
+                        <li>
+                            <button rel="noreferrer" id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
+                                type="button"
+                                class="flex quizbutton navlink items-center px-1 py-2 font-normal transition-all duration-250 text-size-sm text-current font-light lg:px-2 cursor-pointer px-3 py-2 lg:px-3"><i
+                                    class="bi bi-globe mr-2 mb-.6"></i>Discover <svg class="w-4 h-4 ml-1"
+                                    aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-l inecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div id="dropdown"
+                                class="z-10 p-3 hidden  bg-white divide-y divide-gray-700 rounded-lg shadow w-80 ">
+                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                    aria-labelledby="dropdownDefaultButton">
+
+
+                                    <button id="dropdownRightButton" data-dropdown-toggle="DropdownRight2"
+                                        data-dropdown-trigger="hover" data-dropdown-placement=" right"
+                                        style="width: 100%;"
+                                        class=" Math mb-3 rounded flex justify-between hover:bg-gray-150   bg-gray-100 items-center">
+                                        <a href=" #"
+                                            class="block px-4 py-2 flex justify-center items-center text-black"><img
+                                                class="w-4 h-4 mr-1 text-black"
+                                                src="https://img.icons8.com/stickers/100/math.png" alt="math" /> Math
+                                        </a><svg class="w-4 h-4 ml-2 text-black" aria-hidden="true" fill="currentColor"
+                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                    <div class=" Math right-down">
+                                        <!-- Dropdown menu -->
+                                        <div id="DropdownRight2" style="    position: absolute;
+                                    inset: 0px auto auto 0px;
+                                    margin-top: 1em;
+                                    height: 20em;
+                                    transform: translate3d(319px, 0px, 0px);"
+                                            class="z-10 rightem hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                aria-labelledby="dropdownRightButton">
+                                                <li>
+                                                    <a href="/subject"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Geomety</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Calculus</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Algebra</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Math
+                                                        Foundation,</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Statistic</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Arithmetic</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" style=" margin-top: 0.5em;"
+                                                        class="block  px-4 py-2 hover:bg-gray-100 mt-5 text-blue-500 ">View
+                                                        more</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- lang   -->
+                                    <button id="dropdownRightButton" data-dropdown-toggle="LanguageDropdownRight"
+                                        data-dropdown-trigger="hover" data-dropdown-placement=" right"
+                                        style="width: 100% ;"
+                                        class=" Language mb-3 rounded flex justify-between hover:bg-gray-150   bg-gray-100 items-center">
+                                        <a href=" #"
+                                            class="block px-4 py-2 flex justify-center items-center text-black"><img
+                                                class="w-5 h-5 mr-1 text-black"
+                                                src="https://img.icons8.com/color-glass/48/requires-interpreter.png"
+                                                alt="math" /> Language
+                                        </a><svg class="w-4 h-4 ml-2 text-black" aria-hidden="true" fill="currentColor"
+                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                    <div class=" Language right-down">
+                                        <!-- Dropdown menu -->
+                                        <div id="LanguageDropdownRight" style="    position: absolute;
+                                inset: 0px auto auto 0px;
+                                margin-top: 4em;
+                                height: 20em;
+                                transform: translate3d(319px, 0px, 0px);"
+                                            class="z-10 rightem hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                aria-labelledby="dropdownRightButton">
+                                                <li>
+                                                    <a href="/subject"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">French</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Spanish</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">German</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Latin
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">English</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" style=" margin-top: 4em;"
+                                                        class="block  px-4 py-2 hover:bg-gray-100 mt-5 text-blue-500 ">View
+                                                        more</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- Science -->
+                                    <button id="dropdownRightButton" data-dropdown-toggle="ScienceDropdownRight"
+                                        data-dropdown-trigger="hover" data-dropdown-placement=" right"
+                                        style="width: 100% ;"
+                                        class=" Language mb-3 rounded flex justify-between hover:bg-gray-150   bg-gray-100 items-center">
+                                        <a href=" #"
+                                            class="block px-4 py-2 flex justify-center items-center text-black"><img
+                                                class="w-5 h-5 mr-1 text-black"
+                                                src="https://img.icons8.com/stickers/100/lab-items.png" alt="math" />
+                                            Science
+                                        </a><svg class="w-4 h-4 ml-2 text-black" aria-hidden="true" fill="currentColor"
+                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                    <div class=" Science right-down">
+                                        <!-- Dropdown menu -->
+                                        <div id="ScienceDropdownRight" style="    position: absolute;
+                            inset: 0px auto auto 0px;
+                            margin-top: 4em;
+                            height: 20em;
+                            transform: translate3d(319px, 0px, 0px);"
+                                            class="z-10 rightem hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                aria-labelledby="dropdownRightButton">
+                                                <li>
+                                                    <a href="/subject"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Biology</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Chemistry</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Physics</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Computer
+                                                        Science
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Enginner</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Medicine</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" style=" margin-top: 1em;"
+                                                        class="block  px-4 py-2 hover:bg-gray-100 mt-5 text-blue-500 ">View
+                                                        more</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- Test -->
+                                    <button id="dropdownRightButton" data-dropdown-toggle="TestDropdownRight"
+                                        data-dropdown-trigger="hover" data-dropdown-placement=" right"
+                                        style="width: 100% ;"
+                                        class=" Language mb-3 rounded flex justify-between hover:bg-gray-150   bg-gray-100 items-center">
+                                        <a href=" #"
+                                            class="block px-4 py-2 flex justify-center items-center text-black"><img
+                                                class="w-5 h-5 mr-1 text-black"
+                                                src="https://img.icons8.com/plasticine/100/test-passed.png"
+                                                alt="math" />
+                                            Test
+                                        </a><svg class="w-4 h-4 ml-2 text-black" aria-hidden="true" fill="currentColor"
+                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                    <div class=" Test right-down">
+                                        <!-- Dropdown menu -->
+                                        <div id="TestDropdownRight" style="    position: absolute;
+                            inset: 0px auto auto 0px;
+                            margin-top: 4em;
+                            height: 20em;
+                            transform: translate3d(319px, 0px, 0px);"
+                                            class="z-10 rightem hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                aria-labelledby="dropdownRightButton">
+                                                <li>
+                                                    <a href="/subject"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">SAT</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">ACT</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">TOEL</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">AP
+                                                        Science
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">IELTS</a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#" style=" margin-top: 4em;"
+                                                        class="block  px-4 py-2 hover:bg-gray-100 mt-5 text-blue-500 ">View
+                                                        more</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- Other -->
+                                    <button id="dropdownRightButton" data-dropdown-toggle="OtherDropdownRight"
+                                        data-dropdown-trigger="hover" data-dropdown-placement=" right"
+                                        style="width: 100% ;"
+                                        class=" Language mb-3 rounded flex justify-between hover:bg-gray-150   bg-gray-100 items-center">
+                                        <a href=" #"
+                                            class="block px-4 py-2 flex justify-center items-center text-black"><img
+                                                class="w-5 h-5 mr-1 text-black"
+                                                src="https://img.icons8.com/color-glass/48/connection-status-off.png"
+                                                alt="connection-status-off" alt="math" />
+                                            Other
+                                        </a><svg class="w-4 h-4 ml-2 text-black" aria-hidden="true" fill="currentColor"
+                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                    <div class=" Other right-down">
+                                        <!-- Dropdown menu -->
+                                        <div id="OtherDropdownRight" style="    position: absolute;
+                        inset: 0px auto auto 0px;
+                        margin-top: 4em;
+                        height: 20em;
+                        transform: translate3d(319px, 0px, 0px);"
+                                            class="z-10 rightem hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                aria-labelledby="dropdownRightButton">
+                                                <li>
+                                                    <a href="/subject"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Sports</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Quizzes</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Programing</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block navlink px-4 py-2 hover:bg-gray-100 text-gray-700 ">Advice
+                                                        Science
+                                                    </a>
+                                                </li>
+
+
+                                                <li>
+                                                    class="block px-4 py-2 hover:bg-gray-100 mt-5 text-blue-500 ">View
+                                                    more</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="/blog"
+                                class=" apbutton flex mr-6 navlink items-center px-1 py-2 font-normal transition-all duration-250 text-size-sm text-current font-light lg:px-2 cursor-pointer px-3 py-2 lg:px-3">
+                                <i class="bi mb-1.5 bi-bookmark-star-fill mr-.5 h-[20px] w-[20px] opacity-75"></i>
+
+                                Courses
+                            </a>
+                        </li>
+                    </ul>
+                    <div
+                        class="mt-4 flex flex-col border-t border-blue-gray-50 pt-4 lg:mt-0 lg:ml-auto lg:flex-row lg:border-0 lg:pt-0">
+                        <ul class="flex items-center">
+                            <li class="mr-2">
+                                <a class="flex items-center px-1 py-2 font-normal transition-all duration-250 text-size-sm text-current font-light lg:px-2 cursor-pointer"
+                                    href="https://github.com/creativetimofficial/material-tailwind?ref=material-tailwind"
+                                    target="_blank" rel="noreferrer">
+                                    <div class="relative grid items-center font-sans font-bold uppercase whitespace-nowrap select-none text-white rounded-lg mr-1.5 bg-blue-gray-900 py-[3px] px-2 text-xs"
+                                        data-projection-id="95" style="opacity: 1">
+                                        <div class="absolute top-2/4 -translate-y-2/4 w-5 h-5 left-1.5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                fill="currentColor" class="mt-[2.5px] ml-0.5 h-3.5 w-3.5">
+                                                <path fill-rule="evenodd"
+                                                    d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                        <span class="ml-[18px]">0</span>
+                                    </div>
+                                    <i class="fab fa-github text-xl leading-none" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                            <li class="mt-[3px]">
+                                <a class="flex items-center px-1 py-2 font-normal transition-all duration-250 text-size-sm text-current font-light lg:px-2 cursor-pointer"
+                                    href="https://discord.com/invite/7xzMRsRebr" target="_blank" rel="noreferrer"><i
+                                        class="fab fa-discord text-lg leading-none" aria-hidden="true"></i></a>
+                            </li>
+                        </ul>
+                        <a href="/login" rel="noreferrer"><button
+                                class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 active:opacity-[0.85] mt-3 mb-5 flex items-center lg:mt-0 lg:mb-0 lg:ml-4"
+                                type="button">
+                                Get Started
+                            </button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block w-full basis-full overflow-hidden text-[#1A237E]" data-projection-id="96" style="height: 0px">
+            <div class="flex w-full flex-col lg:flex-row xl:ml-40">
+                <ul
+                    class="mb-0 flex list-none flex-col gap-2 pl-0 text-inherit transition-all lg:ml-auto lg:flex-row lg:gap-4">
+                    <li aria-expanded="false" aria-haspopup="menu" id=":r4l:">
+                        <span
+                            class="flex items-center px-1 py-2 font-normal transition-all duration-250 text-size-sm text-current font-light lg:px-2 cursor-pointer"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="mr-1.5 h-[18px] w-[18px] opacity-75">
+                                <path fill-rule="evenodd"
+                                    d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625zM7.5 15a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 017.5 15zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H8.25z"
+                                    clip-rule="evenodd"></path>
+                                <path
+                                    d="M12.971 1.816A5.23 5.23 0 0114.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 013.434 1.279 9.768 9.768 0 00-6.963-6.963z">
+                                </path>
+                            </svg><span>Docs</span></span>
+                    </li>
+                    <li>
+                        <a class="flex navlink items-center px-1 py-2 font-normal transition-all duration-250 text-size-sm text-current font-light lg:px-2 cursor-pointer"
+                            href="/blocks"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                fill="currentColor" class="mr-1.5 h-[18px] w-[18px] opacity-75">
+                                <path fill-rule="evenodd"
+                                    d="M3 6a3 3 0 013-3h2.25a3 3 0 013 3v2.25a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm9.75 0a3 3 0 013-3H18a3 3 0 013 3v2.25a3 3 0 01-3 3h-2.25a3 3 0 01-3-3V6zM3 15.75a3 3 0 013-3h2.25a3 3 0 013 3V18a3 3 0 01-3 3H6a3 3 0 01-3-3v-2.25zm9.75 0a3 3 0 013-3H18a3 3 0 013 3V18a3 3 0 01-3 3h-2.25a3 3 0 01-3-3v-2.25z"
+                                    clip-rule="evenodd"></path>
+                            </svg>Blocks</a>
+                    </li>
+                    <li>
+                        <a href="https://www.creative-tim.com/services/updivision/?ref=material-tailwind"
+                            target="_blank" rel="noreferrer"
+                            class="flex items-center px-1 py-2 font-normal transition-all duration-250 text-size-sm text-current font-light lg:px-2 cursor-pointer px-3 py-2 lg:px-3"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="mr-1.5 h-[18px] w-[18px] text-inherit opacity-75">
+                                <path
+                                    d="M5.566 4.657A4.505 4.505 0 016.75 4.5h10.5c.41 0 .806.055 1.183.157A3 3 0 0015.75 3h-7.5a3 3 0 00-2.684 1.657zM2.25 12a3 3 0 013-3h13.5a3 3 0 013 3v6a3 3 0 01-3 3H5.25a3 3 0 01-3-3v-6zM5.25 7.5c-.41 0-.806.055-1.184.157A3 3 0 016.75 6h10.5a3 3 0 012.683 1.657A4.505 4.505 0 0018.75 7.5H5.25z">
+                                </path>
+                            </svg>Quizzlit</a>
+                    </li>
+                </ul>
+                <div
+                    class="mt-4 flex flex-col border-t border-blue-gray-50 pt-4 lg:mt-0 lg:ml-auto lg:flex-row lg:border-0 lg:pt-0">
+                    <ul class="flex items-center">
+                        <li class="mr-2">
+                            <a class="flex items-center px-1 py-2 font-normal transition-all duration-250 text-size-sm text-current font-light lg:px-2 cursor-pointer"
+                                href="https://github.com/creativetimofficial/material-tailwind?ref=material-tailwind"
+                                target="_blank" rel="noreferrer">
+                                <div class="relative grid items-center font-sans font-bold uppercase whitespace-nowrap select-none text-white rounded-lg mr-1.5 bg-blue-gray-900 py-[3px] px-2 text-xs"
+                                    data-projection-id="97" style="opacity: 1">
+                                    <div class="absolute top-2/4 -translate-y-2/4 w-5 h-5 left-1.5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                            class="mt-[2.5px] ml-0.5 h-3.5 w-3.5">
+                                            <path fill-rule="evenodd"
+                                                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="ml-[18px]">0</span>
+                                </div>
+                                <i class="fab fa-github text-xl leading-none" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="mt-[3px]">
+                            <a class="flex items-center px-1 py-2 font-normal transition-all duration-250 text-size-sm text-current font-light lg:px-2 cursor-pointer"
+                                href="https://discord.com/invite/7xzMRsRebr" target="_blank" rel="noreferrer"><i
+                                    class="fab fa-discord text-lg leading-none" aria-hidden="true"></i></a>
+                        </li>
+                    </ul>
+                    <a href="https://www.material-tailwind.com/blocks" target="_blank" rel="noreferrer"><button
+                            class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 active:opacity-[0.85] mt-3 mb-5 flex items-center lg:mt-0 lg:mb-0 lg:ml-4"
+                            type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="mr-1.5 -mt-px h-[18px] w-[18px]">
+                                <path
+                                    d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 01-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.323.152-.691.546-1.004zM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991a2.534 2.534 0 01-.921.42z">
+                                </path>
+                                <path fill-rule="evenodd"
+                                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v.816a3.836 3.836 0 00-1.72.756c-.712.566-1.112 1.35-1.112 2.178 0 .829.4 1.612 1.113 2.178.502.4 1.102.647 1.719.756v2.978a2.536 2.536 0 01-.921-.421l-.879-.66a.75.75 0 00-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 001.5 0v-.81a4.124 4.124 0 001.821-.749c.745-.559 1.179-1.344 1.179-2.191 0-.847-.434-1.632-1.179-2.191a4.122 4.122 0 00-1.821-.75V8.354c.29.082.559.213.786.393l.415.33a.75.75 0 00.933-1.175l-.415-.33a3.836 3.836 0 00-1.719-.755V6z"
+                                    clip-rule="evenodd"></path>
+                            </svg>Get started
+                        </button></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Get the current URL path
+        var path = window.location.pathname;
+        console.log(path)
+        var quizbutton = $('.quizbutton')
+        var apbutton = $('.apbutton')
+
+        console.log(quizbutton)
+        // Find the corresponding navlink and add the 'active' class
+        $('.navlink').each(function () {
+            var href = $(this).attr('href');
+            if (path === href) {
+                $(this).addClass('active');
+            }
+            if (path == '/subject') {
+                quizbutton.addClass('active')
+            }
+            if (path.includes('ap')) {
+                apbutton.addClass('active')
+
+            }
+        });
+    });
+</script>

@@ -1,0 +1,377 @@
+<% layout('./layouts/boilerplate.ejs')%>
+<%- include('../../../../layouts/partials/settings.ejs') %>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.24.0/dist/axios.min.js"></script>
+    <style>
+        .quizcontent {
+            width: 80%;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        .reco{
+            width: 20%;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        @media only screen and (max-width: 600px) {
+            content{
+                display: flex;
+                flex-wrap: wrap;
+            }
+            #content-menu{
+                flex-wrap: wrap;
+            }
+            .quizcontent{
+                width: 100%;
+            }
+            .reco{
+                width: 100%;
+                padding: 0.3em;
+            }
+        }
+    </style>
+    <div class="content flex fullscreen"  id="content-menu">
+            <br>
+            <%- include('../../../../layouts/partials/flash.ejs') %>
+        <div class="quizcontent">
+                <div class="border rounded-md  p-2">
+                    <div class="flex">
+                        <% if(foundquiz.imageUrl){ %>
+                            <img style="min-width: 6em ; min-height: 7em; max-width: 9em; max-height: 9em;"
+                                class="rounded-lg h-26 w-26" src="<%= foundquiz.imageUrl %>" alt="" srcset="">
+                            <%}else{%>
+                                <img style="min-width: 8em ; display: none; min-height: 9em; max-width: 8em; max-height: 9em;"
+                                    class="rounded-lg h-26 w-26" src="/imgs/home/gukarinophoto.png" alt="" srcset="">
+                                <% } %>
+
+                                    <div class="flex ml-3 flex-col w-full">
+                                        <div class="flex justify-between">
+                                            <span
+                                                class="bg-yellow-100 text-center  text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded ">
+                                                <%=foundquiz.category %>
+                                            </span>
+                                            <button class="mr-2"> <i class="bi bi-share"></i> </button>
+                                        </div>
+                                        <span class="font-medium text-2xl quiztitle">
+                                            <%= foundquiz.title %>
+                                        </span>
+                                        <span class="quizdescription">
+                                            <%= foundquiz.description %>
+                                        </span>
+
+                                        <div class="flex items-center">
+                                            <span class="text-sm">
+                                                <i class="bi  bi-play-fill"></i>
+                                                <%= foundquiz.plays %> plays
+                                            </span>
+                                            <% if(currentUser) {%>
+                                                <form id="saveForm" action="/quizcard/<%= foundquiz._id %>/save"
+                                                    method="post">
+                                                    <button class="mr-1 flex justify-center items-center ml-2 rounded">
+                                                        <i class="bi mb-2 text-md bi-star-fill text-yellow-500"></i>
+                                                    </button>
+                                                </form>
+
+                                                <span class="starnum">
+                                                    <%= foundquiz.saves.length %>
+                                                </span>
+                                                <%}else {%>
+                                                    <span class="mr-1 flex justify-center items-center ml-2 rounded">
+                                                        <i class="bi mb-2 text-md bi-star-fill text-yellow-500"></i>
+                                                    </span>
+
+                                                    <span class="starnum">
+                                                        <%= foundquiz.saves.length %>
+                                                    </span>
+
+                                                    <% } %>
+
+                                        </div>
+                                        <span class=" ml-2 " style=" width: 11em;">
+                                            <span class="text-sm">
+                                                <i class="bi bi-tags"></i>Tags
+                                            </span>
+                                            <% const getRandomColorClass=()=> {
+                                                const colors = ['blue', 'gray', 'red', 'green', 'yellow', 'indigo'];
+                                                const randomIndex = Math.floor(Math.random() * colors.length);
+                                                return colors[randomIndex];
+                                                }; %>
+
+                                                <% foundquiz.tags.forEach(tag=> { %>
+                                                    <span
+                                                        class="w-11 <%= tag.color %> text-xs text-black font-medium mr-2 px-2.5 py-0.5 rounded ">
+                                                        <%= tag.name %>
+                                                    </span>
+                                                    <% }) %>
+                                        </span>
+                                    </div>
+                    </div> <br>
+                    <div class="user flex justify-between">
+                        <div class="flex items-center content-center">
+                            <img class="w-11 h-11 rounded-full"
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIYynLrxRVSvi9Wv4LdVZMGlJT7hLwyXdr8K-8RoOFlw&s"
+                                alt="" srcset="">
+
+                            <div class="ml-2">
+                                <%= quizowner.username %><br>
+                                    <span class="text-sm">Joined <b>
+                                            <%= (new Date(quizowner.createdAt)).getFullYear() %>
+                                        </b></span>
+                            </div>
+                        </div>
+
+                        <div class="flex ">
+                            <% if(currentUser) {%>
+                                <% if (foundquiz.author.equals(currentUser._id)) { %>
+
+                                    <a href="/home/quiz/<%= foundquiz._id %>/edit" id="EditButton"
+                                        data-modal-toggle="EditModal"
+                                        class="  ml-2 block border text-center  hover:bg-blue-600 hover:text-white hover:border-none   font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                        Edit
+                                    </a>
+                                    <button id="deleteButton" data-modal-toggle="deleteModal"
+                                        class=" ml-2 block bg-red-700 text-white hover:bg-red-800   font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                        type="button">
+                                        Delete
+                                    </button>
+
+                                    <!-- Main modal -->
+                                    <div id="deleteModal" tabindex="-1" aria-hidden="true"
+                                        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+                                        <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+                                            <!-- Modal content -->
+                                            <div
+                                                class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                                                <button type="button"
+                                                    class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    data-modal-toggle="deleteModal">
+                                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor"
+                                                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                        <path fill-rule="evenodd"
+                                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd"></path>
+                                                    </svg>
+                                                    <span class="sr-only">Close modal</span>
+                                                </button>
+                                                <svg class="text-gray-400 dark:text-gray-500 w-11 h-11 mb-3.5 mx-auto"
+                                                    aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
+                                                <p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want
+                                                    to delete this Quiz item?</p>
+                                                <div class="flex justify-center items-center space-x-4">
+                                                    <button data-modal-toggle="deleteModal" type="button"
+                                                        class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100    hover:text-gray-900 ">
+                                                        No, cancel
+                                                    </button>
+                                                    <a href="/home/quiz/<%= foundquiz._id %>/delete" type="submit"
+                                                        class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 ">
+                                                        Yes, I'm sure
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } else{ %>
+                                        <button class="border-none bg-gray-100 ml-2 p-2 rounded">
+                                            <i class="bi bi-files"></i>
+                                        </button>
+                                        <% } %>
+                                            <% } else{%>
+
+                                                <button class="border-none bg-gray-100 hover:bg-gray-200 ml-2 p-2 rounded">
+                                                    <i class="bi bi-files"></i> Edit
+                                                </button>
+                                                <% } %>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <br>
+                <div class=" p-3 flex justify-around">
+                    <a href="/home/quiz/<%= foundquiz._id %>/quiz"
+                        class="p-4 ml-3 border-none bg-red-400 hover:bg-red-500 text-white items-center content-center justify-center flex border rounded-lg"
+                        style="width: 11em;">
+                        <i class="bi bi-wallet2 text-2xl"></i>
+                        <span class="ml-2 text-2xl">Quiz</span>
+                    </a>
+                    <a href="/home/quiz/<%= foundquiz._id %>/cards"
+                        class="p-4 ml-3 border-none bg-blue-400 hover:bg-blue-500 text-white items-center content-center justify-center flex border rounded-lg"
+                        style="width: 11em;">
+                        <i class="bi bi-wallet2 text-2xl"></i>
+                        <span class="ml-2 text-2xl">Cards</span>
+                    </a>
+                    <a href="/home/quiz/<%= foundquiz._id %>/match"
+                        class="p-4 ml-3 border-none bg-purple-400 hover:bg-purple-500 text-white items-center content-center justify-center flex border rounded-lg"
+                        style="width: 11em;">
+                        <i class="bi bi-layers-half text-2xl"></i>
+                        <span class="ml-2 text-2xl">Match</span>
+                    </a>
+                </div>
+                <br>
+                <div>
+                    <div class="flex justify-between">
+
+                        <span>
+                            Terms in this set (<%=foundquiz.cards.length %>)
+                        </span>
+
+                        <button>
+                            Original
+                        </button>
+
+                    </div>
+                    <br>
+                    <div class="flex justify-between">
+                        <span class="font-semibold">Term</span>
+                        <span class="font-semibold">definition</span>
+
+                    </div>
+                    <div class="w-full flex flex-col">
+                        <% foundquiz.cards.forEach(card=> { %>
+                            <div class=" border shadow rounded-lg mb-4 p-6">
+                                <div
+                                    class="flex items-center text-center content-center justify-between items-center mb-4">
+                                    <span class="text-2xl mr-4" >
+                                        <%= card.position %>.
+                                    </span>
+                                    <div class="flex" style="flex: 1;">
+                                        <textarea name="d" id="" cols="10"  class=" mr-10 text-lg  text-center flex flex-wrap  w-full font-medium overflow-wrap break-word bg-transparent resize-none border-0" disabled><%= card.term %></textarea>
+                                      </div>
+                                      <div class="vl" style="  border-left: 1px solid rgb(110, 115, 110);
+                                      height: 3.5em;"></div>
+
+                                      <div  style="flex: 1;" class="flex">
+                                        <textarea name="d" id="" cols="10"  class="ml-8 text-center text-lg text-gray-700 flex justify-center text-lg w-full  resize-none text-gray-400 bg-transparent overflow-wrap break-word" disabled><%= card.definition %></textarea>
+                                       <% if(card.image &&card.image !==  '/public/uploads/china_1687641298604.jpeg'){ %>
+                                        <img class="w-16 h-16 rounded" style="margin-left: 2em;" src="/uploads/<%= card.image %>" alt="" srcset=""> 
+                                       <% } %>
+                                      </div>
+                                  
+                                </div>
+                            </div>
+                            <% }) %>
+                            <br><br><br>
+                    </div>
+
+
+
+                </div>
+    </div>
+    <div class="reco">
+        <div class="flex justify-between">
+            <span class="font-semibold">Recommended</span>
+            <span class="font-semibold">See all</span>
+    </div>
+    <div class="flex flex-col"> 
+        <% for(let quiz of totalquiz){ %>
+            <% if ( quiz.category == foundquiz.category || quiz.title.toLowerCase().includes(foundquiz) && quiz.title !== foundquiz.title ) { %>
+
+
+        <a href="/home/quiz/<%= quiz._id%>" class="padding mb-2 p-2 flex w-full over bg-gray-100 hover:bg-gray-200  border-none rounded-md">
+            <% if( quiz.imageUrl && quiz.imageUrl !== '/public/uploads/china_1687641298604.jpeg'){%>
+            <img class="rounded" style="width: 6em; height: 5em;" src="<%= quiz.imageUrl%>" alt="" srcset="">
+            <% } else{ %>
+
+            <img class="rounded" style="width: 6em; height: 5em;" src="/imgs/home/gukarinophoto.png" alt="" srcset="">
+            <% } %>
+            <div class="flex flex-col  ml-1">
+                <span class="title font-medium   text-md    "><%= quiz.title%></span>
+                <span class="author">
+                    <% const getRandomColorClass = () => {
+                        const colors = ['blue', 'gray', 'red', 'green', 'yellow', 'indigo'];
+                        const randomIndex = Math.floor(Math.random() * colors.length);
+                        return colors[randomIndex];
+                    }; %>
+                
+                    <% foundquiz.tags.slice(2, 4).forEach(tag => { %>
+                        <span class="w-7 <%= tag.color %> text-xs text-black font-medium mr-2 px-2.5 py-0.5 rounded">
+                            <%= tag.name %>
+                        </span>
+                    <% }) %>
+                </span>
+                <span class="plays text-sm">
+                    <i class="bi bi-play-fill text-sm text-red-700"></i> <%= quiz.plays%> . 1 week ago
+                </span>
+
+
+            </div>
+        </a>
+        <% } %>
+        <% } %>
+    </div>
+    <br><br><br>
+
+</div>
+
+    <script>
+        const saveForm = document.getElementById('saveForm');
+        const starnum = document.querySelector('.starnum');
+        const savesButton = saveForm.querySelector('.bi-star-fill');
+        if (starnum.innerHTML == 0) {
+            savesButton.classList.remove('bi-star-fill');
+            savesButton.classList.add('bi-star');
+        }
+        saveForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+
+
+            if (savesButton.classList.contains('bi-star-fill')) {
+                savesButton.classList.remove('bi-star-fill');
+                savesButton.classList.add('bi-star');
+                if (parseInt(starnum.innerHTML) > 0) {
+                    starnum.innerHTML = parseInt(starnum.innerHTML) - 1;
+
+                } else {
+                    starnum.innerHTML = 0;
+                    savesButton.classList.remove('bi-star-fill');
+                    savesButton.classList.add('bi-star');
+                }
+
+                saveQuizCard(false);
+            } else {
+                savesButton.classList.remove('bi-star');
+                savesButton.classList.add('bi-star-fill');
+                starnum.innerHTML = parseInt(starnum.innerHTML) + 1;
+                saveQuizCard(true);
+            }
+        });
+
+        function saveQuizCard(isSaved) {
+            const url = saveForm.getAttribute('action');
+            const method = saveForm.getAttribute('method');
+            const data = {};
+
+            // Make the request using Axios
+            axios({
+                method: method,
+                url: url,
+                data: data,
+            })
+                .then((response) => {
+                    const { success, message } = response.data;
+
+                    if (success) {
+                        // Display success flash message
+                        // Swal.fire('Success', message, 'success');
+                    } else {
+                        // Display error flash message
+                        Swal.fire('Error', message, 'error');
+                    }
+                })
+                .catch((error, message) => {
+                    // Display error flash message
+                    Swal.fire('Error', message, 'error');
+                    console.log('Error:', error);
+                });
+        }
+    </script>
+        <br><br><br>

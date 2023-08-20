@@ -1,0 +1,9 @@
+<% const tasks = []; %>
+<% Tasks.forEach(task => { %>
+  <% tasks.push(task); %>
+<% }) %>
+
+<% tasks.forEach(task => { %>
+  <!-- Display other task details as needed -->
+  <span id="date-date"> <%= new Date(task.endDate).getDate() %></span>
+<% }) %>

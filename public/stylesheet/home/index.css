@@ -1,0 +1,277 @@
+body{
+    transition: 0.5s;
+    background-color: #fff;
+    color: rgb(0, 0, 0);
+    --background-theme: #ffffff;
+    /* --background-theme: #f8f7f7; */
+    --main-color: #1e1e1e;
+    --background-them: #ffffff;
+    --create-background-theme:#f6f8fc;
+    --white-balck:#fff;
+    overflow: scroll;
+
+}
+body.dark{
+    --main-color: #f7f7f7;
+    --create-background-theme:#252526;
+    background-color: #252526;
+    transition: 0.5s;
+    color: rgb(244, 242, 242);
+    --background-theme: #313339;
+    --background-them: #2B2D31;
+
+}
+.content{
+    margin-left: 14em;
+    height: 100vh;
+    /* margin-right: 1em; */
+    transition: 0.5s;
+    overflow: scroll;
+    background-color: var(--background-theme);
+    border-radius: 1em;
+    padding: 0.5em;
+}
+.content-c{
+    overflow-y: scroll;
+    height: 100vh;
+
+    transition: 0.5s;
+    background-color: var(--background-theme);
+
+}
+.create-content{
+    height: 100vh;
+    overflow-y: scroll;
+    background-color: var(--create-background-theme);
+
+}
+.sidenav{
+    width: 14em;
+    height: 100vh;
+    z-index: 5;
+    transition: 0.5s;
+    margin-top: 4em;
+    background: var(--background-them);
+
+    overflow: hidden;
+    position: absolute;
+}
+
+.searchnav{
+    width: 48em;
+}
+.lefttoggle{
+    cursor: pointer;
+}
+.sidebar-toggle{
+    transition: 0.5s;
+    width: 3em;
+}
+.content-toggle{
+    margin-left: 3.3em;
+    transition: 0.5s;
+}
+
+.text-white{
+    color: var(--main-color);
+}
+.left-none{
+    margin-left: 1em;
+
+}
+.main-content {
+    /* width: 80%; */
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+
+.sidebar {
+    width: 20%;
+}
+.bord-sumary{
+    background-color: var(--background-them);
+}
+.picon{
+   width: 2.2em;
+   height: 2.5em;
+    text-align: center;
+    
+}
+.sidebar{
+    margin-left: 1em;
+}
+
+.boardlists{
+    height: 100%;
+}
+ .yellow-gradient {
+background: linear-gradient(to bottom right, #fe7749 0%, #fcb575 79%);
+  }
+.pruple-gradient{
+    background: linear-gradient(to bottom right, #a340b9 0%, #b83e8e 79%);
+}
+.blue-gradient{
+    background: linear-gradient(to bottom right, #4f499f 0%, #358cc1 92%);}
+
+
+
+.white-black{
+    background-color: var(--background-them);
+    border: white 1px;
+    color: var(--main-color);
+}
+.sidenavtoggle{
+margin-left: -.5em;
+transition: 0.5s;
+}
+.content-full-width{
+    width: 100%;
+    transition: 0.5s;
+}
+.side-hidden{
+    transition: 0.5s;
+
+    display: none;
+}
+.w-f-12{
+    width: 60%;
+    }
+.w-f-12{
+    width: 100%;
+}
+.w-f-11{
+    width: 40%;
+}
+.tabheading{
+    display: flex;
+}
+
+@media only screen and (max-width: 900px) {
+.boardlists{
+    flex-wrap: wrap;
+}
+#search-form{
+    display: none;
+}
+.tabheading{
+    display: none;
+}
+.inbox{
+    width: 100%;
+}
+.server{
+    width: 100%;
+}
+.make-card{
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+.create{
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+    .w-f-11{
+        width: 100%;
+    }
+.create-card {
+    width: 100%;
+}
+.user-inbox-msg{
+    flex-wrap: wrap;
+    flex-direction: column;
+
+}
+
+
+}
+
+textarea.textarea-remove {
+    resize: none;
+  } 
+  .imagebuttom.logo-icon{
+    width: 160px;
+    height: 3.75em;
+
+}
+
+  .imagebuttom.icon-logo-resize{
+
+    width: 153px;
+    margin-left: 2em;
+    height: 2.75em;
+    /* h-11 ml-5 */
+  }
+  .imagebuttom.img {
+        width: 155px;
+    height: auto;
+}
+
+.task-action {
+    position: relative;
+  }
+ 
+
+ 
+
+.imge-size{
+    height: 11em;
+    overflow: hidden;
+
+}
+.todo-tab{
+    background-color: var(--background-theme);
+    padding: 0.6em;
+    border-radius: 0.3em;
+}
+.create-card {
+    padding: 2em;
+    height: auto;
+    min-height: 11em;
+    background-color: var(--background-theme);
+    border-radius: 0.9em;
+    width: 48%;
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+}
+
+
+.whiteem{
+    background-color: var(--background-theme);
+    opacity: 1;
+    margin-top: 0em;
+    height: 103vh;
+    z-index: 22;
+
+
+}
+.hamnav{
+    display: none;
+}
+
+.task-create{
+    display: none;
+}
+.task-create-block{
+display: block;
+}
+
+section{
+    margin-left: 1em ;
+    margin-right: 1em;
+}
+.fullscreen-none{
+    display: none;
+}
+
+.fullscreen{
+    width: 100%;
+    margin-left: 0em;
+}
+

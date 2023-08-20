@@ -1,0 +1,74 @@
+<% layout('./layout/boilerplate.ejs')%>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+
+    <div class="flex flex-col items-center justify-center h-screen">
+
+        <div class="icon-wrapper mb-11">
+            <img src="/imgs/home/icon.png" class="fab fa-bootstrap text-6xl text-gray-700"></img>
+        </div>
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-full max-w-md">
+
+            <h2 class="mb-4 text-center text-gray-700">Login</h2>
+            <form action="/synergy" method="post">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="username">
+                    </label>
+                    <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 e">Distric
+                    </label>
+                    <select id="countries" name="distric"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                        <option selected>Choose a country</option>
+                        <option value="https://md-mcps-psv.edupoint.com/">Mcps</option>
+                        <option value="CA">Canada</option>
+                        <option value="FR">France</option>
+                        <option value="DE">Germany</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="username">
+                        Username
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="username" name="username" type="text" placeholder="Username">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-bold mb-2" for="password">
+                        Password
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="password" name="password" type="password" placeholder="Password">
+                </div>
+                <button
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4"
+                    type="submit">
+                    Login
+                </button>
+            </form>
+
+            <div class="flex flex-col items-center">
+                <p class="text-gray-700 mb-2">Or login with</p>
+                <div class="flex items-center">
+                    <button
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline mr-4"
+                        type="button">
+                        <i class="fab fa-google text-xl"></i>
+                    </button>
+                    <button
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline mr-4"
+                        type="button">
+                        <i class="fab fa-squarespace text-xl"></i>
+                    </button>
+                    <button
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+                        type="button">
+                        <i class="fab fa-apple text-xl"></i>
+                    </button>
+                </div>
+                <p class="mb-3"> if you don't have an account with us <a class="text-blue-500" href="/signup">signup</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    </div>

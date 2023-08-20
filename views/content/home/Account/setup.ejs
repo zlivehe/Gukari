@@ -1,0 +1,160 @@
+<script src="https://cdn.tailwindcss.com"></script>
+<% layout('./layouts/boilerplate.ejs')%>
+<%- include('../../../layouts/partials/settings.ejs') %>
+
+<style>
+    .upload-container {
+  position: relative;
+  display: inline-block;
+}
+
+.uploadprofile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.card {
+    border: 2px solid transparent;
+    cursor: pointer;
+  }
+
+  .card.selected {
+    border-color: blue;
+  }
+  .card:hover {
+    border: dotted rgb(21, 21, 162);
+  }
+  
+
+.custom-button {
+  /* Add your desired styles here */
+  /* For example: */
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #f1f1f1;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.custom-button:hover {
+  cursor: pointer;
+}
+
+</style>
+<div class="flex flex-col items-center justify-center ">
+
+
+    <div class=" loginform mx-xl my-10 bg-white p-8 rounded-xl shadow shadow-slate-300 " style="width: 50em;">
+        <h1 class="text-3xl font-medium">Your appearance  to others       </h1>
+        <div class="flex p-1 flex-col justify-center items-center"> 
+        <img id="preview" src="#" alt="Preview" class="preview-image hidden" style="width: 12em; height: 11em;">
+        <div class="upload-container mt-3">
+            <input class="uploadprofile" type="file" id="profileImage" name="profileImage" accept="image/*" onchange="previewImage(event)">
+            <label for="profileImage" class="custom-button">Upload Picture</label>
+          </div>
+        
+        </div>
+        <br>
+        <div class="flex justify-between w-full">
+            <div>
+                <p class="text-slate-500">Name</p>
+                <input value="<%=currentUser.username %>" class="w-full border name rounded bg-gray-50 p-2" type="text" disabled>
+            </div>
+            <div>
+                <p class="text-slate-500">Surname</p>
+            <input class="w-full nickname border p-2 ml-2 rounded bg-gray-50" type="text" name="surname" id="">
+            </div>
+        </div>
+        <br>
+        <div class="select">
+          <div class="grid grid-cols-3 gap-4 mb-4">
+            <div onclick="selectCard(event)" style="background-image: url('https://assets-global.website-files.com/6372cf43b12f4050f98e2731/642c538fa910110bbdaa8629_628d44a905e3b046dd990e45_How%2520to%2520be%2520a%2520content%2520creator%2520laetro.png'); background-repeat: no-repeat; background-size: cover;" class="card flex text-white flex-col items-center justify-center h-34 text-2xl font-medium rounded bg-gray-50">
+              Content creator
+              <input class="content hidden" value="Content creator" name="about" type="text">
+            </div>
+            <div  onclick="selectCard(event)" style="background-image: url('https://images.ctfassets.net/mqkprtnmtb76/4OLSaWhjsipEpie6LINRSi/89142961aa7c40bf7453a332f36d3076/article-060521-main.jpg?fm=jpg&fl=progressive&q=50&w=1200'); background-repeat: no-repeat; background-size: cover;" class="card flex text-white items-center text-2xl justify-center h-24 rounded bg-gray-50">
+              Education
+              <input class="content hidden" value="Education" name="about" type="text">
+            </div>
+            <div onclick="selectCard(event)" style="background-image: url('https://marvelapp.com/wp-content/uploads/2020/07/90.png'); background-repeat: no-repeat; background-size: cover;" class="card flex text-white flex-col items-center justify-center h-34 text-2xl font-medium rounded bg-gray-50">
+              Communication
+              <input class="content hidden" value="Communication" name="about" type="text">
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="flex justify-center "><button class="bg-gray-50 p-3 bg-red-500 hover:bg-red-600 text-white rounded save-form">Save</button>
+        </div>
+    
+        </form>
+    </div>
+</div>
+
+<script>
+    function previewImage(event) {
+  const fileInput = event.target;
+  const previewImage = document.getElementById('preview');
+
+  if (fileInput.files && fileInput.files[0]) {
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      previewImage.src = e.target.result;
+      previewImage.style.display = 'block';
+      previewImage.style.width = '12em';
+        previewImage.style.height = '11em';
+        previewImage.style.borderRadius = '50%';
+        previewImage.style.objectFit = 'cover';
+    };
+
+    reader.readAsDataURL(fileInput.files[0]);
+  } else {
+    previewImage.src = '#';
+    previewImage.style.display = 'none';
+  }
+}
+function selectCard(event) {
+    const selectedCards = document.querySelectorAll('.card.selected');
+    selectedCards.forEach(card => {
+      card.classList.remove('selected');
+    });
+
+    const clickedCard = event.target;
+    clickedCard.classList.add('selected');
+    const cardvalue =  clickedCard.querySelector('.content').value;
+    console.log(cardvalue);
+
+  }
+
+  function saveData() {
+    const surname = document.querySelector('.nickname').value;
+    const selectedCard = document.querySelector('.card.selected');
+    const about = selectedCard.querySelector('.content').value;
+    const profileImage = document.getElementById('profileImage').files[0];
+
+    console.log(profileImage)
+    const formData = new FormData();
+    formData.append('surname', surname);
+    formData.append('about', about);
+    formData.append('profileImage', profileImage); // Append only the file, not the entire file object
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/setup', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        console.log('Data saved successfully!');
+      }
+    };
+    xhr.send(formData);
+  }
+
+  const saveform = document.querySelector('.save-form');
+  saveform.addEventListener('click', saveData);
+</script>

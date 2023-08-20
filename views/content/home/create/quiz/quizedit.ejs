@@ -1,0 +1,833 @@
+<% layout('./layouts/boilerplate.ejs')%>
+<%- include('../../../../layouts/partials/settings.ejs') %>
+<title>Gukari-<%= foundquiz.title %></title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+
+    <div class="content fullscreen" id="content-menu">
+        <style>
+            .tag {
+                /* Default tag style */
+            }
+
+            .tag.cyan {
+                color: #34d399;
+                background-color: #a7f3d0;
+            }
+
+            .tag.pink {
+                color: #ec4899;
+                background-color: #fbcfe8;
+            }
+
+            .tag.blue {
+                color: #3b82f6;
+                background-color: #a5b4fc;
+            }
+            #successMessage {
+            display: none;
+        }
+        .container {
+                padding-left: 15em;
+            }
+        #errorMessage {
+            display: none;
+        }
+        #warningMessage {
+            display: none;
+        }
+        body{
+            overflow: none;
+        }
+        </style>
+        
+            <br>
+            <div class="ml-5 mr-5">
+            <div class="p-2">
+                
+                <form id="quizForm"
+                 method="POST" 
+                 action="/quizcard/<%=foundquiz._id %>/edit"
+                    enctype="multipart/form-data">
+                    <div class="container mt-3">
+                        <div id="successMessage"
+                        class="msg px-4 py-2 text-sm text-green-800 bg-green-50  rounded-lg"
+                        style="margin-left: 18em; margin-right: 2em;">
+                        <span id="successText" class="font-medium">
+                        </span>
+                        </div>
+                        <div id="errorMessage"
+                        class="msg px-4 py-2 text-sm text-red-800 bg-red-50  rounded-lg"
+                        style="margin-left: 18em; margin-right: 2em;">
+                        <span id="errorText" class="font-medium">
+                        </span>
+                        </div>
+                        <div id="warningMessage"
+                        class="msg px-4 py-2 text-sm text-yellow-800 bg-yellow-50  rounded-lg"
+                        style="margin-left: 18em; margin-right: 2em;">
+                        <span id="warningText" class="font-medium">
+                        </span>
+                        </div>
+            
+                    </div>
+                    <div class="flex content-center items-center justify-between w-full">
+                        <span>Enter your Cards details</span>
+                      
+                        <button type="submit" class="p-3 bg-blue-500 text-white rounded">Done</button>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="relative z-0 w-full mb-6 group">
+                            <input type="Title" value="<%= foundquiz.title %>" name="title" id="title"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                placeholder=" " required />
+                            <label for="title"
+                                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                Title
+                            </label>
+                        </div>
+                        <div class="grid md:grid-cols-2 md:gap-6">
+                            <div>
+                                <label for="message" class="block mb-2 text-sm font-medium text-gray-900 ">
+                                    Your Description
+                                </label>
+                                <textarea id="textare" name="description" rows="4"
+                                    class="textare block p-2.5 w-full text-sm rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Enter Card description"
+                                    required><%= foundquiz.description %></textarea>
+                            </div>
+                            <div class="relative z-0 w-full mb-6 group">
+                                <div>
+                                    <input type="text" id="tag_input"
+                                        class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+                                    <label for="tag_input"
+                                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                        Tags
+                                    </label>
+                                </div>
+                                <br>
+                                <input id="tags-post"  class="hidden tags-post" type="text" value="general"
+                                    name="tags">
+                                <div class="tags flex flex-wrap" id="tags_container">
+                                    <div class="tags flex flex-wrap" id="tags_container">
+                                        <% foundquiz.tags.forEach((tag)=> { %>
+                                            <span class="text-xs  <%= tag.color %> ml-3 mb-2 font-semibold inline-block py-1 px-2 uppercase rounded
+                                            ">
+                                                <%= tag.name %>
+                                            </span>
+                                            <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="flex mt-4 justify-between">
+                            <div class="mb-3">
+                                <label for="image" class="block text-gray-700">Image</label>
+                                <input type="file" id="coverimage" name="image" class="form-input mt-1 block" onchange="coverimagePreview(event)" />
+                                <input type="text" class="orignalimg hidden" value="<%=foundquiz.imageUrl %>" name="orniginalimg" id="">
+                            </div>
+                            <% if(foundquiz.imageUrl && foundquiz.imageUrl =='/uploads/undefined'){ %>
+                            <div id="coverimagePreview" class=" " style=""></div>
+                            <div>
+                            <% }else{ %>
+                            <div id="coverimagePreview" class=" "></div>
+                            <% } %>
+                                
+                                
+                              
+    
+                                <div class="flex flex-col"> 
+                                <label for="category" class="block mb-2 text-sm font-medium">Categorie</label>
+                                <select name="category" id="countries"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    <option selected value="<%= foundquiz.category %>"><%= foundquiz.category %></option>
+                                    <option value="technology">Technology</option>
+                                    <option value="education">Education</option>
+                                    <option value="helth">Health and Fitness
+                                    </option>
+                                    <option value="sports">Sports</option>
+                                    <option value="food">Food and Cooking</option>
+                                    <option value="business">Business and Finance
+                                    </option>
+                                    <option value="art">Arts and Culture
+                                    </option>
+                                </select>
+                            </div>
+    
+                            </div>
+    
+                        </div>
+                        <hr class="my-8" />
+                        <div id="existing-cards-container">
+                            <!-- Existing cards will be inserted here -->
+                            <% foundquiz.cards.forEach((card, index)=> { %>
+                                <div class="card mb-4 border p-5 rounded-lg">
+                                    <div class="flex justify-between items-center content-center">
+                                        <div class="card-number">
+                                            <%= card.position%>
+                                        </div>
+                                        <button
+                                            class="remove-card-button p-2 text-center flex justify-center mt-3 rounded-md bg-red-400">
+                                            <img width="20" height="20"
+                                                src="https://img.icons8.com/android/24/000000/minus.png" alt="minus" />
+                                        </button>
+                                    </div>
+
+                                    <div class="w-full flex px-2 mb-6 md:mb-0">
+                                        <div class="w-full px-2">
+                                            <label
+                                                class="w-full block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                                for="term_<%= index%>">
+                                                Term
+                                            </label>
+                                            <textarea class="card-input rounded-md resize-none w-full bg-gray-50 border-none" type="text" name="cards[<%= index%>][term]" id="term_<%= index%>" required><%= card.term %></textarea>
+
+                                        </div>
+                                        <div class="w-full px-2">
+                                            <label
+                                                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                                for="definition_<%= index%>">
+                                                Definition
+                                            </label>
+                                            <input class="card-input rounded-md" type="text" name="cards[<%= index %>][position]" value="<%= card.position %>" readonly style="display: none;">
+
+                                            <textarea class="card-input rounded-md resize-none w-full bg-gray-50 border-none" type="text"
+                                                name="cards[<%= index%>][definition]" id="definition_<%= index%>"
+                                                required><%= card.definition %></textarea>
+                                             
+                                              
+
+                                        </div>
+                                        <br>
+     
+                                    </div>
+                                    <div class="flex justify-between">
+                                    <input class="card-input  rounded-md" type="file" name="image"
+                                    id="image_${cardCount}" style="margin-top: 0.5rem;"
+                                    onchange="previewImage1(event, `<%= index%>`)"
+                                    value="/public/uploads/china_1687641298604.jpeg">
+                                    <% if( card.image && card.image !== '/public/uploads/china_1687641298604.jpeg' ){ %>
+                                        <img  class="h-16 w-16" id="preview_<%=index %>" src="/uploads/<%= card.image %>" alt=""  srcset="">
+                                        <% } else{%>
+                                            <img  class="h-16 w-16 hidden"  id="preview_<%=index %>" src="/uploads/<%= card.image %>" alt=""  srcset="">
+                                        <% } %> 
+                                        <div> 
+                                        <label for="languges" class="block mb-2 text-sm font-medium text-gray-900 ">Select language</label>
+                                        <select id="languges${cardCount}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                            <option  value="en">English</option>
+                                            <option value="fr">French</option>
+                                            <option  value="ja">Japanese</option>
+                                
+                                            <option  selected value="zh-cn">Chinese</option>
+                                            <option  value="es">Spanish</option>
+                                            <option  value="ko">Korean</option>
+                                        </select>
+                                    </div>
+                                    </div>
+                                <input class="card-input hidden  rounded-md" type="text"
+                                    name="cards[<%= index%>][image]" value="<%= card.image %>"
+                                    id="preview2_<%=index %>" placeholder="Enter imgae" required>
+                                </div>
+                                <% }) %>
+                                
+                        </div>
+                        <div class="flex justify-center">
+                            <button type="button" id="add-card-button"
+                                class="add-card-button items-center p-3 text-center flex justify-center mt-3 rounded-md bg-green-500 text-white font-medium">
+                                <img width="20" height="20" src="https://img.icons8.com/android/24/000000/plus.png"
+                                    alt="plus" />
+                                <span class="ml-2">Add Card</span>
+                            </button>
+                            <button type="button"  id="savebtn" type="submit"
+                            class="add-card-button items-center-3 p-3 ml-3 text-center flex justify-center mt-3 rounded-md bg-blue-500 text-white font-medium">
+                            <img width="20" height="20" src="https://img.icons8.com/color/48/save--v1.png"
+                                alt="plus" />
+                            <span class="ml-2">Save</span>
+                        </button>
+
+                        </div>
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
+            
+            <script>
+                const savebtn = document.getElementById('savebtn');
+    const orignalimg = document.querySelector('.orignalimg').value;
+     var output = document.getElementById('coverimagePreview');
+    output.innerHTML = '<img src="' + orignalimg + '" class="w-32 rounded h-auto mt-2" />';
+                    function coverimagePreview(event) {
+  var reader = new FileReader();
+  reader.onload = function () {
+    var output = document.getElementById('coverimagePreview');
+    output.innerHTML = '<img src="' + reader.result + '" class="w-32 rounded h-auto mt-2" />';
+  };
+  reader.readAsDataURL(event.target.files[0]);
+}
+
+let cardCount = document.querySelectorAll('.card').length + 1; 
+let UsedLanguage = 'zh-cn';
+        const defaultImageURL1 = '/public/uploads/china_1687641298604.jpeg';
+
+        function previewImage1(event, cardCount) {
+            console.log("dkd");
+            const input = event.target;
+            const preview = document.getElementById(`preview_${cardCount}`);
+            const preview2 = document.getElementById(`preview2_${cardCount}`);
+
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+
+                };
+                console.log(input.files[0]);
+                preview2.value = input.files[0].name;
+                reader.readAsDataURL(input.files[0]);
+
+            } else {
+                preview.src = defaultImageURL;
+                preview.style.display = 'block';
+            }
+        }
+
+                function getTagColorClass(tag) {
+                    const tagColors = {
+                        computer: 'text-cyan-600 bg-cyan-200',
+                        science: 'text-pink-600 bg-pink-200',
+                        programming: 'text-blue-600 bg-blue-200',
+                    };
+
+                    return tagColors[tag.toLowerCase()] || '';
+                }
+                // Function to update the card numbers
+                function updateCardNumbers() {
+                    const cardNumbers = document.querySelectorAll('.card-number');
+                    cardNumbers.forEach((cardNumber, index) => {
+                        cardNumber.textContent = index + 1;
+                    });
+                }
+
+                // Function to remove a card
+                function removeCard(event) {
+  const cardContainer = event.target.closest('.card');
+  const cardIndex = [...cardContainer.parentNode.children].indexOf(cardContainer);
+  cardContainer.remove();
+
+  const cardInputs = document.querySelectorAll('.card-input');
+  cardInputs.forEach((input) => {
+    const inputName = input.name;
+    const inputIndex = getInputIndexFromName(inputName);
+
+    if (inputIndex > cardIndex) {
+      const newIndex = inputIndex - 1;
+      const newInputName = updateInputNameAtIndex(inputName, newIndex);
+      input.name = newInputName;
+    }
+  });
+
+  updateCardNumbers();
+}
+
+function getInputIndexFromName(inputName) {
+  const regex = /cards\[(\d+)\]/;
+  const match = inputName.match(regex);
+  return match ? parseInt(match[1]) : -1;
+}
+
+function updateInputNameAtIndex(inputName, newIndex) {
+  const regex = /cards\[\d+\]/;
+  return inputName.replace(regex, `cards[${newIndex}]`);
+}
+                const defaultImageURL = '/public/uploads/china_1687641298604.jpeg';
+
+                function previewImage(event, cardCount) {
+                    const input = event.target;
+                    const preview = document.getElementById(`preview_${cardCount}`);
+                    const preview2 = document.getElementById(`preview2_${cardCount}`);
+
+
+                    if (input.files && input.files[0]) {
+                        const reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            preview.src = e.target.result;
+                            preview.style.display = 'block';
+
+                        };
+                        console.log(input.files[0]);
+                        preview2.value = input.files[0].name;
+                        reader.readAsDataURL(input.files[0]);
+
+                    } else {
+                        preview.src = defaultImageURL;
+                        preview.style.display = 'block';
+                    }
+                }
+
+
+                // Function to add a new card
+                function addCard() {
+                    var definitionsList = document.getElementById(`definitionsList${cardCount -1 }`);
+                    if(definitionsList){
+                    definitionsList.style.display = "none";
+                    }
+                    const cardContainer = document.createElement('div');
+                    cardCount++;
+                    cardContainer.className = 'card mb-4 border p-5 rounded-lg';
+                    cardContainer.innerHTML = `
+                    <div class="flex justify-between items-center content-center"> 
+        <div class="card-number">${cardCount}</div>
+        <button class="remove-card-button p-2 text-center flex justify-center mt-3 rounded-md bg-red-400">
+            <img width="20" height="20" src="https://img.icons8.com/android/24/000000/minus.png" alt="minus" />
+        </button>
+        </div>
+
+        <div class="w-full flex px-2 mb-6 md:mb-0">
+        <div class="w-full px-2">
+            <label class="w-full block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="term_${cardCount}">
+            Term
+            </label>
+            
+            <textarea
+            class="card-input   bg-gray-50  resize-none w-full border-0 rounded-md"
+            type="text"
+            onchange="TranslatePost(event, ${cardCount})"
+
+            name="cards[${cardCount - 1}][term]"
+            id="term_${cardCount}"
+            placeholder="Enter term"
+            required ></textarea>
+
+        </div>
+        <div class="w-full px-2">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="definition_${cardCount}">
+            Definition
+            </label>
+            <input
+            class="card-input rounded-md"
+            type="text"
+            
+            name="cards[${cardCount - 1}][position]"
+            value="${cardCount}"
+            readonly
+            style="display: none;"
+            >
+            <textarea
+            class="card-input bg-gray-50  resize-none border-0 w-full rounded-md"
+            type="text"
+            name="cards[${cardCount - 1}][definition]"
+            id="definition_${cardCount}"
+            onchange="TranslatePost1(event)"
+            placeholder="Enter definition"
+            required></textarea>
+            <div style="height:6em; overflow:scroll; padding:0.5em " class=" hidden bg-gray-200 rounded-lg z-50 w-full hidden" id="definitionsList${cardCount - 1}"></div>
+
+        </div>
+
+        </div>
+        <div class="w-full px-2 flex justify-between">
+
+            <input
+            class="card-input rounded-md"
+            type="file"
+            name="image"
+            id="image_${cardCount}"
+            accept="image/*"
+            style="margin-top: 0.5rem;"
+            onchange="previewImage(event, ${cardCount}) "
+            value="${defaultImageURL}" 
+            > 
+            <img id="preview_${cardCount}" class=" ml-5 mb-1 mt-1 w-16 h-16" src="${defaultImageURL}" alt="Preview" style="display: none;">
+            <div class="w-1/2 px-2 flex flex-wrap">
+        <label for="languges" class="block mb-2 text-sm font-medium text-gray-900 ">Select language</label>
+        <select id="languges${cardCount}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <option selected  value="${UsedLanguage}">${UsedLanguage}</option>
+            <option value="fr">French</option>
+            <option  value="ja">Japanese</option>
+
+            <option   value="zh-cn">Chinese</option>
+            <option   value="es">Spanish</option>
+            <option   value="ko">Korean</option>
+        </select>
+    </div>
+    
+</div>
+
+
+        </div>
+        <input
+            class="card-input hidden rounded-md"
+            type="text"
+            
+                name="cards[${cardCount - 1}][image]"
+            value="${defaultImageURL}"
+            id="preview2_${cardCount}"
+            placeholder="Enter definition"
+            required>
+            
+
+    `;
+
+    const languageDropdown = cardContainer.querySelector(`#languges${cardCount}`);
+    languageDropdown.addEventListener('change', () => {
+        showLanguageMessage(cardCount);
+    });
+
+    function showLanguageMessage(cardCount) {
+    const languageDropdown = document.getElementById(`languges${cardCount}`);
+    const selectedLanguage = languageDropdown.value;
+    const languageMessage = document.getElementById(`languageMessage${cardCount}`);
+    const languageName = getLanguageName(selectedLanguage); // Implement this function to get the language name based on the language code
+
+    // languageMessage.textContent = `Add a new card (${cardCount}) - Selected language: ${languageName}`;
+    // languageMessage.style.display = 'block';
+}
+
+// Implement the getLanguageName function to get the language name based on the language code
+function getLanguageName(languageCode) {
+    // Implement this function to map language codes to their respective language names
+    // Example implementation:
+    const languageMap = {
+        'en': 'English',
+        'fr': 'French',
+        'ja': 'Japanese',
+        'zh-cn': 'Chinese',
+        'es': 'Spanish',
+        'ko': 'Korean',
+    };
+    return languageMap[languageCode] || 'Unknown Language';
+}
+
+                 
+const removeButton = cardContainer.querySelector('.remove-card-button');
+                
+                    removeButton.addEventListener('click', removeCard);
+
+                    const cardContainer1 = document.getElementById('existing-cards-container');
+                    cardContainer1.appendChild(cardContainer);
+                    updateCardNumbers();
+                }
+
+                const addCardButton = document.getElementById('add-card-button');
+                addCardButton.addEventListener('click', addCard);
+                function addTag(tagValue) {
+                    const tagsContainer = document.getElementById('tags_container');
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'text-xs ml-3 mb-2 font-semibold inline-block py-1 px-2 uppercase rounded';
+                    tagElement.textContent = tagValue;
+
+                    // Add tag color class based on the tag value
+                    tagElement.classList.add(getTagColorClass(tagValue));
+
+                    tagsContainer.appendChild(tagElement);
+                }
+                // Prevent form submission when Enter key is pressed
+                // Add event listener to the tag input field for Enter keydown event
+                const tagInput1 = document.getElementById('tag_input');
+                tagInput1.addEventListener('keydown', function (e) {
+                    e.preventDefault();
+
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const tagValue = tagInput1.value.trim();
+                        if (tagValue) {
+                            addTag(tagValue);
+                            tagInput1.value = '';
+                        }
+                    }
+                });
+
+
+                // Add event listeners to existing remove card buttons
+                const removeCardButtons = document.querySelectorAll('.remove-card-button');
+                removeCardButtons.forEach((button) => {
+                    button.addEventListener('click', removeCard);
+                });
+
+                function submitForm() {
+    const form = document.getElementById('quizForm');
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+      // Process the response if needed (data variable contains the response)
+      console.log(data);
+    })
+    .catch(error => {
+      // Handle any errors that occurred during form submission
+      console.error('Error:', error);
+    });
+  }
+
+  // Add event listener to the "Done" button to submit the form
+  const doneButton = document.querySelector('.p-3.bg-blue-500.text-white.rounded');
+  doneButton.addEventListener('click', () => {
+    submitForm();
+  });
+
+  // Add event listener to the form itself to handle form submission on Enter keypress
+  const form = document.getElementById('quizForm');
+  form.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      submitForm();
+    }
+  });
+//   languageDropdown.addEventListener('change', () => {
+//     TranslatePost();
+//   });
+function TranslatePost(event, cardCount) {
+    console.log(event)
+  var definitionTextarea = event.target;
+  
+  const termTextarea = document.getElementById(`term_${cardCount}`);
+  var definition = definitionTextarea.value.trim();
+
+  // Check if the definition is not empty
+    // Get the selected language from the dropdown
+    const languageDropdown = document.getElementById(`languges${cardCount}`);
+          const selectedLanguage = languageDropdown.value;
+          UsedLanguage = selectedLanguage;
+          
+
+          // Make a POST request to the /api/translate endpoint to translate the definition
+          const translateApiUrl = '/api/translate';
+          const formData = new FormData();
+          formData.append('text', definition);
+          formData.append('targetLanguage', selectedLanguage);
+
+          fetch(translateApiUrl, {
+            method: 'POST',
+            body: formData,
+            
+          })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+              // Update the definition textarea with the translated text
+              const translatedText = data.translatedText;
+              const definitionTextarea = document.getElementById(`definition_${cardCount}`);
+              if(selectedLanguage === 'zh-cn'){
+                definitionTextarea.value = translatedText.text + ' ' + translatedText.pinyin;
+                }else{
+                  console.log( translatedText.text);
+                  const definitionlist = [{
+                    definition: translatedText.text
+                  }]
+                  showDefinitions(definitionlist, cardCount);
+                  
+
+                }   
+
+            })
+            .catch((error) => {
+              console.error('Error translating definition:', error);
+            });
+  if (definition !== "") {
+
+    // Make the API call to the dictionary API to get recommendations
+    var apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${definition}`;
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        const texttrans = data[0].word
+        if (data.length > 0 && data[0].meanings && data[0].meanings[0].definitions) {
+          const definitions = data[0].meanings[0].definitions;
+          console.log(definitions);
+          // Display the definitions in a list on the card
+          
+          showDefinitions(definitions, cardCount);
+
+        
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching recommendations:', error);
+        clearDefinitions();
+      });
+  } else {
+    // If the definition is empty, clear the recommendations dropdown or list
+    clearDefinitions();
+  }
+}
+
+  function showDefinitions(definitions, cardCount) {
+
+   
+            
+    console.log('definitionsList' + cardCount - 1); 
+
+    var definitionsList = document.getElementById(`definitionsList${cardCount -1 }`);
+    console.log(definitionsList);
+    definitionsList.style.display = "block";
+    definitionsList.innerHTML = "";
+
+    var definitionsUl = document.createElement("ul");
+    definitionsUl.classList.add("definitions-ul");
+    var definitionTextarea = document.getElementById(`definition_${cardCount}`);
+      
+  
+      const termTextarea = document.getElementById(`term_${cardCount}`);
+      var definition = termTextarea.value.trim();
+      console.log(definition);
+    
+    
+      
+    definitions.forEach((definition, index) => {
+      var definitionLi = document.createElement("li");
+      definitionLi.textContent = `${index + 1}. ${definition.definition}`;
+
+      definitionsUl.appendChild(definitionLi);
+
+      definitionLi.onclick = function () {
+      // Fill the definition textarea with the selected recommendation
+      var selectedRecommendation = this.textContent;
+      console.log(selectedRecommendation);
+      var definitionTextarea = document.getElementById(`definition_${cardCount}`);
+      definitionTextarea.value = selectedRecommendation;
+      definitionsList.style.display = "none";
+
+      // Clear the recommendations dropdown or list after selection
+      clearDefinitions()
+    };
+    });
+
+    definitionsList.appendChild(definitionsUl);
+      // Check if the definition is not empty
+        // Get the selected language from the dropdown
+        const languageDropdown = document.getElementById(`languges${cardCount}`);
+              const selectedLanguage = languageDropdown.value;
+    
+              // Make a POST request to the /api/translate endpoint to translate the definition
+              const translateApiUrl = '/api/translate';
+              const formData = new FormData();
+              formData.append('text', definition);
+              formData.append('targetLanguage', selectedLanguage);
+    
+              fetch(translateApiUrl, {
+                method: 'POST',
+                body: formData,
+                
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                  // Update the definition textarea with the translated text
+                  const translatedText = data.translatedText;
+                  const definitionTextarea = document.getElementById(`definition_${cardCount}`);
+                  if(selectedLanguage === 'zh-cn'){
+                    definitionsUl.appendChild(translatedText.text) + ' ' + translatedText.pinyin;
+                    }else{
+                        var definitionLi = document.createElement("span");
+definitionLi.textContent = ` ${translatedText.text}`;
+definitionsUl.insertAdjacentElement('beforebegin', definitionLi);
+
+// Add the event listener after the new list item is inserted
+definitionLi.addEventListener('click', function() {
+  definitionTextarea.value = translatedText.text;
+  definitionsList.style.display = "none";
+});
+                    }   
+    
+                })
+                .catch((error) => {
+                    console.log(error)
+                  console.error('Error translating definition:', error);
+                });
+  }
+
+  function clearDefinitions() {
+    // Clear the definitions list
+    var definitionsList = document.getElementById(`definitionsList${cardCount -1 }`);
+    definitionsList.innerHTML = "";
+    definitionsList.style.display = "none";
+  }
+
+  function addCardElement(cardCount) {
+    // ... Your existing code for adding card elements ...
+
+    // Add the event listener to the term textarea
+    var termTextarea = document.getElementById(`term_${cardCount}`);
+    termTextarea.addEventListener('keyup', TranslatePost);
+
+    // ... Other code ...
+  }
+  const languageDropdown = document.getElementById(`languges${cardCount}`);
+
+  function TranslatePost2(event) {
+  var definitionTextarea = event.target;
+  const termTextarea = document.getElementById(`definition_${cardCount - 1}`);
+  var definition = definitionTextarea.value.trim();
+
+  // Check if the definition is not empty
+    // Get the selected language from the dropdown
+    const languageDropdown = document.getElementById(`languges${cardCount -1 }`);
+          const selectedLanguage = languageDropdown.value;
+
+          // Make a POST request to the /api/translate endpoint to translate the definition
+          const translateApiUrl = '/api/translate';
+          const formData = new FormData();
+          formData.append('text', definition);
+          formData.append('targetLanguage', selectedLanguage);
+
+          fetch(translateApiUrl, {
+            method: 'POST',
+            body: formData,
+            
+          })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+              // Update the definition textarea with the translated text
+              const translatedText = data.translatedText;
+              const definitionTextarea = document.getElementById(`term_${cardCount}`);
+              if(selectedLanguage === 'zh-cn'){
+                definitionTextarea.value = translatedText.text + ' ' + translatedText.pinyin;
+                }else{
+
+              definitionTextarea.value = translatedText.text;
+              submitForm();
+                }   
+
+            })
+            .catch((error) => {
+              console.error('Error translating definition:', error);
+            });
+  if (definition !== "") {
+
+    // Make the API call to the dictionary API to get recommendations
+    var apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${definition}`;
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        const texttrans = data[0].word
+        if (data.length > 0 && data[0].meanings && data[0].meanings[0].definitions) {
+          const definitions = data[0].meanings[0].definitions;
+          console.log(definitions);
+          // Display the definitions in a list on the card
+          showDefinitions(definitions, cardCount);
+          submitForm()
+        
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching recommendations:', error);
+        clearDefinitions();
+      });
+  } else {
+    // If the definition is empty, clear the recommendations dropdown or list
+    clearDefinitions();
+  }
+}
+savebtn.addEventListener('click', submitForm());
+
+
+            </script>

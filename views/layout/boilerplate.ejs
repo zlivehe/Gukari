@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <link rel="icon" href="/imgs/home/icon.png">
+    <!-- <link rel="icon" href="../../public/imgs/home/icon.png"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Option 1: Include in HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<style>
+    body {
+        --tw-bg-opacity: 1;
+        background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+    }
+</style>
+
+<body>
+
+    <%- include('./partials/navigation.ejs') %>
+        <br><br><br>
+        <%- include('./partials/flash')%>
+
+            <%- body %>
+
+                <br><br>
+                <%- include('./partials/footer.ejs') %>
+                    <link rel="stylesheet" href="/stylesheet/view/index.css">
+
+</body>
+
+</html>
+
+<script src="https://kit.fontawesome.com/6529104628.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>

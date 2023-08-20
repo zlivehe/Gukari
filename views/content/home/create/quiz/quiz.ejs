@@ -1,0 +1,705 @@
+<script src="https://cdn.tailwindcss.com"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.6/flowbite.min.js"></script>
+<link rel="stylesheet" href="/stylesheet/home/index.css">
+<script src="/javascript/home/main.js" defer></script>
+<style>
+    @keyframes confetti-slow {
+  0% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(0); }
+  100% { transform: translate3d(25px, 105vh, 0) rotateX(360deg) rotateY(180deg); }
+}
+
+@keyframes confetti-medium {
+  0% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(0); }
+  100% { transform: translate3d(100px, 105vh, 0) rotateX(100deg) rotateY(360deg); }
+}
+
+@keyframes confetti-fast {
+  0% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(0); }
+  100% { transform: translate3d(-50px, 105vh, 0) rotateX(10deg) rotateY(250deg); }
+}
+
+.container {
+  width: 100vw;
+  height: 80vh;
+  background: #ffffff;
+  border: 1px solid white;
+  position: fixed;
+  top: 0;
+}
+
+.confetti-container {
+  perspective: 700px;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.confetti {
+  position: absolute;
+  z-index: 1;
+  top: -10px;
+  border-radius: 0%;
+}
+
+.confetti--animation-slow {
+  animation: confetti-slow 2.25s linear 1 forwards;
+}
+
+.confetti--animation-medium {
+  animation: confetti-medium 1.75s linear 1 forwards;
+}
+
+.confetti--animation-fast {
+  animation: confetti-fast 1.25s linear 1 forwards;
+}
+
+.checkmark-circle {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.checkmark-circle .background {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: #00C09D;
+  position: absolute;
+}
+
+.checkmark-circle .checkmark {
+  border-radius: 5px;
+}
+
+.checkmark-circle .checkmark.draw:after {
+  -webkit-animation-delay: 100ms;
+  -moz-animation-delay: 100ms;
+  animation-delay: 100ms;
+  -webkit-animation-duration: 3s;
+  -moz-animation-duration: 3s;
+  animation-duration: 3s;
+  -webkit-animation-timing-function: ease;
+  -moz-animation-timing-function: ease;
+  animation-timing-function: ease;
+  -webkit-animation-name: checkmark;
+  -moz-animation-name: checkmark;
+  animation-name: checkmark;
+  -webkit-transform: scaleX(-1) rotate(135deg);
+  -moz-transform: scaleX(-1) rotate(135deg);
+  -ms-transform: scaleX(-1) rotate(135deg);
+  -o-transform: scaleX(-1) rotate(135deg);
+  transform: scaleX(-1) rotate(135deg);
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+
+.checkmark-circle .checkmark:after {
+  opacity: 1;
+  height: 75px;
+  width: 37.5px;
+  -webkit-transform-origin: left top;
+  -moz-transform-origin: left top;
+  -ms-transform-origin: left top;
+  -o-transform-origin: left top;
+  transform-origin: left top;
+  border-right: 15px solid white;
+  border-top: 15px solid white;
+  border-radius: 2.5px !important;
+  content: '';
+  left: 34px;
+    top: 80px;
+  position: absolute;
+}
+
+@keyframes checkmark {
+  0% {
+    height: 0;
+    width: 0;
+    opacity: 1;
+  }
+  20% {
+    height: 0;
+    width: 37.5px;
+    opacity: 1;
+  }
+  40% {
+    height: 75px;
+    width: 37.5px;
+    opacity: 1;
+  }
+  100% {
+    height: 75px;
+    width: 37.5px;
+    opacity: 1;
+  }
+}
+
+.submit-btn {
+  height: 45px;
+  width: 200px;
+  font-size: 15px;
+  background-color: #00c09d;
+  border: 1px solid #00ab8c;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(87,71,81,.2);
+  cursor: pointer;
+  transition: all 2s ease-out;
+}
+
+.submit-btn:hover {
+  background-color: #2ca893;
+  transition: all .2s ease-out;
+}
+    .card-front {
+        width: 100%;
+    height: 16em;
+        transform: rotateY(0deg);
+        backface-visibility: hidden;
+        position: absolute;
+        transition: transform 0.5s ease-in-out;
+        z-index: 2;
+    }
+    .correct-highlight {
+    background-color: #d4edda; /* A light green color */
+    border: 1px solid #c3e6cb; /* A green border */
+}
+    .card-back {
+        width: 30em;
+        height: 20em;
+        transform: rotateY(180deg);
+        backface-visibility: hidden;
+        position: absolute;
+        transition: transform 0.5s;
+        z-index: 2;
+    }
+
+    .card-container {
+        perspective: 1000px;
+    }
+
+    @keyframes example {
+        0% {
+            left: 0px;
+            top: 0px;
+        }
+
+        100% {
+            left: 500px;
+            animation-timing-function: ease-in-out;
+            top: 0px;
+            rotate: 50deg;
+        }
+    }
+
+    .start-card {
+        margin-bottom: 11em;
+        margin-left: 37em;
+        position: absolute;
+    }
+
+    .card-flip {
+        position: relative;
+        width: 28em;
+        height: 30em;
+        transform-style: preserve-3d;
+        transition: transform 0.5s ease-in-out;
+        cursor: pointer;
+        display: none;
+    }
+    .disabled{
+        pointer-events: none;
+        
+    }
+
+    .card-flip.active {
+        display: block;
+    }
+
+    .card-flip.flip .term {
+        transform: rotateY(-180deg);
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .card-flip.flip .definition {
+        transform: rotateY(0deg);
+        transition: transform 0.5s ease-in-out;
+    }
+    
+    .correct {
+        border: 2px solid green;
+        background-color: #86efac;
+    }
+    #optionsContainer{
+        border: none !important;
+    }
+    .wrong {
+        border: 2px solid red;
+        background-color: #e94e4e;
+    }
+    .check {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+}
+
+/* Create the two lines of the checkmark */
+.check::before,
+.check::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #000;
+  border-right: 2px solid #000;
+  transform: rotate(45deg);
+}
+.ss{
+    display: none;
+}
+.fb:hover{
+    cursor: pointer;
+
+
+}
+
+/* Rotate the lines so they form a checkmark */
+.check::before {
+  transform: rotate(-45deg);
+}
+</style>
+<div class="content-c" style="" id="content-menu">
+    <br>
+    <div style="overflow: scroll;" class=" top">
+        <div class="p-2 flex content-center items-center justify-between w-full">
+            <span>
+                <div class="flex">
+                    <img class="h-16 rounded" src="<%= foundquiz.imageUrl %>" alt="" srcset="">
+                    <div class="flex ml-2 flex-col">
+                        <span class="font-medium">
+                            <%= quizowner.username %>
+                        </span>
+                        <button id="dropdownRightButton" data-dropdown-toggle="dropdownRight" data-dropdown-placement="right" class="mr-3 mb-3 md:mb-0 text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center " type="button">Quiz <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+
+                        <!-- Dropdown menu -->
+                        <div id="dropdownRight" class="z-10 mb-16 hidden bg-white divide-y divide-gray-100 rounded-lg shadow border">
+                            <ul class="text-sm text-gray-700 " aria-labelledby="dropdownRightButton">
+                              <li>
+                                <a href="#" class="block px-4 p-3 hover:bg-gray-100 ">Cards</a>
+                              </li>
+                              <li>
+                                <a href="#" class="block px-4 p-3 hover:bg-gray-100 ">Match</a>
+                              </li>
+                            
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </span>
+            <div class="flex flex-col text-center">
+                <span>
+                    <%= foundquiz.title %>
+                </span>
+                <span id="current-card-index"><%= foundquiz.cards.length %> Total sets</span>
+            </div>
+            <% if(currentUser){ %>
+                <% if(quizowner._id==currentUser._id) { %>
+                    <a href="/quiz/<%= foundquiz._id %>/edit" class="p-3 bg-blue-500 rounded">Edit</a>
+                    <% } else { %>
+                        <a href="/home/quiz/<%= foundquiz._id %>" class="p-2  text-white bg-blue-500 rounded">X</a>
+                        <% } %>
+                            <% } else { %>
+                                <div>
+                                    <button data-modal-target="setting-model" data-modal-toggle="setting-model"
+                                        class="mr-2 p-3 border hover:bg-gray-300 rounded"><i
+                                            class="bi bi-gear"></i></button>
+                                    <a href="/home/quiz/<%= foundquiz._id %>"
+                                        class="p-3 text-center bg-blue-500 rounded">X</a>
+                                    <!-- Main modal -->
+                                    <div id="setting-model" tabindex="-1" aria-hidden="true"
+                                        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                        <div class="relative w-full max-w-2xl max-h-full">
+                                            <!-- Modal content -->
+                                            <div class="relative white-black rounded-lg shadow ">
+                                                <!-- Modal header -->
+                                                <div class="flex items-start justify-between p-4 border-b rounded-t ">
+                                                    <h3 class="text-xl font-semibold text-gray-900">
+                                                        Settings
+                                                    </h3>
+                                                    <button type="button"
+                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
+                                                        data-modal-hide="setting-model">
+                                                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor"
+                                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                            <path fill-rule="evenodd"
+                                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                                clip-rule="evenodd"></path>
+                                                        </svg>
+                                                        <span class="sr-only">Close modal</span>
+                                                    </button>
+                                                </div>
+                                                <div class="p-3">
+                                                    <div class="flex flex-col">
+                                                        <div class="flex justify-between">
+                                                            <span class="font-medium">Card sorting</span>
+
+                                                            <div>
+                                                                <label
+                                                                    class="relative inline-flex items-center cursor-pointer">
+                                                                    <input id="soring" type="checkbox" value=""
+                                                                        class="card-soring sr-only peer">
+                                                                    <div
+                                                                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                                                                    </div>
+
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="text-sm">Sort your cards to focus on the terms you
+                                                            need to review
+                                                            more. Turn sorting off if you want to quickly review your
+                                                            flashcards.
+                                                        </span> <br>
+                                                        <div class="flex justify-between">
+                                                            <span>Dark theme</span>
+                                                            <button class="" id="theme">
+                                                                <i id="togglechange" class="bi text-xl bi-moon"></i>
+                                                            </button>
+                                                        </div>
+
+                                                        <br>
+
+                                                        <div class="flex items-center justify-center w-full">
+                                                            <label for="dropzone-file"
+                                                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 ">
+                                                                <div
+                                                                    class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                                    <svg aria-hidden="true"
+                                                                        class="w-10 h-10 mb-3 text-gray-400" fill="none"
+                                                                        stroke="currentColor" viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path stroke-linecap="round"
+                                                                            stroke-linejoin="round" stroke-width="2"
+                                                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                                                        </path>
+                                                                    </svg>
+                                                                    <p class="mb-2 text-sm text-gray-500">
+                                                                        <span class="font-semibold">Click to
+                                                                            upload</span> or drag and drop
+                                                                    </p>
+                                                                    <p class="text-xs text-gray-500">
+                                                                        SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                                </div>
+                                                                <input id="dropzone-file" type="file" class="hidden" />
+                                                            </label>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        </div>
+        <% } %>
+    </div>
+    <br>
+ <!-- Remove this becuse that's why we keep getting the same term and defintion as this randomOption does not change it;s value -->
+  
+
+<div class="card-container justify-center align-center content-center text-center p-3">
+    <div class="hidden">
+</span>
+<div class="js-container container" style="top:0px !important;"></div>
+
+  <div class="" style="text-align:center;position:  fixed;width:100%;height:70vh;top:0px;left:0px;">
+    <div class="flex rounded-lg border p-3 flex-col" style="margin-left: 11em; margin-right: 11em;;">
+
+    <div class="checkmark-circle">
+      <div class="background"></div>
+      <div class="checkmark draw"></div>
+    </div>
+    <span class="text-4xl font-medium">Way to go! You’ve reviewed all the cards.</span>
+    <div class="flex justify-center mt-11">
+        <div class="flex">
+            <span class="text-3xl">Correct: <b class="text-green-400">0</b></span>
+            <span class="text-3xl ml-5">Incorrect: <b class="text-red-400">0</b></span>
+
+        </div>
+    </div>
+    <div class="flex mt-12 justify-center">
+        <button class="p-3  rounded bg-blue-500 hover:bg-blue-600 text-white">Contine Studying</button>
+
+    </div>
+
+
+
+</div>
+
+  </div>  
+
+  
+
+<div class="flex flex-wrapjustify-center" style="margin-top: -10em; z-index: 99; position: relative;">
+    <div class="fb  p-6  rounded-xl border flex" style="width: 21em; height: 7em;">
+        <img width="48" height="48" src="https://img.icons8.com/color-glass/48/bank-card-back-side.png" alt="bank-card-back-side"/>
+
+        <div class="ml-2 text-start">
+       <span>  Play a game of Match </span><br>
+        <span class="text-sm w-">Match will help you memorize better</span>
+    </div>
+
+    </div>
+    <div class="fb  p-6 flex  rounded-xl ml-3 border" style="width: 21em; height: 7em;">
+        <img class="w-16" src="https://cdn-icons-png.flaticon.com/512/867/867454.png" alt="" srcset="">
+
+        <div class=" ml-2 text-start">
+      <span> Review with some cards  </span> <br>
+      <span class="text-sm w-">Play a card game to review more efficently</span>
+    </div>
+    </div>
+
+</div>
+</div>
+<div class="flex justify-center align-center content-center">
+<div class="card-stack">
+    <div class="card-flip active">
+        <div class="border  p-3 term rounded card-flips card-front flex justify-center items-center text-center" id="term">
+            <span>
+                <!-- change the randomIndex ot an randomINdex that comes from the javascript -->
+                <span id="next-term" class="nexte-term"></span>   
+                <input type="text" id="termid" class="hidden" value="">
+                <textarea name="d" id="foundquiz" class="hidden" cols="30" rows="10"><%= JSON.stringify(foundquiz) %></textarea>
+            </span>
+            <br>
+        </div>
+    </div>
+</div>
+</div> 
+</div>
+<div class="">
+<div style="margin-top: -14em;" class="option-continer z-50 p-7 w-full text-center justify-center content-center">
+    <div id="optionsContainer" class="grid grid-cols-2 gap-4 z-2 relative">
+      
+    </div>
+</div>
+<br>
+<div style="margin-top: -2em;" class="p-1 text-center items-center content-center flex justify-between">
+    <span class="text-xl text-gray-400" id="instruction">Press any key to move to the next question</span>
+    <button id="next-question" class="p-3 border-none bg-blue-600 rounded-lg text-white hidden">Continue</button>
+    <button id="retry-button" class="p-3 border-none bg-blue-600 rounded-lg text-white hidden">retry</button>
+
+</div>
+</div>
+</div>
+<script>
+function Confettiful(el) {
+  this.el = el;
+  this.containerEl = null;
+
+  this.confettiFrequency = 3;
+  this.confettiColors = ['#EF2964', '#00C09D', '#2D87B0', '#48485E','#EFFF1D'];
+  this.confettiAnimations = ['slow', 'medium', 'fast'];
+
+  this._setupElements();
+  this._renderConfetti();
+}
+
+Confettiful.prototype._setupElements = function() {
+  const containerEl = document.createElement('div');
+  const elPosition = this.el.style.position;
+
+  if (elPosition !== 'relative' || elPosition !== 'absolute') {
+    this.el.style.position = 'relative';
+  }
+
+  containerEl.classList.add('confetti-container');
+
+  this.el.appendChild(containerEl);
+
+  this.containerEl = containerEl;
+};
+
+Confettiful.prototype._renderConfetti = function() {
+  const self = this;
+  let confettiCount = 0;
+  this.confettiInterval = setInterval(function() {
+    if (confettiCount >= 100) {
+      clearInterval(self.confettiInterval);
+      return;
+    }
+    const confettiEl = document.createElement('div');
+    const confettiSize = (Math.floor(Math.random() * 3) + 7) + 'px';
+    const confettiBackground = self.confettiColors[Math.floor(Math.random() * self.confettiColors.length)];
+    const confettiLeft = (Math.floor(Math.random() * self.el.offsetWidth)) + 'px';
+    const confettiAnimation = self.confettiAnimations[Math.floor(Math.random() * self.confettiAnimations.length)];
+
+    confettiEl.classList.add('confetti', 'confetti--animation-' + confettiAnimation);
+    confettiEl.style.left = confettiLeft;
+    confettiEl.style.width = confettiSize;
+    confettiEl.style.height = confettiSize;
+    confettiEl.style.backgroundColor = confettiBackground;
+
+    confettiEl.removeTimeout = setTimeout(function() {
+      confettiEl.parentNode.removeChild(confettiEl);
+    }, 10000); // Updated duration to 10 seconds (10,000 milliseconds)
+
+    self.containerEl.appendChild(confettiEl);
+    confettiCount++;
+  }, 40);
+};
+
+window.confettiful = new Confettiful(document.querySelector('.js-container'));
+ const optionsContainer = document.getElementById('optionsContainer');
+    const checkmark = document.getElementById('checkmark');
+    const wrong = document.getElementById('wrong');
+    const instruction = document.getElementById('instruction');
+    const nextTerm = document.getElementById('next-term');
+    const termIdInput = document.getElementById('termid');
+    const foundquiza = document.getElementById('foundquiz');
+    const ss = document.querySelector('.ss');
+    const nextQuestionButton = document.getElementById('next-question');
+    const cardcontainer = document.querySelector('.card-container');
+    const optioncontiner = document.querySelector('.option-continer');
+    const retrybutton = document.getElementById('retry-button');
+    let correctCount = 0;
+    let incorrectCount = 0;
+    let foundquiz = JSON.parse(foundquiza.value);
+    let viewdterms = [];
+    function generateRandomOptions() {
+      
+       let randomIndex;
+    randomIndex = Math.floor(Math.random() * foundquiz.cards.length);
+           //make sure the randomIndex is not the same as the previous one if it's in the viewdterms array
+    while (viewdterms.includes(randomIndex)) {
+        if (viewdterms.length === foundquiz.cards.length) {
+            viewdterms = [];
+        }
+        randomIndex = Math.floor(Math.random() * foundquiz.cards.length);
+    }
+
+    viewdterms.push(randomIndex);
+    console.log(viewdterms);
+   
+    nextTerm.innerHTML = foundquiz.cards[randomIndex].term;
+    termIdInput.value = foundquiz.cards[randomIndex]._id;
+   
+
+    const answerOptions = [
+        { definition: foundquiz.cards[randomIndex].definition, isAnswer: true, id: foundquiz.cards[randomIndex]._id },
+        { definition: foundquiz.cards[(randomIndex + 1) % foundquiz.cards.length].definition, isAnswer: false, id: 'option2' },
+        { definition: foundquiz.cards[(randomIndex + 2) % foundquiz.cards.length].definition, isAnswer: false, id: 'option3' },
+        { definition: foundquiz.cards[(randomIndex + 3) % foundquiz.cards.length].definition, isAnswer: false, id: 'option4' }
+    ];
+
+    answerOptions.sort(() => Math.random() - 0.5);
+
+    return answerOptions;
+    }
+
+
+    function handleOptionClick(event) {
+    const termId = termIdInput.value;
+
+    if (event.target.id === termId) {
+        correctCount++;
+        event.target.classList.add('correct');
+        nextQuestionButton.classList.remove('hidden');
+        console.log('correct' + ' ' + correctCount);
+    } else {
+        incorrectCount++;
+        nextQuestionButton.classList.remove('hidden');
+        optionsContainer.classList.add('disabled');
+        event.target.classList.add('wrong');
+        const correctOption = Array.from(optionsContainer.children).find(option => option.id === termId);
+        if (correctOption) {
+            correctOption.classList.add('correct-highlight');
+        }
+        console.log('incorrect' + ' ' + incorrectCount);
+    }
+
+    // Check if all questions have been answered
+    if (correctCount + incorrectCount >= foundquiz.cards.length) {
+        cardcontainer.classList.add('hidden');
+        optioncontiner.classList.add('hidden');
+        instruction.textContent = `You are finished! Correct: ${correctCount}, Wrong: ${incorrectCount}. Would you like to retry?`;
+        // nextQuestionButton.textContent = 'Retry';
+        // nextQuestionButton.classList.remove('add');
+        // nextQuestionButton.removeEventListener('click', resetQuestion);  // Remove previous event listener
+        retrybutton.classList.remove('hidden');
+        viewdterms = [];
+
+        retrybutton.addEventListener('click', () => {
+            // Reset counts and restart the quiz
+            correctCount = 0;
+            incorrectCount = 0;
+            cardcontainer.classList.remove('hidden');
+            optioncontiner.classList.remove('hidden');
+            resetQuestion();
+        });
+    } else {
+        optionsContainer.classList.add('disabled');
+        instruction.textContent = 'Click "Continue" to move to the next question';
+    }
+    console.log(correctCount);
+}
+
+function resetQuestion() {
+
+    optionsContainer.innerHTML = '';
+    retrybutton.classList.add('hidden');
+
+    optionsContainer.classList.remove('disabled');
+
+    options = generateRandomOptions(); // Update the global options variable
+
+    options.forEach((option, index) => {
+        const optionElement = document.createElement('div');
+        optionElement.classList.add('flex', 'justify-between', 'items-center', 'content-center', 'hover:border-2', 'border', 'p-4', 'w-full', 'rounded', 'option');
+        optionElement.id = option.id;
+        optionElement.innerHTML = `
+            ${option.definition}
+            ${option.isAnswer ? `<span class="ms-2 text-success ss" id="checkmark"><i class="bi bi-check-circle-fill"></i></span>` : `<span class="ms-2 text-red-700 ss" id="wrong"><i class="bi text-2xl bi-x"></i></span>`}
+        `;
+        optionsContainer.appendChild(optionElement);
+    });
+
+    nextQuestionButton.classList.add('hidden');
+    instruction.textContent = 'Press any key to move to the next question';
+
+    optionsContainer.removeEventListener('click', handleOptionClick);
+    optionsContainer.addEventListener('click', handleOptionClick);
+    console.log(correctCount + incorrectCount);
+}
+
+          // Check if all questions have been answered
+
+      
+
+    resetQuestion();
+    nextQuestionButton.addEventListener('click', () => {
+        resetQuestion();
+        randomIndex = Math.floor(Math.random() * 3);
+
+    });
+
+
+</script>

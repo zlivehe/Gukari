@@ -1,0 +1,40 @@
+.active{
+    border: solid;
+    border-radius: .70em;
+     background-color: #1b237e;
+     color: white;
+
+}
+.navlink:hover{
+    border: solid;
+    border-radius: .70em;
+     background-color: #1b237e;
+     color: white;
+}
+#dropdown #DropdownRight2{
+    margin-top: 4em;
+
+}
+.rightem{
+    margin-bottom: 2em;
+}
+
+.textinputs {
+    border: 1px solid red;
+  }
+  
+  #txtReset {
+    border: initial;
+  }
+  .heading{
+    display: flex;
+    width: 100%;
+  }
+.search-dropdown{
+    background-color: red;
+}
+.loginform {
+  width: 83%;
+  max-width: 30em;
+  min-width: 24em;
+}

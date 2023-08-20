@@ -1,0 +1,552 @@
+<script src="https://cdn.tailwindcss.com"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.6/flowbite.min.js"></script>
+<link rel="stylesheet" href="/stylesheet/home/index.css">
+<script src="/javascript/home/main.js" defer></script>
+<title>Gukari-<%= foundquiz.title%></title>
+<!-- //add description and keywords -->
+<meta name="description" content="<%= foundquiz.description%>">
+<meta name="keywords" content="<%= foundquiz.tags%>">
+<!-- //add description and keywords -->
+<link rel="icon" href="/imgs/home/gukari2.png">
+
+
+
+<style>
+    .card-front {
+        width: 40em;
+        height: 30em;
+        transform: rotateY(0deg);
+        backface-visibility: hidden;
+        position: absolute;
+        transition: transform 0.5s ease-in-out;
+
+        z-index: 2;
+    }
+
+    .card-back {
+        width: 40em;
+        height: 30em;
+        transform: rotateY(180deg);
+        backface-visibility: hidden;
+        position: absolute;
+        transition: transform 0.5s;
+        z-index: 2;
+    }
+
+    .card-container {
+        perspective: 1000px;
+    }
+
+
+
+    @keyframes example {
+        0% {
+            left: 0px;
+            top: 0px;
+        }
+
+        100% {
+            left: 500px;
+            animation-timing-function: ease-in-out;
+            top: 0px;
+            rotate: 50deg;
+        }
+
+
+
+    }
+
+    .start-card {
+        margin-bottom: 27em;
+        margin-left: 37em;
+        position: absolute;
+    }
+
+    .card-flip {
+        position: relative;
+        width: 40em;
+        height: 30em;
+        transform-style: preserve-3d;
+        transition: transform 0.5s ease-in-out;
+        cursor: pointer;
+        display: none;
+    }
+
+    .card-flip.active {
+        display: block;
+    }
+
+    .card-flip.flip .term {
+        transform: rotateY(-180deg);
+        transition: transform 0.5s ease-in-out;
+
+    }
+
+    .card-flip.flip .definition {
+        transform: rotateY(0deg);
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .bg-redd-500 {
+        animation-name: example2;
+        animation-duration: 0.4s;
+
+
+    }
+
+    @keyframes example2 {
+        0% {
+            left: 0px;
+            top: 0px;
+        }
+
+        100% {
+            right: 500px;
+            animation-timing-function: transform 0.5s ease-in-out;
+            top: 0px;
+            rotate: -50deg;
+
+        }
+
+
+
+    }
+</style>
+
+<div class="content-c" style="overflow: hidden;" id="content-menu">
+    <br>
+    <div style="overflow: hidden;" class=" top">
+        <div class="p-2 flex content-center items-center justify-between w-full">
+            <span>
+                <div class="flex">
+                    <img class="h-16 rounded" src="<%= foundquiz.imageUrl %>" alt="" srcset="">
+                    <div class="flex ml-2 flex-col">
+                        <span class="font-medium">
+                            <%= quizowner.username %>
+                        </span>
+                        <select id="countries"
+                            class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                            <option selected>FlashCards</option>
+                            <option value="US">Quiz</option>
+                            <option value="DE">Match</option>
+                        </select>
+                    </div>
+                </div>
+            </span>
+            <div class="flex flex-col text-center">
+                <span>
+                    <%= foundquiz.title %>
+                </span>
+                <span id="current-card-index">1/<%= foundquiz.cards.length %></span>
+            </div>
+            <% if(currentUser){ %>
+                <% if(quizowner._id==currentUser._id) { %>
+                    <a href="/quiz/<%= foundquiz._id %>/edit" class="p-3 bg-blue-500 rounded">Edit</a>
+                    <% } else { %>
+                        <a href="/home/quiz/<%= foundquiz._id %>" class="p-2 text-white bg-blue-500 rounded">X</a>
+                        <% } %>
+                            <% } else { %>
+                                <div>
+                                    <button data-modal-target="setting-model" data-modal-toggle="setting-model"
+                                        class="mr-2 p-3 border hover:bg-gray-300 rounded"><i
+                                            class="bi bi-gear"></i></button>
+                                    <a href="/home/quiz/<%= foundquiz._id %>"
+                                        class="p-3 text-center bg-blue-500 rounded">X</a>
+                                    <!-- Main modal -->
+                                    <div id="setting-model" tabindex="-1" aria-hidden="true"
+                                        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                        <div class="relative w-full max-w-2xl max-h-full">
+                                            <!-- Modal content -->
+                                            <div class="relative white-black rounded-lg shadow ">
+                                                <!-- Modal header -->
+                                                <div class="flex items-start justify-between p-4 border-b rounded-t ">
+                                                    <h3 class="text-xl font-semibold text-gray-900">
+                                                        Settings
+                                                    </h3>
+                                                    <button type="button"
+                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                        data-modal-hide="defaultModal">
+                                                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor"
+                                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                            <path fill-rule="evenodd"
+                                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                                clip-rule="evenodd"></path>
+                                                        </svg>
+                                                        <span class="sr-only">Close modal</span>
+                                                    </button>
+                                                </div>
+                                                <div class="p-3">
+                                                    <div class="flex flex-col">
+                                                        <div class="flex justify-between">
+                                                            <span class="font-medium">Card sorting</span>
+
+                                                            <div>
+                                                                <label
+                                                                    class="relative inline-flex items-center cursor-pointer">
+                                                                    <input id="soring" type="checkbox" value=""
+                                                                        class="card-soring sr-only peer">
+                                                                    <div
+                                                                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                                                                    </div>
+
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="text-sm">Sort your cards to focus on the terms you
+                                                            need to review
+                                                            more. Turn sorting off if you want to quickly review your
+                                                            flashcards.
+                                                        </span> <br>
+                                                        <div class="flex justify-between">
+                                                            <span>Dark theme</span>
+                                                            <button class="" id="theme">
+                                                                <i id="togglechange" class="bi text-xl bi-moon"></i>
+                                                            </button>
+                                                        </div>
+
+                                                        <br>
+
+                                                        <div class="flex items-center justify-center w-full">
+                                                            <label for="dropzone-file"
+                                                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 ">
+                                                                <div
+                                                                    class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                                    <svg aria-hidden="true"
+                                                                        class="w-10 h-10 mb-3 text-gray-400" fill="none"
+                                                                        stroke="currentColor" viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path stroke-linecap="round"
+                                                                            stroke-linejoin="round" stroke-width="2"
+                                                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                                                        </path>
+                                                                    </svg>
+                                                                    <p class="mb-2 text-sm text-gray-500">
+                                                                        <span class="font-semibold">Click to
+                                                                            upload</span> or drag and drop
+                                                                    </p>
+                                                                    <p class="text-xs text-gray-500">
+                                                                        SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                                </div>
+                                                                <input id="dropzone-file" type="file" class="hidden" />
+                                                            </label>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        </div>
+        <% } %>
+    </div>
+    <br>
+    <div class="finsihed-continer hidden">
+        <div class="flex justify-center items-center">
+            <div class="flex flex-col justify-center items-center">
+                <span class="text-3xl font-medium">Congratulations!</span>
+                <span class="text-xl">You have finished the quiz</span>
+                <span class="text-xl">You can now review your cards</span>
+                <span class="text-xl">or click here to retry</span>
+                <button id="replay" class="mt-2 p-2 bg-blue-500 rounded">Replay</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-container flex justify-center align-center content-center text-center p-3">
+        <div class="card-stack">
+            <% for(let i=0; i<foundquiz.cards.length; i++) { %>
+                <% if (foundquiz.cards[i].term && foundquiz.cards[i].definition) { %>
+                    <div class="card-flip <%= i === 0 ? 'active' : '' %>">
+                        <div
+                            class="border  shadow p-3 term rounded card-flips card-front flex justify-center items-center text-center">
+                            <button class="start-card"><i class="bi bi-star-fill"></i></button>
+                            <span class="text-3xl">
+                                <%= foundquiz.cards[i].term %>
+                            </span>
+                        </div>
+                        <div
+                            class="border shadow definition p-3 rounded card-flips card-back flex justify-center items-center text-center">
+                            <button class="start-card"><i class="bi bi-star-fill"></i></button>
+                            <span class="text-3xl">
+                                <%= foundquiz.cards[i].definition %>
+                            </span>
+                        </div>
+                    </div>
+                    <% } %>
+                        <% } %>
+
+
+        </div>
+    </div>
+
+    <div class="flex z-50 p-4 w-full justify-between">
+        <button class="ml-9 play-button"><i class="bi text-2xl text-blue-600 bi-play-fill"></i></button>
+        <div class="flex justify-center mt-4">
+            <button id="prev-button" class="prev text-white p-2 bg-blue-500 rounded"><i
+                    class="bi bi-caret-left-fill"></i></button>
+            <button id="next-button" class="next text-white p-2 ml-16 bg-blue-500 rounded"><i
+                    class="bi bi-caret-right-fill"></i></button>
+        </div>
+        <div class="flex items-center">
+
+        <button id="shuffle-button" class="mr-5">
+            <i class="bi text-gray-500 text-2xl bi-shuffle"></i>
+        </button>
+        <button id="switch-button" class="mr-3">
+            <i class="bi text-gray-500 text-2xl bi-arrow-left-right"></i>
+        </button>
+    </div>
+
+    </div>
+</div>
+</div>
+</div>
+
+<script>
+    let cardFlips = document.querySelectorAll('.card-flip');
+    let visitedCards = [];  // Declare the global array at the top
+
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+    const replayButton = document.querySelector('#replay');
+    const switchbutton = document.querySelector('#switch-button');
+
+    console.log(replayButton)
+
+    function switchContent() {
+    cardFlips.forEach((cardFlip) => {
+        const termDiv = cardFlip.querySelector('.term');
+        const definitionDiv = cardFlip.querySelector('.definition');
+
+        // Swap content
+        const temp = termDiv.innerHTML;
+        termDiv.innerHTML = definitionDiv.innerHTML;
+        definitionDiv.innerHTML = temp;
+    });
+}
+
+switchbutton.addEventListener('click', switchContent);
+    const finsihedcontiner = document.querySelector('.finsihed-continer');
+   
+    const currentCardIndexElement = document.getElementById('current-card-index');
+    let currentCardIndex = 0;
+    let isPlaying = false; // Tracks the autoplay state
+    let autoplayInterval; // Stores the autoplay interval
+
+
+    console.log(replayButton)
+    replayButton.addEventListener('click', function () {
+    // Reset the card index
+    currentCardIndex = 0;
+
+    // Reset all the cards to their original state (unflipped)
+    cardFlips.forEach((cardFlip) => {
+        cardFlip.classList.remove('flip');
+    });
+
+    // Hide the finished container
+    finsihedcontiner.classList.add('hidden');
+
+    // Show the navigation buttons and indicators
+    document.getElementById("next-button").style.display = "block";
+    document.getElementById("prev-button").style.display = "block";
+    document.getElementById("shuffle-button").style.display = "block";
+    document.getElementById("current-card-index").style.display = "block";
+    document.querySelector(".play-button").style.display = "block";
+    document.querySelector(".card-stack").style.display = "block";
+
+    // Show the first card
+    showCurrentCard();
+});
+
+    // Retrieve the card sorting preference from local storage
+    const cardSortingPreference = localStorage.getItem('cardSortingPreference');
+    const isCardSortingEnabled = cardSortingPreference === 'true';
+
+    // Function to get the active card count
+    function getActiveCardCount() {
+        let count = 0;
+        cardFlips.forEach((cardFlip) => {
+            if (cardFlip.querySelector('.term').textContent.trim() !== '') {
+                count++;
+            }
+        });
+        return count;
+    }
+
+    // Function to update the card index
+    function updateCardIndex() {
+        currentCardIndexElement.textContent = `${currentCardIndex + 1}/${getActiveCardCount()}`;
+    }
+
+    // Function to show the current card
+    function showCurrentCard() {
+    cardFlips.forEach((cardFlip, index) => {
+        if (index === currentCardIndex) {
+            cardFlip.classList.add('active');
+
+            // Add the card to the visitedCards array if it hasn't been added yet
+            if (!visitedCards.includes(cardFlip)) {
+                visitedCards.push(cardFlip);
+            }
+
+        } else {
+            cardFlip.classList.remove('active');
+        }
+    });
+    updateCardIndex();
+}
+    // Function to navigate to the previous card
+    function showPreviousCard() {
+        currentCardIndex = (currentCardIndex - 1 + cardFlips.length) % cardFlips.length;
+        cardFlips[currentCardIndex].style = `
+        animation-name: example2;
+        animation-duration: 0.4s;
+        animation-timing-function: ease-in-out;
+      `;
+        showCurrentCard();
+    }
+
+    // Function to navigate to the next card
+    function showNextCard() {
+        currentCardIndex = (currentCardIndex + 1) % cardFlips.length;
+        cardFlips[currentCardIndex].style = `
+        animation-name: example;
+        animation-duration: 0.4s;
+        animation-timing-function: ease-in-out;
+      `;
+        showCurrentCard();
+        console.log(currentCardIndex);
+
+        setTimeout(() => {
+            if (isPlaying) {
+                cardFlips[currentCardIndex].classList.toggle('flip');
+            }
+        }, 4500); // Add a delay of 1 second before toggling the flip class
+        if (currentCardIndex  >= cardFlips.length - 1) {
+            currentCardIndex = 0;
+            // Reset all the cards to their original state (unflipped)
+            cardFlips.forEach((cardFlip) => {
+                cardFlip.classList.remove('flip');
+            });
+            visitedCards = [];
+
+
+
+                document.getElementById("next-button").style.display = "none";
+                document.getElementById("prev-button").style.display = "none";
+                document.getElementById("shuffle-button").style.display = "none";
+                document.getElementById("current-card-index").style.display = "none";
+                document.querySelector(".play-button").style.display = "none";
+                finsihedcontiner.classList.remove('hidden');
+                document.querySelector(".card-stack").style.display = "none";
+            }
+
+
+    }
+        
+    // Event listener for flipping the card
+    cardFlips.forEach((cardFlip) => {
+        cardFlip.addEventListener('click', function () {
+            cardFlip.classList.toggle('flip');
+        });
+    });
+
+    // Event listener for previous button
+    prevButton.addEventListener('click', showPreviousCard);
+
+    // Event listener for next button
+    nextButton.addEventListener('click', showNextCard);
+
+    // Initialize the card index and show the current card
+    updateCardIndex();
+    showCurrentCard();
+
+            //check when the cards are all and studied and then show the button
+
+
+    // Function to start autoplay
+    function startAutoplay() {
+        isPlaying = true;
+
+        playButton.querySelector('i').classList.remove('bi-play-fill');
+        playButton.querySelector('i').classList.add('bi-pause-fill');
+        autoplayInterval = setInterval(showNextCard, 4000); // Change the interval duration as needed
+    }
+
+    // Function to stop autoplay
+    function stopAutoplay() {
+        isPlaying = false;
+        playButton.querySelector('i').classList.remove('bi-pause-fill');
+        playButton.querySelector('i').classList.add('bi-play-fill');
+
+        clearInterval(autoplayInterval);
+    }
+
+    // Event listener for play button
+    const playButton = document.querySelector('.play-button');
+    playButton.addEventListener('click', function () {
+        if (isPlaying) {
+            stopAutoplay();
+        } else {
+            startAutoplay();
+        }
+    });
+
+    function shuffleCards() {
+    const cardStack = document.querySelector('.card-stack');
+
+    let cardsArray = Array.from(cardFlips);
+    // skip the cards that have already been visited
+    
+
+    // Create a copy of the visitedCards array
+    const visitedCardsCopy = visitedCards.slice();
+
+    // Shuffle the entire cards array using the Fisher-Yates algorithm
+    for (let i = cardsArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cardsArray[i], cardsArray[j]] = [cardsArray[j], cardsArray[i]];
+    }
+
+    // Clear the current card stack
+    while (cardStack.firstChild) {
+        cardStack.removeChild(cardStack.firstChild);
+    }
+
+    // Append the shuffled cards directly
+    cardsArray.forEach(card => {
+        cardStack.appendChild(card);
+    });
+
+    // Update the visitedCards array with the shuffled cards
+    visitedCards = visitedCardsCopy.filter(card => cardsArray.includes(card));
+
+    // Update the cardFlips NodeList since the DOM has changed
+    cardFlips = document.querySelectorAll('.card-flip');
+
+    // Show the current card (which might now be a different card due to the shuffle)
+    showCurrentCard();
+}
+    
+// Event listener for shuffle button
+    const shuffleButton = document.getElementById('shuffle-button');
+    shuffleButton.addEventListener('click', shuffleCards);
+
+    // Event listener for card sorting preference
+    const cardSortingCheckbox = document.getElementById('card-sorting-checkbox');
+    cardSortingCheckbox.addEventListener('change', function () {
+        const isChecked = this.checked;
+        localStorage.setItem('cardSortingPreference', isChecked);
+    });
+
+    // Set the initial card sorting preference
+    cardSortingCheckbox.checked = isCardSortingEnabled;
+   
+</script>

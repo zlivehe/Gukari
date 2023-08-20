@@ -1,0 +1,74 @@
+<% layout('./layouts/boilerplate.ejs')%>
+<%- include('../../../layouts/partials/settings.ejs') %>
+
+    <div class="content fullscreen" id="content-menu">
+        <div class="flex w-full">
+            <div class=" main-content p-2">
+                <div class="flex justify-between">
+                    <span class=" text-4xl text-red-500 font-bold">Schedule</span>
+                    <button id="createvenet" type="button" class="createvenet">
+                        <i class="bi text-3xl bi-plus-square-fill"></i>
+                    </button>
+
+                </div>
+                <%- include('./newreminder.ejs') %>
+
+
+            </div>
+            <%- include('../../../layouts/partials/sidebar.ejs') %>
+
+        </div>
+    </div>
+    <script>
+        const eventform = document.querySelector('.eventform');
+        const newtaskform = document.querySelector('#newtaskform');
+        const createvenet = document.getElementById('createvenet');
+        const closeButton = document.getElementById('closevent');
+        const cancelButton = document.getElementById('cancel');
+
+        createvenet.addEventListener('click', (e) => {
+            e.preventDefault();
+            eventform.classList.remove('hidden');
+            createvenet.classList.add('hidden');
+        });
+
+        closeButton.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            eventform.classList.add('hidden');
+            createvenet.classList.remove('hidden');
+        });
+
+        cancelButton.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            eventform.classList.add('hidden');
+            createvenet.classList.remove('hidden');
+        });
+
+        function submitForm() {
+            const formData = new FormData(newtaskform);
+            console.log(formData);
+            const xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Handle the successful response
+                        alert('Event created successfully!');
+                    } else {
+                        // Handle the error response
+                        alert('An error occurred. Please try again.');
+                    }
+                }
+            };
+
+            xhr.open('POST', '/newtask');
+            xhr.send(formData);
+        }
+
+        newtaskform.addEventListener('submit', function (e) {
+            e.preventDefault();
+            submitForm();
+        });
+    </script>

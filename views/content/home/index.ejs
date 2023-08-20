@@ -1,0 +1,707 @@
+<% layout('./layouts/boilerplate.ejs')%>
+<%- include('../../layouts/partials/settings.ejs') %>
+<title>Gukari</title>
+    <div class="content fullscreen"  id="content-menu">
+
+
+            <div class="w-full flex">
+                <div class="main-content">
+                    
+                    <section class="create p-2 flex">
+                        <a href="home/create/board" style="width: 100%;" class="block white-black make-card shadow max-w-full p-6 border border-gray-200 rounded-lg hover:bg-gray-100">
+                          <div class="flex">
+                            <img class="w-16 h-16" src="https://cdn4.iconfinder.com/data/icons/project-management-104/1600/agile_board_ieration_scrum_tasks_completed-512.png" alt="" srcset="">
+                            <div class="title flex ml-2 flex-col text-2xl">
+                              <span class="text-lg font-medium">Create Board</span>
+                              <span class="text-gray-400 text-xs">Public board everyone admir see you ideas</span>
+                            </div>
+                          </div>
+                        </a>
+                        <button data-modal-target="uploadmodel" style="width: 100%;" data-modal-toggle="uploadmodel" class="block text-left white-black make-card shadow ml-2 max-w-full p-6 border border-gray-200 rounded-lg hover:bg-gray-100">
+                          <div class="flex">
+                            <img class="w-16 h-16" src="https://cdn-icons-png.flaticon.com/512/2270/2270665.png" alt="" srcset="">
+                            <div class="title flex ml-2 flex-col text-2xl">
+                              <span class="text-lg font-medium">Upload</span>
+                              <span class="text-gray-400 text-xs">Upload video/img with gukari and get started</span>
+                            </div>
+                          </div>
+                        </button>
+                        <a href="home/create/booklet" style="width: 100%;" class="block white-black make-card shadow ml-2 max-w-full p-6 border border-gray-200 rounded-lg hover:bg-gray-100">
+                          <div class="flex">
+                            <img class="w-16 h-16" src="https://cdn-icons-png.flaticon.com/512/2784/2784539.png" alt="" srcset="">
+                            <div class="title flex ml-2 flex-col text-2xl">
+                              <span class="text-lg font-medium">Create Booklet</span>
+                              <span class="text-gray-400 text-xs">Booklet lets you keep all your content intact</span>
+                            </div>
+                          </div>
+                        </a>
+                      </section>
+                      <section class=" calendar">
+                        <div class="flex w-full mb-2 mt-2 justify-between">
+                            <span class="text-xl">Calendar</span>
+                            <!-- <a class="p-2  text-white text-blue-500 ">Full calendar</a> -->
+                        </div>
+                        <div
+                            class="calendar-card  justify-between shadow border flex p-3 rounded-lg white-black overflow-x-scroll overflow-y-hidden relative">
+                            <div class="month w-16 flex ml-4 flex-col items-center content-center">
+                                <span class="mb-2 text-sm text-gray-400">SUN</span>
+                                <a href="" class="mb-2 hover:bg-red-400 p-2 rounded-full">
+                                    <span>23</span>
+                                </a>
+                                <span
+                                    class="mb-2 bg-blue-200 task-action w-12 h-1 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+                                <span
+                                    class="mb-2 bg-red-400 task-action  w-12 h-1 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+                            </div>
+                            <div class="month w-16 flex ml-4 flex-col items-center content-center">
+                                <span class="mb-2 text-sm text-gray-400">MON</span>
+                                <a href="" class="mb-2 hover:bg-red-400 p-2 rounded-full">
+                                    <span>24</span>
+                                </a>
+                                <span
+                                    class="mb-2 bg-yellow-200 task-action  w-12 h-1 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+                            </div>
+                            <div class="month w-16 flex ml-4 flex-col items-center content-center">
+                                <span class="mb-2 text-sm text-gray-400">TUE</span>
+                                <a href="" class="mb-2 bg-purple-600 current-day text-white p-2 rounded-full">
+                                    <span>24</span>
+                                </a>
+                                <span
+                                    class="mb-2 bg-red-200  task-action w-12 h-1 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+                                <span
+                                    class="mb-2 bg-blue-200  task-action  w-12 h-1 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+                                <span
+                                    class="mb-2 bg-red-400 w-12  task-action  h-1 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+                            </div>
+                            <div class="month w-16 flex ml-4 flex-col items-center content-center">
+                                <span class="mb-2 text-sm text-gray-400">WED</span>
+                                <a href="" class="mb-2  current-day text-black p-2 rounded-full">
+                                    <span>24</span>
+                                </a>
+                                <span
+                                    class="mb-2 bg-indigo-400  task-action w-12 h-1 text-indigo-300 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+                                <span
+                                    class="mb-2 bg-blue-200  task-action  w-12 h-1 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+
+                            </div>
+                            <div class="month w-16 flex ml-4 flex-col items-center content-center">
+                                <span class="mb-2 text-sm text-gray-400">THU</span>
+                                <a href="" class="mb-2  current-day text-black p-2 rounded-full">
+                                    <span>25</span>
+                                </a>
+                                <span
+                                    class="mb-2 bg-gray-400  task-action w-12 h-1 text-indigo-300 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+                                <span
+                                    class="mb-2 bg-red-200  task-action  w-12 h-1 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+
+                            </div>
+                            <!-- Add more months as needed -->
+
+                            <!-- Left Indicator -->
+                            <a href="#" class="absolute top-1/2 left-0 transform -translate-y-1/2">
+                                <i class="bi  bi-caret-left-fill text-xl"></i>
+                            </a>
+
+                            <!-- Right Indicator -->
+                            <a href="#" class="absolute top-1/2 right-0 transform -translate-y-1/2">
+                                <i class="bi bi-caret-right-fill text-xl"></i>
+                            </a>
+                        </div>
+                    </section>
+                    <section class="  boards status">
+
+                        <div class="flex w-full mb-2 mt-2 justify-between">
+                            <span class="text-xl">Project Summary</span>
+
+                            <button class="p-2 shadow rounded bg-blue-500 text-white hover:bg-blue-600 ">Add
+                                Project</button>
+                        </div>
+                        <div class="bord-sumary  white-black rounded-md w-full">
+                            <div class="p-3  rounded-lg boardlists justify-between flex ">
+                                <a href="#"
+                                    class=" border-none pruple-gradient w-full mb-1  rounded-xl  ml-2 border flex flex-col p-4">
+                                    <button class="border picon rounded-lg"> <i
+                                            class="bi rounded text-white bi-check-square-fill"></i></button>
+                                    <br>
+                                    <span class="text-2xl text-white font-semibold">
+                                        <% let count=0; Tasks.forEach(task=> { %>
+                                            <% if (task.iscompleted == true) { %>
+                                                <% count++ %>
+                                                    <% } %>
+                                                        <% }) %>
+
+                                                            <% let highestNumber=Math.max(count); %>
+                                                                <%= highestNumber %>
+                                    </span>
+                                    <br>
+                                    <span class="text-md text-white">Completed</span>
+                                    <span class="text-md text-white">Project</span>
+
+                                </a>
+                                <a href="#"
+                                    class=" border-none yellow-gradient w-full mb-2  rounded-xl  ml-2 border flex flex-col p-4">
+                                    <button class="border picon rounded-lg"> <i
+                                            class="bi rounded text-white bi-pin-angle-fill"></i></button>
+                                    <br>
+                                    <span class="text-2xl text-white font-semibold">
+                                        <% let activeCount=0; %>
+                                            <% Tasks.forEach(task=> { %>
+                                                <% if (task.startDate <=new Date() && task.endDate>= new Date()) { %>
+                                                    <% activeCount++ %>
+                                                        <% } %>
+                                                            <% }) %>
+
+                                                                <%= activeCount %>
+                                    </span>
+                                    <br>
+                                    <span class="text-md text-white">Active</span>
+                                    <span class="text-md text-white">Project</span>
+
+                                </a>
+                                <a href="#"
+                                    class=" border-none blue-gradient w-full mb-2  rounded-xl  ml-2 border flex flex-col p-4">
+                                    <button class="border picon rounded-lg"> <i
+                                            class="bi rounded text-white bi-calendar2-plus-fill"></i></button>
+                                    <br>
+                                    <span class="text-2xl text-white font-semibold">
+
+                                        <% let upcomingCount = 0; %>
+                                        <% Tasks.forEach(task => { %>
+                                          <% if (new Date(task.startDate) > new Date() && new Date(task.endDate) > new Date()) { %>
+                                            <% upcomingCount++ %>
+                                          <% } %>
+                                        <% }) %>
+                                        
+                                        <%= upcomingCount %>
+                                        
+                                    </span>
+                                    <br>
+                                    <span class="text-md text-white">Upcoming</span>
+                                    <span class="text-md text-white">Project</span>
+
+                                </a>
+
+                                <div
+                                    class="w-full  ml-2 border rounded-xl flex bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex-col p-3">
+                                    <div class="flex justify-center text-center  ">
+                                        <div class="flex flex-col">
+                                            <span class="text-white">Notes</span>
+                                            <span style="margin-top: 2em;"
+                                                class="text-white text-2xl font-semibold">23</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="current-task ml-5 mr-4">
+                                <div class="flex justify-between">
+                                    <span class="text-lg">Current Task </span>
+                                    <i class="bi bi-plus-square"></i>
+
+                                </div>
+
+                                <div class="hidden p-2">
+                                    <table class="w-full text-sm text-left text-gray-500 ">
+                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+
+                                        </thead>
+                                        <tbody>
+                                            <% Tasks.sort((a, b) => new Date(b.endDate) - new Date(a.endDate)).slice(0, 5).forEach(task => { %>
+                                                
+                                              <tr class="white-blac rounded  ">
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 flex whitespace-nowrap">
+                                                  <img class="w-7 mr-1 rounded" src="<%= task.imageurl %>" alt="" srcset="">
+                                                  <span><%= task.title %></span>
+                                                </th>
+                                                <td class="px-6 py-4">
+                                                  <% if (new Date(task.startDate) <= new Date() && new Date(task.endDate) >= new Date()) { %>
+                                                    In Progress
+                                                  <% } else if (new Date(task.endDate) < new Date()) { %>
+                                                    Done
+                                                  <% } else { %>
+                                                    <!-- Task is upcoming, you can display any relevant information here -->
+                                                  <% } %>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                  <i class="bi bi-clock"></i>
+                                                  <%= task.time %>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                  <i class="text-xl bi bi-three-dots"></i>
+                                                </td>
+                                                <hr>
+                                              </tr>
+                                              
+                                            <% }) %>
+                                          </tbody>
+                                          
+                                    </table>
+                                </div>
+                                <div>
+                                    <% Tasks.sort((a, b) => new Date(b.endDate) - new Date(a.endDate)).slice(0, 3).forEach(task => { %>
+                                        <div class="flex mb-3 rounded-xl p-3 justify-between w-full border">
+                                            <div class="flex justify-between" style="width: 50%;"> 
+                                            <div class="flex">
+                                                <img class="w-7 mr-1 rounded" src="<%= task.imageurl %>" alt="" srcset="">
+                                                <span><%= task.title %></span>
+                                            </div>
+                                            <div class="states">
+                                                <% if (new Date(task.startDate) <= new Date() && new Date(task.endDate) >= new Date()) { %>
+                                                    <span> In Progress</span>
+                                                    
+                                                  <% } else if (new Date(task.endDate) < new Date()) { %>
+                                                    <span> Done</span>
+                                                    
+                                                  <% } else { %>
+                                                    <!-- Task is upcoming, you can display any relevant information here -->
+                                                  <% } %>
+                                            </div>
+                                            <div>
+                                                <% if(task.time ){%>
+
+                                                <i class="bi bi-clock"></i>
+                                             <span> <%= task.time %> </span>  
+                                                <% } %> 
+                                            </div>
+                                            </div>
+                                            <button>                                            <i class="text-xl bi bi-three-dots"></i>
+                                            </button>
+                                        </div>
+                                        <% }) %>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </section>
+
+                    <br>
+               
+
+
+                    <br>
+                    <section class="recent">
+                        <div class="flex justify-between">
+                        <span class="text-xl">Recently Vist</span>
+                        <button>                         <i class="bi bi-three-dots"></i>
+                        </button>
+                        </div>
+
+                        <div class="flex justify-between flex-wrap">
+                        <%for(let i= 0; i< recentlyview.length; i++){
+                             if (i >= 4) break;
+                            %>
+                            
+                            <a
+                            href="/home/quiz/<%=recentlyview[i]._id %>"
+                            class="mb-2 ml-2 p-3 recent-cardd rounded-lg shadow border"
+                            style="width: 17em; height: 23em"
+                          >
+                            <div class="kr flex justify-between rounded-lg">
+                              <span class="font-medium text-lg"> <%=recentlyview[i].title %> </span>
+                              <button><i class="bi bi-three-dots"></i></button>
+                            </div>
+                            <br />
+                            <div class="flex justify-center items-center">
+                              <%if(recentlyview[i].imageUrl){%>
+                              <img
+                                style="
+                                  height: 8em;
+                                  max-height: 8em;
+                                  max-width: 15em;
+                                  min-width: 15em;
+                                "
+                                class="w-full rounded-md"
+                                src="<%=recentlyview[i].imageUrl %>"
+                                alt=""
+                                srcset=""
+                              />
+                              <%}%>
+                            </div>
+                            <div class="flex justify-between">
+                              <span class="text text-gray-600">
+                                <%=recentlyview[i].cards.length %> tearms
+                              </span>
+                    
+                              <span class="text text-white"> <%=recentlyview[i].plays %> plays </span>
+                            </div>
+                            <br />
+                    
+                            <div>
+                              <span>Tags</span>
+                              <div class="flex flex-wrap" style="width: 8em">
+                                <% let counter=0; %> <% recentlyview[i].tags.forEach(tag=> { %> <% if (counter
+                                < 4) { %>
+                                <span
+                                  class="w-11 <%= tag.color %> mb-3 text-xs text-black font-medium mr-2 px-2.5 py-0.5 rounded"
+                                >
+                                  <%= tag.name %>
+                                </span>
+                                <% counter++; %> <% } %> <% }) %>
+                              </div>
+                            </div>
+                            <br />
+                            <div style="margin-top: 0em" class="about flex w-full justify-between">
+                              <div class="flex items-center text-center">
+                                <img
+                                  class="rounded-full w-8 h-8"
+                                  src="https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/89bf5368873d6a613c99caec072e8a52.jpg"
+                                  alt=""
+                                  srcset=""
+                                />
+                                <span class="ml-2"> <%=user.username %> </span>
+                              </div>
+                              <div class="tags text-center items-center content-center ml-5 flex">
+                                <span
+                                  class="bg-red-700 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
+                                >
+                                  <%=user.category%>
+                                </span>
+                              </div>
+                            </div>
+                          </a>
+                            <% } %>
+                        </div>
+                    </section>
+                    <section class="subjects">
+                        <div class="flex w-full mb-2 mt-2 justify-between">
+                            <span class="text-xl">Popular Categorie Search</span>
+                            <a href="/" class="p-2 rounded  text-blue-500 ">View more</a>
+                        </div>
+                        <div class="white-black w-full p-2 shadow rounded-lg">
+                            <section>
+                                <div data-v-8ad5aaf4="" class="relative mx-auto mt-2 mb-2 overflow-hidden md:mt-2">
+                                    <div data-v-8ad5aaf4=""
+                                        class="flex justify-between px-4 py-1 mx-auto space-x-5 overflow-x-auto overflow-y-hidden md:space-x-8 smooth-scroll no-scrollbar">
+                                        <div data-v-8ad5aaf4=""
+                                            class="flex flex-col items-center transition duration-300 transform cursor-pointer hover:scale-110">
+                                            <div data-v-8ad5aaf4=""
+                                                class="subject-image-container border rounded-full w-14 h-14 md:w-16 md:h-16 border-dark-6">
+                                                <div data-v-8ad5aaf4="" aria-hidden="true"
+                                                    class="bg-center bg-contain w-full h-full"
+                                                    style="background-image: url(&quot;https://cf.quizizz.com/image/subject-math.png&quot;);">
+                                                </div>
+                                            </div> <span data-v-8ad5aaf4=""
+                                                class="text-xs font-semibold text-center md:text-sm text-dark-3 whitespace-nowrap"><span
+                                                    data-v-8ad5aaf4="" translate="no" class="_i18n-container LANG_en"
+                                                    maxlenght="-1">Math</span></span>
+                                        </div>
+                                        <div data-v-8ad5aaf4=""
+                                            class="flex flex-col items-center transition duration-300 transform cursor-pointer hover:scale-110">
+                                            <div data-v-8ad5aaf4=""
+                                                class="subject-image-container border rounded-full w-14 h-14 md:w-16 md:h-16 border-dark-6">
+                                                <div data-v-8ad5aaf4="" aria-hidden="true"
+                                                    class="bg-center bg-contain w-full h-full"
+                                                    style="background-image: url(&quot;https://cf.quizizz.com/image/subject-english.png&quot;);">
+                                                </div>
+                                            </div> <span data-v-8ad5aaf4=""
+                                                class="text-xs font-semibold text-center md:text-sm text-dark-3 whitespace-nowrap"><span
+                                                    data-v-8ad5aaf4="" translate="no" class="_i18n-container LANG_en"
+                                                    maxlenght="-1">English</span></span>
+                                        </div>
+                                        <div data-v-8ad5aaf4=""
+                                            class="flex flex-col items-center transition duration-300 transform cursor-pointer hover:scale-110">
+                                            <div data-v-8ad5aaf4=""
+                                                class="subject-image-container border rounded-full w-14 h-14 md:w-16 md:h-16 border-dark-6">
+                                                <div data-v-8ad5aaf4="" aria-hidden="true"
+                                                    class="bg-center bg-contain w-full h-full"
+                                                    style="background-image: url(&quot;https://cf.quizizz.com/image/subject-social-studies.png&quot;);">
+                                                </div>
+                                            </div> <span data-v-8ad5aaf4=""
+                                                class="text-xs font-semibold text-center md:text-sm text-dark-3 whitespace-nowrap"><span
+                                                    data-v-8ad5aaf4="" translate="no" class="_i18n-container LANG_en"
+                                                    maxlenght="-1">Social
+                                                    Studies</span></span>
+                                        </div>
+                                        <div data-v-8ad5aaf4=""
+                                            class="flex flex-col items-center transition duration-300 transform cursor-pointer hover:scale-110">
+                                            <div data-v-8ad5aaf4=""
+                                                class="subject-image-container border rounded-full w-14 h-14 md:w-16 md:h-16 border-dark-6">
+                                                <div data-v-8ad5aaf4="" aria-hidden="true"
+                                                    class="bg-center bg-contain w-full h-full"
+                                                    style="background-image: url(&quot;https://cf.quizizz.com/image/subject-world-languages.png&quot;);">
+                                                </div>
+                                            </div> <span data-v-8ad5aaf4=""
+                                                class="text-xs font-semibold text-center md:text-sm text-dark-3 whitespace-nowrap"><span
+                                                    data-v-8ad5aaf4="" translate="no" class="_i18n-container LANG_en"
+                                                    maxlenght="-1">Languages</span></span>
+                                        </div>
+                                        <div data-v-8ad5aaf4=""
+                                            class="flex flex-col items-center transition duration-300 transform cursor-pointer hover:scale-110">
+                                            <div data-v-8ad5aaf4=""
+                                                class="subject-image-container border rounded-full w-14 h-14 md:w-16 md:h-16 border-dark-6">
+                                                <div data-v-8ad5aaf4="" aria-hidden="true"
+                                                    class="bg-center bg-contain w-full h-full"
+                                                    style="background-image: url(&quot;https://cf.quizizz.com/image/subject-science.png&quot;);">
+                                                </div>
+                                            </div> <span data-v-8ad5aaf4=""
+                                                class="text-xs font-semibold text-center md:text-sm text-dark-3 whitespace-nowrap"><span
+                                                    data-v-8ad5aaf4="" translate="no" class="_i18n-container LANG_en"
+                                                    maxlenght="-1">Science</span></span>
+                                        </div>
+                                        <div data-v-8ad5aaf4=""
+                                            class="flex flex-col items-center transition duration-300 transform cursor-pointer hover:scale-110">
+                                            <div data-v-8ad5aaf4=""
+                                                class="subject-image-container border rounded-full w-14 h-14 md:w-16 md:h-16 border-dark-6">
+                                                <div data-v-8ad5aaf4="" aria-hidden="true"
+                                                    class="bg-center bg-contain w-full h-full"
+                                                    style="background-image: url(&quot;https://cf.quizizz.com/image/subject-computers.png&quot;);">
+                                                </div>
+                                            </div> <span data-v-8ad5aaf4=""
+                                                class="text-xs font-semibold text-center md:text-sm text-dark-3 whitespace-nowrap"><span
+                                                    data-v-8ad5aaf4="" translate="no" class="_i18n-container LANG_en"
+                                                    maxlenght="-1">Computers</span></span>
+                                        </div>
+                                        <div data-v-8ad5aaf4=""
+                                            class="flex flex-col items-center transition duration-300 transform cursor-pointer hover:scale-110">
+                                            <div data-v-8ad5aaf4=""
+                                                class="subject-image-container border rounded-full w-14 h-14 md:w-16 md:h-16 border-dark-6">
+                                                <div data-v-8ad5aaf4="" aria-hidden="true"
+                                                    class="bg-center bg-contain w-full h-full"
+                                                    style="background-image: url(&quot;https://cf.quizizz.com/image/subject-career-ed-professional-development.png&quot;);">
+                                                </div>
+                                            </div> <span data-v-8ad5aaf4=""
+                                                class="text-xs font-semibold text-center md:text-sm text-dark-3 whitespace-nowrap"><span
+                                                    data-v-8ad5aaf4="" translate="no" class="_i18n-container LANG_en"
+                                                    maxlenght="-1">Career
+                                                    Ed</span></span>
+                                        </div>
+                                        <div data-v-8ad5aaf4=""
+                                            class="flex flex-col items-center transition duration-300 transform cursor-pointer hover:scale-110">
+                                            <div data-v-8ad5aaf4=""
+                                                class="subject-image-container border rounded-full w-14 h-14 md:w-16 md:h-16 border-dark-6">
+                                                <div data-v-8ad5aaf4="" aria-hidden="true"
+                                                    class="bg-center bg-contain w-full h-full"
+                                                    style="background-image: url(&quot;https://cf.quizizz.com/image/subject-arts-music.png&quot;);">
+                                                </div>
+                                            </div> <span data-v-8ad5aaf4=""
+                                                class="text-xs font-semibold text-center md:text-sm text-dark-3 whitespace-nowrap"><span
+                                                    data-v-8ad5aaf4="" translate="no" class="_i18n-container LANG_en"
+                                                    maxlenght="-1">Creative
+                                                    Arts</span></span>
+                                        </div>
+                                        <div data-v-8ad5aaf4=""
+                                            class="flex flex-col items-center transition duration-300 transform cursor-pointer hover:scale-110">
+                                            <div data-v-8ad5aaf4=""
+                                                class="subject-image-container border rounded-full w-14 h-14 md:w-16 md:h-16 border-dark-6">
+                                                <div data-v-8ad5aaf4="" aria-hidden="true"
+                                                    class="bg-center bg-contain w-full h-full"
+                                                    style="background-image: url(&quot;https://cf.quizizz.com/image/subject-physical-ed.png&quot;);">
+                                                </div>
+                                            </div> <span data-v-8ad5aaf4=""
+                                                class="text-xs font-semibold text-center md:text-sm text-dark-3 whitespace-nowrap"><span
+                                                    data-v-8ad5aaf4="" translate="no" class="_i18n-container LANG_en"
+                                                    maxlenght="-1">Health
+                                                    &amp; PE</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                        </div>
+                    </section>
+                    <br>
+                    <br>
+                    <section class="group-msg">
+                        <div class="flex user-inbox-msg">
+                            <div class="server shadow mb-2 w-f-12 p-2 rounded-lg white-black ml-2">
+                                <div class="flex justify-between">
+                                    <span><i class="bi bi-hdd"></i> Online Server</span>
+                                    <button> <i class="bi bi-three-dots"></i></button>
+                                </div>
+                                <div class="servers mb-2 w-full">
+                                    <div
+                                        class="study-group items-center content-center text-center bg-gray-200 p-2 rounded-lg w-full flex justify-between">
+                                        <div class="flex items-center text-center content-center">
+                                            <img class="w-12 rounded-lg h-10"
+                                                src="https://www.tutordoctor.com/images/blog/iStock-1047699430.jpg"
+                                                alt="" srcset="">
+                                            <div class="title ml-1 flex flex-col">
+                                                <span class="text-xl font-semibold">Study group</span>
+                                                <div class="flex">
+                                                    <span
+                                                        class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full ">student</span>
+                                                    <span
+                                                        class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full ">school</span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button
+                                            class="bg-green-600 p-1 h-10 w-12 hover:bg-green-700 text-white rounded-lg">Join
+                                        </button>
+
+                                    </div>
+                                    <div
+                                        class="math-group mt-2 items-center content-center text-center bg-gray-200 p-2 rounded-lg w-full flex justify-between">
+                                        <div class="flex items-center text-center content-center">
+                                            <img class="w-12 rounded-lg h-10"
+                                                src="https://miro.medium.com/v2/resize:fit:673/1*wZaclw9iy7QMmZ0CGrOKPw.png"
+                                                alt="" srcset="">
+                                            <div class="title ml-1 flex flex-col">
+                                                <span class="text-xl font-semibold">Calculus Server</span>
+                                                <div class="flex">
+                                                    <span
+                                                        class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full ">math</span>
+                                                    <span
+                                                        class="bg-yellow-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full ">school</span>
+                                                    <span
+                                                        class="bg-orange-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full ">help</span>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button
+                                            class="bg-green-600 p-1 h-10 w-12 hover:bg-green-700 text-white rounded-lg">Join
+                                        </button>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="inbox shadow w-f-11 mb-2 inbox  p-2 rounded-lg white-black ml-2">
+                                <div class="flex justify-between">
+                                    <span><i class="bi bi-inbox"></i>
+                                        Inbox</span>
+                                    <button><i class="bi bi-three-dots"></i> </button>
+                                </div>
+                                <div class="p-3">
+                                    <div class="noti flex flex-col justify-center items-center content-center">
+                                        <img class="w-22"
+                                            src="https://a.trellocdn.com/prgb/dist/images/taco-sleep.ee2660df9335718b1a80.svg"
+                                            alt="" srcset="">
+                                        <span style="font-size:2em">No unread notifications</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <br><br>
+                    <span class="text-xl ml-2">Explore courses</span>
+
+                    <section class="curses shadow p-3 rounded-lg white-black">
+                        <div class="flex justify-between">
+                            <span class="font-semibold text-lg">Recomanded for you</span>
+                            <button class="flex">
+                                <i class="bi mr-3 bi-arrow-left"></i>
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
+
+                        </div>
+                        <div class="flex">
+                            <div class="html" style="width: 14em;">
+                                <img class="rounded-md"
+                                    src="https://html.com/wp-content/uploads/html-hpg-featured-new.png" alt=""
+                                    srcset="">
+                                <div class="html-details">
+
+                                    <span class="text-yellow-500 text-sm">HTML</span><br>
+                                    <span class="text-lg font-medium">Front-end Development</span><br>
+                                    <span class="text-sm text-gray-400">30 Lessons | 23 Hours</span> <br>
+                                    <button class="bg-purple-600  mt-3 hover:bg-purple-700 p-2 text-white rounded-xl"><i
+                                            class="bi bi-shield-lock-fill mr-1 mb-2"></i>Enroll Now</button>
+                                </div>
+                            </div>
+                            <div class="html ml-3" style="width: 14em;">
+                                <img class="rounded-md"
+                                    src="https://www.classcentral.com/report/wp-content/uploads/2022/07/SEO-BCG-Banner-2.png"
+                                    alt="" srcset="">
+                                <div class="html-details">
+
+                                    <span class="text-pruple-500 text-sm">SEO</span><br>
+                                    <span class="text-lg font-medium">SEO-Biginers</span><br>
+                                    <span class="text-sm text-gray-400">23 Lessons | 14 Hours</span> <br>
+                                    <button
+                                        class="bg-purple-100 mt-3 hover:bg-purple-200 p-2 text-pruple-500 rounded-xl"><i
+                                            class="bi bi-shield-lock-fill  mr-1 mb-"></i>Enroll
+                                        Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <br><br><br><br>
+
+                </div>
+                <%- include('../../layouts/partials/sidebar.ejs') %>
+
+            </div>
+
+
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const events = [
+    { date: '2023-08-20', color: 'bg-blue-200' },
+    { date: '2023-08-20', color: 'bg-red-400' },    
+    { date: '2023-08-19', color: 'bg-yellow-200' },
+    { date: '2023-08-19', color: 'bg-red-200' },
+    { date: '2023-08-18', color: 'bg-blue-200' },
+    { date: '2023-08-18', color: 'bg-red-400' },
+    { date: '2023-08-18', color: 'bg-indigo-400' },
+    { date: '2023-08-17', color: 'bg-blue-200' },
+    { date: '2023-08-16', color: 'bg-gray-400' },
+    { date: '2023-08-14', color: 'bg-red-200' }
+];
+ 
+    const calendarCard = document.querySelector('.calendar-card');
+    const today = new Date();
+    let currentDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+
+    function renderWeek(date) {
+    calendarCard.innerHTML = ''; // clear the current content
+    for (let i = 0; i < 7; i++) {
+        const dayDiv = document.createElement('div');
+        dayDiv.classList.add('month', 'w-16', 'flex', 'ml-4', 'flex-col', 'items-center', 'content-center');
+        
+        const dayNameSpan = document.createElement('span');
+        dayNameSpan.classList.add('mb-2', 'text-sm', 'text-gray-400');
+        dayNameSpan.innerText = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()];
+        dayDiv.appendChild(dayNameSpan);
+
+        const dayLink = document.createElement('a');
+        dayLink.classList.add('mb-2', 'hover:bg-red-400', 'p-2', 'rounded-full');
+        if (date.toDateString() === today.toDateString()) {
+            dayLink.classList.add('bg-purple-600', 'text-white');
+        }
+        const daySpan = document.createElement('span');
+        daySpan.innerText = date.getDate();
+        dayLink.appendChild(daySpan);
+        dayDiv.appendChild(dayLink);
+
+        // Check and render events for the date
+        const dayEvents = events.filter(event => new Date(event.date).toDateString() === date.toDateString());
+        dayEvents.forEach(event => {
+            const eventSpan = document.createElement('span');
+            eventSpan.classList.add('mb-2', 'task-action', 'w-12', 'h-1', 'text-blue-800', 'text-xs', 'font-medium', 'px-2.5', 'py-0.5', 'rounded', event.color);
+            dayDiv.appendChild(eventSpan);
+        });
+        
+        calendarCard.appendChild(dayDiv);
+        date.setDate(date.getDate() + 1);
+    }
+}
+
+    // Initial render
+    renderWeek(currentDate);
+
+    // Handle navigation
+    document.querySelector('.bi-caret-left-fill').addEventListener('click', function(e) {
+        e.preventDefault();
+        currentDate.setDate(currentDate.getDate() - 7);
+        renderWeek(currentDate);
+    });
+
+    document.querySelector('.bi-caret-right-fill').addEventListener('click', function(e) {
+        e.preventDefault();
+        currentDate.setDate(currentDate.getDate() + 7);
+        renderWeek(currentDate);
+    });
+});
+
+
+    </script>

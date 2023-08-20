@@ -1,0 +1,57 @@
+<style>
+    .msg {
+        z-index: 99999;
+        margin-top: 1rem;
+    }
+</style>
+
+<% if(success && success.length) {%>
+    <div id="successMessage"
+        class="msg px-4 py-2 text-sm text-green-800 bg-green-50 dark:bg-gray-800 dark:text-green-400 rounded-lg"
+        style="margin-left: 18em; margin-right: 2em;">
+        <span id="successText" class="font-medium">
+            <%= success %>
+        </span>
+    </div>
+    <% } %>
+
+        <% if(error && error.length) {%>
+            <div id="errorMessage"
+                class="msg px-4 py-2 text-sm text-red-800 bg-red-50 dark:bg-gray-800 dark:text-red-400 rounded-lg"
+                style="margin-left: 18em; margin-right: 2em;">
+                <span class="font-medium">
+                    <%= error %>
+                </span>
+            </div>
+            <% } %>
+
+                <% if(warning && warning.length) {%>
+                    <div id="warningMessage"
+                        class="msg px-4 py-2 text-sm text-yellow-700 bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 rounded-lg"
+                        style="margin-left: 18em; margin-right: 2em;">
+                        <span class="font-medium">
+                            <%= warning %>
+                        </span>
+                    </div>
+                    <% } %>
+
+                        <script>
+                            // Function to hide the message element after a specified duration
+                            function hideMessageElement(elementId, duration) {
+                                setTimeout(function () {
+                                    var element = document.getElementById(elementId);
+                                    if (element) {
+                                        element.style.display = "none";
+                                    }
+                                }, duration);
+                            }
+
+                            // Hide the success message after 20 seconds
+                            hideMessageElement("successMessage", 20000);
+
+                            // Hide the error message after 20 seconds
+                            hideMessageElement("errorMessage", 20000);
+
+                            // Hide the warning message after 20 seconds
+                            hideMessageElement("warningMessage", 20000);
+                        </script>

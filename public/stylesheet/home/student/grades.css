@@ -1,0 +1,572 @@
+.firstpiroid .addpoints{
+    display: none;
+}
+.firstpiroid .block{
+    display: block;
+}
+.firstpiroid #add-assiments{
+    margin-left: 1.5em;
+}
+.firstpiroid .gradedisplay{
+transition: 1s;
+}
+.firstpiroid .prep-color{
+    background-color: #ffc1071f!important;
+}
+.firstpiroid .all-color{
+    background-color: #07ff7b17;
+}
+
+.firstpiroid .grading-content{
+    position: inherit;
+    display: flex;
+    justify-content: space-around;
+    height: 14em;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.firstpiroid .classes-header{
+    margin-left: 0.1em;
+}
+.firstpiroid .gradedisplay{
+    margin-top: -0.6em;
+    display: flex;
+}
+.firstpiroid .class-title{
+    color: #5e5e5e;
+}
+.firstpiroid a{
+    text-decoration: none;
+}
+.firstpiroid  .pointcard{
+   width: 19em;
+    font-size: 0.9em;
+}
+
+.firstpiroid .classpercent{
+    transition: 1s;
+}
+@media only screen and (max-width: 600px) {
+    .firstpiroid  .classesheading{
+        font-size: 0.8em;
+    }
+    .firstpiroid  .nav-class{
+        width: 100%;
+    }
+    .firstpiroid  .class-title{
+            font-size: 1.2em;
+        margin-top: -0.2em;
+    }
+    .firstpiroid  .gradedisplay{
+        max-height: 4em;
+    }
+ 
+    .firstpiroid   .pointcard{
+        width: 100%;
+        margin-right: 1em;
+    }
+}
+
+
+/* Second pirod */
+
+.secondpiroid .addpoints{
+    display: none;
+}
+.secondpiroid .block{
+    display: block;
+}
+.secondpiroid #add-assiments{
+    margin-left: 1.5em;
+}
+.secondpiroid .gradedisplay{
+transition: 1s;
+
+}
+.secondpiroid .prep-color{
+    background-color: #ffc1071f!important;
+}
+.secondpiroid .all-color{
+    background-color: #07ff7b17;
+}
+
+.secondpiroid .grading-content{
+    position: inherit;
+    display: flex;
+    justify-content: space-around;
+    height: 14em;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.secondpiroid .classes-header{
+    margin-left: 22%;
+}
+.secondpiroid .gradedisplay{
+    margin-top: -0.6em;
+    display: flex;
+
+}
+.secondpiroid .class-title{
+    color: #5e5e5e;
+}
+.secondpiroid a{
+    text-decoration: none;
+}
+.secondpiroid  .pointcard{
+   width: 19em;
+    font-size: 0.9em;
+}
+
+.secondpiroid .classpercent{
+    transition: 1s;
+}
+@media only screen and (max-width: 600px) {
+    .secondpiroid  .classesheading{
+        font-size: 0.8em;
+    }
+    .secondpiroid  .nav-class{
+        width: 100%;
+    }
+    .secondpiroid  .class-title{
+            font-size: 1.2em;
+        margin-top: -0.2em;
+    }
+    .secondpiroid  .gradedisplay{
+        max-height: 4em;
+    }
+ 
+    .secondpiroid   .pointcard{
+        width: 100%;
+        margin-right: 1em;
+    }
+}
+
+
+
+
+/* Third pirod */
+
+
+.thirdpiroid .addpoints{
+    display: none;
+}
+.thirdpiroid .block{
+    display: block;
+}
+.thirdpiroid #add-assiments{
+    margin-left: 1.5em;
+}
+.thirdpiroid .gradedisplay{
+transition: 1s;
+}
+.thirdpiroid .prep-color{
+    background-color: #ffc1071f!important;
+}
+.thirdpiroid .all-color{
+    background-color: #07ff7b17;
+}
+
+.thirdpiroid .grading-content{
+    position: inherit;
+    display: flex;
+    justify-content: space-around;
+    height: 14em;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.thirdpiroid .classes-header{
+    margin-left: 22%;
+}
+.thirdpiroid .gradedisplay{
+    margin-top: -0.6em;
+    display: flex;
+
+}
+.thirdpiroid .class-title{
+    color: #5e5e5e;
+}
+.thirdpiroid a{
+    text-decoration: none;
+}
+.thirdpiroid  .pointcard{
+   width: 19em;
+    font-size: 0.9em;
+}
+
+.thirdpiroid .classpercent{
+    transition: 1s;
+}
+@media only screen and (max-width: 600px) {
+    .thirdpiroid  .classesheading{
+        font-size: 0.8em;
+    }
+    .thirdpiroid  .nav-class{
+        width: 100%;
+    }
+    .thirdpiroid  .class-title{
+            font-size: 1.2em;
+        margin-top: -0.2em;
+    }
+    .thirdpiroid  .gradedisplay{
+        max-height: 4em;
+    }
+ 
+    .thirdpiroid   .pointcard{
+        width: 100%;
+        margin-right: 1em;
+    }
+}
+
+
+
+/* Forth pirod */
+
+
+.forthpiroid .addpoints{
+    display: none;
+}
+.forthpiroid .block{
+    display: block;
+}
+.forthpiroid #add-assiments{
+    margin-left: 1.5em;
+}
+.forthpiroid .gradedisplay{
+transition: 1s;
+}
+.forthpiroid .prep-color{
+    background-color: #ffc1071f!important;
+}
+.forthpiroid .all-color{
+    background-color: #07ff7b17;
+}
+
+.forthpiroid .grading-content{
+    position: inherit;
+    display: flex;
+    justify-content: space-around;
+    height: 14em;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.forthpiroid .classes-header{
+    margin-left: 22%;
+}
+.forthpiroid .gradedisplay{
+    margin-top: -0.6em;
+    display: flex;
+
+}
+.forthpiroid .class-title{
+    color: #5e5e5e;
+}
+.forthpiroid a{
+    text-decoration: none;
+}
+.forthpiroid  .pointcard{
+   width: 19em;
+    font-size: 0.9em;
+}
+
+.forthpiroid .classpercent{
+    transition: 1s;
+}
+@media only screen and (max-width: 600px) {
+    .forthpiroid  .classesheading{
+        font-size: 0.8em;
+    }
+    .forthpiroid  .nav-class{
+        width: 100%;
+    }
+    .forthpiroid  .class-title{
+            font-size: 1.2em;
+        margin-top: -0.2em;
+    }
+    .forthpiroid  .gradedisplay{
+        max-height: 4em;
+    }
+ 
+    .forthpiroid   .pointcard{
+        width: 100%;
+        margin-right: 1em;
+    }
+}
+
+
+
+/* Fifth pirod */
+
+
+
+.fifthpiroid .addpoints{
+    display: none;
+}
+.fifthpiroid .block{
+    display: block;
+}
+.fifthpiroid #add-assiments{
+    margin-left: 1.5em;
+}
+.fifthpiroid .gradedisplay{
+transition: 1s;
+}
+.fifthpiroid .prep-color{
+    background-color: #ffc1071f!important;
+}
+.fifthpiroid .all-color{
+    background-color: #07ff7b17;
+}
+
+.fifthpiroid .grading-content{
+    position: inherit;
+    display: flex;
+    justify-content: space-around;
+    height: 14em;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.fifthpiroid .classes-header{
+    margin-left: 22%;
+}
+.fifthpiroid .gradedisplay{
+    margin-top: -0.6em;
+    display: flex;
+
+}
+.fifthpiroid .class-title{
+    color: #5e5e5e;
+}
+.fifthpiroid a{
+    text-decoration: none;
+}
+.fifthpiroid  .pointcard{
+   width: 19em;
+    font-size: 0.9em;
+}
+
+.fifthpiroid .classpercent{
+    transition: 1s;
+}
+@media only screen and (max-width: 600px) {
+    .fifthpiroid  .classesheading{
+        font-size: 0.8em;
+    }
+    .fifthpiroid  .nav-class{
+        width: 100%;
+    }
+    .fifthpiroid  .class-title{
+            font-size: 1.2em;
+        margin-top: -0.2em;
+    }
+    .fifthpiroid  .gradedisplay{
+        max-height: 4em;
+    }
+ 
+    .fifthpiroid   .pointcard{
+        width: 100%;
+        margin-right: 1em;
+    }
+}
+
+
+
+/* Sixth pirod */
+
+
+
+.sixthpiroid .addpoints{
+    display: none;
+}
+.sixthpiroid .block{
+    display: block;
+}
+.sixthpiroid #add-assiments{
+    margin-left: 1.5em;
+}
+.sixthpiroid .gradedisplay{
+transition: 1s;
+}
+.sixthpiroid .prep-color{
+    background-color: #ffc1071f!important;
+}
+.sixthpiroid .all-color{
+    background-color: #07ff7b17;
+}
+
+.sixthpiroid .grading-content{
+    position: inherit;
+    display: flex;
+    justify-content: space-around;
+    height: 14em;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.sixthpiroid .classes-header{
+    margin-left: 22%;
+}
+.sixthpiroid .gradedisplay{
+    margin-top: -0.6em;
+    display: flex;
+
+}
+.sixthpiroid .class-title{
+    color: #5e5e5e;
+}
+.sixthpiroid a{
+    text-decoration: none;
+}
+.sixthpiroid  .pointcard{
+   width: 19em;
+    font-size: 0.9em;
+}
+
+.sixthpiroid .classpercent{
+    transition: 1s;
+}
+@media only screen and (max-width: 600px) {
+    .sixthpiroid  .classesheading{
+        font-size: 0.8em;
+    }
+    .sixthpiroid  .nav-class{
+        width: 100%;
+    }
+    .sixthpiroid  .class-title{
+            font-size: 1.2em;
+        margin-top: -0.2em;
+    }
+    .sixthpiroid  .gradedisplay{
+        max-height: 4em;
+    }
+ 
+    .sixthpiroid   .pointcard{
+        width: 100%;
+        margin-right: 1em;
+    }
+}
+
+
+
+/* seventh pirod */
+
+
+
+.seventhpiroid .addpoints{
+    display: none;
+}
+.seventhpiroid .block{
+    display: block;
+}
+.seventhpiroid #add-assiments{
+    margin-left: 1.5em;
+}
+.seventhpiroid .gradedisplay{
+transition: 1s;
+}
+.seventhpiroid .prep-color{
+    background-color: #ffc1071f!important;
+}
+.seventhpiroid .all-color{
+    background-color: #07ff7b17;
+}
+
+.seventhpiroid .grading-content{
+    position: inherit;
+    display: flex;
+    justify-content: space-around;
+    height: 14em;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.seventhpiroid .classes-header{
+    margin-left: 22%;
+}
+.seventhpiroid .gradedisplay{
+    margin-top: -0.6em;
+    display: flex;
+
+}
+.seventhpiroid .class-title{
+    color: #5e5e5e;
+}
+.seventhpiroid a{
+    text-decoration: none;
+}
+.seventhpiroid  .pointcard{
+   width: 19em;
+    font-size: 0.9em;
+}
+
+.seventhpiroid .classpercent{
+    transition: 1s;
+}
+@media only screen and (max-width: 600px) {
+    .seventhpiroid  .classesheading{
+        font-size: 0.8em;
+    }
+    .seventhpiroid  .nav-class{
+        width: 100%;
+    }
+    .seventhpiroid  .class-title{
+            font-size: 1.2em;
+        margin-top: -0.2em;
+    }
+    .seventhpiroid  .gradedisplay{
+        max-height: 4em;
+    }
+ 
+    .seventhpiroid   .pointcard{
+        width: 100%;
+        margin-right: 1em;
+    }
+}
+
+.pointtg{
+    background-color: rgba(241, 199, 206, 0.711);
+}
+
+.firstpiroid  .class-title{
+    color: var(--class-title);
+    
+}
+.secondpiroid  .class-title{
+    color: var(--class-title);
+}
+.thirdpiroid  .class-title{
+    color: var(--class-title);
+}
+.forthpiroid  .class-title{
+    color: var(--class-title);
+}
+.fifthpiroid  .class-title{
+    color: var(--class-title);
+}
+.sixthpiroid  .class-title{
+    color: var(--class-title);
+}
+.seventhpiroid  .class-title{
+    color: var(--class-title);
+}
+.none{
+    display: none;
+}
+.gradedisplay{
+    color: black;
+}
+@media only screen and (max-width: 600px) {
+
+}
+
