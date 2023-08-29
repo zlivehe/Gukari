@@ -88,6 +88,9 @@ Router.get('/project',isLoggedIn,catchAsync(async(req,res)=>{
 Router.get('/course',(req,res)=>{
     res.render('content/home/course.ejs')
 })
+Router.get('/blog',(req,res)=>{
+    res.render('content/home/blog/index.ejs')
+})
 Router.get('/discover',(req,res)=>{
     res.render('content/home/discover.ejs')
 })
@@ -395,9 +398,9 @@ Router.get('/video/:id',catchAsync(async(req,res)=>{
 Router.get('/image/:id',catchAsync(async(req,res)=>{
     const {id} = req.params
     const upload = await ImageUpload.findById(id)
+    const allimage = await ImageUpload.find({})
 
-
-    res.render('content/home/upload/image.ejs',{upload})
+    res.render('content/home/upload/image.ejs',{upload,allimage})
 }))
 
 

@@ -1,0 +1,269 @@
+<% layout('./layouts/boilerplate.ejs')%>
+        <%- include('../../../../../layouts/partials/settings.ejs') %>
+<title>Ap english</title>
+
+            <style>
+                .exam-list {
+                    width: 65%;
+                    height: 20em;
+                }
+
+                .about-exam {
+                    width: 35%;
+                    height: 20em;
+
+
+                }
+
+                .report {
+                    margin-top: -4em;
+                }
+
+                .docs-ect {
+                    height: 40em;
+
+                }
+
+                .ap-ct {
+                    height: 65em;
+                    background-color: white;
+                }
+            </style>
+                <div class="content fullscreen" id="content-menu" style="overflow: hi ;">
+
+            <div>
+                <img style="width: 100%; height: 25em;" src="/imgs/ap/aplang.jpg" alt="" srcset="">
+            </div>
+            <div class="body-content ml-3 mr-3 fullscreen">
+                <div class="report flex">
+                    <div class="border exam-list p-3 rounded-xl mr-2 bg-white">
+                        <span>Exam untilities an report</span>
+                        <div class="w-full flex justify-between ml-2 mr-2">
+                            <button  data-modal-target="defaultModal" data-modal-toggle="defaultModal"  class=" flex justify-start rounded bg-blue-800 border p-1 rounded-xl h" style="height: 10em; width: 15em; background-image: url('https://media.discordapp.net/attachments/1138155735860117514/1144685204208885910/default-tool.png?width=1364&height=896'); background-size: cover; background-repeat: no-repeat; ">
+                               <span class="text-white  text-2xl font-semibold" style="margin-top: 0em;"> Calaculator</span> 
+                            </button>
+                        </div>
+                    </div>
+                    <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <div class="relative w-full max-w-2xl max-h-full">
+                            <!-- Modal content -->
+                            <div class="relative bg-white rounded-lg shadow ">
+                                <!-- Modal header -->
+                                <div class="flex items-start justify-between p-4 border-b rounded-t ">
+                                    <h3 class="text-xl font-semibold text-gray-900 ">
+                                        AP English Language Calculator
+                                    </h3>
+                                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center " data-modal-hide="defaultModal">
+                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                        </svg>
+                                        <span class="sr-only">Close modal</span>
+                                    </button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="p-6 space-y-6">
+                                    <div>
+                                        <h3>Section I: Multiple-Choice</h3>
+                                        Reading: <input type="number" id="mcqReading" max="24" min="0"> / 24<br>
+                                        Writing: <input type="number" id="mcqWriting" max="21" min="0"> / 21<br>
+                                    </div>
+                                    
+                                    <div>
+                                        <h3>Section II: Free Response</h3>
+                                        Q1 - Synthesis: <input type="number" id="frqSynthesis" max="6" min="0"> / 6<br>
+                                        Q2 - Rhetorical Analysis: <input type="number" id="frqRhetorical" max="6" min="0"> / 6<br>
+                                        Q3 - Argument: <input type="number" id="frqArgument" max="6" min="0"> / 6<br>
+                                    </div>
+                                    
+                                    <button onclick="calculateScore()">Calculate Score</button>
+                                    
+                                    <div>
+                                        <h3>Results</h3>
+                                        MCQ Score: <span id="mcqResult">0</span><br>
+                                        FRQ Score: <span id="frqResult">0</span><br>
+                                        Total Composite Score: <span id="totalScore">0</span> / 150<br>
+                                        Predicted AP® Score: <span id="predictedScore">0</span>
+                                    </div>
+                                    
+                                </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border about-exam p-3 rounded-xl bg-white" style="overflow: scroll;">
+                        <span>About the exam</span>
+                        <div>
+                            <div class="flex flex-col"> 
+                            <span class="font-semibold">
+                                Section I:
+                            </span>
+                            <span class="font-semibold">
+                                Multiple Choice
+                                45 Questions | 1 hour | 45% of Exam Score
+                            </span>
+                            <li>Includes 5 sets of questions:
+                            </li>
+                            <div class="ml-5"> 
+                            <li>23–25 Reading questions that ask students to read and analyze nonfiction texts.
+                            </li>
+                            <li>20–22 Writing questions that ask students to “read like a writer” and consider revisions to stimulus texts.</li>
+                        </div>
+                        </div>
+                        <div class="flex flex-col"> 
+                            <br>
+                            <span class="font-semibold">
+                                Section II: Free Response
+                            </span>
+
+                            <span class="font-semibold">
+                                3 Questions | 2 hours 15 minutes (includes a 15-minute reading period | 55% of Exam Score)
+                            </span>
+                            <li>Students write essays that respond to 3 free-response prompts from the following categories:
+                            </li>
+                            <div class="ml-5"> 
+                            <li> <b>Synthesis Question:</b>After reading 6–7 texts about a topic (including visual and quantitative sources), students will compose an argument that combines and cites at least 3 of the sources to support their thesis.
+                            </li>
+                            <li> <b>Rhetorical Analysis: </b> Students will read a nonfiction text and analyze how the writer’s language choices contribute to the intended meaning and purpose of the text.</li>
+                            <li> <b>Argument: </b> Students will create an evidence-based argument that responds to a given topic.</li>
+
+                        </div>
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab"
+                        data-tabs-toggle="#myTabContent" role="tablist">
+                        <li class="mr-2" role="presentation">
+                            <button
+                                class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'profile' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
+                                id="profile-tab" data-tabs-target="#profile" type="button" role="tab"
+                                aria-controls="profile"
+                                aria-selected="{{activeTab === 'profile' ? 'true' : 'false'}}">Profile</button>
+                        </li>
+                        <li class="mr-2" role="presentation">
+                            <button
+                                class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'dashboard' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
+                                id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab"
+                                aria-controls="dashboard"
+                                aria-selected="{{activeTab === 'dashboard' ? 'true' : 'false'}}">Dashboard</button>
+                        </li>
+                        <li class="mr-2" role="presentation">
+                            <button
+                                class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'settings' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
+                                id="settings-tab" data-tabs-target="#settings" type="button" role="tab"
+                                aria-controls="settings"
+                                aria-selected="{{activeTab === 'settings' ? 'true' : 'false'}}">Settings</button>
+                        </li>
+                        <li role="presentation">
+                            <button
+                                class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'contacts' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
+                                id="contacts-tab" data-tabs-target="#contacts" type="button" role="tab"
+                                aria-controls="contacts"
+                                aria-selected="{{activeTab === 'contacts' ? 'true' : 'false'}}">Contacts</button>
+                        </li>
+                    </ul>
+                </div>
+                <div id="myTabContent">
+                    <div class="hidden p-4 rounded-lg ap-ct " id="profile" role="tabpanel"
+                        aria-labelledby="profile-tab">
+                        <p class="text-sm  ">This is some placeholder content the <strong
+                                class="font-medium text-gray-800 ">Profile tab's associated
+                                content</strong>.
+                            Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript
+                            swaps
+                            classes to control the content visibility and styling.</p>
+                    </div>
+                    <div class="hidden p-4 rounded-lg ap-ct " id="dashboard" role="tabpanel"
+                        aria-labelledby="dashboard-tab">
+                        <p class="text-sm  ">This is some placeholder content the <strong
+                                class="font-medium text-gray-800 ">Dashboard tab's associated
+                                content</strong>.
+                            Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript
+                            swaps
+                            classes to control the content visibility and styling.</p>
+                    </div>
+                    <div class="hidden p-4 rounded-lg ap-ct " id="settings" role="tabpanel"
+                        aria-labelledby="settings-tab">
+                        <p class="text-sm  ">This is some placeholder content the <strong
+                                class="font-medium text-gray-800 ">Settings tab's associated
+                                content</strong>.
+                            Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript
+                            swaps
+                            classes to control the content visibility and styling.</p>
+                    </div>
+                    <div class="hidden p-4 rounded-lg ap-ct " id="contacts" role="tabpanel"
+                        aria-labelledby="contacts-tab">
+                        <p class="text-sm  ">This is some placeholder content the <strong
+                                class="font-medium text-gray-800 ">Contacts tab's associated
+                                content</strong>.
+                            Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript
+                            swaps
+                            classes to control the content visibility and styling.</p>
+                    </div>
+                </div>
+
+                <!-- <div class="docs-ect rounded-xl mt-2 bg-white shadow">
+
+        </div> -->
+            </div>
+            <!-- 
+    <div style="
+width: 100%;
+background: url('/imgs/ap/aplan.jpg');
+  object-fit: cover;
+  background-repeat: no-repeat;
+  background-size: cover;
+height: 19em;
+margin-top: -5em;" class="section w-full ">
+
+    </div> -->
+    </div>
+   <script>
+function calculateScore() {
+    // Get values from inputs
+    const mcqReading = parseFloat(document.getElementById("mcqReading").value) || 0;
+    const mcqWriting = parseFloat(document.getElementById("mcqWriting").value) || 0;
+    const frqSynthesis = parseFloat(document.getElementById("frqSynthesis").value) || 0;
+    const frqRhetorical = parseFloat(document.getElementById("frqRhetorical").value) || 0;
+    const frqArgument = parseFloat(document.getElementById("frqArgument").value) || 0;
+
+    // Calculate weighted MCQ score
+    const mcqWeighted = (mcqReading + mcqWriting) * 1.2499;
+
+    // Calculate weighted scores for each essay
+    const frqSynthesisWeighted = frqSynthesis * 3.0556;
+    const frqRhetoricalWeighted = frqRhetorical * 3.0556;
+    const frqArgumentWeighted = frqArgument * 3.0556;
+
+    // Calculate total weighted FRQ score
+    const frqWeightedTotal = frqSynthesisWeighted + frqRhetoricalWeighted + frqArgumentWeighted;
+
+    // Calculate the composite score
+    const totalScore = mcqWeighted + frqWeightedTotal;
+
+    // Update results
+    document.getElementById("mcqResult").innerText = mcqWeighted.toFixed(2);
+    document.getElementById("frqResult").innerText = frqWeightedTotal.toFixed(2);
+    document.getElementById("totalScore").innerText = totalScore.toFixed(2);
+    
+    // Convert composite score to the AP Score (1-5)
+    let predictedAPScore;
+    if (totalScore <= 49) {
+        predictedAPScore = 1;
+    } else if (totalScore <= 75) {
+        predictedAPScore = 2;
+    } else if (totalScore <= 91) {
+        predictedAPScore = 3;
+    } else if (totalScore <= 103) {
+        predictedAPScore = 4;
+    } else {
+        predictedAPScore = 5;
+    }
+
+    document.getElementById("predictedScore").innerText = predictedAPScore;
+}
+    
+    </script>

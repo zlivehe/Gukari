@@ -35,10 +35,9 @@
 
                       <% Task.sort((a, b) => a.position - b.position).forEach(task => { %>
                         <% 
-                  const currentDate = new Date().toISOString().split('T')[0]; 
-              const taskDate = new Date(task.enddate).toISOString().split('T')[0]; 
+                  const currentDate = new Date().toISOString(); 
                   %>
-                    <% if (currentDate === taskDate) { %>
+                    <% if (currentDate === task.date) { %>
                             <section  data-id="<%= task._id %>" id="task<%= task._id %>"   data-position="<%= task.position %>"  class="task-main p-3 rounded-xl sortable-bulk border mb-3" draggable="true">
                             <div class=" flex justify-center "> 
                                 <button data-task="<%= task._id %>" id="completedTask" class="rounded-full border w-3 h-4 p-4"></button>

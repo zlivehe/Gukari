@@ -15,6 +15,7 @@ const ImageUpload = require('../model/home/upload/upload')
 const VideoUpload = require('../model/home/upload/videoupload')
 const User = require('../model/auth/user')
 const {storage} = require('../cloudinary/index')
+
 const upload = multer({storage})
 
 
@@ -571,19 +572,18 @@ Router.post('/imageupload', upload.single('image'), catchAsync(async (req, res) 
     console.log(user)
 
     const image = await new ImageUpload({
-      imageurl: `/uploads/${req.file.filename}`,
+      imageurl: `${req.file.path}`,
       title: req.body.title,
       category: req.body.category,
-
-  
+      author: user._id,
+      visability: req.body.visability,
+      description: req.body.description,
     });
+   
+    await image.save();
     user.Uploads.push(image._id);
     await user.save();
 
-
-
-    await image.save();
-    console.log(user);
     res.redirect(`/home/image/${image._id}`);
   } catch (e) {
     req.flash('error', e.message);

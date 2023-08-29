@@ -23,6 +23,18 @@ const commentSchema = new mongoose.Schema({
       required: true,
      
     },
+    author: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    Videourl:[
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Videos',
+      },
+    ],
     imageurl:{
       required: true,
         type: String
@@ -32,6 +44,10 @@ const commentSchema = new mongoose.Schema({
     },
     viewcount:{
       type:Number
+    },
+    description: {
+      type: String,
+      required: true,
     },
     
   

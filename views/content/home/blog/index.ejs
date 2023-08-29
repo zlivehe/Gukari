@@ -1,0 +1,260 @@
+<% layout('./layouts/boilerplate.ejs')%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+<title class="title">Explore</title>
+
+<%- include('../../../layouts/partials/settings.ejs') %>
+    <div class="content fullscreen" id="content-menu" style="overflow: hidden;">
+        
+
+
+ <!-- <span>djd</span> -->
+ <div class="flex">
+
+ <aside id="logosidebar" class=" rounded relative top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar" style="height: 80vh;">
+    <div class="h-full px-3 py-4 rounded-lg overflow-y-auto bg-gray-50">
+    
+       <ul class="space-y-2 font-medium">
+        <span class="text-sm font-semibold">Feeds</span>
+          <li>
+             <button id="Explore-tab" data-tabs-target="#Explore"  role="tab" aria-controls="Explore" aria-selected="false" href="#" class="flex w-full content-center text-center  items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
+                <i class="bi bi-house-door-fill mb-2 text-xl w-5 h-5 text-gray-500 transition duration-75 "></i>
+                <span class="ml-3">Explore</span>
+             </button>
+          </li>
+          <li>
+             <button  id="Popular-tab" data-tabs-target="#Popular" type="button" role="tab" aria-controls="Popular" aria-selected="false" class="w-full flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
+                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                   <path d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16Zm0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15Z"/>
+                </svg>
+                  <i class="bi bi-fire"></i>
+
+                <span class="flex-1 ml-3 whitespace-nowrap">Popular</span>
+                <span class="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium bg-red-400 rounded-full ">99+</span>
+             </button>
+          </li>
+          <span class="text-sm font-semibold">Topics</span>
+          <div class="game">
+          <li>
+             <button id="Schooltoggle" data-dropdown-toggle="Gamingdefult" href="#" class="w-full justify-between flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
+               <div class="flex">
+                  <i class="bi bi-controller  text-xl w-5 h-5 text-gray-500 transition duration-75" style="display: flex; margin-top: 0.15em;"></i>
+                <span class="flex-1 ml-3 whitespace-nowrap">School</span>
+               </div>
+                <i class="bi bi-chevron-down gmaingdropicon" ></i>
+               </button>
+          </li>
+          <div id="Gaming-class" style="position: relative; " class="z-10 hidden   divide-y divide-gray-100 rounded-lg  w-44">
+            <ul class="py-2 text-sm text-gray-700 " aria-labelledby="">
+              <li>
+
+                <button id="ap-tab" data-tabs-target="#apclass"   role="tab" aria-controls="ap" aria-selected="false"  class="w-full flex justify-start block px-4 py-2 hover:bg-gray-100 rounded">AP®</button>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">ACT®/SAT®</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Math</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Science</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">English</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Financial</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">ELA</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Exams</a>
+              </li>
+            </ul>
+        </div>
+         </div>
+         <div class="sport">
+            <li>
+               <button id="Sport-toggle" data-dropdown-toggle="Sportdefult" href="#" class="w-full justify-between flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
+                 <div class="flex">
+                    <i class="bi bi-collection-play text-xl w-5 h-5 text-gray-500 transition duration-75" style="display: flex; margin-top: 0.15em;"></i>
+                  <span class="flex-1 ml-3 whitespace-nowrap">Language </span>
+                 </div>
+                  <i class="bi bi-chevron-down sportdropicon" ></i>
+                 </button>
+            </li>
+            <div id="Sport-class" style="position: relative; " class="z-10 hidden   divide-y divide-gray-100 rounded-lg  w-44">
+              <ul class="py-2 text-sm text-gray-700 " aria-labelledby="">
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded">English</a>
+                  
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Spanish</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Japanese</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Korean</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Chinese</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Hindi</a>
+                </li>
+              </ul>
+          </div>
+           </div>
+
+          <li>
+             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
+                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                   <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
+                </svg>
+                <span class="flex-1 ml-3 whitespace-nowrap">Users</span>
+             </a>
+          </li>
+        
+          <span class="text-sm font-semibold">Servers</span>
+
+
+       </ul>
+    </div>
+ </aside>
+ 
+ <div class="p-2 w-full overflow-y-scroll ">
+
+    <div class=" border-gray-200 rounded-lg dark:border-gray-700" style="height: 40em;">
+   
+      <!-- <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+           <li class="mr-2" role="presentation">
+           </li>
+           <li class="mr-2" role="presentation">
+           </li>
+           <li class="mr-2" role="presentation">
+             <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="settings-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Settings</button>
+           </li>
+           <li role="presentation">
+             <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="contacts-tab" data-tabs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="false">Contacts</button>
+           </li>
+         </ul>
+       </div> -->
+       <div id="myTabContent">
+      
+         <div class="hidden rounded-lg" id="Popular" role="tabpanel" aria-labelledby="Popular-tab">
+          <%- include('./course/servers/popular.ejs') %>
+
+        </div>
+        <div class="hidden rounded-lg" id="Explore" role="tabpanel" aria-labelledby="Explore-tab">
+          <%- include('./course/servers/explore.ejs') %>          
+        </div>
+    
+        <!-- School tabs -->
+        <div class="hidden rounded-lg" id="apclass" role="tabpanel" aria-labelledby="ap-tab">
+          <%- include('./course/school/ap.ejs') %>          
+        </div>
+         <!-- <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+           <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+         </div>
+         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+           <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+         </div> -->
+       </div>
+       
+    
+   
+    </div>
+ </div>
+
+
+</div>
+
+    </div>
+
+    <script>
+   
+    //   const togglenav = document.querySelector('#toggle-nav');
+    //   const logosidebar = document.getElementById('logosidebar');
+    //   togglenav.addEventListener('click', () => {
+    //     logosidebar.classList.toggle('hidden');
+    //   });
+
+      
+      function showTab(tabId) {
+    const tabs = document.querySelectorAll('[role="tab"]');
+    tabs.forEach((tab) => {
+      tab.setAttribute('aria-selected', 'false');
+    });
+
+    const tabContents = document.querySelectorAll('[role="tabpanel"]');
+    tabContents.forEach((tabContent) => {
+      tabContent.classList.add('hidden');
+    });
+
+    const selectedTab = document.querySelector(`[data-tabs-target="${tabId}"]`);
+    const selectedTabContent = document.querySelector(tabId);
+
+    if (selectedTab && selectedTabContent) {
+      selectedTab.setAttribute('aria-selected', 'true');
+      selectedTabContent.classList.remove('hidden');
+
+      // Update URL without page reload
+      history.pushState(null, null, tabId);
+    }
+  }
+
+  const tabs = document.querySelectorAll('[role="tab"]');
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const tabId = tab.getAttribute('data-tabs-target');
+      document.title = tab.textContent;
+
+      showTab(tabId);
+    });
+  });
+
+  // Function to handle initial URL
+  function handleInitialURL() {
+    const url = window.location.href;
+    const tabId = url.split('#')[1];
+    if (tabId) {
+      const tab = document.querySelector(`[data-tabs-target="#${tabId}"]`);
+      if (tab) {
+        showTab(`#${tabId}`);
+      }
+    }
+  }
+
+  // Call the initial URL function on page load
+  handleInitialURL();
+      const Gamingtoggle = document.querySelector('#Schooltoggle');
+      const Gamingclass = document.querySelector('#Gaming-class');
+      const gmaingdropicon = document.querySelector('.gmaingdropicon');
+      Gamingtoggle.addEventListener('click',function(e){
+         e.preventDefault();
+
+         Gamingclass.classList.toggle('hidden');
+         gmaingdropicon.classList.toggle('bi-chevron-up');
+      })
+
+      const Sporttoggle = document.querySelector('#Sport-toggle');
+      const Sportclass = document.querySelector('#Sport-class');
+      const sportdropicon = document.querySelector('.sportdropicon');
+      Sporttoggle.addEventListener('click',function(e){
+         e.preventDefault();
+
+         Sportclass.classList.toggle('hidden');
+         sportdropicon.classList.toggle('bi-chevron-up');
+      })
+
+      
+
+      
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
+    

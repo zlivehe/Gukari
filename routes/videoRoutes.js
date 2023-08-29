@@ -12,7 +12,7 @@ const path = require('path');
 const { json } = require('body-parser');
 const ImageUpload = require('../model/home/upload/upload')
 const VideoUpload = require('../model/home/upload/videoupload')
-const translate = require('@iamtraction/google-translate');
+// const translate = require('@iamtraction/google-translate');
 const pinyinlite = require('pinyinlite');
 const wanakana = require('wanakana');
 
@@ -276,57 +276,56 @@ Router.post('/video/:videoId/comments/:commentId/replies/:replyId/delete', async
   }
 });
 
-const testrranslate = async (text, targetLanguage) => {
-  try {
-    const res = await translate(text, { to: targetLanguage });
+// const testrranslate = async (text, targetLanguage) => {
+//   try {
+//     const res = await translate(text, { to: targetLanguage });
 
-    let pinyinSentence = '';
+//     let pinyinSentence = '';
 
-    if (targetLanguage === 'zh-cn') {
-      const characters = Array.from(res.text);
-      const pinyin = pinyinlite(res.text, { style: pinyinlite.STYLE_NORMAL });
-      characters.forEach((character, index) => {
-        // Append the character with its corresponding Pinyin to the pinyinSentence
-        pinyinSentence += ` ${pinyin[index].join('')} `;
-      });
-      if(targetLanguage == 'ja')
-      {
-        const katakanaTranslation = wanakana.toKatakana(kanjiTranslation.text);
-        const hiraganaTranslation = wanakana.toHiragana(kanjiTranslation.text);
-        return res
-      }
-
-
-      // Trim any leading/trailing whitespace
-      pinyinSentence = pinyinSentence.trim().slice(0, -1);
-      res.pinyin = pinyinSentence;
-    }
+//     if (targetLanguage === 'zh-cn') {
+//       const characters = Array.from(res.text);
+//       const pinyin = pinyinlite(res.text, { style: pinyinlite.STYLE_NORMAL });
+//       characters.forEach((character, index) => {
+//         // Append the character with its corresponding Pinyin to the pinyinSentence
+//         pinyinSentence += ` ${pinyin[index].join('')} `;
+//       });
+//       if(targetLanguage == 'ja')
+//       {
+//         const katakanaTranslation = wanakana.toKatakana(kanjiTranslation.text);
+//         const hiraganaTranslation = wanakana.toHiragana(kanjiTranslation.text);
+//         return res
+//       }
 
 
-    return res;
-  } catch (error) {
-    console.error('Error translating:', error);
-    throw error;
-  }
-};
-
-testrranslate('hello how are you today have a  good sleep and good rest', 'ja').then((value) => console.log(value));
+//       // Trim any leading/trailing whitespace
+//       pinyinSentence = pinyinSentence.trim().slice(0, -1);
+//       res.pinyin = pinyinSentence;
+//     }
 
 
-Router.post('/api/translate',upload.none(), async (req, res) => {
-  try {
-    const { text, targetLanguage } = req.body;
+//     return res;
+//   } catch (error) {
+//     console.error('Error translating:', error);
+//     throw error;
+//   }
+// };
+
+
+
+// Router.post('/api/translate',upload.none(), async (req, res) => {
+//   try {
+//     const { text, targetLanguage } = req.body;
   
  
-    const translatedText =  await testrranslate(text, targetLanguage)
+//     const translatedText =  await testrranslate(text, targetLanguage)
 
-    res.json({ translatedText });
+//     res.json({ translatedText });
 
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
 
 module.exports = Router
 

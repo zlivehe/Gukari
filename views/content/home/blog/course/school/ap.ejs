@@ -1,0 +1,90 @@
+<title>Ap</title>
+<div>
+    <span class="text-2xl font-semibold">Advance placement </span>
+    <div class="flex justify-between items-center flex-wrap w-full p-2">
+           <button data-math="AllTab" class="active-ap apclass p-3 text- rounded-lg bg-blue-500 text-white">
+            All
+        </button>
+        <button data-math="MathTab" class="active-ap apclass p-3 text- rounded-lg">
+            Math
+        </button>
+        <button data-math="ScienceTab" class="active-ap apclass p-3 text- rounded-lg ">
+            Science
+        </button>
+        <button data-math="SocialTab" class="active-ap apclass p-3 text- rounded-lg ">
+            Social Studies
+        </button>
+        <button data-math="LangTab" class="active-ap apclass p-3 text- rounded-lg ">
+           World Language
+        </button>
+        <button data-math="EnglishTab" class="active-ap apclass p-3 text- rounded-lg ">
+            English
+         </button>
+         <button data-math="ArtTab" class="active-ap apclass p-3 text- rounded-lg ">
+            Arts
+         </button>  
+    </div>
+    <div id="AllTab" class="AllTab p-3 w-full h-">
+        <div class=" flex ">
+      
+            <a href="#" class="border ml-1 p-2 rounded-xl" style="height: 9em;">
+                <img style=" width: 13em; height: 8em;" class="rounded-xl" src="https://debrabell.com/wp-content/uploads/2023/07/AP-Biology-.jpeg" alt="" srcset="">
+            </a>
+            <a href="/ap/chemistry" class="border ml-1 p-2 rounded-xl" style="height: 9em;">
+                <img style=" width: 13em; height: 8em;" class="rounded-xl" src="https://i.ytimg.com/vi/7SznP-VlQNM/maxresdefault.jpg" alt="" srcset="">
+            </a>
+        </div>
+
+    </div>
+    <div id="MathTab" class="MathTab hidden">
+        <span>Math tab</span>
+    </div>
+    <div id="ScienceTab" class="ScienceTab hidden">
+        <span>Science tab</span>
+    </div>
+    <div id="SocialTab" class="SocialTab hidden">
+        <span>SocialTab</span>
+    </div>
+    <div id="LangTab" class="LangTab hidden">
+        <span>LAnguage tab</span>
+    </div>
+    <div id="EnglishTab" class="EnglishTab hidden">
+        <span>English Tabh</span>
+    </div>
+    <div id="ArtTab" class="ArtTab hidden">
+        <span>ArtTab</span>
+    </div>
+</div>
+
+
+<script>
+const apbtn = document.querySelectorAll(".apclass");
+let activetab = ''
+apbtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        apbtn.forEach((btn) => {
+            const AllTab = document.getElementById("AllTab");
+            btn.classList.remove("bg-blue-500", "text-white");
+        });
+        btn.classList.add("bg-blue-500", "text-white");
+
+        if (activetab != '') {
+            const math = document.getElementById(activetab);
+            math.classList.add("hidden");
+        }
+        activetab = btn.dataset.math;
+        AllTab.classList.add("hidden");
+        const data = btn.dataset.math;
+        activetable = data;
+        const math = document.getElementById(data);
+
+        math.classList.remove("hidden");
+
+
+    });
+}
+);
+
+
+document.title = "Ap";
+</script>

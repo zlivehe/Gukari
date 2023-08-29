@@ -1,4 +1,48 @@
 <% layout('./layouts/boilerplate.ejs')%>
-<%- include('../../layouts/partials/settings.ejs') %>
+<%- include('../../../layouts/partials/settings.ejs') %>
+<title><%= upload.title %></title>
+<style>
+    .image {
+        width: 60%;
+    }
+    .about{
+        width: 40%;
+    }
+</style>
+<div class="content fullscreen " id="content-menu">
+    <div class="flex w-full ">
+        <div class="image border p-5">
+            <img class=" " style="width: 40em;" src="<%=upload.imageurl %>" alt="" srcset="">
 
-<%=upload %>
+        </div>
+        <div class="ml-1 about border" >
+            <div class="p-5">
+                <span class="text-2xl font-semibold"><%=upload.title %></span>
+                <p class="mt-2"><%=upload.description %></p>
+            </div>
+            
+
+        </div>
+
+    </div>
+    <div class="flex flex-wrap ">
+        
+        <% for(let images of allimage){ %>
+            <a href="/home/image/<%=images._id %>" class="border ml-2 rounded-xl">
+                <div style="width: 12em; height: 14em;" class="border">
+                <img class="w-52 h-22" src="<%=images.imageurl %>" alt="" srcset="">
+            </div>
+                <div class="mt-1 p-1">
+                    <span class="text-xl font-semibold"><%=images.title %></span>
+                    <div class="flex items-center ">
+                        <img class="w-5 h-5 rounded-full" src="https://www.themarysue.com/wp-content/uploads/2022/06/naruto.jpg?fit=1200%2C625" alt="" srcset="">
+                        <span class="ml-1">Sam altma</span>
+                    </div>
+                </div>
+
+            </a>
+
+        <% } %>
+    </div>
+</div>
+<br><br><br><br><br>

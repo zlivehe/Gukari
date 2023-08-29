@@ -8,6 +8,8 @@
     <!-- <link rel="icon" href="../../public/imgs/home/icon.png"> -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Option 1: Include in HTML -->
+    <link rel="apple-touch-icon" href="../../public/imgs/home/icon.png">
+    <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,3 +39,16 @@
 
 <script src="https://kit.fontawesome.com/6529104628.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+<script>
+    if ('serviceWorker' in navigator) {
+     window.addEventListener('load', function() {
+       navigator.serviceWorker.register('../../public/service_worker.js').then(function(registration) {
+         // Registration was successful
+         console.log('ServiceWorker registration successful with scope: ', registration.scope);
+       }, function(err) {
+         // registration failed :(
+         console.log('ServiceWorker registration failed: ', err);
+       });
+     });
+   }
+   </script>

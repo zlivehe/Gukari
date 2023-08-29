@@ -253,7 +253,126 @@
   </div>
   <br /><br /><br />
   <div class="workspace">
-    <span class="text-2xl">Workspace</span>
+    <div>
+      <span class="text-2xl font-semibold">Advance placement </span>
+      <div class="flex justify-between items-center flex-wrap w-full p-2">
+             <button data-math="AllTab" class="active-ap apclass p-3 text- rounded-lg bg-blue-500 text-white">
+              All
+          </button>
+          <button data-math="Booklet" class="active-ap apclass p-3 text- rounded-lg">
+              Booklet
+          </button>
+          <button data-math="Videos" class="active-ap apclass p-3 text- rounded-lg ">
+              Videos
+          </button>
+          <button data-math="Workspace" class="active-ap apclass p-3 text- rounded-lg ">
+              Workspace
+          </button>
+          <button data-math="Posts" class="active-ap apclass p-3 text- rounded-lg ">
+            Post
+          </button>
+          <button data-math="Comments" class="active-ap apclass p-3 text- rounded-lg ">
+              Recent comments
+           </button>
+           <!-- <button data-math="ArtTab" class="active-ap apclass p-3 text- rounded-lg ">
+              Arts
+           </button>   -->
+      </div>
+      <div id="AllTab" class="AllTab p-3 w-full h-">
+          <div class=" flex ">
+        
+              <a href="#" class="border ml-1 p-2 rounded-xl" style="height: 9em;">
+                  <img style=" width: 13em; height: 8em;" class="rounded-xl" src="https://debrabell.com/wp-content/uploads/2023/07/AP-Biology-.jpeg" alt="" srcset="">
+              </a>
+              <a href="/ap/chemistry" class="border ml-1 p-2 rounded-xl" style="height: 9em;">
+                  <img style=" width: 13em; height: 8em;" class="rounded-xl" src="https://i.ytimg.com/vi/7SznP-VlQNM/maxresdefault.jpg" alt="" srcset="">
+              </a>
+          </div>
+  
+      </div>
+      <div id="Booklet" class="Booklet hidden">
+        <div class="recent overflow-y-scroll">
+
+          <span class="text-2xl">Your projects(<%=userQuizCards.length %>)</span>
+          <div class="flex justify-between flex-wrap">
+            <%for(quiz of userQuizCards){ %>
+            <a
+              href="/home/quiz/<%=quiz._id %>"
+              class="mb-2 ml-2 p-3 recent-cardd rounded-lg shadow border"
+              style="width: 17em"
+            >
+              <div class="kr flex justify-between rounded-lg">
+                <span class="font-medium text-lg"> <%=quiz.title %> </span>
+                <button><i class="bi bi-three-dots"></i></button>
+              </div>
+              <br />
+              <div class="flex justify-center items-center">
+                <%if(quiz.imageUrl){%>
+                <img
+                  style="
+                    height: 8em;
+                    max-height: 8em;
+                    max-width: 15em;
+                    min-width: 15em;
+                  "
+                  class="w-full rounded-md"
+                  src="<%=quiz.imageUrl %>"
+                  alt=""
+                  srcset=""
+                />
+                <%}%>
+              </div>
+              <div class="flex justify-between">
+                <span class="text text-gray-600">
+                  <%=quiz.cards.length %> tearms
+                </span>
+      
+                <span class="text text-white"> <%=quiz.plays %> plays </span>
+              </div>
+              <br />
+      
+              <div>
+                <span>Tags</span>
+                <div class="flex flex-wrap" style="width: 8em">
+                  <% let counter=0; %> <% quiz.tags.forEach(tag=> { %> <% if (counter
+                  < 4) { %>
+                  <span
+                    class="w-11 <%= tag.color %> mb-3 text-xs text-black font-medium mr-2 px-2.5 py-0.5 rounded"
+                  >
+                    <%= tag.name %>
+                  </span>
+                  <% counter++; %> <% } %> <% }) %>
+                </div>
+              </div>
+              <br />
+              <div style="margin-top: 0em" class="about flex w-full justify-between">
+                <div class="flex items-center text-center">
+                  <img
+                    class="rounded-full w-8 h-8"
+                    src="https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/89bf5368873d6a613c99caec072e8a52.jpg"
+                    alt=""
+                    srcset=""
+                  />
+                  <span class="ml-2"> <%=user.username %> </span>
+                </div>
+                <div class="tags text-center items-center content-center ml-5 flex">
+                  <span
+                    class="bg-red-700 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
+                  >
+                    <%=user.category%>
+                  </span>
+                </div>
+              </div>
+            </a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <div id="Videos" class="Videos hidden">
+          <span>Science tab</span>
+      </div>
+      <div id="Workspace" class="Workspace hidden">
+        <span class="text-2xl">Workspace</span>
     <div class="p-2 flex justify-between">
       <%for(let wp of userWorkspace){  %>
       <a href="/home/workspace/<%=wp._id %>" class="workspace-card border rounded-md p-2" style="width: 17em;">
@@ -268,82 +387,23 @@
       </a>
         <% } %>
     </div>
+      </div>
+      <div id="Posts" class="Posts hidden">
+          <span>LAnguage tab</span>
+      </div>
+      <div id="Comments" class="Comments hidden">
+          <span>English Tabh</span>
+      </div>
+      <div id="ArtTab" class="ArtTab hidden">
+          <span>ArtTab</span>
+      </div>
   </div>
-  <div class="recent overflow-y-scroll">
-    <span class="text-2xl">Your projects(<%=userQuizCards.length %>)</span>
-    <div class="flex justify-between flex-wrap">
-      <%for(quiz of userQuizCards){ %>
-      <a
-        href="/home/quiz/<%=quiz._id %>"
-        class="mb-2 ml-2 p-3 recent-cardd rounded-lg shadow border"
-        style="width: 17em"
-      >
-        <div class="kr flex justify-between rounded-lg">
-          <span class="font-medium text-lg"> <%=quiz.title %> </span>
-          <button><i class="bi bi-three-dots"></i></button>
-        </div>
-        <br />
-        <div class="flex justify-center items-center">
-          <%if(quiz.imageUrl){%>
-          <img
-            style="
-              height: 8em;
-              max-height: 8em;
-              max-width: 15em;
-              min-width: 15em;
-            "
-            class="w-full rounded-md"
-            src="<%=quiz.imageUrl %>"
-            alt=""
-            srcset=""
-          />
-          <%}%>
-        </div>
-        <div class="flex justify-between">
-          <span class="text text-gray-600">
-            <%=quiz.cards.length %> tearms
-          </span>
-
-          <span class="text text-white"> <%=quiz.plays %> plays </span>
-        </div>
-        <br />
-
-        <div>
-          <span>Tags</span>
-          <div class="flex flex-wrap" style="width: 8em">
-            <% let counter=0; %> <% quiz.tags.forEach(tag=> { %> <% if (counter
-            < 4) { %>
-            <span
-              class="w-11 <%= tag.color %> mb-3 text-xs text-black font-medium mr-2 px-2.5 py-0.5 rounded"
-            >
-              <%= tag.name %>
-            </span>
-            <% counter++; %> <% } %> <% }) %>
-          </div>
-        </div>
-        <br />
-        <div style="margin-top: 0em" class="about flex w-full justify-between">
-          <div class="flex items-center text-center">
-            <img
-              class="rounded-full w-8 h-8"
-              src="https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/89bf5368873d6a613c99caec072e8a52.jpg"
-              alt=""
-              srcset=""
-            />
-            <span class="ml-2"> <%=user.username %> </span>
-          </div>
-          <div class="tags text-center items-center content-center ml-5 flex">
-            <span
-              class="bg-red-700 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
-            >
-              <%=user.category%>
-            </span>
-          </div>
-        </div>
-      </a>
-      <% } %>
-    </div>
+   
   </div>
+  <div>
+    <span>Your videos</span>
+  </div>
+
   <br />
   <div class="recent">
     <span class="text-2xl">Recent projects</span>
@@ -606,5 +666,33 @@
                 event.target.parentNode.remove();
             }
         });
+
+
+        const apbtn = document.querySelectorAll(".apclass");
+let activetab = ''
+apbtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        apbtn.forEach((btn) => {
+            const AllTab = document.getElementById("AllTab");
+            btn.classList.remove("bg-blue-500", "text-white");
+        });
+        btn.classList.add("bg-blue-500", "text-white");
+
+        if (activetab != '') {
+            const math = document.getElementById(activetab);
+            math.classList.add("hidden");
+        }
+        activetab = btn.dataset.math;
+        AllTab.classList.add("hidden");
+        const data = btn.dataset.math;
+        activetable = data;
+        const math = document.getElementById(data);
+
+        math.classList.remove("hidden");
+
+
+    });
+}
+);
 
     </script>

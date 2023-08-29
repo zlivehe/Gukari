@@ -97,8 +97,13 @@ passport.deserializeUser(User.deserializeUser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use((req, res, next) => {
-   res.locals.currentUser = req.user;
+app.use(async(req, res, next) => {
+
+   const users = await User.findById('647b5c354937d00da81c3038')
+   console.log(users)
+    req.user=users
+    res.locals.currentUser = req.user;
+
    res.locals.success = req.flash('success');
    res.locals.warning = req.flash('warning')
    res.locals.error = req.flash('error');
@@ -109,7 +114,7 @@ app.use((req, res, next) => {
  app.use ('/', authRoutes)
  app.use ('/home', homeRoutes)
  app.use ('/', mainRoutes)
- app.use ('/course', apRoutes)
+ app.use ('/ap', apRoutes)
  app.use ('/student', studentRoutes)
  app.use ('/', postRoutes)
  app.use ('/', videoRoutes)
@@ -137,7 +142,17 @@ app.get('/api/card', async(req,res)=>{
    console.log(card)
    res.json(card)
    } ) 
-
+   app.post('/api/card', async(req,res)=>{ 
+      const token = req.body.token  
+            console.log('dd')
+      console.log(token)
+      const user = await User.findById(token)
+      console.log(user)
+      // const card = await QuizCard.find({})
+      // console.log(card)
+      // res.json(card)
+      } ) 
+   
  
  // 404 page not found route
  app.all('*', (req,res,next)=>{

@@ -6,10 +6,15 @@ const passport = require('passport')
 const {login,getDistrictUrls } = require('studentvue.js')
 
 
-Router.get('/ap/lang',(req,res) =>{
+Router.get('/lang',(req,res) =>{
 
-    res.render('content/home/course/ap/aplang.ejs')
+    res.render('content/home/blog/course/ap/english.ejs')
 })
+Router.get('/chemistry',(req,res) =>{
+
+    res.render('content/home/course/ap/chemistry.ejs')
+})
+
 
 
 module.exports = Router

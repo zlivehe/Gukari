@@ -3,6 +3,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@0.24.0/dist/axios.min.js"></script>
+    <title><%= foundquiz.title %></title>
     <style>
         .quizcontent {
             width: 80%;
@@ -199,7 +200,7 @@
                     <a href="/home/quiz/<%= foundquiz._id %>/quiz"
                         class="p-4 ml-3 border-none bg-red-400 hover:bg-red-500 text-white items-center content-center justify-center flex border rounded-lg"
                         style="width: 11em;">
-                        <i class="bi bi-wallet2 text-2xl"></i>
+                        <img class="w-7" src="https://cdn-icons-png.flaticon.com/512/5231/5231713.png" alt="" srcset="">
                         <span class="ml-2 text-2xl">Quiz</span>
                     </a>
                     <a href="/home/quiz/<%= foundquiz._id %>/cards"

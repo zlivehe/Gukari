@@ -171,9 +171,12 @@
                                                 src="https://img.icons8.com/android/24/000000/minus.png" alt="minus" />
                                         </button>
                                     </div>
+                                    <div class="full flex flex-wrap justify-center items-center w-full"><button data-index="<%=index %>" class="flipbutton"> <img class="w-11 h-11" src="https://media.discordapp.net/attachments/1105375686203555913/1145395058145763388/swap.png?width=896&height=896" alt="" srcset=""> </button> </div>
 
                                     <div class="w-full flex px-2 mb-6 md:mb-0">
                                         <div class="w-full px-2">
+                                          
+
                                             <label
                                                 class="w-full block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                                 for="term_<%= index%>">
@@ -385,6 +388,7 @@ function updateInputNameAtIndex(inputName, newIndex) {
             <img width="20" height="20" src="https://img.icons8.com/android/24/000000/minus.png" alt="minus" />
         </button>
         </div>
+        <div class="full flex flex-wrap justify-center items-center w-full"><button data-index="${cardCount}" class="flipbutton"> <img class="w-11 h-11" src="https://media.discordapp.net/attachments/1105375686203555913/1145395058145763388/swap.png?width=896&height=896" alt="" srcset=""> </button> </div>
 
         <div class="w-full flex px-2 mb-6 md:mb-0">
         <div class="w-full px-2">
@@ -421,7 +425,7 @@ function updateInputNameAtIndex(inputName, newIndex) {
             type="text"
             name="cards[${cardCount - 1}][definition]"
             id="definition_${cardCount}"
-            onchange="TranslatePost1(event)"
+            onchange=""
             placeholder="Enter definition"
             required></textarea>
             <div style="height:6em; overflow:scroll; padding:0.5em " class=" hidden bg-gray-200 rounded-lg z-50 w-full hidden" id="definitionsList${cardCount - 1}"></div>
@@ -448,7 +452,7 @@ function updateInputNameAtIndex(inputName, newIndex) {
             <option selected  value="${UsedLanguage}">${UsedLanguage}</option>
             <option value="fr">French</option>
             <option  value="ja">Japanese</option>
-
+            <option   value="en">English</option>
             <option   value="zh-cn">Chinese</option>
             <option   value="es">Spanish</option>
             <option   value="ko">Korean</option>
@@ -618,6 +622,7 @@ function TranslatePost(event, cardCount) {
               if(selectedLanguage === 'zh-cn'){
                 definitionTextarea.value = translatedText.text + ' ' + translatedText.pinyin;
                 }else{
+                  definitionTextarea.value = translatedText.text 
                   console.log( translatedText.text);
                   const definitionlist = [{
                     definition: translatedText.text
@@ -828,6 +833,24 @@ definitionLi.addEventListener('click', function() {
   }
 }
 savebtn.addEventListener('click', submitForm());
+const flipbutton = document.querySelectorAll('.flipbutton');
+flipbutton.forEach((button) => {
+    button.addEventListener('click', function(e){
+      console.log('clicked')
+      const dataid = button.dataset.index;
+      console.log(dataid);
+      const term = document.getElementById(`term_${dataid}`);
+      const definition = document.getElementById(`definition_${dataid}`);
+      console.log(term.value);
+      console.log(definition.value);
+      //switrch the values
+      const temp = term.value;  
+      term.value = definition.value;
+      definition.value = temp;
+      //switch the images
+
+    })
+    });
 
 
             </script>

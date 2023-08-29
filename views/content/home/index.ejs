@@ -99,15 +99,16 @@
 
                             <!-- Left Indicator -->
                             <a href="#" class="absolute top-1/2 left-0 transform -translate-y-1/2">
-                                <i class="bi  bi-caret-left-fill text-xl"></i>
                             </a>
 
                             <!-- Right Indicator -->
                             <a href="#" class="absolute top-1/2 right-0 transform -translate-y-1/2">
-                                <i class="bi bi-caret-right-fill text-xl"></i>
                             </a>
                         </div>
                     </section>
+                    <i class="bi  bi-caret-left-fill text-xl"></i>
+                    <i class="bi bi-caret-right-fill text-xl"></i>
+
                     <section class="  boards status">
 
                         <div class="flex w-full mb-2 mt-2 justify-between">
@@ -692,13 +693,17 @@
     // Handle navigation
     document.querySelector('.bi-caret-left-fill').addEventListener('click', function(e) {
         e.preventDefault();
-        currentDate.setDate(currentDate.getDate() - 7);
+        console.log(currentDate.getDate() -8);
+        currentDate.setDate(currentDate.getDate() - 14);
+        console.log(currentDate);
         renderWeek(currentDate);
     });
 
     document.querySelector('.bi-caret-right-fill').addEventListener('click', function(e) {
         e.preventDefault();
-        currentDate.setDate(currentDate.getDate() + 7);
+
+        currentDate.setDate(currentDate.getDate() );
+        console.log(currentDate);
         renderWeek(currentDate);
     });
 });

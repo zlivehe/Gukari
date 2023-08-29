@@ -684,6 +684,7 @@ form.addEventListener('keydown', function (event) {
 
           inputElement.addEventListener('keyup', function (event) {
             if (event.key === 'Enter') {
+              console.log('Data isss'  + rowIndex)
               // Prevent form submission when Enter is pressed in the input element
               event.preventDefault();
 
@@ -693,8 +694,16 @@ form.addEventListener('keydown', function (event) {
               // Create a new card element
               const newCard = document.createElement('div');
               newCard.className = 'cards-ban mt-2 scroll gap-2 flex';
+              newCard.setAttribute('data-position', cardIndex);
+              newCard.setAttribute('data-row', rowIndex);
+              newCard.setAttribute('draggable', true);
+              newCard.setAttribute('id', `card-${cardIndex}`);
               newCard.innerHTML = `
-                <div class="card-ban rounded-xl p-3 mb-2 bg-blue-200">
+              <div class="flex flex-col">
+              <input type="number" class="" data-position="${cardIndex}" id="position-${cardIndex}" name="rows.${rowIndex}.cards.${cardIndex}.position" value="${cardIndex}">                    
+              <input type="number" class=""  data-position="${rowIndex}" id="card-row-${cardIndex}" name="rows.${rowIndex}.cards.${cardIndex}.row" value="${rowIndex}">
+                </div>
+                <div class="card-ban rounded-xl p-3 mb-2 bg-blue-200 "  data-position="${cardIndex}"  data-row="${rowIndex}" draggable="true" id="card-${cardIndex}"">
                   <!-- ... card content ... -->
                   <span class="text-2xl w-8">
                     <input type="text" class="bg-transparent border-0" value="${taskTitle}" name="rows.${rowIndex}.cards.${cardIndex}.title">
@@ -705,7 +714,7 @@ form.addEventListener('keydown', function (event) {
                   <!-- ... card content ... -->
                 </div>
                 <div class="card- hidden">
-                  <!-- ... popup content ... -->
+                  <!-- ... popup  content ... -->
                 </div>
               `;
 

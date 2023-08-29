@@ -29,6 +29,7 @@ Router.post('/board', (req, res) => {
   
     console.log(req.files);
     const data = JSON.parse(req.body.rows);
+    console.log(data);  
   
     try {
       // Find the board by ID
@@ -36,7 +37,6 @@ Router.post('/board', (req, res) => {
   
       // Update the board data with the received data
       existingBoard.rows = data.map(row => {
-        console.log(row);
   
         // Filter out cards with null title or description
         const validCards = row.cards.filter(card => card.title !== null );

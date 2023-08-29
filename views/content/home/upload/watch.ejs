@@ -35,10 +35,13 @@ if (timeDifference < minuteInMs) {
 
 <style>
     .video-card {
-        width: 70%;
+        width: 100%;
+    }
+    .videoElement{
+      width: 50em;
     }
     .comments-reco{
-        width: 30%;
+        width: 100%;
     }
     .liked{
         color: black;
@@ -70,11 +73,12 @@ if (timeDifference < minuteInMs) {
 
 </style>
 
-<div class="content fullscreen" id="content-menu" style="overflow: scroll;">
-    <div class="centers flex">
+<div class=" fullscreen" id="content-menu" style="overflow: scroll;">
+    <div class="centers flex flex-col">
 
-    <div class="video-card p-3" >
-      <video id="videoElement" class="rounded-sm w-full" height="350" controls>
+    <div class="video-card" >
+      <div class="flex w-full flex justify-center" style="background-color: black;">
+      <video style="width: 70em;" id="videoElement" class="rounded-sm " height="350" controls>
         <% if (uplaod.VideoUrl) { %>
           <source class="rounded-lg w-full" src="<%= uplaod.VideoUrl %>" type="video/mp4">
           <source class="rounded-lg h-full" src="<%= uplaod.VideoUrl %>" type="video/webm">
@@ -82,7 +86,8 @@ if (timeDifference < minuteInMs) {
           Your browser does not support the video tag.
         <% } %>
       </video>
-      
+    </div>
+    <div class="p-3">
       <div id="timestampDisplay"></div>
           <span>
             <h1 class="text-xl font-medium  "><%= uplaod.title %></h1>
@@ -181,24 +186,26 @@ if (timeDifference < minuteInMs) {
           </div>
         </div>
         </div>
-        <div class="description bg-gray-200 rounded-lg p-3 mt-2">
-            <span class="text-gray-700 text-sm">
-                <div class="flex">
-                <b><%= uplaod.createdAt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) %>                </b>
-                <% for(let tag of uplaod.tags){ %>
-                    <span class="text-blue-500 ml-1">#<%= tag %> </span>
-                <% } %>
-            </div>
-         
-    
-                <%= uplaod.description %>   
-            </span>
-        </div>
-          <br>
 
+        </div>
 
     </div>
-    <div class="comments-reco flex flex-col" >
+    <div class="flex">
+    <div class="description bg-gray-200 rounded-lg p-3 mt-2" style="width: 50%;">
+      <span class="text-gray-700 text-sm">
+          <div class="flex">
+          <b><%= uplaod.createdAt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) %>                </b>
+          <% for(let tag of uplaod.tags){ %>
+              <span class="text-blue-500 ml-1">#<%= tag %> </span>
+          <% } %>
+      </div>
+   
+
+          <%= uplaod.description %>   
+      </span>
+  </div>
+    <br>
+    <div class="comments-reco ml-2 flex flex-col" style="width: 50%;">
         <div class="comments-card  p-2 background  " style="width: 100%; height: 450px;">
             <div class="flex">
               <span><%= uplaod.comments.length%> comments</span>
@@ -570,86 +577,91 @@ if (timeDifference < minuteInMs) {
               </form>
             </div>
           </div>
-          <input class="hidden" type="text" value="<%=uplaod._id  %>" name="" id="videoid">
-        <div class="reco ">
-            <div class="recomandation flex justify-between">
-                <span class="text-2xl">Top category </span>
-                <button class="border rounded-md hover:bg-gray-600 hover:text-white">View all</button>
 
-            </div>
-            <br>
-            <div class="flex flex-col">
-                <% for(let video of allvideo){ %>
-                    <% const Timed = Date.now() - video.createdAt;
-                    let VideoformattedDate = '';
-                    
-                    // Calculate the difference in milliseconds
-                    const minuteInMs = 60 * 1000;
-                    const hourInMs = 60 * minuteInMs;
-                    const dayInMs = 24 * hourInMs;
-                    const weekInMs = 7 * dayInMs;
-                    
-                    // Format the date based on the time difference
-                    if (Timed < minuteInMs) {
-                      VideoformattedDate = Math.floor(Timed / 1000) + ' seconds ago';
-                    } else if (Timed < hourInMs) {
-                      VideoformattedDate = Math.floor(Timed / minuteInMs) + ' minutes ago';
-                    } else if (Timed < dayInMs) {
-                      VideoformattedDate = Math.floor(Timed / hourInMs) + ' hours ago';
-                    } else if (Timed < weekInMs) {
-                      VideoformattedDate = Math.floor(Timed / dayInMs) + ' days ago';
-                    } else {
-                      VideoformattedDate = uplaod.createdAt.toDateString(); // Use the full date if it's more than a week ago
-                    } %>
-                    <% if(video.VideoUrl && video.VideoUrl !== ''){ %>
-                        <a href="/home/video/<%=video._id %>" class="flex mb-4"> 
-                            <div class="video-container">
-                                <%if(video.thumbnail ){ %>
-                           
-                              <img class="rounded-lg" style="    min-width: 11em;
-                              min-height: 7em; max-width: 7em; max-height: 11em;" src="<%=video.thumbnail %>" alt="" srcset="">
-                              <div class="video-overlay"></div>
-                                <% }else{ %>
-                                  
-                                    <video class="rounded-md" style="     min-width: 9em;
-                                    width: 22em; max-width: 9em;" height="350"  controlsList="nodownload noremoteplayback nofullscreen">
-                                      <% if (video.VideoUrl) { %>
-                                        <source src="<%= video.VideoUrl %>" type="video/mp4">
-                                        <source src="<%= video.VideoUrl %>" type="video/webm">
-                                        <source src="<%= video.VideoUrl %>" type="video/ogg">
-                                        Your browser does not support the video tag.
-                                      <% } %>
-                                    </video>
-                                    <% } %>
-                            </div>
-                            <div class="ml-2" style="    margin-top: -0.5em;">
-                                <span class="title font-medium">
-
-                                
-                                <% let title = video.title.length > 44 ? video.title.substring(0, 41) + '...' : video.title; %>
-
-                                <%= title %>
-                            </span>
-
-                                <div class="author">
-                                    <% if (video.author && video.author.length > 0) { %>
-                                         <%= video.author[0].username %>
-                                      <% } %>
-                                </div>
-                              <div class="text-gray-600">
-                                <i class="bi text-red-700 text-xl bi-eye-fill"></i>
-                                <%= video.viewcount %> views <b class="mb-1">.</b><%=VideoformattedDate %>
-                              </div>
-                            </div>
-                          </a>
-                          
-                <% } %>
-                    <% } %>
-            </div>
-
-
-        </div>
+         
     </div>
+  </div>
+  <input class="hidden" type="text" value="<%=uplaod._id  %>" name="" id="videoid">
+  <div class="reco ">
+      <div class="recomandation flex justify-between">
+          <span class="text-2xl">Top category </span>
+          <button class="border rounded-md hover:bg-gray-600 hover:text-white">View all</button>
+
+      </div>
+      <br>
+      <div class="flex flex-wrap ">
+          <% for(let video of allvideo){ %>
+              <% const Timed = Date.now() - video.createdAt;
+              let VideoformattedDate = '';
+              
+              // Calculate the difference in milliseconds
+              const minuteInMs = 60 * 1000;
+              const hourInMs = 60 * minuteInMs;
+              const dayInMs = 24 * hourInMs;
+              const weekInMs = 7 * dayInMs;
+              
+              // Format the date based on the time difference
+              if (Timed < minuteInMs) {
+                VideoformattedDate = Math.floor(Timed / 1000) + ' seconds ago';
+              } else if (Timed < hourInMs) {
+                VideoformattedDate = Math.floor(Timed / minuteInMs) + ' minutes ago';
+              } else if (Timed < dayInMs) {
+                VideoformattedDate = Math.floor(Timed / hourInMs) + ' hours ago';
+              } else if (Timed < weekInMs) {
+                VideoformattedDate = Math.floor(Timed / dayInMs) + ' days ago';
+              } else {
+                VideoformattedDate = uplaod.createdAt.toDateString(); // Use the full date if it's more than a week ago
+              } %>
+              <% if(video.VideoUrl && video.VideoUrl !== ''){ %>
+                  <a href="/home/video/<%=video._id %>" class="flex  flex-col ml-3 mb-4 border "  style="    min-width: 17em;
+                    min-height: 15em; max-width: 19em; max-height: 17em;" > 
+                      <div class="video-container">
+                          <%if(video.thumbnail ){ %>
+                          <div style="width: 17em; height: 11em;">
+                            <img class="rounded-lg" style="   width: 100%; height: auto; " src="<%=video.thumbnail %>" alt="" srcset="">
+
+                          </div>
+                        <div class="video-overlay"></div>
+                          <% }else{ %>
+                            
+                              <video class="rounded-md" style="     min-width: 9em;
+                              width: 22em; max-width: 9em;" height="350"  controlsList="nodownload noremoteplayback nofullscreen">
+                                <% if (video.VideoUrl) { %>
+                                  <source src="<%= video.VideoUrl %>" type="video/mp4">
+                                  <source src="<%= video.VideoUrl %>" type="video/webm">
+                                  <source src="<%= video.VideoUrl %>" type="video/ogg">
+                                  Your browser does not support the video tag.
+                                <% } %>
+                              </video>
+                              <% } %>
+                      </div>
+                      <div class="ml-2" style="    ">
+                          <span class="title font-medium">
+
+                          
+                          <% let title = video.title.length > 44 ? video.title.substring(0, 41) + '...' : video.title; %>
+
+                          <%= title %>
+                      </span>
+
+                          <div class="author">
+                              <% if (video.author && video.author.length > 0) { %>
+                                   <%= video.author[0].username %>
+                                <% } %>
+                          </div>
+                        <div class="text-gray-600">
+                          <i class="bi text-red-700 text-xl bi-eye-fill"></i>
+                          <%= video.viewcount %> views <b class="mb-1">.</b><%=VideoformattedDate %>
+                        </div>
+                      </div>
+                    </a>
+                    
+          <% } %>
+              <% } %>
+      </div>
+
+
+  </div>
 </div>
 
 <input id="videoid" type="text" value="<%=uplaod._id %>">
