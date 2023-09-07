@@ -26,7 +26,15 @@ const cardSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
     default: []
-  }],
+  }],  
+  visability:{
+    type: String,
+    default:'public'
+
+  },
+  videolink:{
+    type:String
+  },
   author: {
     type: Schema.Types.ObjectId,
     ref: "User"
@@ -39,6 +47,18 @@ const cardSchema = new Schema({
         default: 0
 
   },
+  clones:[
+    {
+      type:Schema.Types.ObjectId,
+      ref: "Quizcard"
+    }
+  ],
+  cloned:[
+    {
+      type:Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ],
   category: {
     type: String,
     enum: ['general', 'technology', 'education', 'health', 'sports', 'food', 'business', 'art'],
@@ -54,6 +74,13 @@ const cardSchema = new Schema({
         type: String,
         required: true
       }
+    }
+  ],
+  orginatedfrom:[
+    {
+      type:Schema.Types.ObjectId,
+      ref: "User"
+
     }
   ],
   // color: {

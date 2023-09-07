@@ -5,7 +5,12 @@ const User = require('../../model/auth/user')
 const Quizcard = require('../../model/home/quizapp/quizcard.js')
 const passport = require('passport')
 const ObjectId = require('mongoose').Types.ObjectId;
+const Vieos = require('../../model/home/upload/videoupload')
+const Uploads = require('../../model/home/upload/upload')
 const Event = require('../../model/home/reminder/event')
+const Reminder = require('../../model/home/reminder/Reminder')
+
+
 Router.post('/signup',catchAsync(async(req,res)=>{
     try{
         console.log(req.body.user)
@@ -66,4 +71,26 @@ Router.post('/project', async(req, res) => {
     res.status(200).json({quizcard})
 })
 
+Router.post('/reminder', async(req, res) => {
+    const  id  = req.body.token;
+    const reminder = await Reminder.find({author: id})
+    const event = await Event.find({author: id})
+    console.log('senddd')
+    res.status(200).json({reminder,event})
+})
+
+Router.post('/videos', async(req, res) => {
+    const  id  = req.body.token;
+    console.log(id)
+    const video = await Vieos.find({author: id})
+    console.log('senddd')
+    res.status(200).json({video})
+})
+
+Router.post('/uploads', async(req, res) => {
+    const  id  = req.body.token;
+    const upload = await Uploads.find({author: id})
+    console.log('senddd')
+    res.status(200).json({upload})
+})
 module.exports = Router;

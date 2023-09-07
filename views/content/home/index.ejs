@@ -292,9 +292,7 @@
                         </div>
 
                         <div class="flex justify-between flex-wrap">
-                        <%for(let i= 0; i< recentlyview.length; i++){
-                             if (i >= 4) break;
-                            %>
+                        <%for(let i= 0; i< recentlyview.length; i++){  if (i >= 4) break; %>
                             
                             <a
                             href="/home/quiz/<%=recentlyview[i]._id %>"
@@ -334,8 +332,7 @@
                             <div>
                               <span>Tags</span>
                               <div class="flex flex-wrap" style="width: 8em">
-                                <% let counter=0; %> <% recentlyview[i].tags.forEach(tag=> { %> <% if (counter
-                                < 4) { %>
+                                <% let counter=0; %> <% recentlyview[i].tags.forEach(tag=> { %> <% if (counter < 4) { %>
                                 <span
                                   class="w-11 <%= tag.color %> mb-3 text-xs text-black font-medium mr-2 px-2.5 py-0.5 rounded"
                                 >

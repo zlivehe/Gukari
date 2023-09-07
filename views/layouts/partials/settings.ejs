@@ -44,6 +44,9 @@
                     placeholder="Search Mockups, Logos..." required>
 
             </div>
+            <div class="bg-gray-200 rounded-lg mt-2 mb-2 absolute hidden navclass" id="navclass " style="width: 50%; min-height: 2em; z-index: 99999;">
+                
+            </div>
         </form>
         <div class="flex items-center justify-between md:order-2  w-32">
             <button class="" id="theme">
@@ -114,5 +117,49 @@
 
     </div>
 </nav>
+<script>
+    const defaultsearch = document.getElementById('default-search')
+const navclass = document.querySelector('.navclass')
+
+defaultsearch.addEventListener('input', async function (e) {
+    const searchTerm = defaultsearch.value.trim();
+    
+    navclass.innerHTML = '';
+
+    if (searchTerm === '') {
+        navclass.classList.add('hidden');
+        return;
+    }
+
+    try {
+        const response = await fetch(`/search?term=${searchTerm}`);
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+
+        const resultsList = document.createElement('ul');
+        data.forEach((item) => {
+            const li = document.createElement('li');
+            li.textContent = item.title;
+            li.classList.add('px-4', 'py-2', 'text-sm', 'text-gray-700', 'hover:bg-gray-100','cursor-pointer');
+            li.addEventListener('click', () => {
+                window.location.href = `/home/results/search_query/${item.title}`;
+            });
+
+            resultsList.appendChild(li);
+
+        });
+
+        navclass.appendChild(resultsList);
+        navclass.classList.remove('hidden');
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+});
+
+</script>
 
 <script src="/public/javascript/main.js"></script>

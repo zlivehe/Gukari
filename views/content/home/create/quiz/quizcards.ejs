@@ -268,12 +268,15 @@
                             <button class="start-card"><i class="bi bi-star-fill"></i></button>
                             <span class="text-3xl">
                                 <%= foundquiz.cards[i].term %>
+
                             </span>
                         </div>
                         <div
                             class="border shadow definition p-3 rounded card-flips card-back flex justify-center items-center text-center">
                             <button class="start-card"><i class="bi bi-star-fill"></i></button>
                             <span class="text-3xl">
+                                <img src=" <%= foundquiz.cards[i].image %>" alt="" srcset="">
+
                                 <%= foundquiz.cards[i].definition %>
                             </span>
                         </div>

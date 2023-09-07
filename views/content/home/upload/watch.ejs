@@ -40,9 +40,7 @@ if (timeDifference < minuteInMs) {
     .videoElement{
       width: 50em;
     }
-    .comments-reco{
-        width: 100%;
-    }
+   
     .liked{
         color: black;
     }
@@ -74,11 +72,12 @@ if (timeDifference < minuteInMs) {
 </style>
 
 <div class=" fullscreen" id="content-menu" style="overflow: scroll;">
-    <div class="centers flex flex-col">
+  <div class="reco2 flex">
+    <div class="centers flex flex-col" style="width: 70%;">
 
     <div class="video-card" >
-      <div class="flex w-full flex justify-center" style="background-color: black;">
-      <video style="width: 70em;" id="videoElement" class="rounded-sm " height="350" controls>
+      <div class="flex w-full flex justify-center p-1" style="">
+      <video  id="videoElement" class="rounded-xl " height="350" controls>
         <% if (uplaod.VideoUrl) { %>
           <source class="rounded-lg w-full" src="<%= uplaod.VideoUrl %>" type="video/mp4">
           <source class="rounded-lg h-full" src="<%= uplaod.VideoUrl %>" type="video/webm">
@@ -190,8 +189,8 @@ if (timeDifference < minuteInMs) {
         </div>
 
     </div>
-    <div class="flex">
-    <div class="description bg-gray-200 rounded-lg p-3 mt-2" style="width: 50%;">
+    <div class="flex flex-col">
+    <div class="description bg-gray-200 rounded-lg p-3 mt-2" >
       <span class="text-gray-700 text-sm">
           <div class="flex">
           <b><%= uplaod.createdAt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) %>                </b>
@@ -205,7 +204,7 @@ if (timeDifference < minuteInMs) {
       </span>
   </div>
     <br>
-    <div class="comments-reco ml-2 flex flex-col" style="width: 50%;">
+    <div class="comments-reco ml-2 flex flex-col" >
         <div class="comments-card  p-2 background  " style="width: 100%; height: 450px;">
             <div class="flex">
               <span><%= uplaod.comments.length%> comments</span>
@@ -581,7 +580,7 @@ if (timeDifference < minuteInMs) {
          
     </div>
   </div>
-  <input class="hidden" type="text" value="<%=uplaod._id  %>" name="" id="videoid">
+  <input class="hidden" type="text"  name="" id="videoid">
   <div class="reco ">
       <div class="recomandation flex justify-between">
           <span class="text-2xl">Top category </span>
@@ -663,7 +662,85 @@ if (timeDifference < minuteInMs) {
 
   </div>
 </div>
+<div class="sugest " style="width: 30%;">
 
+<div class="ml-2 mr-1  ">
+  <div class="flex h-6" style="overflow: scroll; width: 100%;">
+    <button class="p-1 flex border w  bg-gray-100 items-center h-6 w-full" style="width: 8em;">
+        <i class="bi text-sm bi-globe"></i>
+        <span class="font-sm text-xs" text-xs="">Trnding</span>
+    </button>
+   
+        <button class="p-1 ml-1 flex border w  bg-gray-100 items-center h-6 w-full" style="width: 8em;">
+
+        <i class="bi text-sm bi-peace-fill"></i>
+        <span class="font-sm text-xs ml-2">Sport</span>
+    </button>
+        <button class="p-1 ml-1 flex border w  bg-gray-100 items-center h-6 w-full" style="width: 8em;">
+
+        <i class="bi text-sm bi-mortarboard-fill"></i>
+        <span class="font-sm text-xs ml-2">Education</span>
+    </button>
+        <button class="p-1 ml-1 flex border w  bg-gray-100 items-center h-6 w-full" style="width: 8em;">
+
+        <i class="bi text-sm bi-handbag-fill"></i>
+        <span class="font-sm text-xs ml-2">Fashion</span>
+    </button>
+
+        <button class="p-1 ml-1 flex border w  bg-gray-100 items-center h-6 w-full" style="width: 8em;">
+
+        <i class="bi text-sm bi-emoji-smile-fill"></i>
+        <span class="font-sm text-xs ml-2">Entertinment</span>
+    </button>
+</div>
+<br>
+
+  <div class="flex flex-wrap ">
+    <% for(let video of allvideo){ %>
+        <% const Timed = Date.now() - video.createdAt;
+        let VideoformattedDate = '';
+        
+        // Calculate the difference in milliseconds
+        const minuteInMs = 60 * 1000;
+        const hourInMs = 60 * minuteInMs;
+        const dayInMs = 24 * hourInMs;
+        const weekInMs = 7 * dayInMs;
+        
+        // Format the date based on the time difference
+        if (Timed < minuteInMs) {
+          VideoformattedDate = Math.floor(Timed / 1000) + ' seconds ago';
+        } else if (Timed < hourInMs) {
+          VideoformattedDate = Math.floor(Timed / minuteInMs) + ' minutes ago';
+        } else if (Timed < dayInMs) {
+          VideoformattedDate = Math.floor(Timed / hourInMs) + ' hours ago';
+        } else if (Timed < weekInMs) {
+          VideoformattedDate = Math.floor(Timed / dayInMs) + ' days ago';
+        } else {
+          VideoformattedDate = uplaod.createdAt.toDateString(); // Use the full date if it's more than a week ago
+        } %>
+        <% if(video.VideoUrl && video.VideoUrl !== ''){ %>
+          <a href="/home/video/<%=video._id %>" class="flex mb-4">
+            <img style="width: 12em;" class=" rounded-xl" src="<%=video.thumbnail%>" alt="" srcset="">
+            <div class="ml-1 flex flex-col">
+              <span class="text-sm font-semibold"><%=video.title%></span>
+              <span class="text-gray-600 text-xs"><%=video.author[0].username%></span>
+              <div class="flex text-xs text-gray-600 items-center">
+                <span><%=video.viewcount%> views </span> <span>.</span> <span><%=VideoformattedDate %></span>
+              </div>
+              <div>
+                <span class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 text-center items-center rounded ">new</span>
+        
+              </div>
+        
+            </div>
+          </a>
+              
+    <% } %>
+        <% } %>
+</div>
+</div>
+</div>
+</div>
 <input id="videoid" type="text" value="<%=uplaod._id %>">
 <br><br><br><br>
 </div>

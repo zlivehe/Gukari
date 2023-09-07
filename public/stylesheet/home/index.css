@@ -8,6 +8,8 @@ body{
     --background-them: #ffffff;
     --create-background-theme:#f6f8fc;
     --white-balck:#fff;
+    height: 95vh;
+
     overflow: scroll;
 
 }

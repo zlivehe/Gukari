@@ -149,7 +149,7 @@ Router.post('/quizcard',  upload.array('image'), isLoggedIn, catchAsync(async (r
       
         // If no file is uploaded for this card, use the default image filename
         const defaultImageFilename = '';
-        const imageUrl = uploadedFile ? `/uploads/${uploadedFile.filename}` : `/uploads/${defaultImageFilename}`;
+        const imageUrl = uploadedFile ? `${uploadedFile.path}` : `${defaultImageFilename}`;
       
         // Check if the uploaded file exists and store only the filename
         const imageFilename = uploadedFile ? uploadedFile.filename : '';
@@ -166,7 +166,7 @@ Router.post('/quizcard',  upload.array('image'), isLoggedIn, catchAsync(async (r
         console.log(cardArray)
       // Create a new QuizCard object
       let uploadedfile = req.files[0];
-      const imageUrl = uploadedfile ? `/uploads/${uploadedfile.filename}` : ``;
+      const imageUrl = uploadedfile ? `${uploadedfile.path}` : ``;
 
       const newQuizCard = new QuizCard({
         title,
@@ -241,7 +241,7 @@ Router.post('/quizcard/:id/edit',  upload.array('image'), isLoggedIn, catchAsync
     //   return res.send(error.details[0].message);
     // }
     
-    let { title, description,  tags, cards,category, orniginalimg} = req.body;
+    let { title, description, visability, tags, cards,category, orniginalimg,headtingimg} = req.body;
 
     // Create an array of tag objects with color property
     const tagArray = tags.split(',').map((tag) => ({
@@ -256,27 +256,27 @@ Router.post('/quizcard/:id/edit',  upload.array('image'), isLoggedIn, catchAsync
     }
 
     const user = req.user;
-
+    console.log(req.files)
     // Create an array of card objects
     const validCards = cards.filter(card => card && card.term && card.definition);
-
+     console.log(req.files)
     const cardArray = validCards.map((card) => {
       const uploadedFile = req.files.find((file) => file.originalname === card.image);
-      const imageUrl = uploadedFile ? `/uploads/${uploadedFile.filename}` : '';
+      const imageUrl = uploadedFile ? `/uploads/${uploadedFile.path}` : '';
 
     return {
       term: card.term,
       position: card.position,
       imageUrl: imageUrl,
-      image: uploadedFile ? uploadedFile.filename : card.image, // Store only the filename
+      image: uploadedFile ? uploadedFile.path : card.image, // Store only the filename
       definition: card.definition,
     };
     });
     if(orniginalimg === '' || orniginalimg === undefined){ 
       orniginalimg = '/uploads/quizcard.jpg'
     }
-    const imageUrls = req.files.map((file) => `/uploads/${file.filename}` );
-    const imageur = imageUrls[0] ? imageUrls[0] : orniginalimg;
+    const imageUrls = req.files.map((file) => `${file.path}` );
+    const imageur = imageUrls[0] ? imageUrls[0] : headtingimg;
     // Create a new QuizCard object
     const updatedData = {
       title,
@@ -285,7 +285,7 @@ Router.post('/quizcard/:id/edit',  upload.array('image'), isLoggedIn, catchAsync
       cards: cardArray,
       category:category,
       author: user._id,
-      
+      visability,
       imageUrl:imageur,
     };
 
@@ -328,7 +328,7 @@ Router.post('/newtask', upload.single('image'), catchAsync(async (req, res) => {
     const { title, description, image, time, startdate, priority, enddate } = req.body;
     const user = req.user;
     let reminder;
-    const imageurl = req.file ? `/uploads/${req.file.filename}` : image;
+    const imageurl = req.file ? `${req.file.path}` : image;
 
     const tasksCount = await Event.countDocuments(); // Get the count of existing tasks
 
@@ -425,7 +425,7 @@ const newBoard = new Board({
   title,
     type,
     bgimage:img,
-    imageurl: `/uploads/${req.file.filename}`,
+    imageurl: `${req.file.path}`,
 })
 await newBoard.save();
 workspace.kanbanboard.push(newBoard._id);
@@ -785,6 +785,102 @@ console.log(reply)
   }
 }));
 
+Router.post('/quiz/:id/clone',(req,res)=>{
+  const {id} = req.params;
+  const user = req.user;
+  const quiz = QuizCard.findById(id);
+  const newQuiz = new QuizCard({
+    title: quiz.title,
+    description: quiz.description,
+    tags: quiz.tags,
+    cards: quiz.cards,
+    category: quiz.category,
+    author: user._id,
+    visability: quiz.visability,
+
+    orginatedfrom: quiz.user
+  })
+  user.quizCard.push(newQuiz);
+  newQuiz.save();
+  user.save();
+    quiz.clones.push(newQuiz._id);
+    quiz.cloned.push(user._id);
+
+  res.redirect(`/home/quiz/${newQuiz._id}`)
+
+})
+Router.post('/quiz/:id/combined',(req,res)=>{
+  const {id} = req.params;
+  const user = req.user;
+  const quiz = QuizCard.findById(id);
+  const slectedid = req.body.selected;
+
+})
+  
+  
+
+async function searchInData(searchTerm) {
+  const limit = 10;
+
+  // Perform a search in your data models for relevant keywords in the title field.
+  const quizcardResults = await QuizCard.find({
+      title: { $regex: searchTerm, $options: 'i' }, // Search in title field.
+  }).limit(limit);
+
+  const videoResults = await VideoUpload.find({
+      title: { $regex: searchTerm, $options: 'i' }, // Search in title field.
+  }).limit(limit);
+
+  const imageResults = await ImageUpload.find({
+      title: { $regex: searchTerm, $options: 'i' }, // Search in title field.
+  }).limit(limit);
+
+  // Combine and deduplicate the results from different data sources.
+  const combinedResults = deduplicate([...quizcardResults, ...videoResults, ...imageResults]);
+
+  // Return an object containing all the search results.
+  return { combinedResults, quizcardResults, videoResults, imageResults };
+}
+
+
+function deduplicate(results) {
+  // You may need to implement deduplication logic here if there are duplicates.
+  // For simplicity, we'll assume there are no duplicates.
+  return results;
+}
+
+
+Router.get('/search', async (req, res) => {
+    const searchTerm = req.query.term;
+
+    // Perform your database queries to find search results.
+    const quizcard = await QuizCard.find({ title: searchTerm }).limit(5);
+    const video = await VideoUpload.find({ title: searchTerm }).limit(5);
+    const image = await ImageUpload.find({ title: searchTerm }).limit(5);
+      const { combinedResults, quizcardResults, videoResults, imageResults } = await searchInData(searchTerm);
+  console.log(combinedResults)
+    // Combine the results and send them as JSON.
+    const combinedResults1 = [...quizcard, ...video, ...image];
+
+    res.json(combinedResults);
+});
+
+
+// Router.get('/search', async (req, res) => {
+//   const searchTerm = req.query.term; // Get the search term from the query string.
+  
+//   try {
+//       const { combinedResults, quizcardResults, videoResults, imageResults } = await searchInData(searchTerm);
+
+//       res.send(combinedResults);
+//   } catch (error) {
+//       console.error('Error fetching recommendations:', error);
+//       res.status(500).json({ error: 'Internal Server Error', errorMessage: error.message });
+//   }
+// });
+
 
 
 module.exports = Router
+
+

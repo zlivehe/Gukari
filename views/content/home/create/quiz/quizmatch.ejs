@@ -312,19 +312,19 @@
                             %>
                        
 
-                        <div class="border shadow <%= card.term.term %>  card-items p-7 term rounded card-flips card-front flex justify-center items-center text-center"
+                        <div class="border shadow <%= card.term.term %> w-56 h-56  card-items p-7 term rounded card-flips card-front flex justify-center items-center text-center"
                             <% const termStyle = `transform: translate(${Math.floor(Math.random() *10)}px, ${Math.floor(Math.random() * 50)}px); l`; %>
                             <% const termOnClick = `toggleCard(event, this, '${card.term.id}', 'term', '${selectedCards.length}')`; %>
-                            style="<%= termStyle %>"
+                            style=""
                             onclick="<%= termOnClick %>">
                             <span class="term-text">
                                 <%= card.term.term %>
                             </span>
                         </div>
-                        <div class="border <%= card.term.term %>  p-7 shadow card-items definition p-6 rounded card-flips card-back flex justify-center items-center text-center"
+                        <div class="border <%= card.term.term %>  p-7 w-56 h-56 shadow card-items definition p-6 rounded card-flips card-back flex justify-center items-center text-center"
                             <% const definitionStyle = `transform: translate(${Math.floor(Math.random() * 500)}px, ${Math.floor(Math.random() * 500)}px); l`; %>
                             <% const definitionOnClick = `toggleCard(event, this, '${card.definition.id}', 'definition', '${selectedCards.length}')`; %>
-                            style="<%= definitionStyle %>"
+                            style=""
                             onclick="<%= definitionOnClick %>">
                             <span class="definition-text">
                                 <%= card.definition.definition %>

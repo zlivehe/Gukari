@@ -1,0 +1,123 @@
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+    .comments{
+        width: 30%;
+    }
+    
+    .news{
+        width: 70%;
+    }
+    .userstats{
+        display: flex;
+    }
+    .grapselections{
+        width: 100%;
+    }
+    .anaytics-tab{
+        width: 80%;
+    }
+    .usercard{
+        width: 20%;
+    }
+
+    .flex-anaytic{
+        display: flex;
+    }
+</style>
+<div class="stats w-full " style="height: 100vh;">
+    <div class="border w-full ">
+        <div class="flex justify-between items-center flex-wrap w-full p-2">
+            <button data-math="AnalyticsTab" class="active-ap apclass p-3 border-b-2 border-">
+             Analytics
+         </button>
+         <button data-math="Audience" class="active-ap apclass p-3 ">
+             Audience 
+         </button>
+         <button data-math="ScienceTab" class="active-ap apclass p-3  ">
+             Science
+         </button>
+         <button data-math="SocialTab" class="active-ap apclass p-3  ">
+             Social Studies
+         </button>
+         <button data-math="LangTab" class="active-ap apclass p-3  ">
+            World Language
+         </button>
+         <button data-math="EnglishTab" class="active-ap apclass p-3  ">
+             English
+          </button>
+          <button data-math="ArtTab" class="active-ap apclass p-3  ">
+             Arts
+          </button>  
+     </div>
+     <div id="AnalyticsTab" class="AnalyticsTab p-3 w-full h-">
+         <div class=" flex-anaytics ">
+            <div class="anaytics-tab border ">
+
+            </div>
+
+            <div class="usercard border">
+                <div class="userclass">
+
+                </div>
+                <div class="recent-commetn">
+
+                </div>
+            </div>
+         </div>
+ 
+     </div>
+     <div id="Audience" class="Audience hidden">
+         <span>Audience</span>
+     </div>
+     <div id="ScienceTab" class="ScienceTab hidden">
+         <span>Science tab</span>
+     </div>
+     <div id="SocialTab" class="SocialTab hidden">
+         <span>SocialTab</span>
+     </div>
+     <div id="LangTab" class="LangTab hidden">
+         <span>LAnguage tab</span>
+     </div>
+     <div id="EnglishTab" class="EnglishTab hidden">
+         <span>English Tabh</span>
+     </div>
+     <div id="ArtTab" class="ArtTab hidden">
+         <span>ArtTab</span>
+     </div>
+    </div>
+</div>
+
+
+<script>
+    const apbtn = document.querySelectorAll(".apclass");
+    let activetab = ''
+    apbtn.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            apbtn.forEach((btn) => {
+                const AnalyticsTab = document.getElementById("AnalyticsTab");
+                btn.classList.remove("border-b-2", "text-black");
+            });
+            btn.classList.add("border-b-2", "text-black");
+    
+            if (activetab != '') {
+                const math = document.getElementById(activetab);
+                math.classList.add("hidden");
+            }
+            activetab = btn.dataset.math;
+            AnalyticsTab.classList.add("hidden");
+            const data = btn.dataset.math;
+            activetable = data;
+            const math = document.getElementById(data);
+    
+            math.classList.remove("hidden");
+    
+    
+        });
+    }
+    );
+    
+    
+    document.title = "Ap";
+    </script>

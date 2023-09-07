@@ -15,7 +15,7 @@ const Board = require('../model/home/workspace/kanbanboard')
 const Event = require('../model/home/reminder/event')
 const VideoUpload = require('../model/home/upload/videoupload')
 const ImageUpload = require('../model/home/upload/upload')
-
+const Upload = require('../model/home/upload/upload')
 
 const isLoggedIn = (req,res,next)=>{
     if(!req.isAuthenticated()){
@@ -81,8 +81,26 @@ Router.get('/project',isLoggedIn,catchAsync(async(req,res)=>{
     const quizCardIds = user.quizCard.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
     const userQuizCards = await QuizCard.find({ _id: { $in: quizCardIds } });
     const userWorkspace = await Workspace.find({author: user._id});
+    //find videouoload
+    const videoUploadIds = user.VideoUpload.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
+    const userVideoUpload = await VideoUpload.find({ _id: { $in: videoUploadIds } });
+    //find posts
+    const recentlyview = []
+    for(let viewof of user.recentCard){
+        const view = await QuizCard.findById(viewof)
+        recentlyview.push(view)
+    }
 
-    res.render('content/home/project.ejs',{user,userQuizCards,userWorkspace})
+    const userPosts = await user.Uploads.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
+    const userupload = await Upload.find({ _id: { $in: userPosts } });
+    
+
+
+    res.render('content/home/project.ejs',{user,userQuizCards,userWorkspace,recentlyview,userVideoUpload,userupload})
+}))
+Router.get('/analytics',isLoggedIn,catchAsync(async(req,res)=>{
+    res.render('content/home/analytics.ejs')
+
 }))
 
 Router.get('/course',(req,res)=>{
@@ -111,7 +129,7 @@ Router.get('/profile/:id',async(req,res)=>{
     const id = req.params.id
     const user = await User.findById(id)
     console.log(user)
-    const userQuizCards = await QuizCard.find({author: user._id});
+    const userQuizCards = await QuizCard.find({author: user._id})
     res.render('content/home/profile.ejs', { user, userQuizCards })
 })
 Router.get('/student',async(req,res)=>{
@@ -137,13 +155,20 @@ Router.get('/test',(req,res)=>{
 res.send('hello')
 })
 
-
 //Quiz Routes
 Router.get('/quiz/:id',catchAsync(async(req,res)=>{
     
     const {id} = req.params
+    const user = req.user;
     console.log(id)
-    const foundquiz =await  QuizCard.findById(id)
+    const foundquiz = await  QuizCard.findById(id)
+    //get all the user quizcard
+    const quizCardIds = user.quizCard.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
+    const userQuizCards = await QuizCard.find({ _id: { $in: quizCardIds } });
+
+
+
+    
     foundquiz.viewcount += 1;
     await foundquiz.save()
     const quizowner = await User.findById(foundquiz.author)
@@ -154,7 +179,7 @@ Router.get('/quiz/:id',catchAsync(async(req,res)=>{
     }
     await req.user.save()
 
-    res.render('content/home/create/quiz/quizid.ejs',{foundquiz,quizowner,totalquiz})
+    res.render('content/home/create/quiz/quizid.ejs',{foundquiz,quizowner,userQuizCards,totalquiz})
 
 }))
 Router.get('/quiz/:id/ext',catchAsync(async(req,res)=>{
@@ -170,7 +195,6 @@ Router.get('/quiz/:id/ext',catchAsync(async(req,res)=>{
     res.status(200).json({foundquiz,quizowner,totalquiz})
 
 }))
-
 Router.get('/quiz/:id/edit',catchAsync(async(req,res)=>{
     const {id} = req.params
     const foundquiz =await QuizCard.findById(id)
@@ -403,6 +427,58 @@ Router.get('/image/:id',catchAsync(async(req,res)=>{
     res.render('content/home/upload/image.ejs',{upload,allimage})
 }))
 
+
+Router.get('/results/search_query/:searchTerm', async (req, res) => {
+    const searchTerm = req.params.searchTerm.toLowerCase(); // Use params to get the search term.
+    
+    try {
+        // Search for relevant keywords in your data.
+        const { combinedResults, quizcardResults, videoResults, imageResults } = await searchInData(searchTerm);
+        
+        res.render('content/home/asset/search.ejs', {
+            combinedResults,
+            searchTerm,
+            quizcardResults,
+            videoResults,
+            imageResults,
+        });
+    } catch (error) {
+        console.error('Error fetching recommendations:', error);
+        res.status(500).json({ error: 'Internal Server Error',errorMessage: error.message });
+    }
+});
+
+
+
+async function searchInData(searchTerm) {
+    const limit = 30;
+
+    // Perform a search in your data models for relevant keywords in the title field.
+    const quizcardResults = await QuizCard.find({
+        title: { $regex: searchTerm, $options: 'i' }, // Search in title field.
+    }).limit(limit);
+
+    const videoResults = await VideoUpload.find({
+        title: { $regex: searchTerm, $options: 'i' }, // Search in title field.
+    }).limit(limit);
+
+    const imageResults = await ImageUpload.find({
+        title: { $regex: searchTerm, $options: 'i' }, // Search in title field.
+    }).limit(limit);
+
+    // Combine and deduplicate the results from different data sources.
+    const combinedResults = deduplicate([...quizcardResults, ...videoResults, ...imageResults]);
+
+    // Return an object containing all the search results.
+    return { combinedResults, quizcardResults, videoResults, imageResults };
+}
+
+
+function deduplicate(results) {
+    // You may need to implement deduplication logic here if there are duplicates.
+    // For simplicity, we'll assume there are no duplicates.
+    return results;
+}
 
 module.exports = Router
 

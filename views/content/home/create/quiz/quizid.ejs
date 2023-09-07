@@ -112,7 +112,7 @@
                     <div class="user flex justify-between">
                         <div class="flex items-center content-center">
                             <img class="w-11 h-11 rounded-full"
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIYynLrxRVSvi9Wv4LdVZMGlJT7hLwyXdr8K-8RoOFlw&s"
+                                src="  <%= quizowner.photourl %>"
                                 alt="" srcset="">
 
                             <div class="ml-2">
@@ -179,9 +179,48 @@
                                         </div>
                                     </div>
                                     <% } else{ %>
-                                        <button class="border-none bg-gray-100 ml-2 p-2 rounded">
-                                            <i class="bi bi-files"></i>
+                                        <div class="flex flex-col">
+                                        <div data-id="cardpopout" class="absolute clone-ppopup hidden rounded-xl p-2 bg-gray-200 flex flex-col">
+                                            <span class="text-xl ">Are you sure you want to clone this card</span>
+                                            <div class="w-full flex justify-center items-center"> 
+                                            <button id="clonecard" class="p-3 w-22 h-13 text-xs text-white rounded-xl bg-blue-500">Clone</button>
+                                        </div>
+                                        <br>
+
+                                        </div>
+                                        <% if(currentUser){ %>
+                                            <% } %>
+                                        <div data-id="addterms" class=" addterms absolute clone-ppopup hidden rounded-xl p-2 bg-gray-200 flex flex-col">
+                                            <span class="text-xl ">Slect white you would like to combined</span>
+                                            
+                                            <select id="usercards" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                            <option selected>Choose a country</option>
+                                            <% for( userquiz of userQuizCards){ %>
+                                                <% if(userquiz._id !== foundquiz._id){ %>
+                                                    <option value="<%= userquiz._id %>"><%= userquiz.title %></option>
+                                                    <% } %>
+                                                <% } %>
+                                            </select>
+
+                                            <div class="w-full flex justify-center items-center"> 
+                                            <button id="addterms" class="mt-3 mb-2 p-3 w-22 h-13 text-xs text-white rounded-xl bg-blue-500">Add</button>
+                                        </div>
+                                        <br>
+
+                                        </div>
+                                        <div class="flex"> 
+                                        <button data-id="cardpopout"  class=" duplicatecard border-none bg-gray-100 ml-2 p-2 rounded">
+                                            <i class="bi text-gray-800 bi-files"></i>
                                         </button>
+                                        <button data-id="cardpopout2"  class="duplicatecard2 border-none bg-gray-100 ml-2 p-2 rounded">
+                                            <i class="bi text-gray-800  bi-file-plus"></i>
+                                        </button>
+                                        <button data-id="cardpopout3"  class="duplicatecard3 border-none bg-gray-100 ml-2 p-2 rounded">
+                                            <i class="bi  text-gray-800  bi-folder-plus"></i>
+                                        </button>
+
+                                    </div>
+                                    </div>
                                         <% } %>
                                             <% } else{%>
 
@@ -252,7 +291,7 @@
                                       <div  style="flex: 1;" class="flex">
                                         <textarea name="d" id="" cols="10"  class="ml-8 text-center text-lg text-gray-700 flex justify-center text-lg w-full  resize-none text-gray-400 bg-transparent overflow-wrap break-word" disabled><%= card.definition %></textarea>
                                        <% if(card.image &&card.image !==  '/public/uploads/china_1687641298604.jpeg'){ %>
-                                        <img class="w-16 h-16 rounded" style="margin-left: 2em;" src="/uploads/<%= card.image %>" alt="" srcset=""> 
+                                        <img class="w-16 h-16 rounded" style="margin-left: 2em;" src="<%= card.image %>" alt="" srcset=""> 
                                        <% } %>
                                       </div>
                                   
@@ -374,5 +413,56 @@
                     console.log('Error:', error);
                 });
         }
+
+        const duplicatecard = document.querySelector('.duplicatecard')
+        duplicatecard.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+            const dataid = duplicatecard.getAttribute('data-id');
+            const duplicatepopout = document.querySelector(`[data-id="${dataid}"]`);
+            duplicatepopout.classList.remove('hidden');
+        });
+    
+        const clonecard = document.getElementById('clonecard');
+        clonecard.addEventListener('click', function (event) {
+
+
+            event.preventDefault(); // Prevent default form submission behavior
+            //make a featch post rewurst ot quizcard/quizid/clone
+            //then redirect to the new quizcard
+
+            const url = '/home/quiz/<%= foundquiz._id %>/clone';
+            const method = 'POST';
+            const data = {};
+            fetch(url, {
+                method: method,
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        Swal.fire('Success', data.message, 'success');
+                        window.location.href = '/home/quiz/' + data.quiz._id;
+                    } else {
+                        Swal.fire('Error', data.message, 'error');
+                    }
+                })
+                .catch((error) => {
+                    Swal.fire('Error', error.message, 'error');
+                    console.error('Error:', error);
+                });
+
+        });
+
+
+        const duplicatecard2 = document.querySelector('.duplicatecard2')
+        duplicatecard2.addEventListener('click',function(e){
+            e.preventDefault(); // Prevent default form submission behavior
+            const duplicatepopout = document.querySelector(`.addterms`);
+
+            duplicatepopout.classList.remove('hidden');
+        })
     </script>
         <br><br><br>

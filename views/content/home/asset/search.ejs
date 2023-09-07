@@ -1,0 +1,116 @@
+<%if(currentUser){%>
+<% layout('./layouts/boilerplate.ejs')%>
+<%- include('../../../layouts/partials/settings.ejs') %>
+<% }else{ %>
+    <% } %>
+<div class="content fullscreen" style="overflow: scroll; overflow: scroll;" id="content-menu">
+    <div class=" mr-15 " style="">
+        <!-- <span class="text-2xl">Results for "<%=searchTerm %>"</span> -->
+        <br>
+        <div class="flex">
+            <button class="p-1 flex border-0   bg-gray-100 items-center">
+                <i class="bi text-sm bi-globe"></i>
+                <span class="font-sm text-xs"text-xs >Trnding</span>
+            </button>
+            <button class="p-1 flex border-0 ml-2 bg-gray-100 items-center">
+                <i class="bi text-sm bi-music-note"></i>
+                <span class="font-sm text-xs"text-xs >Dace Music</span>
+            </button>
+            <button class="p-1 flex ml-5 border-0 bg-gray-100 items-center">
+                <i class="bi text-sm bi-camera-video-fill"></i>
+                <span class="font-sm text-xs ml-2">Comedy and Drama</span>
+            </button>
+            <button class="p-1 flex ml-5 border-0 bg-gray-100 items-center">
+                <i class="bi text-sm bi-peace-fill"></i>
+                <span class="font-sm text-xs ml-2">Sport</span>
+            </button>
+            <button class="p-1 flex ml-5 border-0 bg-gray-100 items-center">
+                <i class="bi text-sm bi-mortarboard-fill"></i>
+                <span class="font-sm text-xs ml-2">Education</span>
+            </button>
+            <button class="p-1 flex ml-5 border-0 bg-gray-100 items-center">
+                <i class="bi text-sm bi-handbag-fill"></i>
+                <span class="font-sm text-xs ml-2">Fashion</span>
+            </button>
+        
+            <button class="p-1 flex ml-5 border-0 bg-gray-100 items-center">
+                <i class="bi text-sm bi-emoji-smile-fill"></i>
+                <span class="font-sm text-xs ml-2">Entertinment</span>
+            </button>
+        </div>
+        <br>
+        <div>
+            <div class="flex justify-between items-center flex-wrap w-full p-2">
+                   <button data-math="AllTab" class="active-ap apclass p-3 text-gray-700 border-b-2 border-blue-300 text-gray-700gray-500">
+                    All result
+                </button>
+                <button data-math="Vieotab" class="active-ap apclass p-3 text-gray-700 ">
+                    Video
+                </button>
+                <button data-math="ImageTab" class="active-ap apclass p-3 text-gray-700">
+                    Image
+                </button>
+                <button data-math="UsersTab" class="active-ap apclass p-3 text-gray-700">
+                    Users
+                </button>
+                <button data-math="CoursesTab" class="active-ap apclass p-3 text-gray-700">
+                   Courses
+                </button>
+              
+            </div>
+            <div id="AllTab" class="AllTab p-3 w-full h-">
+                <div class=" flex ">
+                    <%= combinedResults %>
+
+                </div>
+        
+            </div>
+            <div id="Vieotab" class="Vieotab hidden">
+                <span>Math tab</span>
+            </div>
+            <div id="ImageTab" class="ImageTab hidden">
+                <span>Science tab</span>
+            </div>
+            <div id="UsersTab" class="UsersTab hidden">
+                <span>UsersTab</span>
+            </div>
+            <div id="CoursesTab" class="CoursesTab hidden">
+                <span>LAnguage tab</span>
+            </div>
+      
+        </div>
+        
+    </div>
+    </div>
+
+<script>
+    const apbtn = document.querySelectorAll(".apclass");
+    let activetab = ''
+    apbtn.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            apbtn.forEach((btn) => {
+                const AllTab = document.getElementById("AllTab");
+                btn.classList.remove("border-b-2", "text-black","border-blue-300");
+            });
+            btn.classList.add("border-b-2", "text-black","border-blue-300");
+    
+            if (activetab != '') {
+                const math = document.getElementById(activetab);
+                math.classList.add("hidden");
+            }
+            activetab = btn.dataset.math;
+            AllTab.classList.add("hidden");
+            const data = btn.dataset.math;
+            activetable = data;
+            const math = document.getElementById(data);
+    
+            math.classList.remove("hidden");
+    
+    
+        });
+    }
+    );
+    
+    
+    document.title = "<%=searchTerm %>";
+    </script>

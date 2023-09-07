@@ -42,219 +42,304 @@
         
             <br>
             <div class="ml-5 mr-5">
-            <div class="p-2">
-                
-                <form id="quizForm"
-                 method="POST" 
-                 action="/quizcard/<%=foundquiz._id %>/edit"
-                    enctype="multipart/form-data">
-                    <div class="container mt-3">
-                        <div id="successMessage"
-                        class="msg px-4 py-2 text-sm text-green-800 bg-green-50  rounded-lg"
-                        style="margin-left: 18em; margin-right: 2em;">
-                        <span id="successText" class="font-medium">
-                        </span>
-                        </div>
-                        <div id="errorMessage"
-                        class="msg px-4 py-2 text-sm text-red-800 bg-red-50  rounded-lg"
-                        style="margin-left: 18em; margin-right: 2em;">
-                        <span id="errorText" class="font-medium">
-                        </span>
-                        </div>
-                        <div id="warningMessage"
-                        class="msg px-4 py-2 text-sm text-yellow-800 bg-yellow-50  rounded-lg"
-                        style="margin-left: 18em; margin-right: 2em;">
-                        <span id="warningText" class="font-medium">
-                        </span>
-                        </div>
+              <div class="flex justify-between items-center flex-wrap w-full p-2">
+                <button data-math="Analytics" class="active-ap apclass p-3 text- rounded-lg border-indigo-500 border-b-2 ">
+                  Analytics
+             </button>
+             <button data-math="Details" class="active-ap apclass p-3 text- rounded-lg">
+                 Details
+             </button>
+             <button data-math="Comments" class="active-ap apclass p-3 text- rounded-lg ">
+                 Commets
+             </button>
+             <button data-math="Saves" class="active-ap apclass p-3 text- rounded-lg ">
+                 Saves
+             </button>
             
-                    </div>
-                    <div class="flex content-center items-center justify-between w-full">
-                        <span>Enter your Cards details</span>
-                      
-                        <button type="submit" class="p-3 bg-blue-500 text-white rounded">Done</button>
-                    </div>
-                    <div class="flex flex-col">
-                        <div class="relative z-0 w-full mb-6 group">
-                            <input type="Title" value="<%= foundquiz.title %>" name="title" id="title"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                placeholder=" " required />
-                            <label for="title"
-                                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                Title
-                            </label>
-                        </div>
-                        <div class="grid md:grid-cols-2 md:gap-6">
-                            <div>
-                                <label for="message" class="block mb-2 text-sm font-medium text-gray-900 ">
-                                    Your Description
-                                </label>
-                                <textarea id="textare" name="description" rows="4"
-                                    class="textare block p-2.5 w-full text-sm rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Enter Card description"
-                                    required><%= foundquiz.description %></textarea>
-                            </div>
-                            <div class="relative z-0 w-full mb-6 group">
-                                <div>
-                                    <input type="text" id="tag_input"
-                                        class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
-                                    <label for="tag_input"
-                                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                        Tags
-                                    </label>
-                                </div>
-                                <br>
-                                <input id="tags-post"  class="hidden tags-post" type="text" value="general"
-                                    name="tags">
-                                <div class="tags flex flex-wrap" id="tags_container">
-                                    <div class="tags flex flex-wrap" id="tags_container">
-                                        <% foundquiz.tags.forEach((tag)=> { %>
-                                            <span class="text-xs  <%= tag.color %> ml-3 mb-2 font-semibold inline-block py-1 px-2 uppercase rounded
-                                            ">
-                                                <%= tag.name %>
-                                            </span>
-                                            <% }) %>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="flex mt-4 justify-between">
-                            <div class="mb-3">
-                                <label for="image" class="block text-gray-700">Image</label>
-                                <input type="file" id="coverimage" name="image" class="form-input mt-1 block" onchange="coverimagePreview(event)" />
-                                <input type="text" class="orignalimg hidden" value="<%=foundquiz.imageUrl %>" name="orniginalimg" id="">
-                            </div>
-                            <% if(foundquiz.imageUrl && foundquiz.imageUrl =='/uploads/undefined'){ %>
-                            <div id="coverimagePreview" class=" " style=""></div>
-                            <div>
-                            <% }else{ %>
-                            <div id="coverimagePreview" class=" "></div>
-                            <% } %>
-                                
-                                
-                              
-    
-                                <div class="flex flex-col"> 
-                                <label for="category" class="block mb-2 text-sm font-medium">Categorie</label>
-                                <select name="category" id="countries"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                    <option selected value="<%= foundquiz.category %>"><%= foundquiz.category %></option>
-                                    <option value="technology">Technology</option>
-                                    <option value="education">Education</option>
-                                    <option value="helth">Health and Fitness
-                                    </option>
-                                    <option value="sports">Sports</option>
-                                    <option value="food">Food and Cooking</option>
-                                    <option value="business">Business and Finance
-                                    </option>
-                                    <option value="art">Arts and Culture
-                                    </option>
-                                </select>
-                            </div>
-    
-                            </div>
-    
-                        </div>
-                        <hr class="my-8" />
-                        <div id="existing-cards-container">
-                            <!-- Existing cards will be inserted here -->
-                            <% foundquiz.cards.forEach((card, index)=> { %>
-                                <div class="card mb-4 border p-5 rounded-lg">
-                                    <div class="flex justify-between items-center content-center">
-                                        <div class="card-number">
-                                            <%= card.position%>
-                                        </div>
-                                        <button
-                                            class="remove-card-button p-2 text-center flex justify-center mt-3 rounded-md bg-red-400">
-                                            <img width="20" height="20"
-                                                src="https://img.icons8.com/android/24/000000/minus.png" alt="minus" />
-                                        </button>
-                                    </div>
-                                    <div class="full flex flex-wrap justify-center items-center w-full"><button data-index="<%=index %>" class="flipbutton"> <img class="w-11 h-11" src="https://media.discordapp.net/attachments/1105375686203555913/1145395058145763388/swap.png?width=896&height=896" alt="" srcset=""> </button> </div>
-
-                                    <div class="w-full flex px-2 mb-6 md:mb-0">
-                                        <div class="w-full px-2">
-                                          
-
-                                            <label
-                                                class="w-full block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                                for="term_<%= index%>">
-                                                Term
-                                            </label>
-                                            <textarea class="card-input rounded-md resize-none w-full bg-gray-50 border-none" type="text" name="cards[<%= index%>][term]" id="term_<%= index%>" required><%= card.term %></textarea>
-
-                                        </div>
-                                        <div class="w-full px-2">
-                                            <label
-                                                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                                for="definition_<%= index%>">
-                                                Definition
-                                            </label>
-                                            <input class="card-input rounded-md" type="text" name="cards[<%= index %>][position]" value="<%= card.position %>" readonly style="display: none;">
-
-                                            <textarea class="card-input rounded-md resize-none w-full bg-gray-50 border-none" type="text"
-                                                name="cards[<%= index%>][definition]" id="definition_<%= index%>"
-                                                required><%= card.definition %></textarea>
-                                             
-                                              
-
-                                        </div>
-                                        <br>
+         </div>
+         <div id="Analytics" class="Analytics p-3 w-full h-">
+             <div class=" flex justify-between ">
+              <div class="rounded-xl border bg-gray-50 p-2" style="width: 21em;">
+                <div class="flex items-center  text-gray-600"> <div class="rounded-full w-6 h-6 bg-red-300 flex justify-center items-center"><i class="bi text-xs text-red-700 bi-eye-fill"></i></div> <span class="ml-1">Total views</span></div>
+                <div class="p-4"><span class="text-2xl"><b>242</b></span></div>
+              </div>
+              <div class="rounded-xl border bg-gray-50 p-2" style="width: 21em;">
+                <div class="flex items-center  text-gray-600"> <div class="rounded-full w-6 h-7 bg-yellow-200 flex justify-center items-center"><i class="bi text-xs text-yellow-500 bi-star-fill"></i></div> <span class="ml-1">Total stars</span></div>
+                <div class="p-4"><span class="text-2xl"><b>21</b></span></div>
+              </div>
+              <div class="rounded-xl border bg-gray-50 p-2" style="width: 21em;">
+                <div class="flex items-center  text-gray-600"> <div class="rounded-full w-6 h-6 bg-blue-200 flex justify-center items-center"><i class="bi text-xs text-blue-500 bi-chat-left-dots-fill"></i></div> <span class="ml-1">Total Comments</span></div>
+                <div class="p-4"><span class="text-2xl"><b>5</b></span></div>
+              </div>
+             </div>
      
-                                    </div>
-                                    <div class="flex justify-between">
-                                    <input class="card-input  rounded-md" type="file" name="image"
-                                    id="image_${cardCount}" style="margin-top: 0.5rem;"
-                                    onchange="previewImage1(event, `<%= index%>`)"
-                                    value="/public/uploads/china_1687641298604.jpeg">
-                                    <% if( card.image && card.image !== '/public/uploads/china_1687641298604.jpeg' ){ %>
-                                        <img  class="h-16 w-16" id="preview_<%=index %>" src="/uploads/<%= card.image %>" alt=""  srcset="">
-                                        <% } else{%>
-                                            <img  class="h-16 w-16 hidden"  id="preview_<%=index %>" src="/uploads/<%= card.image %>" alt=""  srcset="">
-                                        <% } %> 
-                                        <div> 
-                                        <label for="languges" class="block mb-2 text-sm font-medium text-gray-900 ">Select language</label>
-                                        <select id="languges${cardCount}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                            <option  value="en">English</option>
-                                            <option value="fr">French</option>
-                                            <option  value="ja">Japanese</option>
-                                
-                                            <option  selected value="zh-cn">Chinese</option>
-                                            <option  value="es">Spanish</option>
-                                            <option  value="ko">Korean</option>
-                                        </select>
-                                    </div>
-                                    </div>
-                                <input class="card-input hidden  rounded-md" type="text"
-                                    name="cards[<%= index%>][image]" value="<%= card.image %>"
-                                    id="preview2_<%=index %>" placeholder="Enter imgae" required>
-                                </div>
-                                <% }) %>
-                                
-                        </div>
-                        <div class="flex justify-center">
-                            <button type="button" id="add-card-button"
-                                class="add-card-button items-center p-3 text-center flex justify-center mt-3 rounded-md bg-green-500 text-white font-medium">
-                                <img width="20" height="20" src="https://img.icons8.com/android/24/000000/plus.png"
-                                    alt="plus" />
-                                <span class="ml-2">Add Card</span>
-                            </button>
-                            <button type="button"  id="savebtn" type="submit"
-                            class="add-card-button items-center-3 p-3 ml-3 text-center flex justify-center mt-3 rounded-md bg-blue-500 text-white font-medium">
-                            <img width="20" height="20" src="https://img.icons8.com/color/48/save--v1.png"
-                                alt="plus" />
-                            <span class="ml-2">Save</span>
-                        </button>
+         </div>
+         <div id="Details" class="Details hidden">
+                 
+          <div class="p-2">
+                
+            <form id="quizForm"
+             method="POST" 
+             action="/quizcard/<%=foundquiz._id %>/edit"
+                enctype="multipart/form-data">
+                                                <input type="text" class="orignalimg hidden" value="<%=foundquiz.imageUrl %>" name="headtingimg" id="">
 
+                <div class="container mt-3">
+                    <div id="successMessage"
+                    class="msg px-4 py-2 text-sm text-green-800 bg-green-50  rounded-lg"
+                    style="margin-left: 18em; margin-right: 2em;">
+                    <span id="successText" class="font-medium">
+                    </span>
+                    </div>
+                    <div id="errorMessage"
+                    class="msg px-4 py-2 text-sm text-red-800 bg-red-50  rounded-lg"
+                    style="margin-left: 18em; margin-right: 2em;">
+                    <span id="errorText" class="font-medium">
+                    </span>
+                    </div>
+                    <div id="warningMessage"
+                    class="msg px-4 py-2 text-sm text-yellow-800 bg-yellow-50  rounded-lg"
+                    style="margin-left: 18em; margin-right: 2em;">
+                    <span id="warningText" class="font-medium">
+                    </span>
+                    </div>
+        
+                </div>
+
+                <div class="flex content-center items-center justify-between w-full">
+                    <span>Edit your Cards details</span>
+                  
+                    <button type="submit" class="p-3 bg-blue-500 text-white rounded">Done</button>
+                </div>
+                <div class="flex flex-col">
+                  <div class="flex items-center">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="Title" value="<%= foundquiz.title %>" name="title" id="title"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " required />
+                        <label for="title"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Title
+                        </label>
+                    </div>
+                    <div class="flex ml-1 " style="height: 3em;" >
+                      <select name="visability" id="countries"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                      <option selected value="public">Public</option>
+                      <option value="private">Private</option>
+        
+                  </select>
+                    </div>
+                  </div>
+
+
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div>
+                            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 ">
+                                Your Description
+                            </label>
+                            <textarea id="textare" name="description" rows="4"
+                                class="textare block p-2.5 w-full text-sm rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Enter Card description"
+                                required><%= foundquiz.description %></textarea>
+                        </div>
+                        <div class="relative z-0 w-full mb-6 group">
+                            <div>
+                                <input type="text" id="tag_input"
+                                    class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+                                <label for="tag_input"
+                                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                    Tags
+                                </label>
+                            </div>
+                            <br>
+                            <input id="tags-post"  class="hidden tags-post" type="text" value="general"
+                                name="tags">
+                            <div class="tags flex flex-wrap" id="tags_container">
+                                <div class="tags flex flex-wrap" id="tags_container">
+                                    <% foundquiz.tags.forEach((tag)=> { %>
+                                        <span class="text-xs  <%= tag.color %> ml-3 mb-2 font-semibold inline-block py-1 px-2 uppercase rounded
+                                        ">
+                                            <%= tag.name %>
+                                        </span>
+                                        <% }) %>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <br>
-                </form>
-            </div>
+                    <div class="flex mt-4 justify-between">
+                        <div class="mb-3">
+                            <label for="image" class="block text-gray-700">Image</label>
+                            <input type="file" id="coverimage" name="image" class="form-input mt-1 block" onchange="coverimagePreview(event)" />
+                            <input type="text" class="orignalimg hidden" value="<%=foundquiz.imageUrl %>" name="orniginalimg" id="">
+                        </div>
+                        <% if(foundquiz.imageUrl && foundquiz.imageUrl =='/uploads/undefined'){ %>
+                        <div id="coverimagePreview" class=" " style=""></div>
+                        <div>
+                        <% }else{ %>
+                        <div id="coverimagePreview" class=" "></div>
+                        <% } %>
+                            
+                            
+                          
+
+                            <div class="flex flex-col"> 
+                            <label for="category" class="block mb-2 text-sm font-medium">Categorie</label>
+                            <select name="category" id="countries"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option selected value="<%= foundquiz.category %>"><%= foundquiz.category %></option>
+                                <option value="technology">Technology</option>
+                                <option value="education">Education</option>
+                                <option value="helth">Health and Fitness
+                                </option>
+                                <option value="sports">Sports</option>
+                                <option value="food">Food and Cooking</option>
+                                <option value="business">Business and Finance
+                                </option>
+                                <option value="art">Arts and Culture
+                                </option>
+                            </select>
+                        </div>
+
+                        </div>
+
+                    </div>
+                    <hr class="my-8" />
+                    <div id="existing-cards-container">
+                        <!-- Existing cards will be inserted here -->
+                        <% foundquiz.cards.forEach((card, index)=> { %>
+                            <div class="card mb-4 border p-5 rounded-lg">
+                                <div class="flex justify-between items-center content-center">
+                                    <div class="card-number">
+                                        <%= card.position%>
+                                    </div>
+                                    <button
+                                        class="remove-card-button p-2 text-center flex justify-center mt-3 rounded-md bg-red-400">
+                                        <img width="20" height="20"
+                                            src="https://img.icons8.com/android/24/000000/minus.png" alt="minus" />
+                                    </button>
+                                </div>
+                                <div class="full flex flex-wrap justify-center items-center w-full"><button data-index="<%=index %>" class="flipbutton"> <img class="w-11 h-11" src="https://media.discordapp.net/attachments/1105375686203555913/1145395058145763388/swap.png?width=896&height=896" alt="" srcset=""> </button> </div>
+
+                                <div class="w-full flex px-2 mb-6 md:mb-0">
+                                    <div class="w-full px-2">
+                                      
+
+                                        <label
+                                            class="w-full block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                            for="term_<%= index%>">
+                                            Term
+                                        </label>
+                                        <textarea class="card-input rounded-md resize-none w-full bg-gray-50 border-none" type="text" name="cards[<%= index%>][term]" id="term_<%= index%>" required><%= card.term %></textarea>
+
+                                    </div>
+                                    <div class="w-full px-2">
+                                        <label
+                                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                            for="definition_<%= index%>">
+                                            Definition
+                                        </label>
+                                        <input class="card-input rounded-md" type="text" name="cards[<%= index %>][position]" value="<%= card.position %>" readonly style="display: none;">
+
+                                        <textarea class="card-input rounded-md resize-none w-full bg-gray-50 border-none" type="text"
+                                            name="cards[<%= index%>][definition]" id="definition_<%= index%>"
+                                            required><%= card.definition %></textarea>
+                                         
+                                          
+
+                                    </div>
+                                    <br>
+ 
+                                </div>
+                                <div class="flex justify-between">
+                                <input class="card-input  rounded-md" type="file" name="image"
+                                id="image_${cardCount}" style="margin-top: 0.5rem;"
+                                onchange="previewImage1(event, `<%= index%>`)"
+                                value="/public/uploads/china_1687641298604.jpeg">
+                                <% if( card.image && card.image !== '/public/uploads/china_1687641298604.jpeg' ){ %>
+                                    <img  class="h-16 w-16" id="preview_<%=index %>" src="/uploads/<%= card.image %>" alt=""  srcset="">
+                                    <% } else{%>
+                                        <img  class="h-16 w-16 hidden"  id="preview_<%=index %>" src="/uploads/<%= card.image %>" alt=""  srcset="">
+                                    <% } %> 
+                                    <div> 
+                                    <label for="languges" class="block mb-2 text-sm font-medium text-gray-900 ">Select language</label>
+                                    <select id="languges${cardCount}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                        <option  value="en">English</option>
+                                        <option value="fr">French</option>
+                                        <option  value="ja">Japanese</option>
+                            
+                                        <option  selected value="zh-cn">Chinese</option>
+                                        <option  value="es">Spanish</option>
+                                        <option  value="ko">Korean</option>
+                                    </select>
+                                </div>
+                                </div>
+                            <input class="card-input hidden  rounded-md" type="text"
+                                name="cards[<%= index%>][image]" value="<%= card.image %>"
+                                id="preview2_<%=index %>" placeholder="Enter imgae" required>
+                            </div>
+                            <% }) %>
+                            
+                    </div>
+                    <div class="flex justify-center">
+                        <button type="button" id="add-card-button"
+                            class="add-card-button items-center p-3 text-center flex justify-center mt-3 rounded-md bg-green-500 text-white font-medium">
+                            <img width="20" height="20" src="https://img.icons8.com/android/24/000000/plus.png"
+                                alt="plus" />
+                            <span class="ml-2">Add Card</span>
+                        </button>
+                        <button type="button"  id="savebtn" type="submit"
+                        class="add-card-button items-center-3 p-3 ml-3 text-center flex justify-center mt-3 rounded-md bg-blue-500 text-white font-medium">
+                        <img width="20" height="20" src="https://img.icons8.com/color/48/save--v1.png"
+                            alt="plus" />
+                        <span class="ml-2">Save</span>
+                    </button>
+
+                    </div>
+                </div>
+                <br>
+            </form>
+        </div>
+
+         </div>
+         <div id="Comments" class="Comments hidden">
+             <span>commets tab</span>
+         </div>
+         <div id="Saves" class="Saves hidden">
+             <span>Saves</span>
+         </div>
+   
         </div>
             
-            <script>
+<script>
+const apbtn = document.querySelectorAll(".apclass");
+let activetab = ''
+apbtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        apbtn.forEach((btn) => {
+            const Analytics = document.getElementById("Analytics");
+            btn.classList.remove("border-b-2","border-indigo-500");
+        });
+        btn.classList.add("border-b-2","border-indigo-500");
+
+        if (activetab != '') {
+            const math = document.getElementById(activetab);
+            math.classList.add("hidden");
+        }
+        activetab = btn.dataset.math;
+        Analytics.classList.add("hidden");
+        const data = btn.dataset.math;
+        activetable = data;
+        const math = document.getElementById(data);
+
+        math.classList.remove("hidden");
+
+
+    });
+}
+);
+
                 const savebtn = document.getElementById('savebtn');
     const orignalimg = document.querySelector('.orignalimg').value;
      var output = document.getElementById('coverimagePreview');

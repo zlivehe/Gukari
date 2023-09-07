@@ -48,6 +48,9 @@ const studentRoutes = require('./routes/studentRoutes')
 const apRoutes= require('./routes/apRoutes')
 const { promises } = require('dns');
 
+//models 
+const models = require('./routes/models/indexRoutes')
+
 
 const sessionConfig = {
    secret :'thisshouldbebetter',
@@ -102,7 +105,12 @@ app.use(async(req, res, next) => {
    const users = await User.findById('647b5c354937d00da81c3038')
    console.log(users)
     req.user=users
-    res.locals.currentUser = req.user;
+   if(req.user){
+
+   }
+
+   res.locals.currentUser = req.user;
+  
 
    res.locals.success = req.flash('success');
    res.locals.warning = req.flash('warning')
@@ -121,6 +129,9 @@ app.use(async(req, res, next) => {
  app.use ('/server', serverPost)
  app.use ('/server', serverGet)
  app.use ('/', boardRoutes)
+ app.use('/model',models)
+
+ //api
  app.use('/ext', extensionRoutes)
  app.use('/api',mobileRoutes)
  
