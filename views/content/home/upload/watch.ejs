@@ -11,6 +11,9 @@
     color: red;
   }
 </style>
+<title>
+  <%= uplaod.title  %>
+</title>
 <% const timeDifference = Date.now() - uplaod.createdAt.getTime();
 let formattedDate = '';
 
@@ -76,7 +79,7 @@ if (timeDifference < minuteInMs) {
     <div class="centers flex flex-col" style="width: 70%;">
 
     <div class="video-card" >
-      <div class="flex w-full flex justify-center p-1" style="">
+      <div class="flex  w-full flex justify-center p-1" style="height: 35em;">
       <video  id="videoElement" class="rounded-xl " height="350" controls>
         <% if (uplaod.VideoUrl) { %>
           <source class="rounded-lg w-full" src="<%= uplaod.VideoUrl %>" type="video/mp4">
@@ -189,7 +192,7 @@ if (timeDifference < minuteInMs) {
         </div>
 
     </div>
-    <div class="flex flex-col">
+    <div class="flex ml-1 flex-col">
     <div class="description bg-gray-200 rounded-lg p-3 mt-2" >
       <span class="text-gray-700 text-sm">
           <div class="flex">
@@ -206,15 +209,53 @@ if (timeDifference < minuteInMs) {
     <br>
     <div class="comments-reco ml-2 flex flex-col" >
         <div class="comments-card  p-2 background  " style="width: 100%; height: 450px;">
+         
+        <br>
             <div class="flex">
+
               <span><%= uplaod.comments.length%> comments</span>
               <span class="ml-auto">View all</span>
             </div>
+            <div class="add-comment " >
+              <div id="replymsgd" class="replydisplay bg-blue-200 rounded p-1 hidden">
+                  <span id="replymsg">slsl</span>
+  
+              </div>
+              <form id="newcomments" action="/video/<%=uplaod._id %>/comments"   method="POST">
+                <div class="w-full">
+                  <div class="flex items-center rounded-lg">
+                <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                  <img class="w-12 h-12 rounded-full" src="<%=currentUser.photourl%>" alt="user photo">
+  
+                </button>
+               
+                <textarea id="chat" name="comment" rows="1" class="block  p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea>
+                
+              </div>
+              <div class="flex w-full  justify-between">
+                <button type="submit" class=" text-white justify-center p-2 rounded-full cursor-pointer hover:bg-blue-100  dark:hover:bg-gray-600" style="margin-left: 3em;">
+                  <i class="bi text-gray-700 text-2xl bi-emoji-laughing-fill"></i>
+  
+                 </button>
+                 <div>
+  
+             
+                 <button type="submit" class="   text-whidte justify-center p-2 rounded-full cursor-pointer">
+                  <span>Cancel</span>
+                 </button>
+                <button type="submit" class=" bg-blue-500  text-white justify-center p-2 rounded-full cursor-pointer hover:bg-blue-100  dark:hover:bg-gray-600">
+                 <span>Send</span>
+                </button>
+              </div>
+              </div>
+            </div>
+            </form>
+          </div>
                
 
-            <div class="comments p-3" style="height: 20em; overflow: scroll;">
+            <div class="comments p-3" style="height: auto; overflow: scroll;">
               <% for(let comment of uplaod.comments){ %>
-                <div class="flex items-center w-full mb-2 align-center" id="livecommetn-<%= comment._id%>-<%= comment.user[0]._id %>">
+                <div class="flex items-start w-full mb-2 align-center" id="livecommetn-<%= comment._id%>-<%= comment.user[0]._id %>">
                   <div>
                     <div class="like mr-1 bg-gray-200 p-2 rounded" style="position: relative; height: 5em; display: flex; justify-content: center; align-items: center;">
                       <div class="flex text-center items-center flex-col">
@@ -241,13 +282,13 @@ if (timeDifference < minuteInMs) {
                   </div>
                   <div class="comment w-full mb-3 flex">
                     <% if(!comment.user[0].photourl || comment.user[0].photourl === '') { %>
-                      <div class="user-img rounded-full bg-blue-200 w-7 h-7 text-center flex justify-center" src="https://yt3.ggpht.com/ytc/AOPolaSHoC37xAqzya3OaA1wyAKEqd9623gkoy6D5oMylA=s88-c-k-c0x00ffffff-no-rj" alt="" srcset="">
-                        <span  class="mt-1 font-medium text-sm"><%= comment.user[0].username.substring(0, 1) %></span>
+                      <div class="user-img rounded-full bg-blue-200 w-11 h-11 text-center flex justify-center" src="https://yt3.ggpht.com/ytc/AOPolaSHoC37xAqzya3OaA1wyAKEqd9623gkoy6D5oMylA=s88-c-k-c0x00ffffff-no-rj" alt="" srcset="">
+                        <span  class="mt-1 font-medium text-md"><%= comment.user[0].username.substring(0, 1) %></span>
                       </div>
                     <% } else { %>
-                      <img class="user-img rounded-full w-7 h-7" src="<%= comment.user[0].photourl %>" alt="" srcset="">
+                      <img class="user-img rounded-full w-11 h-11" src="<%= comment.user[0].photourl %>" alt="" srcset="">
                     <% } %>
-                    <div class="comment-text ml-1" style="width: 82%;">
+                    <div class="comment-text ml-1" style="width: 98%;">
                       <div class="flex w-full justify-between">
                         <% const commentDate = new Date(comment.createdAt);
                         const currentDate = new Date();
@@ -273,27 +314,31 @@ if (timeDifference < minuteInMs) {
                         <span class="text-sm">@<%= comment.user[0].username %> <span class="text-gray-500 text-md"><%= formattedDate %></span></span>
                         <button  data-modal-target="more<%= comment.user[0]._id%>popup" data-modal-toggle="more<%= comment.user[0]._id%>popup"><i class="bi bi-three-dots ml-2"></i></button>
                           <!-- Dropdown menu -->
-<div id="more<%= comment.user[0]._id%>popup" id="dropdownDelay" class="z-10 hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-16 dark:bg-gray-700">
-  <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
-    <% if(currentUser){ %>
-    <% if (comment.user[0]._id.equals(currentUser._id)) { %>
-      <li>
-      <button  data-modal-hide="more<%= comment.user[0]._id%>popup"  data-modal-target="edit<%= comment.user[0]._id%>popup"  data-modal-toggle="edit<%= comment.user[0]._id%>popup" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</button>
-    </li>
-    <li>
-      <button href="#"  data-modal-hide="more<%= comment.user[0]._id%>popup" onclick="Deletecommets('<%= uplaod._id%>','<%=comment._id%>','<%= comment.user[0]._id%>')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</button>
-    </li>
-    <% } else{ %>
-    <li>
-      <a href="#"  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
-    </li>
-    <% } %>
-    <% } %>
-  </ul>
-</div>
 
                       </div>
-                      <span id="comment-<%=comment._id %>" class="text-gray-700 text-sm"><%= comment.content %></span><br>
+                      <div class="flex justify-end">
+                        <div id="more<%= comment.user[0]._id%>popup" id="dropdownDelay" class="z-10 hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-16 ">
+                          <ul class="py-2 text-sm text-gray-700 " aria-labelledby="dropdownDelayButton">
+                            <% if(currentUser){ %>
+                            <% if (comment.user[0]._id.equals(currentUser._id)) { %>
+                              <li>
+                              <button  data-modal-hide="more<%= comment.user[0]._id%>popup"  data-modal-target="edit<%= comment.user[0]._id%>popup"  data-modal-toggle="edit<%= comment.user[0]._id%>popup" class="block w-full px-4 py-2 hover:bg-gray-100 ">Edit</button>
+                            </li>
+                            <li>
+                              <button href="#"  data-modal-hide="more<%= comment.user[0]._id%>popup" onclick="Deletecommets('<%= uplaod._id%>','<%=comment._id%>','<%= comment.user[0]._id%>')" class="block px-4 py-2 hover:bg-gray-100 ">Delete</button>
+                            </li>
+                            <% } else{ %>
+                            <li>
+                              <a href="#"  class="block px-4 py-2 hover:bg-gray-100 ">Report</a>
+                            </li>
+                            <% } %>
+                            <% } %>
+                          </ul>
+                        </div>
+                        
+                      </div>
+                  
+                      <span id="comment-<%=comment._id %>" class="text-gray-700 text-lg"><%= comment.content %></span><br>
                       <% if (comment.replies && comment.replies.length> 0) { %>
 
                   <button  data-modal-target="replying<%=comment.replies[0]%>Modal" data-modal-toggle="replying<%=comment.replies[0]%>Modal"><i class="bi bi-chevron-down"></i>
@@ -352,22 +397,22 @@ if (timeDifference < minuteInMs) {
                   <% if(!comment.user[0].photourl && comment.user[0].photourl == '') { %>
                 <div class="user-img rounded-full bg-red-200 w-8 h-8 text-center flex justify-center" src="https://yt3.ggpht.com/ytc/AOPolaSHoC37xAqzya3OaA1wyAKEqd9623gkoy6D5oMylA=s88-c-k-c0x00ffffff-no-rj" alt="" srcset=""> <span class="mt-2 font-medium text-md"> <%= replies.user[0].username %></span></div>
                 <%} else{%>
-                    <img class="user-img rounded-full w-4 h-4" src="<%= replies.user[0].photourl %>" alt="" srcset="">
+                    <img class="user-img rounded-full w-7 h-7" src="<%= replies.user[0].photourl %>" alt="" srcset="">
                     <% } %>
-               <span class="ml-1 text-xs">@<%= replies.user[0].username %> <span class="text-gray-500 text-xs"><%=formattedDate1 %> </span> <span>     <button  data-modal-target="re-more<%= replies.user[0]._id%>popup" data-modal-toggle="re-more<%= replies.user[0]._id%>popup"><i class="bi bi-three-dots ml-2"></i></button>               </span> </span>
-               <div id="re-more<%= replies.user[0]._id%>popup" id="dropdownDelay" class="z-10 hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-16 dark:bg-gray-700">
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
+               <span class="ml-1 text-sm">@<%= replies.user[0].username %> <span class="text-gray-500 text-xs"><%=formattedDate1 %> </span> <span>     <button  data-modal-target="re-more<%= replies.user[0]._id%>popup" data-modal-toggle="re-more<%= replies.user[0]._id%>popup"><i class="bi bi-three-dots ml-2"></i></button>               </span> </span>
+               <div id="re-more<%= replies.user[0]._id%>popup" id="dropdownDelay" class="z-10 hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-16 ">
+                <ul class="py-2 text-sm text-gray-700 " aria-labelledby="dropdownDelayButton">
                   <% if(currentUser){ %>
                   <% if (comment.user[0]._id.equals(currentUser._id)) { %>
                     <li>
-                    <button  data-modal-hide="re-more<%= replies.user[0]._id%>popup"  data-modal-target="re-reply<%= replies.user[0]._id%>edit"  data-modal-toggle="re-reply<%= replies.user[0]._id%>edit" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</button>
+                    <button  data-modal-hide="re-more<%= replies.user[0]._id%>popup"  data-modal-target="re-reply<%= replies.user[0]._id%>edit"  data-modal-toggle="re-reply<%= replies.user[0]._id%>edit" class="block px-4 py-2 hover:bg-gray-100 ">Edit</button>
                   </li>
                   <li>
-                    <button  href="#" data-modal-hide="re-more<%= comment.user[0]._id%>popup" onclick="Deletereply('<%= uplaod._id%>','<%=comment._id%>' ,'<%= replies._id%>' ,'<%= replies.user[0]._id%>')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</button>
+                    <button  href="#" data-modal-hide="re-more<%= comment.user[0]._id%>popup" onclick="Deletereply('<%= uplaod._id%>','<%=comment._id%>' ,'<%= replies._id%>' ,'<%= replies.user[0]._id%>')" class="block px-4 py-2 hover:bg-gray-100 ">Delete</button>
                   </li>
                   <% } else{ %>
                   <li>
-                    <a href="#"  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
+                    <a href="#"  class="block px-4 py-2 hover:bg-gray-100 ">Report</a>
                   </li>
                   <% } %>
                   <% } %>
@@ -384,8 +429,7 @@ if (timeDifference < minuteInMs) {
 
               </div>
               <div class="reply-reply">
-                <button  data-modal-target="<%=replies._id %>ReplayreplyModal" data-modal-toggle="<%=replies._id %>ReplayreplyModal"  class="replsy-btn text-sm" >
-                  <i class="bi bi-reply text-sm"></i>
+                <button  data-modal-target="<%=replies._id %>ReplayreplyModal" data-modal-toggle="<%=replies._id %>ReplayreplyModal"  class="replsy-btn text-xs" >
                       Reply</button>
                     <!-- //re reEdit -->
                       <div style="margin-left: -3em;" class="kd w-full hidden " id="re-reply<%= replies.user[0]._id%>edit" >
@@ -542,39 +586,12 @@ if (timeDifference < minuteInMs) {
               
                           </div>
                           
-
-
               <% } %>
 
             </div>
 
             
-            <div class="add-comment " >
-                <div id="replymsgd" class="replydisplay bg-blue-200 rounded p-1 hidden">
-                    <span id="replymsg">slsl</span>
 
-                </div>
-                <form id="newcomments" action="/video/<%=uplaod._id %>/comments"   method="POST">
-                    <div class="flex items-center px-3 py-2 border rounded-lg bg-gray-50">
-                  <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100">
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-                      <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
-                    </svg>
-                    <span class="sr-only">Upload image</span>
-                  </button>
-                 
-                  <textarea id="chat" name="comment" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea>
-                  <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
-                    <svg class="w-5 h-5 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                      <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
-                    </svg>
-                    <span class="sr-only">Send message</span>
-                  </button>
-                </div>
-              </form>
-            </div>
           </div>
 
          
@@ -755,7 +772,6 @@ if (timeDifference < minuteInMs) {
   // Update the timestamp display
   function updateTimestamp() {
     const timestamp = videoElement.currentTime;
-    console.log('dwdwdw' + formatedstamp);
     formatedstamp = formatTimestamp(timestamp);
     timestampDisplay.textContent = formatTimestamp(timestamp);
   }
@@ -803,34 +819,62 @@ function handleCommentSubmission(event) {
       if (xhr.status === 200) {
         const response = JSON.parse(xhr.responseText);
         const newComment = response.newComment;
+        console.log(response)
         const user = response.user;
+        const comment = response.newComment;
 
         // Create the HTML for the new comment
         const commentHTML = `
-         
-          <div class="flex items-center w-full mb-1 align-center">
-                        <div class="like mr-1 bg-gray-200 p-2 rounded">
-                            <div class="flex text-center items-center flex-col">
-                                <button><i class="bi bi-caret-up"></i>
-                                </i>
-                                </button>
-                                <span>0</span>
-                                <button><i class="bi bi-caret-down"></i>
-                                </i>
-                                </button>
-                            </div>
-                        </div>
-
-              <div class="comment w-full mb-2 flex">
-               
-                    <div class="user-img rounded-full bg-blue-200 w-12 h-12 text-center flex justify-center"  src="https://yt3.ggpht.com/ytc/AOPolaSHoC37xAqzya3OaA1wyAKEqd9623gkoy6D5oMylA=s88-c-k-c0x00ffffff-no-rj" alt="" srcset=""> <span class="mt-2 font-medium text-xl">${user.username}</span></div>
-
-                <div class="comment-text ml-2" style="width: 82%;">
-                    <div class="flex w-full justify-between">
-
-                  <span class="">@${user.username}</span>
-                  <button><i class="bi bi-three-dots ml-2"></i>
-
+        <div class="flex items-start w-full mb-2 align-center" id="livecommetn-${newComment._id}-${user._id}">
+            <div>
+              <div class="like mr-1 bg-gray-200 p-2 rounded" style="position: relative; height: 5em; display: flex; justify-content: center; align-items: center;">
+                <div class="flex text-center items-center flex-col">
+                  <button id="likebtn${newComment._id}" class="like-commets bi-caret-up" onclick="likeComment('${newComment._id}')"></button>
+                  <span class="like-dislike-count" id="${newComment._id}">0</span>
+                  <button id="dislikebtn${newComment._id}" class="dislike-commets bi-caret-down" onclick="dislikeComment('${newComment._id}')"></button>
+                </div>
+              </div>
+            </div>
+            <div class="comment w-full mb-3 flex">
+              <img class="user-img rounded-full bg-blue-200 w-11 h-11 text-center flex justify-center" src="${user.photourl || 'https://yt3.ggpht.com/ytc/AOPolaSHoC37xAqzya3OaA1wyAKEqd9623gkoy6D5oMylA=s88-c-k-c0x00ffffff-no-rj'}" alt="" srcset="">
+              </img>
+              <div class="comment-text ml-1" style="width: 98%;">
+                <div class="flex w-full justify-between">
+                  <span class="text-sm">@${user.username} <span class="text-gray-500 text-md">just now</span></span>
+                  <button data-modal-target="more${user._id}popup" data-modal-toggle="more${user._id}popup"><i class="bi bi-three-dots ml-2"></i></button>
+                </div>
+                <span id="comment-${newComment._id}" class="text-gray-700 text-lg">${comment.content}</span><br>
+              </div>
+              <div class="flex justify-between w-full" style="width: 100%; margin-left: -2em;">
+                <button data-modal-target="${newComment._id}ReplayModal" data-modal-toggle="${newComment._id}ReplayModal" class="replsy-btn"><i class="bi bi-reply"></i> Reply</button>
+              </div>
+              <form id="replyform" action="/video/${newComment._id}/comments/${newComment._id}/replies/${newComment._id}" data-comment-id="${newComment._id}" method="post">
+                <div style="margin-left: -3em;" class="kd w-full hidden " id="${newComment._id}ReplayModal">
+                  <div class="flex flex-col">
+                    <span>Replying to  <b class="text-red-700">${user.username}</b></span>
+                    <div class="flex items-center px-3 py-2 border rounded-lg bg-gray-50">
+                      <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                          <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                        </svg>
+                        <span class="text-sm font-medium">Cancel</span>
+                      </button>
+                      <button type="submit" class="inline-flex justify-center p-2 ml-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600">
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                          <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                        </svg>
+                        <span class="text-sm font-medium">Reply</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         `;
 
         // Append the new comment to the comments card

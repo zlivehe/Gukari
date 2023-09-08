@@ -9,31 +9,11 @@ const multer = require('multer');
 // require('../model/auth/oauth')
 // const GoogleStrats = require('passport-google-oauth2').Strategy
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-      cb(null, process.cwd() + '/public/uploads')
-  },
-  filename: function (req, file, cb) {
-      // generate the public name, removing problematic characters
-      const originalName = encodeURIComponent(path.parse(file.originalname).name).replace(/[^a-zA-Z0-9]/g, '')
-      const timestamp = Date.now()
-      const extension = path.extname(file.originalname).toLowerCase()
-      cb(null, originalName + '_' + timestamp + extension)
-  }
-})
+const {storage} = require('../cloudinary/index')
 
-const upload = multer({
-  storage: storage,
-  fileFilter: (req, file, callback) => {
-      const acceptableExtensions = ['png', 'jpg', 'jpeg', 'jpg','avif','gif','webp']
-      if (!(acceptableExtensions.some(extension => 
-          path.extname(file.originalname).toLowerCase() === `.${extension}`)
-      )) {
-          return callback(new Error(`Extension not allowed, accepted extensions are ${acceptableExtensions.join(',')}`))
-      }
-      callback(null, true)
-  }
-})
+const upload = multer({storage})
+
+
 
 // Router.get('/auth/google',
 // passport.authenticate('google',{ scope: ['email','profile'] }),
@@ -132,7 +112,7 @@ Router.get('/setup',(req,res)=>{
 })
 Router.post('/setup', upload.single('profileImage'),catchAsync(async(req,res)=>{
    const {surname,profileImage,about} = req.body
-   const photoset = req.file.filename !== undefined ? req.file.filename : ''
+   const photoset = req.file.path !== undefined ? req.file.path : ''
     const currentUser = req.user
     currentUser.surname = surname
     currentUser.category = about
@@ -140,6 +120,7 @@ Router.post('/setup', upload.single('profileImage'),catchAsync(async(req,res)=>{
     currentUser.photourl = photoset
     currentUser.save()
     console.log(currentUser)
+    res.redirect('/home')
    
 
 }))

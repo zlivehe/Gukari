@@ -1,123 +1,72 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
+<title>Market</title>
 
 <style>
-    .comments{
-        width: 30%;
-    }
     
-    .news{
-        width: 70%;
-    }
-    .userstats{
-        display: flex;
-    }
-    .grapselections{
-        width: 100%;
-    }
-    .anaytics-tab{
-        width: 80%;
-    }
-    .usercard{
-        width: 20%;
-    }
-
-    .flex-anaytic{
-        display: flex;
-    }
 </style>
-<div class="stats w-full " style="height: 100vh;">
-    <div class="border w-full ">
-        <div class="flex justify-between items-center flex-wrap w-full p-2">
-            <button data-math="AnalyticsTab" class="active-ap apclass p-3 border-b-2 border-">
-             Analytics
-         </button>
-         <button data-math="Audience" class="active-ap apclass p-3 ">
-             Audience 
-         </button>
-         <button data-math="ScienceTab" class="active-ap apclass p-3  ">
-             Science
-         </button>
-         <button data-math="SocialTab" class="active-ap apclass p-3  ">
-             Social Studies
-         </button>
-         <button data-math="LangTab" class="active-ap apclass p-3  ">
-            World Language
-         </button>
-         <button data-math="EnglishTab" class="active-ap apclass p-3  ">
-             English
-          </button>
-          <button data-math="ArtTab" class="active-ap apclass p-3  ">
-             Arts
-          </button>  
-     </div>
-     <div id="AnalyticsTab" class="AnalyticsTab p-3 w-full h-">
-         <div class=" flex-anaytics ">
-            <div class="anaytics-tab border ">
+<div class="stats w-full mt-2" style="height: 100vh;">
+    <div class="container mx-auto   p-3">
+        <form action="/market" method="post">
+          <div class="border p-3">
+          <div class="mb-4 flex flex-col">
+            <label for="name" class="text-lg">Title</label>
+            <span class="text-xs text-gray">Use phrases that consumers might type into search engines to find your product.</span>
+            <input type="text" name="name" id="name" class="border p-2 rounded-xs">
+          </div>
+              <div class="mb-4 flex flex-col">
+            <label for="type" class="text-lg">Type</label>
+            <select name="type" id="type" class=" border form-control">
+              <option value="gift">Gift</option>
+              <option value="discount">Discount</option>
+            </select>
+          </div>
+              <div class="mb-4 flex flex-col">
+            <label for="image" class="text-lg">Image</label>
+            <input type="file" name="image" id="image" class=" border form-control">
+          </div>
 
-            </div>
+           <div class="mb-4 flex flex-col">
+            <label for="description" class="text-lg">Description</label>
+            <textarea name="description" id="description" rows="5" class=" border form-control"></textarea>
+          </div>
+       </div>
+           <div class="border p-3 mt-5">
+          <div class="mb-4 flex flex-col">
+            <label for="code" class="text-lg">Code</label>
+            <input type="text" name="code" id="code" class=" border form-control">
+          </div>
 
-            <div class="usercard border">
-                <div class="userclass">
 
-                </div>
-                <div class="recent-commetn">
+          <div class="mb-4 flex flex-col">
+            <label for="amount" class="text-lg">Amount</label>
+            <input type="number" name="amount" id="amount" class=" border form-control">
+          </div>
+      
+          <div class="mb-4 flex flex-col">
+            <label for="url" class="text-lg">URL</label>
+            <input type="text" name="url" id="url" class=" border form-control">
+          </div>
 
-                </div>
-            </div>
+     
+          </div>
+          <br>
+         <div class="flex felx-row w-full  ">
+          <div class="" style="width: 33em; height: 3em;">
+          <button type="submit" class="btn  bg-blue-600 text-white w-full rounded-sm p-3 h-full btn-primary" >List</button>
+          </div>
+          <div class="w-16 ml-3" style="width: 20em;">
+          <button type="submit" class="btn btn-primary border border-gray-200 w-full rounded-sm h-full">Preview</button>
+          </div>
+        <div class="w-16 ml-3" style="width: 20em;">
+          <button type="submit" class="btn btn-primary border border-gray-200 w-full rounded-sm h-full">Save for later</button>
+          </div>
          </div>
- 
-     </div>
-     <div id="Audience" class="Audience hidden">
-         <span>Audience</span>
-     </div>
-     <div id="ScienceTab" class="ScienceTab hidden">
-         <span>Science tab</span>
-     </div>
-     <div id="SocialTab" class="SocialTab hidden">
-         <span>SocialTab</span>
-     </div>
-     <div id="LangTab" class="LangTab hidden">
-         <span>LAnguage tab</span>
-     </div>
-     <div id="EnglishTab" class="EnglishTab hidden">
-         <span>English Tabh</span>
-     </div>
-     <div id="ArtTab" class="ArtTab hidden">
-         <span>ArtTab</span>
-     </div>
-    </div>
+        </form>
+      </div>
 </div>
 
 
 <script>
-    const apbtn = document.querySelectorAll(".apclass");
-    let activetab = ''
-    apbtn.forEach((btn) => {
-        btn.addEventListener("click", () => {
-            apbtn.forEach((btn) => {
-                const AnalyticsTab = document.getElementById("AnalyticsTab");
-                btn.classList.remove("border-b-2", "text-black");
-            });
-            btn.classList.add("border-b-2", "text-black");
-    
-            if (activetab != '') {
-                const math = document.getElementById(activetab);
-                math.classList.add("hidden");
-            }
-            activetab = btn.dataset.math;
-            AnalyticsTab.classList.add("hidden");
-            const data = btn.dataset.math;
-            activetable = data;
-            const math = document.getElementById(data);
-    
-            math.classList.remove("hidden");
-    
-    
-        });
-    }
-    );
-    
-    
-    document.title = "Ap";
+   
     </script>

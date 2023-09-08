@@ -258,9 +258,9 @@
                                 onchange="previewImage1(event, `<%= index%>`)"
                                 value="/public/uploads/china_1687641298604.jpeg">
                                 <% if( card.image && card.image !== '/public/uploads/china_1687641298604.jpeg' ){ %>
-                                    <img  class="h-16 w-16" id="preview_<%=index %>" src="/uploads/<%= card.image %>" alt=""  srcset="">
+                                    <img  class="h-16 w-16" id="preview_<%=index %>" src="<%= card.image %>" alt=""  srcset="">
                                     <% } else{%>
-                                        <img  class="h-16 w-16 hidden"  id="preview_<%=index %>" src="/uploads/<%= card.image %>" alt=""  srcset="">
+                                        <img  class="h-16 w-16 hidden"  id="preview_<%=index %>" src="<%= card.image %>" alt=""  srcset="">
                                     <% } %> 
                                     <div> 
                                     <label for="languges" class="block mb-2 text-sm font-medium text-gray-900 ">Select language</label>
