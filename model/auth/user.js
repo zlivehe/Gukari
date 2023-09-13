@@ -12,7 +12,6 @@ const UserSchema = new Schema({
     googleId:{
         type:String
     },
-
     email:{
         type:String,
         require:true,
@@ -127,6 +126,9 @@ const UserSchema = new Schema({
             ref:"User",
         }
     ],
+    inbox:{
+        type:String,
+    },
     districUrl:{
         type:String,
         
@@ -143,12 +145,20 @@ const UserSchema = new Schema({
             ref:"VideoUploadSchema",
         }
     ],
+    folder:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:"Folder",
+        }
+    ],
+    
    
   playlist: [
     {
         type: Schema.Types.ObjectId,
         ref: "VideoUploadSchema",
     }
+
 ],
 
     

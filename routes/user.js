@@ -15,40 +15,40 @@ const upload = multer({storage})
 
 
 
-// Router.get('/auth/google',
-// passport.authenticate('google',{ scope: ['email','profile'] }),
-// );
-// Router.get('/google/redirect',passport.authenticate('google'),(req,res)=>{
-//     res.redirect('/home')
-// })
-// Router.post('/auth/google/token', async (req, res) => {
-//   try {
-//       const token = req.body.token;
-//       const client = new GoogleStrats(process.env.GOOGLE_CLIENT_ID);
-//       const ticket = await client.verifyIdToken({
-//           idToken: token,
-//           audience: process.env.GOOGLE_CLIENT_ID
-//       });
-//       const payload = ticket.getPayload();
+Router.get('/auth/google',
+passport.authenticate('google',{ scope: ['email','profile'] }),
+);
+Router.get('/google/redirect',passport.authenticate('google'),(req,res)=>{
+    res.redirect('/home')
+})
+Router.post('/auth/google/token', async (req, res) => {
+  try {
+      const token = req.body.token;
+      const client = new GoogleStrats(process.env.GOOGLE_CLIENT_ID);
+      const ticket = await client.verifyIdToken({
+          idToken: token,
+          audience: process.env.GOOGLE_CLIENT_ID
+      });
+      const payload = ticket.getPayload();
 
-//       // Check if the user exists in the database
-//       let user = await User.findOne({ googleId: payload.sub });
-//       if (!user) {
-//           // If user doesn't exist, create a new user
-//           user = new User({
-//               email: payload.email,
-//               username: payload.name,
-//               photourl: payload.picture,
-//               googleId: payload.sub
-//           });
-//           await user.save();
-//       }
-//       // Send back user info if needed, or just a success status
-//       res.json(user);
-//   } catch (err) {
-//       res.status(400).send({ error: 'Invalid token' });
-//   }
-// });
+      // Check if the user exists in the database
+      let user = await User.findOne({ googleId: payload.sub });
+      if (!user) {
+          // If user doesn't exist, create a new user
+          user = new User({
+              email: payload.email,
+              username: payload.name,
+              photourl: payload.picture,
+              googleId: payload.sub
+          });
+          await user.save();
+      }
+      // Send back user info if needed, or just a success status
+      res.json(user);
+  } catch (err) {
+      res.status(400).send({ error: 'Invalid token' });
+  }
+});
 Router.get('/signup',(req,res)=>{
     currentUser = req.user
     

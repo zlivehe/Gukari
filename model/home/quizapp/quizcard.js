@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const autopopulate = require('mongoose-autopopulate');
+
 
 const cardSchema = new Schema({
   title: {
@@ -62,17 +64,14 @@ const cardSchema = new Schema({
   category: {
     type: String,
     enum: ['general', 'technology', 'education', 'health', 'sports', 'food', 'business', 'art'],
-    required: true,
   },
   tags: [
     {
       name: {
         type: String,
-        required: true
       },
       color: {
         type: String,
-        required: true
       }
     }
   ],

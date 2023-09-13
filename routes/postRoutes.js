@@ -617,8 +617,10 @@ Router.post('/video/:id/comments', catchAsync(async (req, res) => {
   upload.comments.push(newComment);
 
   // Save the updated video
+  const uploadedComment = upload.comments[upload.comments.length - 1];
+
   await upload.save();
-  res.json({newComment,user});
+  res.json({newComment:uploadedComment,user});
 
 
   res.redirect(`/video/${id}`);
@@ -785,26 +787,31 @@ console.log(reply)
   }
 }));
 
-Router.post('/quiz/:id/clone',(req,res)=>{
+Router.post('/quiz/:id/clone',async(req,res)=>{
   const {id} = req.params;
   const user = req.user;
-  const quiz = QuizCard.findById(id);
+  const quiz = await QuizCard.findById(id);
+  let titled = quiz.title + '(1)'
+
   const newQuiz = new QuizCard({
-    title: quiz.title,
+    title: titled ,
     description: quiz.description,
     tags: quiz.tags,
+
     cards: quiz.cards,
     category: quiz.category,
     author: user._id,
     visability: quiz.visability,
-
+    imageUrl: quiz.quiz,
     orginatedfrom: quiz.user
   })
+  console.log(newQuiz)
+   quiz.clones.push(newQuiz._id);
+  quiz.cloned.push(user._id);
+
   user.quizCard.push(newQuiz);
-  newQuiz.save();
-  user.save();
-    quiz.clones.push(newQuiz._id);
-    quiz.cloned.push(user._id);
+  await newQuiz.save();
+  await user.save();
 
   res.redirect(`/home/quiz/${newQuiz._id}`)
 
@@ -825,11 +832,12 @@ async function searchInData(searchTerm) {
   // Perform a search in your data models for relevant keywords in the title field.
   const quizcardResults = await QuizCard.find({
       title: { $regex: searchTerm, $options: 'i' }, // Search in title field.
-  }).limit(limit);
+  }).populate('author').limit(limit);
 
+  console.log(quizcardResults)
   const videoResults = await VideoUpload.find({
       title: { $regex: searchTerm, $options: 'i' }, // Search in title field.
-  }).limit(limit);
+  }).limit(limit).populate('author');
 
   const imageResults = await ImageUpload.find({
       title: { $regex: searchTerm, $options: 'i' }, // Search in title field.

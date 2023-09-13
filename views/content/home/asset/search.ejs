@@ -60,7 +60,76 @@
             </div>
             <div id="AllTab" class="AllTab p-3 w-full h-">
                 <div class=" flex ">
-                    <%= combinedResults %>
+                    <%for(let video of videoResults ){  %>
+                        <a href="/home/video/<%= video._id%>" class="" style="width: 16em">
+                            <img class="rounded-lg" style="width: 100%" src="<%=video.thumbnail %>" alt="" srcset="">
+                    
+                            <div class="pt-1 recent-cardd">
+                              <!-- <span>4:22</span> -->
+                              <div class="content-card flex flexcontent-center">
+                                <img src="https://api.time.com/wp-content/uploads/2014/09/brave.jpg?quality=85&amp;w=2100" class="userimg mb-3 w-10 rounded h-10 rounded-full" alt="" srcset="">
+                                <div class="card-info ml-2">
+                                  <span class="text-md font-medium w-full leading-3"><%=video.title %></span><br>
+                                  <div class="flex">
+                                    <span class="text-sm text-gray-400">Saml altma</span>
+                                    <span class="ml-3 text-sm text-gray-400">23k plays</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        <% } %>
+
+                    <%for(let quizcards of quizcardResults ){  %>
+                        <a href="/home/quiz/<%=quizcards._id%>" class="mb-2 ml-2 p-3 recent-cardd rounded-lg shadow border" style="width: 17em; height: 23em">
+                            <div class="kr flex justify-between rounded-lg">
+                              <span class="font-medium text-lg"> <%=quizcards.title%>  </span>
+                              <button><i class="bi bi-three-dots"></i></button>
+                            </div>
+                            <br>
+                            <div class="flex justify-center items-center">
+                              
+                              <img style="
+                                  height: 8em;
+                                  max-height: 8em;
+                                  max-width: 15em;
+                                  min-width: 15em;
+                                " class="w-full rounded-md" src="<%=quizcards.imageUrl %>" alt="" srcset="">
+                              
+                            </div>
+                            <div class="flex justify-between">
+                              <span class="text text-gray-600">
+                                <%= quizcards.cards.length%> tearms
+                              </span>
+                    
+                              <span class="text text-white">  <%= quizcards.cards.viewcount%> plays </span>
+                            </div>
+                            <br>
+                    
+                            <div>
+                              <span>Tags</span>
+                              <div class="flex flex-wrap" style="width: 8em">
+                                  
+                                <span class=" bg-purple-200 mb-3 text-xs text-black font-medium mr-2 px-2.5 py-0.5 rounded">
+                                  general
+                                </span>
+                                  
+                              </div>
+                            </div>
+                            <br>
+                            <div style="margin-top: 0em" class="about flex w-full justify-between">
+                              <div class="flex items-center text-center">
+                                <img class="rounded-full w-8 h-8" src="https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/89bf5368873d6a613c99caec072e8a52.jpg" alt="" srcset="">
+                                <span class="ml-2"> g </span>
+                              </div>
+                              <div class="tags text-center items-center content-center ml-5 flex">
+                                <span class="bg-red-700 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                                  <%=quizcards.category%>
+                                </span>
+                              </div>
+                            </div>
+                          </a>
+                        <% } %>
 
                 </div>
         

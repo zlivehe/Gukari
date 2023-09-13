@@ -99,7 +99,25 @@ Router.get('/project',isLoggedIn,catchAsync(async(req,res)=>{
     res.render('content/home/project.ejs',{user,userQuizCards,userWorkspace,recentlyview,userVideoUpload,userupload})
 }))
 Router.get('/analytics',isLoggedIn,catchAsync(async(req,res)=>{
-    res.render('content/home/analytics.ejs')
+    const user = req.user;
+    const quizCardIds = user.quizCard.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
+    const userQuizCards = await QuizCard.find({ _id: { $in: quizCardIds } });
+    const userWorkspace = await Workspace.find({author: user._id});
+    //find videouoload
+    const videoUploadIds = user.VideoUpload.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
+    const userVideoUpload = await VideoUpload.find({ _id: { $in: videoUploadIds } });
+    //find posts
+    const recentlyview = []
+    for(let viewof of user.recentCard){
+        const view = await QuizCard.findById(viewof)
+        recentlyview.push(view)
+    }
+
+    const userPosts = await user.Uploads.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
+    const userupload = await Upload.find({ _id: { $in: userPosts } });
+    
+
+    res.render('content/home/analytics.ejs',{user,userQuizCards,userWorkspace,recentlyview,userVideoUpload,userupload})
 
 }))
 

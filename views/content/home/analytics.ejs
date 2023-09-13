@@ -1,34 +1,117 @@
 <% layout('./layouts/boilerplate.ejs')%>
 <%- include('../../layouts/partials/settings.ejs') %>
+<title>Account analytic - Gukari studio</title>
 
 <div class="content fullscreen" id="content-menu" style="overflow: scroll;">
     <div class="flex">
     <aside class="bg-gray-700 text-white w-64 min-h-screen p-4">
         <h1 class="text-2xl font-semibold mb-4">Analytics Dashboard</h1>
         <ul>
-            <li class="mb-2"><a href="#" class="flex flex-row items-center hover:bg-gray-600 p-3 rounded-sm">
-                 <div class="border rounded-sm w-5 h-6 flex items-center justify-center">
-                    <i class="bi bi-bar-chart-fill"></i>                 </div> 
-                    <span class="ml-1">Dashboard</span>    </a></li>
+           
+            <li data-analytic="DashbordTab"  class=" active-ap analyiclass  mb-2   rounded-md contentbutton"><a href="#" class="flex flex-row items-center hover:bg-blue-600 p-3 rounded-sm">
+                <div class="  rounded-sm w-5 h-6 flex items-center justify-center">
+                   <i class="bi text-xl   nav-icons bi-grid-1x2-fill "></i>
+                       </div> 
+                   <span class="ml-1">Dashbord</span>    </a>
+    </li>
+            <li data-analytic="ContentTab"  class=" active-ap analyiclass  mb-2   rounded-md contentbutton"><a href="#" class="flex flex-row items-center hover:bg-blue-600 p-3 rounded-sm">
+                        <div class="  rounded-sm w-5 h-6 flex items-center justify-center">
+                           <i class="bi text-xl bi-play-btn-fill"></i>
+                               </div> 
+                           <span class="ml-1">Content</span>    </a>
+            </li>
+            <li  data-analytic="AnalyticTab" class=" active-ap analyiclass p text- rounded-md mb-2 contentbutton"><a href="#" class="flex flex-row items-center hover:bg-blue-600 p-3 rounded-sm">
+                <div class="  rounded-sm w-5 h-6 flex items-center justify-center">
+                   <i class="bi  text-xl bi-bar-chart-fill"></i>
 
-            <li class="mb-2"><a href="#" class=" p-3 hover:underline">Content</a></li>
-            <li class="mb-2"><a href="#" class=" p-3 hover:underline">Analytics</a></li>
-            <li class="mb-2"><a href="#" class=" p-3 hover:underline">Comments</a></li>
+                       </div> 
+                   <span class="ml-1">Analytic</span>    </a>
+             </li>
+             <li  data-analytic="CommentsTab" class=" active-ap analyiclass p text- rounded-md mb-2 contentbutton"><a href="#" class="flex flex-row items-center hover:bg-blue-600 p-3 rounded-sm">
+                <div class="  rounded-sm w-5 h-6 flex items-center justify-center">
+                   <i class="bi  text-xl bi-chat-left-text-fill"></i>
+
+                       </div> 
+                   <span class="ml-1">Comments</span>    </a>
+             </li>
+
+             <li  data-analytic="CustomTab" class=" active-ap analyiclass p text- rounded-md mb-2 contentbutton"><a href="#" class="flex flex-row items-center hover:bg-blue-600 p-3 rounded-sm">
+                <div class="  rounded-sm w-5 h-6 flex items-center justify-center">
+                   <i class="bi text-xl  bi-palette-fill"></i>
+
+                       </div> 
+                   <span class="ml-1">Customization</span>    </a>
+             </li>
+
         </ul>
     </aside>
 
 
 
-    <div class="contentmain ml-1" class="ml-24">
+    <div class="contentmain ml-1 w-full" >
         <div class="Dashbord">
             
         </div>
+        <div id="AnalyticTab" class="AnalyticTab hidden">
+            <%- include('./analytics/analytics.ejs') %>
 
-        <span class="text-2xl">Account analytics
-        </span>
- 
+        </div>
+        <div id="ContentTab" class="ContentTab hidden">
+            <%- include('./analytics/content.ejs') %>
+        </div>
+        <div id="DashbordTab" class="DashbordTab hidden">
+            <%- include('./analytics/dashboard.ejs') %>
+        </div>
+        <div id="CommentsTab" class="CommentsTab hidden">
+            <%- include('./analytics/comment.ejs') %>
+
+        </div>
+        <div id="CustomTab" class="CommentsTab hidden">
+            <%- include('./analytics/customiz.ejs') %>
+
+        </div>
+        <div class="dahsbord-main">
+            <span class="text-2xl">Account analytics
+            </span>
+     
+        </div>
+      
     </div>
 </div>
     <!-- Main Content -->
   
 </div>
+
+<script>
+  const apbtn = document.querySelectorAll(".analyiclass");
+  const dahsbordmain = document.querySelector(".dahsbord-main");
+let activetab = ''
+apbtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        apbtn.forEach((btn) => {
+            // const AllTab = document.getElementById("AllTab");
+            btn.classList.remove("bg-blue-500", "text-white");
+        });
+        dahsbordmain.classList.add("hidden");
+        btn.classList.add("bg-blue-500", "text-white");
+
+        if (activetab != '') {
+            const math = document.getElementById(activetab);
+            math.classList.add("hidden");
+        }
+        activetab = btn.dataset.analytic;
+        // AllTab.classList.add("hidden");
+        const data = btn.dataset.analytic;
+        activetable = data;
+        const math = document.getElementById(data);
+
+        math.classList.remove("hidden");
+
+
+    });
+}
+);
+
+
+document.title = "Account analytic - Gukari studio";
+</script>

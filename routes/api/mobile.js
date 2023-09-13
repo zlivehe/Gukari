@@ -82,7 +82,8 @@ Router.post('/reminder', async(req, res) => {
 Router.post('/videos', async(req, res) => {
     const  id  = req.body.token;
     console.log(id)
-    const video = await Vieos.find({author: id})
+    const video = await Vieos.find({author: id}).populate('author')
+    console.log(video)
     console.log('senddd')
     res.status(200).json({video})
 })

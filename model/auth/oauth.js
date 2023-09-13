@@ -34,6 +34,7 @@ passport.use(new GoogleStrats({
                 console.log(err)
             })
             const registeruser = User.register(newuser)
+            
         }
     }).catch(err =>{
         console.log(err)

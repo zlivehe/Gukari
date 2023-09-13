@@ -430,7 +430,7 @@
             //make a featch post rewurst ot quizcard/quizid/clone
             //then redirect to the new quizcard
 
-            const url = '/home/quiz/<%= foundquiz._id %>/clone';
+            const url = '/quiz/<%= foundquiz._id %>/clone';
             const method = 'POST';
             const data = {};
             fetch(url, {

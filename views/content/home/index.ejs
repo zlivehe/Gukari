@@ -202,6 +202,7 @@
                                 </div>
 
                                 <div class="hidden p-2">
+
                                     <table class="w-full text-sm text-left text-gray-500 ">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
 
@@ -238,39 +239,77 @@
                                           
                                     </table>
                                 </div>
-                                <div>
-                                    <% Tasks.sort((a, b) => new Date(b.endDate) - new Date(a.endDate)).slice(0, 3).forEach(task => { %>
-                                        <div class="flex mb-3 rounded-xl p-3 justify-between w-full border">
-                                            <div class="flex justify-between" style="width: 50%;"> 
-                                            <div class="flex">
-                                                <img class="w-7 mr-1 rounded" src="<%= task.imageurl %>" alt="" srcset="">
-                                                <span><%= task.title %></span>
-                                            </div>
-                                            <div class="states">
-                                                <% if (new Date(task.startDate) <= new Date() && new Date(task.endDate) >= new Date()) { %>
-                                                    <span> In Progress</span>
-                                                    
-                                                  <% } else if (new Date(task.endDate) < new Date()) { %>
-                                                    <span> Done</span>
-                                                    
-                                                  <% } else { %>
-                                                    <!-- Task is upcoming, you can display any relevant information here -->
-                                                  <% } %>
-                                            </div>
-                                            <div>
-                                                <% if(task.time ){%>
+                                <div class=" overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                 Title
+                                            </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                     Status
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Time
+                                                </th>
+                                              
+                                                <th scope="col" class="relative px-6 py-3">
+                                                    <span class="sr-only">Edit</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <% Tasks.sort((a, b) => new Date(b.endDate) - new Date(a.endDate)).slice(0, 3).forEach(task => { %>
+                
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                                <tr>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="text-sm flex   max-w-sm overflow-hidden text-gray-900">
+                                                            <img class="w-5" src="<%=task.imageurl %>" alt="" srcset="">
+                                                         <span class="ml-1">  <%= task.title %>    </span>        
+                                                              </div>
+                                                    </td>
+                
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="text-sm datesub text-gray-900">
+                                                            <div class="states">
+                                                                <% if (new Date(task.startDate) <= new Date() && new Date(task.endDate) >= new Date()) { %>
+                                                                    <span> In Progress</span>
+                                                                    
+                                                                  <% } else if (new Date(task.endDate) < new Date()) { %>
+                                                                    <span> Done</span>
+                                                                    
+                                                                  <% } else { %>
+                                                                    <!-- Task is upcoming, you can display any relevant information here -->
+                                                                  <% } %>
+                                                            </div>
 
-                                                <i class="bi bi-clock"></i>
-                                             <span> <%= task.time %> </span>  
-                                                <% } %> 
-                                            </div>
-                                            </div>
-                                            <button>                                            <i class="text-xl bi bi-three-dots"></i>
-                                            </button>
-                                        </div>
-                                        <% }) %>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="text-sm text-gray-900">
+                                                            <% if(task.time ){%>
 
+                                                                <i class="bi bi-clock"></i>
+                                                             <span> <%= task.time %> </span>  
+                                                                <% } %> 
+                                                        </div>
+                                                    </td>
+                                                   
+                                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                        <a href="./survey/<%=task._id  %>/edit"
+                                                            class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                                    </td>
+                                                </tr>
+                                                <!-- More rows can be added here -->
+                                            </tbody>
+                                            <% }) %>
+                                        </table>
+                
                                 </div>
+                             
 
                             </div>
 
