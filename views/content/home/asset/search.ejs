@@ -59,7 +59,7 @@
               
             </div>
             <div id="AllTab" class="AllTab p-3 w-full h-">
-                <div class=" flex ">
+                <div class=" flex flex-wrap ">
                     <%for(let video of videoResults ){  %>
                         <a href="/home/video/<%= video._id%>" class="" style="width: 16em">
                             <img class="rounded-lg" style="width: 100%" src="<%=video.thumbnail %>" alt="" srcset="">

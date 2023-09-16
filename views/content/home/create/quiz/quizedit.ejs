@@ -1,6 +1,8 @@
 <% layout('./layouts/boilerplate.ejs')%>
 <%- include('../../../../layouts/partials/settings.ejs') %>
 <title>Gukari-<%= foundquiz.title %></title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
 
     <div class="content fullscreen" id="content-menu">
@@ -50,10 +52,10 @@
                  Details
              </button>
              <button data-math="Comments" class="active-ap apclass p-3 text- rounded-lg ">
-                 Commets
+              Saves
              </button>
              <button data-math="Saves" class="active-ap apclass p-3 text- rounded-lg ">
-                 Saves
+                 Links
              </button>
             
          </div>
@@ -61,17 +63,32 @@
              <div class=" flex justify-between ">
               <div class="rounded-xl border bg-gray-50 p-2" style="width: 21em;">
                 <div class="flex items-center  text-gray-600"> <div class="rounded-full w-6 h-6 bg-red-300 flex justify-center items-center"><i class="bi text-xs text-red-700 bi-eye-fill"></i></div> <span class="ml-1">Total views</span></div>
-                <div class="p-4"><span class="text-2xl"><b>242</b></span></div>
+                <div class="p-4"><span class="text-2xl"><b><%= foundquiz.viewcount %></b></span></div>
               </div>
               <div class="rounded-xl border bg-gray-50 p-2" style="width: 21em;">
                 <div class="flex items-center  text-gray-600"> <div class="rounded-full w-6 h-7 bg-yellow-200 flex justify-center items-center"><i class="bi text-xs text-yellow-500 bi-star-fill"></i></div> <span class="ml-1">Total stars</span></div>
-                <div class="p-4"><span class="text-2xl"><b>21</b></span></div>
+                <div class="p-4"><span class="text-2xl"><b><%= foundquiz.saves.length %></b></span></div>
               </div>
               <div class="rounded-xl border bg-gray-50 p-2" style="width: 21em;">
-                <div class="flex items-center  text-gray-600"> <div class="rounded-full w-6 h-6 bg-blue-200 flex justify-center items-center"><i class="bi text-xs text-blue-500 bi-chat-left-dots-fill"></i></div> <span class="ml-1">Total Comments</span></div>
-                <div class="p-4"><span class="text-2xl"><b>5</b></span></div>
+                <div class="flex items-center  text-gray-600"> <div class="rounded-full w-6 h-6 bg-blue-200 flex justify-center items-center"><i class="bi text-md text-blue-500  bi-play-fill"></i></div> <span class="ml-1">Total Plays</span></div>
+                <div class="p-4"><span class="text-2xl"><b><%= foundquiz.plays %></b></span></div>
               </div>
              </div>
+             <div class="mt-4">
+              <div class="rounded-xl border bg-gray-50 p-2" style="width: 21em;">
+                <label for="metric">Select Metric:</label>
+                <select id="metric" class="w-full mt-2">
+                    <option value="viewcount">Views</option>
+                    <option value="saves">Stars</option>
+                    <option value="plays">Plays</option>
+                </select>
+                <label for="dateRange" class="mt-2">Select Date Range:</label>
+                <input type="date" id="startDate" class="w-full mt-2">
+                <input type="date" id="endDate" class="w-full mt-2">
+                <button id="updateChart" class="mt-2">Update Chart</button>
+            </div>
+              <canvas id="metricChart" width="800" height="400"></canvas>
+          </div>
      
          </div>
          <div id="Details" class="Details hidden">
@@ -306,15 +323,62 @@
 
          </div>
          <div id="Comments" class="Comments hidden">
-             <span>commets tab</span>
-         </div>
+          <%= foundquiz.cloned%>
+        </div>
          <div id="Saves" class="Saves hidden">
-             <span>Saves</span>
+             <%= foundquiz.cloned%>
          </div>
    
         </div>
             
 <script>
+
+const ctx = document.getElementById('metricChart').getContext('2d');
+let metric = 'plays';
+let startDate = '';
+let endDate = '';
+let metricChart = null; // Define metricChart outside of the function
+
+const updateChart = async () => {
+    startDate = document.getElementById('startDate').value;
+    endDate = document.getElementById('endDate').value;
+    metric = document.getElementById('metric').value;
+
+    if (metricChart) {
+        metricChart.destroy(); // Destroy the existing chart if it exists
+    }
+
+    const response = await fetch(`http://localhost:3005/home/get-metric-data/${metric}/${startDate}/${endDate}`);
+    const data = await response.json();
+
+    metricChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.dates,
+            datasets: [{
+                label: ` ${metric}`,
+                data: data.values,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                }
+            }
+        }
+    });
+};
+
+document.getElementById('updateChart').addEventListener('click', updateChart);
+
+
+
+
+    
 const apbtn = document.querySelectorAll(".apclass");
 let activetab = ''
 apbtn.forEach((btn) => {

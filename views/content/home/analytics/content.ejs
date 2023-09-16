@@ -7,10 +7,10 @@
           <button data-math="Booklet" class="active-ap apclass p-3 text- rounded-lg">
               Booklet
           </button>
-          <button data-math="Videos" class="active-ap apclass p-3 text- rounded-lg ">
+          <button data-math="Videos" class="active-ap apclass p-3 text- rounded-lg hidden">
               Videos
           </button>
-          <button data-math="Workspace" class="active-ap apclass p-3 text- rounded-lg ">
+          <button data-math="Workspace" class="active-ap apclass p-3 text- rounded-lg hidden">
               Workspace
           </button>
           <button data-math="Posts" class="active-ap apclass p-3 text- rounded-lg ">
@@ -103,160 +103,85 @@
       <div id="Booklet" class="Booklet ml-2 mr-2 hidden">
         <div class="recent overflow-y-scroll">
           <hr>
-          <div class="flex justify-between p-3">
-            <div class=" videotag" >
-              <span>
-                Booklet
-              </span> 
-            </div>
-            <div class="w-full options w-full justify-between flex w-full">
-              <span>
-                Visibility
-              </span>
-            
-              <span>
-                Date
-              </span>
-              <span>
-                Views
-              </span>
-           
-              <span>
-                Stars
-              </span>
-
-            </div>
-          </div>
-          <hr>
-          <br><br>
-          <div class="videos mr-6" >
-            <%for(quiz of userQuizCards){ %>
-            
-              <a href="/home/quiz/<%=quiz._id %>" class="flex bordcard mb-3 justify-between">
-                <div class=" videotag" >
-                    <div class="flex">
-                      <div class="" style="width: 11em;">
-                        <img class=" " src="<%=quiz.imageUrl %>" alt="">
-
-                      </div>
-                      <div class="flex flex-col ml-1">
-                        <span><%=quiz.title%></span>
-                        <div class=" max-descrip">
-                          <span class="text-gray-700">
-                            <%=quiz.description %>
-                          </span>
-                        </div>
-                     
-                      </div>
-                    </div>
-                </div>
-                
-                <div class="w-full options w-full justify-between flex ">
-                  <span class="">
-                    Private
-                  </span>
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Booklet
+                </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Visibility
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Date
+                    </th>
+                    <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Views
+                    </th>
+                    <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Stars
+                    </th>
                   
-                  <span class="titlecard">
-                   
-                    <% 
-                  const createdAt = new Date(); // Replace this with your actual date
+                    <th scope="col" class="relative px-6 py-3">
+                        <span class="sr-only">Edit</span>
+                    </th>
+                </tr>
+            </thead>
+            <%for(quiz of userQuizCards){ %>
+              <a href="/home/quiz/<%=quiz._id %>"  class="hover:bg-gray-50">
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          
+                            <div class="text-sm flex   max-w-sm overflow-hidden text-gray-900">
+                                <img class="w-8" src="<%= quiz.imageUrl %>" alt="" srcset="">
+                             <span class="ml-1">  <%= quiz.title %>    </span>        
+                                  </div>
+                        </td>
 
-                  const options = {
-                    weekday: 'short', // Short weekday name (e.g., Sat)
-                    day: '2-digit',    // Day of the month with leading zeros (e.g., 23)
-                    year: 'numeric'    // Full year (e.g., 2021)
-                  };
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm datesub text-gray-900">
+                                <div class="states">
+                                        <span> <%=quiz.visability %></span>
+                                       
+                                </div>
 
-                  const formattedcreated = createdAt.toLocaleDateString('en-US', options);
-                  %>
-                    <%=formattedcreated %>
-
-                  </span>
-                  <span class="titlecard mr-6">
-                    <%= quiz.viewcount %>
-                  </span>
-                 
-                  <span class="titlecard">
-                  <%=quiz.saves.length %>
-                  </span>
-    
-                </div>
-              </a>
-
-              <!-- <a
-                href="/home/quiz/<%=quiz._id %>"
-                class="mb-2 ml-2 p-3 recent-cardd rounded-lg shadow border"
-                style="width: 17em"
-              >
-                <div class="kr flex justify-between rounded-lg">
-                  <span class="font-medium text-lg"> <%=quiz.title %> </span>
-                  <button><i class="bi bi-three-dots"></i></button>
-                </div>
-                <br />
-                <div class="flex justify-center items-center">
-                  <%if(quiz.imageUrl){%>
-                  <img
-                    style="
-                      height: 8em;
-                      max-height: 8em;
-                      max-width: 15em;
-                      min-width: 15em;
-                    "
-                    class="w-full rounded-md"
-                    src="<%=quiz.imageUrl %>"
-                    alt=""
-                    srcset=""
-                  />
-                  <%}%>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text text-gray-600">
-                    <%=quiz.cards.length %> tearms
-                  </span>
-        
-                  <span class="text text-white"> <%=quiz.plays %> plays </span>
-                </div>
-                <br />
-        
-                <div>
-                  <span>Tags</span>
-                  <div class="flex flex-wrap" style="width: 8em">
-                    <% let counter=0; %> <% quiz.tags.forEach(tag=> { %> <% if (counter < 4) { %>
-                    <span
-                      class="w-11 <%= tag.color %> mb-3 text-xs text-black font-medium mr-2 px-2.5 py-0.5 rounded"
-                    >
-                      <%= tag.name %>
-                    </span>
-                    <% counter++; %> <% } %> <% }) %>
-                  </div>
-                </div>
-                <br />
-                <div style="margin-top: 0em" class="about flex w-full justify-between">
-                  <div class="flex items-center text-center">
-                    <img
-                      class="rounded-full w-8 h-8"
-                      src="https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/89bf5368873d6a613c99caec072e8a52.jpg"
-                      alt=""
-                      srcset=""
-                    />
-                    <span class="ml-2"> <%=user.username %> </span>
-                  </div>
-                  <div class="tags text-center items-center content-center ml-5 flex">
-                    <span
-                      class="bg-red-700 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
-                    >
-                      <%=user.category%>
-                    </span>
-                  </div>
-                </div>
-              </a> -->
-              <% } %>
-         
-
-          </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">
+                               <%=quiz.createdAt.toLocaleDateString(undefined, { month: 'short'
+                               , day: 'numeric'}) %>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-gray-900">
+                             <%=quiz.viewcount %>
+                          </div>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">
+                               <%=quiz.saves.length %>
+                            </div>
+                      </td>
+                       
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <a href="/home/quiz/<%=quiz._id %>/edit"
+                                class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                        </td>
+                    </tr>
+                    <!-- More rows can be added here -->
+                </tbody>
+                </a>
+                <% } %>
+            </table>
 
 
-   
+
           </div>
         </div>
       </div>

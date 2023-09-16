@@ -1,5 +1,12 @@
+<% if(currentUser){ %>
 <% layout('./layouts/boilerplate.ejs')%>
 <%- include('../../../../layouts/partials/settings.ejs') %>
+<% }else{ %>
+    <% layout('./layout/boilerplate.ejs') %>
+   
+
+<% } %>
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@0.24.0/dist/axios.min.js"></script>
@@ -33,11 +40,12 @@
             }
         }
     </style>
-    <div class="content flex fullscreen"  id="content-menu">
+    <div class="content mt-5 flex fle fullscreen"  id="content-menu">
+        
             <br>
             <%- include('../../../../layouts/partials/flash.ejs') %>
         <div class="quizcontent">
-                <div class="border rounded-md  p-2">
+                <div class="border rounded-md bg-white shaodw  p-2">
                     <div class="flex">
                         <% if(foundquiz.imageUrl){ %>
                             <img style="min-width: 6em ; min-height: 7em; max-width: 9em; max-height: 9em;"
@@ -276,7 +284,7 @@
                     </div>
                     <div class="w-full flex flex-col">
                         <% foundquiz.cards.forEach(card=> { %>
-                            <div class=" border shadow rounded-lg mb-4 p-6">
+                            <div class=" border shadow bg-white rounded-lg mb-4 p-6">
                                 <div
                                     class="flex items-center text-center content-center justify-between items-center mb-4">
                                     <span class="text-2xl mr-4" >
@@ -315,7 +323,7 @@
             <% if ( quiz.category == foundquiz.category || quiz.title.toLowerCase().includes(foundquiz) && quiz.title !== foundquiz.title ) { %>
 
 
-        <a href="/home/quiz/<%= quiz._id%>" class="padding mb-2 p-2 flex w-full over bg-gray-100 hover:bg-gray-200  border-none rounded-md">
+        <a href="/home/quiz/<%= quiz._id%>" class="padding bg-white mb-2 p-2 flex w-full over bg-gray-100 hover:bg-gray-200  border-none rounded-md">
             <% if( quiz.imageUrl && quiz.imageUrl !== '/public/uploads/china_1687641298604.jpeg'){%>
             <img class="rounded" style="width: 6em; height: 5em;" src="<%= quiz.imageUrl%>" alt="" srcset="">
             <% } else{ %>

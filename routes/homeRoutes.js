@@ -181,16 +181,17 @@ Router.get('/quiz/:id',catchAsync(async(req,res)=>{
     console.log(id)
     const foundquiz = await  QuizCard.findById(id)
     //get all the user quizcard
-    const quizCardIds = user.quizCard.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
+    const quizowner = await User.findById(foundquiz.author)
+    const totalquiz = await QuizCard.find({})
+    if(user){
+        const quizCardIds = user.quizCard.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
+
     const userQuizCards = await QuizCard.find({ _id: { $in: quizCardIds } });
-
-
 
     
     foundquiz.viewcount += 1;
     await foundquiz.save()
-    const quizowner = await User.findById(foundquiz.author)
-    const totalquiz = await QuizCard.find({})
+
     if(!req.user.recentCard.includes(foundquiz._id)){
         req.user.recentCard.push(foundquiz)
         await req.user.save()
@@ -198,6 +199,11 @@ Router.get('/quiz/:id',catchAsync(async(req,res)=>{
     await req.user.save()
 
     res.render('content/home/create/quiz/quizid.ejs',{foundquiz,quizowner,userQuizCards,totalquiz})
+}else{
+
+    res.render('content/home/create/quiz/quizid.ejs',{foundquiz,quizowner,totalquiz})
+
+}
 
 }))
 Router.get('/quiz/:id/ext',catchAsync(async(req,res)=>{
@@ -497,6 +503,55 @@ function deduplicate(results) {
     // For simplicity, we'll assume there are no duplicates.
     return results;
 }
+
+
+// Inside server.js
+
+Router.get('/get-metric-data/:metric/:startDate/:endDate', async (req, res) => {
+    try {
+        const { metric, startDate, endDate } = req.params;
+        console.log(metric, startDate, endDate)
+        const filter = {
+            createdAt: {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate)
+            }
+        };
+
+        let field;
+        switch (metric) {
+            case 'plays':
+                field = '$plays';
+                break;
+            case 'saves':
+                field = { $size: '$saves' };
+                break;
+            case 'viewcount':
+                field = '$viewcount';
+                break;
+            default:
+                return res.status(400).json({ error: 'Invalid metric' });
+        }
+
+        const data = await QuizCard.aggregate([
+            { $match: filter },
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+                    total: { $sum: 1 } // Use the selected field
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+
+        const dates = data.map(item => item._id);
+        const values = data.map(item => item.total);
+
+        res.json({ dates, values });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 module.exports = Router
 

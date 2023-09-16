@@ -874,6 +874,7 @@ Router.get('/search', async (req, res) => {
 });
 
 
+
 // Router.get('/search', async (req, res) => {
 //   const searchTerm = req.query.term; // Get the search term from the query string.
   

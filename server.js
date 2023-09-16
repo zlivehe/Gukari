@@ -1,6 +1,11 @@
 if (process.env.NODE_ENV !== "production") {
    require('dotenv').config();
 }
+
+const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+
+
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -102,7 +107,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(async(req, res, next) => {
 
-   // const users = await User.findById('647b5c354937d00da81c3038')
+   // const users = await User.findById('64bc4922b2aafaad4ddbbb50')
    // console.log(users)
    //  req.user=users
    // if(req.user){
@@ -164,18 +169,184 @@ app.get('/api/card', async(req,res)=>{
       } ) 
    
  
+//  -------- --------TESTT -------- --------
+
+
+
+app.get('/uploadcloud',(req,res)=>{
+   res.render('content/videotest/index.ejs')
+})
+app.post("/audio/upload", async (req, res) => {
+
+  // Get the file name and extension with multer
+  const storage = multer.diskStorage({
+    filename: (req, file, cb) => {
+      const fileExt = file.originalname.split(".").pop();
+      const filename = `${new Date().getTime()}.${fileExt}`;
+      cb(null, filename);
+    },
+  });
+
+
+  // Filter the file to validate if it meets the required audio extension
+  const fileFilter = (req, file, cb) => {
+    if (file.mimetype === "audio/mp3" || file.mimetype === "audio/mpeg") {
+      cb(null, true);
+    } else {
+      cb(
+        {
+          message: "Unsupported File Format",
+        },
+        false
+      );
+    }
+  };
+
+  // Set the storage, file filter and file size with multer
+  const upload = multer({
+    storage,
+    limits: {
+      // fieldNameSize: 200,
+      // fileSize: 5 * 1024 * 1024,
+    },
+    fileFilter,
+  }).single("audio");
+
+  // upload to cloudinary
+  upload(req, res, (err) => {
+    if (err) {
+      return res.send(err);
+    }
+
+    // SEND FILE TO CLOUDINARY
+    cloudinary.config({
+        cloud_name: `dlxqwjiv6`,
+        api_key: `497857977683336`,
+        api_secret: `_wMbQV7GimlFp9WlLaRVVScwsUE`
+    });
+    const { path } = req.file; // file becomes available in req at this point
+
+    const fName = req.file.originalname.split(".")[0];
+    cloudinary.uploader.upload(
+      path,
+      {
+        resource_type: "raw",
+        public_id: `AudioUploads/${fName}`,
+      },
+
+      // Send cloudinary response or catch error
+      (err, audio) => {
+        if (err) return res.send(err);
+
+        fs.unlinkSync(path);
+        res.send(audio);
+      }
+    );
+  });
+});
+
+app.post("/video/upload", async (req, res) => {
+   console.log('piost')
+   console.log(req.file)
+   console.log(req.files)
+  // Get the file name and extension with multer
+  const storage = multer.diskStorage({
+    filename: (req, file, cb) => {
+      const fileExt = file.originalname.split(".").pop();
+      const filename = `${new Date().getTime()}.${fileExt}`;
+      cb(null, filename);
+    },
+  });
+
+  // Filter the file to validate if it meets the required video extension
+  const fileFilter = (req, file, cb) => {
+    if (file.mimetype === "video/mp4") {
+      cb(null, true);
+    } else {
+      cb(
+        {
+          message: "Unsupported File Format",
+        },
+        false
+      );
+    }
+  };
+
+  // Set the storage, file filter and file size with multer
+  const upload = multer({
+    storage,
+    limits: {
+      fieldNameSize: 2000,
+      fileSize: 60 * 1024 * 1024,
+    },
+    fileFilter,
+  }).single("video");
+
+  upload(req, res, (err) => {
+    if (err) {
+      return res.send(err);
+    }
+
+    // SEND FILE TO CLOUDINARY
+    cloudinary.config({
+      cloud_name: `dlxqwjiv6`,
+      api_key: `497857977683336`,
+      api_secret: `_wMbQV7GimlFp9WlLaRVVScwsUE`
+  });
+    const { path } = req.file; // file becomes available in req at this point
+
+    const fName = req.file.originalname.split(".")[0];
+    cloudinary.uploader.upload(
+      path,
+      {
+        resource_type: "video",
+        public_id: `VideoUploads/${fName}`,
+        chunk_size: 6000000,
+        eager: [
+          {
+            width: 300,
+            height: 300,
+            crop: "pad",
+            audio_codec: "none",
+          },
+          {
+            width: 160,
+            height: 100,
+            crop: "crop",
+            gravity: "south",
+            audio_codec: "none",
+          },
+        ],
+      },
+
+      // Send cloudinary response or catch error
+      (err, video) => {
+        if (err) return res.send(err);
+        console.log(video)
+
+        fs.unlinkSync(path);
+        return res.send(video);
+      }
+    );
+  });
+});
+
+
  // 404 page not found route
  app.all('*', (req,res,next)=>{
-    next(new ExpressError('Page Not Found', 404))
- })
- // error hadling 
- app.use((err, req, res, next) =>{
-    const { statusCode = 500 } = err;
-    if (!err.message) err.message = 'Oh No, Something Went Wrong!'
-    res.status(statusCode).render('error.ejs', { err })
- })
+   next(new ExpressError('Page Not Found', 404))
+})
+// error hadling 
+app.use((err, req, res, next) =>{
+   const { statusCode = 500 } = err;
+   if (!err.message) err.message = 'Oh No, Something Went Wrong!'
+   res.status(statusCode).render('error.ejs', { err })
+})
+
+
+
+
  //server
  app.listen(3005, () => {
-    console.log('Serving on port 3005')
- })
- 
+   console.log('Serving on port 3005')
+})
