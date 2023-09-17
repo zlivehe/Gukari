@@ -201,7 +201,42 @@
 
 
 <div class="videolist">
-    <div class="flex ml-5">
+    <div class="flex ml-5 flex-wrap">
+        
+        <%
+        let shuffledVideos = video.slice(); // Create a copy of the card array
+        shuffledVideos.sort(() => Math.random() - 0.5); // Shuffle the copy
+        
+        let displayedVideos = 0;
+        for(let Video of video) {
+            if (displayedVideos >= 10) break;
+            if (Video) {
+                displayedVideos++;
+        %>
+        <a href="/home/video/<%=Video._id%>" class=" ml-3 mb-2" style="width: 16em">
+            <div style="max-height: 11em; min-height: 10em;">
+                <img class="rounded-lg" style="width: 100%;max-height: 11em; min-height: 10em;   " src="<%=Video.thumbnail%>" alt="" srcset="" >
+
+                </div>
+    
+            <div class="pt-1 recent-cardd">
+              <!-- <span>4:22</span> -->
+              <div class="content-card flex flexcontent-center">
+                <img src="<%=Video.author[0].photourl%>" class="userimg mb-3 w-10 rounded h-10 rounded-full" alt="" srcset=""  >
+                <div class="card-info ml-1">
+                  <h2 aria-label="Track name" class=" font-medium  text-sm whitespace-nowrap overflow-hidden text-ellipsis" style="width: 16em;"><%=Video.title%></h2>
+                  <div class="flex">
+                    <span class="text-sm text-gray-400"><%=Video.author[0].username%></span>
+                    <span class="ml-3 text-sm text-gray-400"><%=Video.viewcount%></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+        <%}
+            }
+        %>
         <a href="/home/video/22" class="" style="width: 16em">
             <img class="rounded-lg" style="width: 100%" src="https://i.ytimg.com/vi/DIO5-BF8SzM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB8dJX49pJ1huZMcV8dLi9zZAuaPQ" alt="" srcset="">
     

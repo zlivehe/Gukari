@@ -104,6 +104,13 @@ const VideoUploadSchema = new Schema({
     required: true,
     type: String,
   },
+  quizCard:[
+    {
+        type:Schema.Types.ObjectId,
+        ref:"Quizcard",
+    }
+],
+
   category: {
     type: String,
     enum: ['general', 'technology', 'education', 'health', 'sports', 'trending', 'music', 'food', 'news', 'art'],

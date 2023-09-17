@@ -15,6 +15,12 @@ const cardSchema = new Schema({
     required: false,
   },
 
+  video:[
+    {
+        type:Schema.Types.ObjectId,
+        ref:"VideoUploadSchema",
+    }
+],
   description: {
     type: String,
     required: false,

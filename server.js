@@ -28,7 +28,23 @@ const QuizCard = require('./model/home/quizapp/quizcard')
 const autopopulate = require('mongoose-autopopulate');
 const Videos = require('./model/home/upload/videoupload');
 const cors = require('cors');
+const  OpenAI = require("openai");
 
+const openai = new OpenAI({
+	apiKey: "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",
+});
+
+async function main() {
+   const completion = await openai.chat.completions.create({
+     messages: [{ role: 'user', content: 'give me a story in korean short one' }],
+     model: 'gpt-3.5-turbo',
+   });
+ 
+   console.log(completion.choices);
+ }
+ 
+//  main();
+// const openai = new OpenAIApi('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');
 app.use(cors());
 // const translate = require('@iamtraction/google-translate');
 
@@ -107,11 +123,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(async(req, res, next) => {
 
-   // const users = await User.findById('64bc4922b2aafaad4ddbbb50')
-   // console.log(users)
-   //  req.user=users
-   // if(req.user){
-   // }
+   const users = await User.findById('64bc4922b2aafaad4ddbbb50')
+   console.log(users)
+    req.user=users
+   if(req.user){
+   }
 
    res.locals.currentUser = req.user;
   

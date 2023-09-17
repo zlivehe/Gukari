@@ -4,40 +4,269 @@
   body{
     overflow: scroll;
   }
+  
   .disliked{
     color: black;
   }
   .liked{
     color: red;
   }
-</style>
-<title>
-  <%= uplaod.title  %>
-</title>
-<% const timeDifference = Date.now() - uplaod.createdAt.getTime();
-let formattedDate = '';
+  *, *::before, *::after {
+  box-sizing: border-box;
+}
 
-// Calculate the difference in milliseconds
-const minuteInMs = 60 * 1000;
-const hourInMs = 60 * minuteInMs;
-const dayInMs = 24 * hourInMs;
-const weekInMs = 7 * dayInMs;
 
-// Format the date based on the time difference
-if (timeDifference < minuteInMs) {
-  formattedDate = Math.floor(timeDifference / 1000) + ' seconds ago';
-} else if (timeDifference < hourInMs) {
-  formattedDate = Math.floor(timeDifference / minuteInMs) + ' minutes ago';
-} else if (timeDifference < dayInMs) {
-  formattedDate = Math.floor(timeDifference / hourInMs) + ' hours ago';
-} else if (timeDifference < weekInMs) {
-  formattedDate = Math.floor(timeDifference / dayInMs) + ' days ago';
-} else {
-  formattedDate = uplaod.createdAt.toDateString(); // Use the full date if it's more than a week ago
-} %>
+.video-container {
+  position: relative;
+  /* width: 90%; */
+  max-width: 1000px;
+  display: flex;
+  justify-content: center;
+  margin-inline: auto;
+  background-color: black;
+}
 
-<style>
-    .video-card {
+.video-container.theater,
+.video-container.full-screen {
+  max-width: initial;
+  width: 100%;
+}
+
+.video-container.theater {
+  max-height: 90vh;
+}
+
+.video-container.full-screen {
+  max-height: 100vh;
+}
+
+video {
+  width: 100%;
+}
+
+.video-controls-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: white;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 150ms ease-in-out;
+}
+
+.video-controls-container::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, .75), transparent);
+  width: 100%;
+  aspect-ratio: 6 / 1;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.video-container:hover .video-controls-container,
+.video-container:focus-within .video-controls-container,
+.video-container.paused .video-controls-container {
+  opacity: 1;
+}
+
+.video-controls-container .controls {
+  display: flex;
+  gap: .5rem;
+  padding: .25rem;
+  align-items: center;
+}
+
+.video-controls-container .controls button {
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+  height: 30px;
+  width: 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: .85;
+  transition: opacity 150ms ease-in-out;
+}
+
+.video-controls-container .controls button:hover {
+  opacity: 1;
+}
+
+.video-container.paused .pause-icon {
+  display: none;
+}
+
+.video-container:not(.paused) .play-icon {
+  display: none;
+}
+
+.video-container.theater .tall {
+  display: none;
+}
+
+.video-container:not(.theater) .wide {
+  display: none;
+}
+
+.video-container.full-screen .open {
+  display: none;
+}
+
+.video-container:not(.full-screen) .close {
+  display: none;
+}
+
+.volume-high-icon,
+.volume-low-icon,
+.volume-muted-icon {
+  display: none;
+}
+
+.video-container[data-volume-level="high"] .volume-high-icon {
+  display: block;
+}
+
+.video-container[data-volume-level="low"] .volume-low-icon {
+  display: block;
+}
+
+.video-container[data-volume-level="muted"] .volume-muted-icon {
+  display: block;
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+}
+
+.volume-slider {
+  width: 0;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: width 150ms ease-in-out, transform 150ms ease-in-out;
+}
+
+.volume-container:hover .volume-slider,
+.volume-slider:focus-within {
+  width: 100px;
+  transform: scaleX(1);
+}
+
+.duration-container {
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+  flex-grow: 1;
+}
+
+.video-container.captions .captions-btn {
+  border-bottom: 3px solid #f54251;
+}
+
+.video-controls-container .controls button.wide-btn {
+  width: 50px;
+}
+
+.timeline-container {
+  height: 7px;
+  margin-inline: .5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.timeline {
+  background-color: rgba(100, 100, 100, .5);
+  height: 3px;
+  width: 100%;
+  position: relative
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: calc(100% - var(--preview-position) * 100%);
+  background-color: rgb(150, 150, 150);
+  display: none;
+}
+
+.timeline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: calc(100% - var(--progress-position) * 100%);
+  background-color: red;
+}
+
+.timeline .thumb-indicator {
+  --scale: 0;
+  position: absolute;
+  transform: translateX(-50%) scale(var(--scale));
+  height: 200%;
+  top: -50%;
+  left: calc(var(--progress-position) * 100%);
+  background-color: red;
+  border-radius: 50%;
+  transition: transform 150ms ease-in-out;
+  aspect-ratio: 1 / 1;
+}
+
+.timeline .preview-img {
+  position: absolute;
+  height: 80px;
+  aspect-ratio: 16 / 9;
+  top: -1rem;
+  transform: translate(-50%, -100%);
+  left: calc(var(--preview-position) * 100%);
+  border-radius: .25rem;
+  border: 2px solid white;
+  display: none;
+}
+
+.thumbnail-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.video-container.scrubbing .thumbnail-img {
+  display: block;
+}
+
+.video-container.scrubbing .preview-img,
+.timeline-container:hover .preview-img {
+  display: block;
+}
+
+.video-container.scrubbing .timeline::before,
+.timeline-container:hover .timeline::before {
+  display: block;
+}
+
+.video-container.scrubbing .thumb-indicator,
+.timeline-container:hover .thumb-indicator {
+  --scale: 1;
+}
+
+.video-container.scrubbing .timeline,
+.timeline-container:hover .timeline {
+  height: 100%;
+}
+.video-card {
         width: 100%;
     }
     .videoElement{
@@ -91,23 +320,120 @@ if (timeDifference < minuteInMs) {
     .bg-opacity-50{
       display: none;
     }
-
+    .theathorfull{
+  display: block;
+}
+.fullwidth{
+  width: 100%;
+}
 </style>
+<title>
+  <%= uplaod.title  %>
+</title>
+<% const timeDifference = Date.now() - uplaod.createdAt.getTime();
+let formattedDate = '';
+
+// Calculate the difference in milliseconds
+const minuteInMs = 60 * 1000;
+const hourInMs = 60 * minuteInMs;
+const dayInMs = 24 * hourInMs;
+const weekInMs = 7 * dayInMs;
+
+// Format the date based on the time difference
+if (timeDifference < minuteInMs) {
+  formattedDate = Math.floor(timeDifference / 1000) + ' seconds ago';
+} else if (timeDifference < hourInMs) {
+  formattedDate = Math.floor(timeDifference / minuteInMs) + ' minutes ago';
+} else if (timeDifference < dayInMs) {
+  formattedDate = Math.floor(timeDifference / hourInMs) + ' hours ago';
+} else if (timeDifference < weekInMs) {
+  formattedDate = Math.floor(timeDifference / dayInMs) + ' days ago';
+} else {
+  formattedDate = uplaod.createdAt.toDateString(); // Use the full date if it's more than a week ago
+} %>
+
+
 
 <div class=" fullscreen" id="content-menu" style="overflow: scroll;">
   <div class="reco2 ">
     <div class="centers videow flex flex-col" >
 
     <div class="video-card" >
-      <div class="flex  w-full flex justify-center p-1" style="height: 35em;">
-      <video  id="videoElement" class="rounded-xl " height="350" controls>
-        <% if (uplaod.VideoUrl) { %>
-          <source class="rounded-lg w-full" src="<%= uplaod.VideoUrl %>" type="video/mp4">
-          <source class="rounded-lg h-full" src="<%= uplaod.VideoUrl %>" type="video/webm">
-          <source class="rounded-lg h-full" src="<%= uplaod.VideoUrl %>" type="video/ogg">
-          Your browser does not support the video tag.
-        <% } %>
-      </video>
+      <div class="flex  w-full flex justify-center " style="height: auto;">
+        <div class="video-container paused" data-volume-level="high">
+          <img class="thumbnail-img">
+          <div class="video-controls-container">
+            <div class="timeline-container">
+              <div class="timeline">
+                <img class="preview-img">
+                <div class="thumb-indicator"></div>
+              </div>
+            </div>
+            <div class="controls">
+              <button class="play-pause-btn">
+                <svg class="play-icon" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+                </svg>
+                <svg class="pause-icon" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
+                </svg>
+              </button>
+              <div class="volume-container">
+                <button class="mute-btn">
+                  <svg class="volume-high-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z" />
+                  </svg>
+                  <svg class="volume-low-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M5,9V15H9L14,20V4L9,9M18.5,12C18.5,10.23 17.5,8.71 16,7.97V16C17.5,15.29 18.5,13.76 18.5,12Z" />
+                  </svg>
+                  <svg class="volume-muted-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z" />
+                  </svg>
+                </button>
+                <input class="volume-slider" type="range" min="0" max="1" step="any" value="1">
+              </div>
+              <div class="duration-container">
+                <div class="current-time">0:00</div>
+                /
+                <div class="total-time"></div>
+              </div>
+              <button class="captions-btn">
+                <svg viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M18,11H16.5V10.5H14.5V13.5H16.5V13H18V14A1,1 0 0,1 17,15H14A1,1 0 0,1 13,14V10A1,1 0 0,1 14,9H17A1,1 0 0,1 18,10M11,11H9.5V10.5H7.5V13.5H9.5V13H11V14A1,1 0 0,1 10,15H7A1,1 0 0,1 6,14V10A1,1 0 0,1 7,9H10A1,1 0 0,1 11,10M19,4H5C3.89,4 3,4.89 3,6V18A2,2 0 0,0 5,20H19A2,2 0 0,0 21,18V6C21,4.89 20.1,4 19,4Z" />
+                </svg>
+              </button>
+              <button class="speed-btn wide-btn">
+                1x
+              </button>
+              <button class="mini-player-btn">
+                <svg viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zm-10-7h9v6h-9z"/>
+                </svg>
+              </button>
+              <button class="theater-btn">
+                <svg class="tall" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M19 6H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H5V8h14v8z"/>
+                </svg>
+                <svg class="wide" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M19 7H5c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 8H5V9h14v6z"/>
+                </svg>
+              </button>
+              <button class="full-screen-btn">
+                <svg class="open" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+                </svg>
+                <svg class="close" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <video src="<%= uplaod.VideoUrl %>" >
+            <track kind="captions" srclang="en" src="assets/subtitles.vtt">
+
+          </video>
+        </div>
+
     </div>
     <div class="p-3">
       <div id="timestampDisplay"></div>
@@ -144,20 +470,12 @@ if (timeDifference < minuteInMs) {
                           %>
                       <% } %>
 
-                          <% if(currentUser){ %>
-                      <% let likefill = '' 
-                      if(uplaod.likes.includes(currentUser._id)){
-                        likefill = 'bi-hand-thumbs-up-fill'
-                      } else{
-                        likefill = 'bi-hand-thumbs-up'
-                      }
-                      %>
-                      <% } %>
-                      <% let likefill = 'bi-hand-thumbs-up' %>
-                      <% let dislikefill = 'bi-hand-thumbs-down' %>
+                      <% let likefill1 = uplaod.likes.includes(currentUser._id) ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'; %>
+                      <% let dislikefill1 = uplaod.dislikes.includes(currentUser._id) ? 'bi-hand-thumbs-down-fill' : 'bi-hand-thumbs-down'; %>
 
                         <button class="likebtn ">
-                          <i class="bi mr-1 text-gray-500 <%=likefill %> text-xl "></i>
+                          
+                          <i class="bi mr-1 text-gray-500 <%=likefill1 %> text-xl "></i>
                         </button>  
                         <span class="likes">
                           <%= uplaod.likes.length %>
@@ -166,7 +484,7 @@ if (timeDifference < minuteInMs) {
                       
                       <div class="dislike">
                         <button class="dislikebtn" data-video-id="<%= uplaod._id %>">
-                          <i class="bi mr-1 text-gray-500 text-xl <%=dislikefill %> "></i>
+                          <i class="bi mr-1 text-gray-500 text-xl <%=dislikefill1 %> "></i>
                         </button>  
                         <span class="dislikes"> 
                           <%= uplaod.dislikes.length %>
@@ -185,11 +503,12 @@ if (timeDifference < minuteInMs) {
             </div>
           </div>
           <div class="sub">
-            <div class="flex">
-                <button class="mr-3">
+            <div class="flex items-center">
+              <% if(!uplaod.quizCard ){ %>
+                <a href="/home/quiz/<%= uplaod.quizCard[0]._id %>" class="mr-3">
                     <i class="bi   text-gray-500 text-2xl  bi-tv"></i>
-
-                </button>
+                </a>
+              <% } %>
            
                 <button>
                     <i class="bi text-gray-500 text-2xl bi-bookmark-plus "></i>
@@ -361,11 +680,11 @@ if (timeDifference < minuteInMs) {
                       <span id="comment-<%=comment._id %>" class="text-gray-700 text-lg"><%= comment.content %></span><br>
                       <% if (comment.replies && comment.replies.length> 0) { %>
 
-                  <button  data-modal-target="replying<%=comment.replies[0]%>Modal" data-modal-toggle="replying<%=comment.replies[0]%>Modal"><i class="bi bi-chevron-down"></i>
+                  <button  data-modal-target="replying-<%=comment.replies[0]._id%>Modal" data-modal-toggle="replying-<%=comment.replies[0]._id%>Modal"><i class="bi bi-chevron-down"></i>
                     <%=comment.replies.length%> replies</button>
               
-                  <div class="flex replies-class hidden" id="replying<%=comment.replies[0]%>Modal"  data-modal-backdrop="static" > 
-                    <div class="flex flex-col w-full" >
+                  <div class="flex replies-class hidden  " id="replying-<%=comment.replies[0]._id%>Modal"  data-modal-backdrop="static" > 
+                    <div class="flex replymodel-<%=comment._id %> flex-col w-full" >
               <% for(let replies of comment.replies){%>
                 <div class="flex mb-1 " id="livereply-<%=replies._id %>-<%= replies.user[0]._id%>">
                   <div class="like mr-1 bg-gray-200 p-1 rounded" style="height: 3.3em;">
@@ -412,32 +731,47 @@ if (timeDifference < minuteInMs) {
                         <% } %>
                     </div>
                 </div>
-                   <div class="p-2 rereply">
-                <div class="flex">
+                   <div class="p-2 rereply w-full">
+                <div class="flex justify-between w-full">
+                  <div class="flex">
                   <% if(!comment.user[0].photourl && comment.user[0].photourl == '') { %>
                 <div class="user-img rounded-full bg-red-200 w-8 h-8 text-center flex justify-center" src="https://yt3.ggpht.com/ytc/AOPolaSHoC37xAqzya3OaA1wyAKEqd9623gkoy6D5oMylA=s88-c-k-c0x00ffffff-no-rj" alt="" srcset=""> <span class="mt-2 font-medium text-md"> <%= replies.user[0].username %></span></div>
                 <%} else{%>
                     <img class="user-img rounded-full w-7 h-7" src="<%= replies.user[0].photourl %>" alt="" srcset="">
                     <% } %>
-               <span class="ml-1 text-sm">@<%= replies.user[0].username %> <span class="text-gray-500 text-xs"><%=formattedDate1 %> </span> <span>     <button  data-modal-target="re-more<%= replies.user[0]._id%>popup" data-modal-toggle="re-more<%= replies.user[0]._id%>popup"><i class="bi bi-three-dots ml-2"></i></button>               </span> </span>
-               <div id="re-more<%= replies.user[0]._id%>popup" id="dropdownDelay" class="z-10 hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-16 ">
-                <ul class="py-2 text-sm text-gray-700 " aria-labelledby="dropdownDelayButton">
-                  <% if(currentUser){ %>
-                  <% if (comment.user[0]._id.equals(currentUser._id)) { %>
-                    <li>
-                    <button  data-modal-hide="re-more<%= replies.user[0]._id%>popup"  data-modal-target="re-reply<%= replies.user[0]._id%>edit"  data-modal-toggle="re-reply<%= replies.user[0]._id%>edit" class="block px-4 py-2 hover:bg-gray-100 ">Edit</button>
-                  </li>
-                  <li>
-                    <button  href="#" data-modal-hide="re-more<%= comment.user[0]._id%>popup" onclick="Deletereply('<%= uplaod._id%>','<%=comment._id%>' ,'<%= replies._id%>' ,'<%= replies.user[0]._id%>')" class="block px-4 py-2 hover:bg-gray-100 ">Delete</button>
-                  </li>
-                  <% } else{ %>
-                  <li>
-                    <a href="#"  class="block px-4 py-2 hover:bg-gray-100 ">Report</a>
-                  </li>
-                  <% } %>
-                  <% } %>
-                </ul>
-              </div>
+               <span class="ml-1 text-sm">@<%= replies.user[0].username %> <span class="text-gray-500 text-xs"><%=formattedDate1 %> </span>
+          
+                     </span>
+                </div>
+                <span>  
+                  <button  data-modal-target="re-more<%= replies.content%>popup" data-modal-toggle="re-more<%= replies.content%>popup"><i class="bi bi-three-dots ml-2"></i></button>            
+                    </span>
+                    <div class="" style="
+    width: 55%;
+    margin-top: 1em;
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;">
+                      <div id="re-more<%= replies.content%>popup" id="dropdownDelay" class="z-10 hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-16 ">
+                        <ul class="py-2 text-sm text-gray-700 " aria-labelledby="dropdownDelayButton">
+                          <% if(currentUser){ %>
+                          <% if (comment.user[0]._id.equals(currentUser._id)) { %>
+                            <li>
+                            <button  data-modal-hide="re-more<%= replies.content%>popup"  data-modal-target="re-reply<%= replies.content%>edit"  data-modal-toggle="re-reply<%= replies.content%>edit" class="block px-4 py-2 hover:bg-gray-100 ">Edit</button>
+                          </li>
+                          <li>
+                            <button  href="#" data-modal-hide="re-more<%= comment.user[0]._id%>popup" onclick="Deletereply('<%= uplaod._id%>','<%=comment._id%>' ,'<%= replies._id%>' ,'<%= replies.user[0]._id%>')" class="block px-4 py-2 hover:bg-gray-100 ">Delete</button>
+                          </li>
+                          <% } else{ %>
+                          <li>
+                            <a href="#"  class="block px-4 py-2 hover:bg-gray-100 ">Report</a>
+                          </li>
+                          <% } %>
+                          <% } %>
+                        </ul>
+                      </div>
+                    </div>
+
               </div>
               <div>
                 <% if (replies.targetuser ) { %>
@@ -452,10 +786,10 @@ if (timeDifference < minuteInMs) {
                 <button  data-modal-target="<%=replies._id %>ReplayreplyModal" data-modal-toggle="<%=replies._id %>ReplayreplyModal"  class="replsy-btn text-xs" >
                       Reply</button>
                     <!-- //re reEdit -->
-                      <div style="margin-left: -3em;" class="kd w-full hidden " id="re-reply<%= replies.user[0]._id%>edit" >
+                      <div style="margin-left: -3em;" class="kd w-full hidden " id="re-reply<%= replies.content%>edit" >
                         <div class="flex flex-col">
     
-                        <span> Editing  eplying to  <b class="text-red-700"> <%=replies.user[0]._id %></b></span>
+                        <span> Editing to  <b class="text-red-700"> <%=replies.user[0].username %></b></span>
     <form id="re-replyeditform" action="/video/<%=uplaod._id %>/comments/<%=comment._id %>/replies/<%=replies._id %>/edit" data-comment-id="<%=replies._id %>" method="post">
                           <div class="flex items-center  p-1 border rounded-lg bg-gray-50">
     
@@ -468,7 +802,7 @@ if (timeDifference < minuteInMs) {
                           <span class="sr-only">Upload image</span>
                         </button>
                        
-                        <textarea id="chat" name="comment" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea>
+                        <textarea id="chat" name="comment" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder=""><%=replies.content %></textarea>
                         <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
                           <svg class="w-5 h-5 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                             <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
@@ -618,7 +952,7 @@ if (timeDifference < minuteInMs) {
     </div>
   </div>
   
-  <div class="reco ">
+  <div class="reco hidden ">
       <div class="recomandation flex justify-between">
           <span class="text-2xl">Top category </span>
           <button class="border rounded-md hover:bg-gray-600 hover:text-white">View all</button>
@@ -778,7 +1112,7 @@ if (timeDifference < minuteInMs) {
 </div>
 </div>
 </div>
-<input id="videoid" type="text" value="<%=uplaod._id %>">
+<input id="videoid" class="hidden" type="text" value="<%=uplaod._id %>">
 <br><br><br><br>
 </div>
 <br><br><br><br>
@@ -786,27 +1120,27 @@ if (timeDifference < minuteInMs) {
     const replymsg = document.getElementById('replymsg');
     const replymsgd = document.getElementById('replymsgd');
     const replyButtons = document.querySelectorAll('.reply-btn');
-    const videoElement = document.getElementById('videoElement');
-  const timestampDisplay = document.getElementById('timestampDisplay');
-  let formatedstamp  = 0;
-  // Update the timestamp display
-  function updateTimestamp() {
-    const timestamp = videoElement.currentTime;
-    formatedstamp = formatTimestamp(timestamp);
-    timestampDisplay.textContent = formatTimestamp(timestamp);
-  }
+  //   const videoElement = document.getElementById('videoElement');
+  // const timestampDisplay = document.getElementById('timestampDisplay');
+  // let formatedstamp  = 0;
+  // // Update the timestamp display
+  // function updateTimestamp() {
+  //   const timestamp = videoElement.currentTime;
+  //   formatedstamp = formatTimestamp(timestamp);
+  //   timestampDisplay.textContent = formatTimestamp(timestamp);
+  // }
 
-  // Format the timestamp value
-  function formatTimestamp(timestamp) {
-    // Implement your desired timestamp formatting logic here
-    // Example: Convert seconds to minutes and seconds
-    const minutes = Math.floor(timestamp / 60);
-    const seconds = Math.floor(timestamp % 60);
-    return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-  }
+  // // Format the timestamp value
+  // function formatTimestamp(timestamp) {
+  //   // Implement your desired timestamp formatting logic here
+  //   // Example: Convert seconds to minutes and seconds
+  //   const minutes = Math.floor(timestamp / 60);
+  //   const seconds = Math.floor(timestamp % 60);
+  //   return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+  // }
 
-  // Add event listener to update timestamp while playing
-  videoElement.addEventListener('timeupdate', updateTimestamp);
+  // // Add event listener to update timestamp while playing
+  // videoElement.addEventListener('timeupdate', updateTimestamp);
 
 // Handle reply button click
 function handleReply(event) {
@@ -1065,13 +1399,14 @@ function handleReply(event) {
   const replyModalId = `${commentId}ReplayModal`;
   const replyForm = event.target;
   const replyContent = replyForm.querySelector('textarea[name="comment"]').value;
-  console.log('replaymodel' + replyModalId);
-  console.log('replyform' + replyForm);
-  console.log('replycontent' + replyContent);
+  const ReplyModel = document.querySelector(`.replymodel-${commentId}`);
+  
+  console.log('replaymodel ' + replyModalId);
 
   const xhr = new XMLHttpRequest();
   xhr.open('POST', replyForm.action);
-  
+  console.log(ReplyModel)
+
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -1079,10 +1414,101 @@ function handleReply(event) {
         // Reply added successfully
         const response = JSON.parse(xhr.responseText);
         const reply = response.foundcomment;
+        function formattedDate(dateString) {
+  const commentDate = new Date(dateString);
+  const currentDate = new Date();
+  const timeDiff = Math.abs(currentDate - commentDate);
+  const minutes = Math.floor(timeDiff / (1000 * 60));
+  const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+  const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+  const months = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 30));
+  const years = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365));
+
+  if (minutes < 60) {
+    return minutes + ' minutes ago';
+  } else if (hours < 24) {
+    return hours + ' hours ago';
+  } else if (days < 30) {
+    return days + ' days ago';
+  } else if (months < 12) {
+    return months + ' months ago';
+  } else {
+    return years + ' years ago';
+  }
+}
+       
         const changedcommet = document.querySelector(`#comment-${commentId}`);
-        changedcommet.innerHTML = replyContent;
+        console.log(response)
+          const formattedDate1 = formattedDate(response.reply.createdAt);
+
+        ReplyModel.classList.remove('hidden');
+        const replycontent = `
+    <div class="flex mb-1 " id="livereply-${response.reply._id}-${response.reply.user._id}">
+        <div class="like mr-1 bg-gray-200 p-1 rounded" style="height: 3.3em;">
+            <div class="flex text-center items-center flex-col" style="font-size: 0.5em;">
+                <button id="likebtn${response.reply._id}" class="like-reply bi-caret-up" onclick="likeReply('${response.comment._id}', '${response.reply._id}')"></button>
+                <span class="avrage" id="${response.reply._id}">0</span>
+                <button id="dislikebtn${response.reply._id}" class="dislike-reply bi-caret-down" onclick="dislikeReply('${response.comment._id}', '${response.reply._id}')"></button>
+            </div>
+        </div>
+        <div class="p-2 rereply w-full">
+            <div class="flex justify-between w-full">
+                <div class="flex">
+                    <img class="user-img rounded-full w-7 h-7" src="${response.user.photourl}" alt="" srcset="">
+                    <span class="ml-1 text-sm">@${response.user.username} <span class="text-gray-500 text-xs">${response.reply.createdAt}</span></span>
+                </div>
+                <span>  
+                    <button data-modal-target="re-more${response.reply.content}popup" data-modal-toggle="re-more${response.reply.content}popup"><i class="bi bi-three-dots ml-2"></i></button>            
+                </span>
+                <div class="" style="width: 55%; margin-top: 1em; position: absolute; display: flex; justify-content: flex-end;">
+                    <div id="re-more${response.reply.content}popup" class="z-10 hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-16">
+                        <ul class="py-2 text-sm text-gray-700 " aria-labelledby="dropdownDelayButton">
+                            <li>
+                                <button data-modal-hide="re-more${response.reply.content}popup" data-modal-target="re-reply${response.reply.content}edit" data-modal-toggle="re-reply${response.reply.content}edit" class="block px-4 py-2 hover:bg-gray-100 ">Edit</button>
+                            </li>
+                            <li>
+                                <button href="#" data-modal-hide="re-more${response.user._id}popup" onclick="Deletereply('${response.upload._id}','${response.comment._id}' ,'${response.reply._id}' ,'${response.reply.user._id}')" class="block px-4 py-2 hover:bg-gray-100 ">Delete</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div>
+                ${response.reply.targetuser ? `<span class=" text-white text-xs p-1 rounded border-0 bg-blue-900">${response.reply.targetuser.username}</span>` : ''} <span id="repyied-${response.reply._id}">${response.reply.content}</span> 
+            </div>
+            <div class="reply-reply">
+                <button data-modal-target="${response.reply._id}ReplayreplyModal" data-modal-toggle="${response.reply._id}ReplayreplyModal" class="replsy-btn text-xs">Reply</button>
+                <div style="margin-left: -3em;" class="kd w-full hidden " id="re-reply${response.reply.content}edit">
+                    <div class="flex flex-col">
+                        <span> Editing to  <b class="text-red-700"> ${response.reply.user.username}</b></span>
+                        <form id="re-replyeditform" action="/video/${response.upload._id}/comments/${response.comment._id}/replies/${response.reply._id}/edit" data-comment-id="${response.reply._id}" method="post">
+                            <div class="flex items-center  p-1 border rounded-lg bg-gray-50">
+                                <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                                        <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l1.172-5.194L13.08 7.424a.5.5 0 0 0-.614-.159l-2.901 1.6a.5.5 0 0 0-.24.525.514.514 0 0 0 .084.295l2.928 4.87 2.928-4.87a.513.513 0 0 0 .084-.295.5.5 0 0 0-.24-.525l-2.902-1.6a.5.5 0 0 0-.614.159Z"></path>
+                                    </svg>
+                                </button>
+                                <input type="text" class="text-sm p-1 outline-none w-full" name="replycontent" value="${response.reply.content}">
+                                <button type="submit" class="inline-flex justify-center p-2 text-blue-900 bg-blue-100 rounded-lg cursor-pointer hover:text-blue-100 hover:bg-blue-900 ml-1">
+                                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                                        <path fill="currentColor" d="M7.48 14.77a.993.993 0 0 0 1.41 0L17.46 6.2a.993.993 0 0 0 0-1.41L16.2 4.2a.993.993 0 0 0-1.41 0l-7.07 7.07L3.65 7.65a.993.993 0 0 0-1.41 0L1.22 8.2a.993.993 0 0 0 0 1.41L6.34 14.77a.993.993 0 0 0 1.41 0Z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+
+
+ReplyModel.insertAdjacentHTML('afterbegin', replycontent);
         // Update the UI with the new reply (if needed)
-        console.log(response.foundcomment.user[0])
+
+
+
         const editPopup = document.querySelector(`#edit${response.foundcomment.user[0]}popup`);
     editPopup.classList.toggle('hidden');
 
@@ -1191,6 +1617,240 @@ function Deletereply(videoId, action,reply,useid) {
   };
   xhr.send();
 }
+const playPauseBtn = document.querySelector(".play-pause-btn")
+const theaterBtn = document.querySelector(".theater-btn")
+const fullScreenBtn = document.querySelector(".full-screen-btn")
+const miniPlayerBtn = document.querySelector(".mini-player-btn")
+const muteBtn = document.querySelector(".mute-btn")
+const captionsBtn = document.querySelector(".captions-btn")
+const speedBtn = document.querySelector(".speed-btn")
+const currentTimeElem = document.querySelector(".current-time")
+const totalTimeElem = document.querySelector(".total-time")
+const previewImg = document.querySelector(".preview-img")
+const thumbnailImg = document.querySelector(".thumbnail-img")
+const volumeSlider = document.querySelector(".volume-slider")
+const videoContainer = document.querySelector(".video-container")
+const timelineContainer = document.querySelector(".timeline-container")
+const video = document.querySelector("video")
+
+document.addEventListener("keydown", e => {
+  const tagName = document.activeElement.tagName.toLowerCase()
+
+  if (tagName === "input") return
+
+  switch (e.key.toLowerCase()) {
+    case " ":
+      if (tagName === "button") return
+    case "k":
+      togglePlay()
+      break
+    case "f":
+      toggleFullScreenMode()
+      break
+    case "t":
+      toggleTheaterMode()
+      break
+    case "i":
+      toggleMiniPlayerMode()
+      break
+    case "m":
+      toggleMute()
+      break
+    case "arrowleft":
+    case "j":
+      skip(-5)
+      break
+    case "arrowright":
+    case "l":
+      skip(5)
+      break
+    case "c":
+      toggleCaptions()
+      break
+  }
+})
+
+// Timeline
+timelineContainer.addEventListener("mousemove", handleTimelineUpdate)
+timelineContainer.addEventListener("mousedown", toggleScrubbing)
+document.addEventListener("mouseup", e => {
+  if (isScrubbing) toggleScrubbing(e)
+})
+document.addEventListener("mousemove", e => {
+  if (isScrubbing) handleTimelineUpdate(e)
+})
+
+let isScrubbing = false
+let wasPaused
+function toggleScrubbing(e) {
+  const rect = timelineContainer.getBoundingClientRect()
+  const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width
+  isScrubbing = (e.buttons & 1) === 1
+  videoContainer.classList.toggle("scrubbing", isScrubbing)
+  if (isScrubbing) {
+    wasPaused = video.paused
+    video.pause()
+  } else {
+    video.currentTime = percent * video.duration
+    if (!wasPaused) video.play()
+  }
+
+  handleTimelineUpdate(e)
+}
+
+function handleTimelineUpdate(e) {
+  const rect = timelineContainer.getBoundingClientRect()
+  const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width
+  const previewImgNumber = Math.max(
+    1,
+    Math.floor((percent * video.duration) / 10)
+  )
+  const previewImgSrc = `assets/previewImgs/preview${previewImgNumber}.jpg`
+  previewImg.src = previewImgSrc
+  timelineContainer.style.setProperty("--preview-position", percent)
+
+  if (isScrubbing) {
+    e.preventDefault()
+    thumbnailImg.src = previewImgSrc
+    timelineContainer.style.setProperty("--progress-position", percent)
+  }
+}
+
+// Playback Speed
+speedBtn.addEventListener("click", changePlaybackSpeed)
+
+function changePlaybackSpeed() {
+  let newPlaybackRate = video.playbackRate + 0.25
+  if (newPlaybackRate > 2) newPlaybackRate = 0.25
+  video.playbackRate = newPlaybackRate
+  speedBtn.textContent = `${newPlaybackRate}x`
+}
+
+// Captions
+const captions = video.textTracks[0]
+captions.mode = "hidden"
+
+captionsBtn.addEventListener("click", toggleCaptions)
+
+function toggleCaptions() {
+  const isHidden = captions.mode === "hidden"
+  captions.mode = isHidden ? "showing" : "hidden"
+  videoContainer.classList.toggle("captions", isHidden)
+}
+
+// Duration
+video.addEventListener("loadeddata", () => {
+  totalTimeElem.textContent = formatDuration(video.duration)
+})
+
+video.addEventListener("timeupdate", () => {
+  currentTimeElem.textContent = formatDuration(video.currentTime)
+  const percent = video.currentTime / video.duration
+  timelineContainer.style.setProperty("--progress-position", percent)
+})
+
+const leadingZeroFormatter = new Intl.NumberFormat(undefined, {
+  minimumIntegerDigits: 2,
+})
+function formatDuration(time) {
+  const seconds = Math.floor(time % 60)
+  const minutes = Math.floor(time / 60) % 60
+  const hours = Math.floor(time / 3600)
+  if (hours === 0) {
+    return `${minutes}:${leadingZeroFormatter.format(seconds)}`
+  } else {
+    return `${hours}:${leadingZeroFormatter.format(
+      minutes
+    )}:${leadingZeroFormatter.format(seconds)}`
+  }
+}
+
+function skip(duration) {
+  video.currentTime += duration
+}
+
+// Volume
+muteBtn.addEventListener("click", toggleMute)
+volumeSlider.addEventListener("input", e => {
+  video.volume = e.target.value
+  video.muted = e.target.value === 0
+})
+
+function toggleMute() {
+  video.muted = !video.muted
+}
+
+video.addEventListener("volumechange", () => {
+  volumeSlider.value = video.volume
+  let volumeLevel
+  if (video.muted || video.volume === 0) {
+    volumeSlider.value = 0
+    volumeLevel = "muted"
+  } else if (video.volume >= 0.5) {
+    volumeLevel = "high"
+  } else {
+    volumeLevel = "low"
+  }
+
+  videoContainer.dataset.volumeLevel = volumeLevel
+})
+
+// View Modes
+theaterBtn.addEventListener("click", toggleTheaterMode)
+fullScreenBtn.addEventListener("click", toggleFullScreenMode)
+miniPlayerBtn.addEventListener("click", toggleMiniPlayerMode)
+
+function toggleTheaterMode() {
+  const reco2  = document.querySelector('.reco2');
+  const videow = document.querySelector('.videow');
+  videow.classList.toggle('fullwidth');
+  reco2.classList.toggle('theathorfull');
+  videoContainer.classList.toggle("theater")
+}
+
+function toggleFullScreenMode() {
+  if (document.fullscreenElement == null) {
+    videoContainer.requestFullscreen()
+  } else {
+    document.exitFullscreen()
+  }
+}
+
+function toggleMiniPlayerMode() {
+  if (videoContainer.classList.contains("mini-player")) {
+    document.exitPictureInPicture()
+  } else {
+    video.requestPictureInPicture()
+  }
+}
+
+document.addEventListener("fullscreenchange", () => {
+  videoContainer.classList.toggle("full-screen", document.fullscreenElement)
+})
+
+video.addEventListener("enterpictureinpicture", () => {
+  videoContainer.classList.add("mini-player")
+})
+
+video.addEventListener("leavepictureinpicture", () => {
+  videoContainer.classList.remove("mini-player")
+})
+
+// Play/Pause
+playPauseBtn.addEventListener("click", togglePlay)
+video.addEventListener("click", togglePlay)
+
+function togglePlay() {
+  video.paused ? video.play() : video.pause()
+}
+
+video.addEventListener("play", () => {
+  videoContainer.classList.remove("paused")
+})
+
+video.addEventListener("pause", () => {
+  videoContainer.classList.add("paused")
+})
 
 
 </script>

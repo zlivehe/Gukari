@@ -1,5 +1,10 @@
 <% layout('./layouts/boilerplate.ejs')%>
 <%- include('../../../layouts/partials/settings.ejs') %>
+<style>
+ .tag {
+            background-color: #f0f0f0;
+        }
+</style>
 <div class="content fullscreen"  id="content-menu">
     <div class="flex justify-between">
     <ul class="flex border rounded-lg white-black mt-2 flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
@@ -17,9 +22,11 @@
             <button class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'contacts' ? 'border-b-2 border-blue-500' : 'border-b-0'}} dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300" id="Settings-tab" data-tabs-target="#Settings" type="button" role="tab" aria-controls="Settings" aria-selected="false">Settings</button>
         </li>
     </ul>
-    <button class="border-none bg-cyan-600 w-26  p-4 text-center text-white rounded">Save</button>
 </div>
-<form action="/">
+<button  id="savevideo" class="border-none bg-cyan-600 w-26  p-4 text-center text-white rounded">Save</button>
+
+<form id="videoedit" enctype="multipart/form-data">
+
 <div id="myTabContent">
     <div class="p-4 rounded-lg ap-ct" id="Content" role="tabpanel" aria-labelledby="Content-tab">
         <div class="flex grid gap-6 mb-3 md:grid-cols-2">
@@ -49,83 +56,93 @@
                     <br>
                     <div>
                         <% if(upload.thumbnail){ %>
-                      <img id="thumbnailPreview" class="w-full rounded" src="<%=upload.thumbnail %>" alt="Thumbnail Preview" >
+                      <img id="thumbnailPreview11" class="w-full rounded" src="<%=upload.thumbnail %>" alt="Thumbnail Preview" >
+                      <div id="thumbnailPreview1" class="mt-4"></div>
+
                         <% } else{ %>
+
                             <img id="thumbnailPreview" class="w-full rounded" src="" alt="Thumbnail Preview" style="display: none;">
 
                             <% } %>
+                            <input type="hidden" class="hidden" name="thumbnail" id="thumbnail" value="<%=upload.thumbnail %>" style="max-height: 14em;">
+                    
                     </div>
+
+                    <br>
                     <div>
                       <label class="w-26 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue">
-                        <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                          <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"></path>
-                        </svg>
-                        <span class="mt-2 text-base leading-normal">Select a file</span>
-                        <input name="thumbnail" type="file" id="thumbnailInput" class="hidden" accept="image/*">
+                          <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                              <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"></path>
+                          </svg>
+                          <span class="mt-2 text-base leading-normal">Thumbnail Preview</span>
+                          <input name="thumbnail" type="file" id="thumbnailInput" class="hidden" accept="image/*" onchange="previewThumbnail(event)">
                       </label>
+                  </div>
+                  </div>
+                  <br><br>
+                  <div>
+                    <span class="text-2xl font-medium">Card Quiz</span><br>
+                    <span class="text-sm text-gray-500">Add cards into your video</span>
+                    <div class="border rounded-md p-3">
+                        <div class="flex">
+                            <div class="ml-2 text-sm">
+                                <label for="visibility-select" class="font-medium text-gray-900">Save or publish</label>
+                                <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Choose one of your quizcard</p>
+                                <div class="flex flex-col p-2 w-full">
+                                    <div class="flex flex-col w-full">
+
+                                        <label for="visibility-select" class="font-medium text-gray-900">Quizcard</label>
+                                        <select id="visibility-select" name="quizcard" class="w-full p-2 border rounded-md text-gray-900 bg-gray-100 border-gray-300">
+                                          <%for(let quizcard of userQuizCards){ %>
+
+                                            <option value="<%=quizcard._id%>"><%=quizcard.title %></option>
+
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                   </div>
                 <br><br>
                 <div class="visability">
-                    <span class="text-2xl">Visibility</span><br>
-                    <span class="text-sm">Choose when to publish and who can see your video
-                    </span>
-                    <div class="border rounded-md p-3">
-                        <div class="flex">
-                          <div class="flex items-center h-5">
-                            <input id="helper-checkbox" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="w-4 h-4 rounded-full text-blue-600 bg-gray-100 border-gray-300 rounded">
-                          </div>
+                  <span class="text-2xl">Visibility</span><br>
+                  <span class="text-sm">Choose when to publish and who can see your video</span>
+                  <div class="border rounded-md p-3">
+                      <div class="flex">
                           <div class="ml-2 text-sm">
-                            <label for="helper-checkbox" class="font-medium text-gray-900">Save or publish</label>
-                            <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Make your video public, unlisted, or private</p>
-                            <div class="flex flex-col p-2">
-                              <div class="flex flex-col">
-                                <div class="private flex">
-                                  <input type="checkbox" name="visibility" value="private" class="rounded-md mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300" onclick="handleVisibilityChange('private')">
-                                  <div class="flex ml-1 flex-col">
-                                    <label for="helper-checkbox" class="font-medium text-gray-900">Private</label>
-                                    <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Only you and people chosen have access</p>
+                              <label for="visibility-select" class="font-medium text-gray-900">Save or publish</label>
+                              <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Make your video public, unlisted, or private</p>
+                              <div class="flex flex-col p-2">
+                                  <div class="flex flex-col">
+                                      <label for="visibility-select" class="font-medium text-gray-900">Visibility</label>
+                                      <select id="visibility-select" name="visibility" class="w-full p-2 border rounded-md text-gray-900 bg-gray-100 border-gray-300">
+                                        <%=upload.visibility %>
+                                          <option value="private">Private</option>
+                                          <option value="unlisted">Unlisted</option>
+                                          <option value="public">Public</option>
+                                      </select>
                                   </div>
-                                </div>
-                                <div class="unlisted flex">
-                                  <input type="checkbox" name="visibility" value="unlisted" class="rounded-md mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300" onclick="handleVisibilityChange('unlisted')">
-                                  <div class="flex ml-1 flex-col">
-                                    <label for="helper-checkbox" class="font-medium text-gray-900">Unlisted</label>
-                                    <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Anyone with the video link can watch your video</p>
-                                  </div>
-                                </div>
-                                <div class="public flex">
-                                  <input type="checkbox" name="visibility" value="public" class="rounded-md mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300" onclick="handleVisibilityChange('public')">
-                                  <div class="flex ml-1 flex-col">
-                                    <label for="helper-checkbox" class="font-medium text-gray-900">Public</label>
-                                    <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Everyone has access</p>
-                                  </div>
-                                </div>
                               </div>
-                            </div>
                           </div>
-                        </div>
                       </div>
-                </div>
+                  </div>
+              </div>
+              
 
                 <br><br>
                 <div class="flex justify-between">
-                <div class="tags">
-                    <span class="text-xl">Tags</span><br>
-                    <span class="text-xs">
-                        Tags can be useful if content in your video.
-                    </span>
-                    <br>
-                    <div>
-                        <div>
-                            <input type="text" id="tag_input" class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-                            <label for="tag_input" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tags</label>
-                        </div>
-                        <br>
-                        <input id="tags-post" class="hidden tags-post" type="text" value="" name="tags">
-                      
-                    </div>
-                </div>
+                  <div class="tags">
+                      <div class="tags-input flex flex-wrap border border-gray-300 p-2 rounded">
+                          <!-- Tags will be added here -->
+                      </div>
+                      <div class="flex mt-4">
+                          <input type="text" id="tag-input" placeholder="Add a tag" class="py-2 px-3 border border-gray-300 rounded-l w-full">
+                          <button onclick="addTag()" class="py-2 px-4 bg-blue-500 text-white rounded-r">Add Tag</button>
+                      </div>
+                  </div>
+            
                 <div class="category">
                     <div>
 
@@ -297,7 +314,63 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-   // Sample data (replace with your own data)
+ 
+
+  const videoedit = document.getElementById('videoedit');
+  const savevideo = document.getElementById('savevideo');
+  console.log(savevideo)
+  savevideo.addEventListener('click', (e) => {
+    console.log('clicked')
+    e.preventDefault();
+    const formData = new FormData(videoedit);
+    const data1 = Object.fromEntries(formData);
+    console.log(data1);
+    fetch('/video/edit/<%=upload._id %>', {
+      method: 'POST',
+      body: formData
+    }).then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.status === 'success') {
+          window.location.href = '/video/<%=upload._id %>';
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  })
+
+  
+  function previewThumbnail(event) {
+    console.log('oooo')
+        var input = event.target;
+        var thumbnailPreview = document.getElementById('thumbnailPreview1');
+        const thumbnailPreview11 = document.getElementById('thumbnailPreview11');
+        thumbnailPreview11.style.display = 'none';
+
+        while (thumbnailPreview.firstChild) {
+            thumbnailPreview.removeChild(thumbnailPreview.firstChild);
+        }
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var image = document.createElement('img');
+                image.setAttribute('src', e.target.result);
+                image.setAttribute('class', 'max-w-xs');
+                image.setAttribute('name', 'thumbnail');
+                thumbnailPreview.appendChild(image);
+
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+ 
+ 
+  // Sample data (replace with your own data)
    const subscribersData = [1, 3, 4, 5, 6,20];
     const likesData = [2, 3, 4, 5, 6];
     const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];

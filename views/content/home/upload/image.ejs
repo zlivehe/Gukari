@@ -8,27 +8,153 @@
     .about{
         width: 40%;
     }
+    body{
+        overflow: hidden;
+    }
+    
+    .bothcard{
+        display: flex;
+    }
+    @media screen and (max-width: 600px) {
+        .bothcard{
+            display: block;
+            height: 20em;
+        }
+        .image{
+            width: 100%;
+        }
+        .mainimag{
+            height: 30em;
+        }
+        .about{
+            width: 100%;
+        }
+    
+        
+    }
+
 </style>
-<div class="content fullscreen " id="content-menu">
-    <div class="flex w-full ">
-        <div class="image border p-5">
-            <img class=" " style="width: 40em;" src="<%=upload.imageurl %>" alt="" srcset="">
+<div class="content fullscreen " id="content-menu" style="height: 100vh; overflow: scroll;">
+    <div class="contentx" style="height: auto;">
+
+    <div class=" w-full bothcard " style="height: 39em;">
+        <div class="image border p-5 overflow-y-scroll">
+            <img class=" mainimag" style="width:full; " src="<%=upload.imageurl %>" alt="" srcset="">
 
         </div>
         <div class="ml-1 about border" >
             <div class="p-5">
-                <span class="text-2xl font-semibold"><%=upload.title %></span>
-                <p class="mt-2"><%=upload.description %></p>
+                <div class="flex items-center justify-between ">
+                    <div class="flex items-center">
+                        <% if(upload.author[0]){ %>
+                        <img class="rounded-full w-11 h-11" src="<%=upload.author[0].photourl%>" alt="" srcset="">
+                        <% }else{ %>
+                        <img class="rounded-full w-11 h-11" src="https://www.themarysue.com/wp-content/uploads/2022/06/naruto.jpg?fit=1200%2C625" alt="" srcset="">
+                        <% } %>
+                        
+                        <span class="font-medium ml-1 "> <%=upload.author[0].username%></span>
+    
+                    </div>
+
+                    <button class="p-3 text-center flex justify-center rounded-full bg-blue-500 w-16 h-11 text-white">Follow</button>
+                </div>
+                <div class="flex">
+                    <b class="text-2xl">Question: </b>
+                    <span class="text-2xl font-medium"> <%=upload.title %></span>
+
+                </div>
+                <div class="desription overflow-y-scroll" style="height: 9em;">
+                    <p class="mt-2 text-gray-700"><%=upload.description %></p>
+                </div>
+                <br>
+                <div class="key">
+                    <span class="font-bold">Answer</span>
+                    <div class=" w-full">
+                        <div class="flex items-center w-full">
+                            <div class="flex p-2 rounded-full bg-gray-200 w-full">
+                              <img class="rounded-full w-6 h-6" src="https://cdn.i-scmp.com/sites/default/files/d8/images/canvas/2022/05/19/4eb393f3-d671-4d58-8680-89ccd6607acf_5e3be874.jpg" alt="" srcset="">
+                              <textarea name="" placeholder="Tell everyone youe new game" id="comment-64d3b9472fe7d2786ad88e45" class="w-full ml-1 resize-none bg-gray-200 " rows="1" autocomplete="off"></textarea>
+                              <div class="three-cion flex">
+                                <button><i class="bi ml-2 text-gray-500 bi-emoji-smile"></i></button>
+                                <button data-id="64d3b9472fe7d2786ad88e45" class="newimage"><i class="bi ml-2 text-gray-500 bi-image-fill"></i></button>
+              
+                                <button><i class="bi ml-2 text-gray-500 bi-filetype-gif"></i></button>
+                              </div>
+                            </div>
+                      
+                          <div class="flex items-center ml-2">
+            
+                          <button data-id="64d3b9472fe7d2786ad88e45" id="postcomment" type="submit" class="p-1 rounded-lg items-center flex justify-center bg-red-300  text-white h-9  w-11 hover:bg-red-400">
+                            <span>Post </span>
+                        </button>
+                      </div>
+            
+                        </div>
+
+                        <br>
+                        <div class="commets">
+                            <div class="p-1 border text-base article bg-white rounded-lg  commentposted-64e2a2599616df4e47e5f80e ">
+                                <footer class="flex justify-between items-center mb-2 w-full">
+                                    <div class="flex items-center">
+                                        <p class="inline-flex items-center mr-3 text-sm text-gray-900"><img class="mr-2 w-6 h-6 rounded-full text-xs" src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="Michael Gough"> g   </p><p class="text-xs text-gray-600 "><time pubdate="" datetime="2022-02-08" title="February 8th, 2022">Sun Aug 20 2023</time></p><p></p>
+                        
+                                    </div>
+                                    <button id="dropdownComment1Button" data-dropdown-toggle="dropdownComment1" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50" type="button">
+                                        <svg class="w-3 h-3" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
+                                            </path>
+                                        </svg>
+                                        <span class="sr-only">Comment settings</span>
+                                    </button>
+                                    <!-- Dropdown menu -->
+                                    <div id="dropdownComment1" class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow  ">
+                                        <ul class="py-1 text-sm text-gray-700 " aria-labelledby="dropdownMenuIconHorizontalButton">
+                                            <li>
+                                                <button data-id="64e2a2599616df4e47e5f80e" class="editcomment block py-2 px-4 hover:bg-gray-100  ">Edit</button>
+                                            </li>
+                                            <li>
+                                                <button id="deleteComment" data-id="64e2a2599616df4e47e5f80e" class="deleteComment block py-2 px-4 hover:bg-gray-100  ">Delete</button>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="block py-2 px-4 hover:bg-gray-100  ">Report</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </footer>
+                                <p class="text-gray-500 ">  Foos is not all that ma boi</p>
+                                
+                                <img class="w-16 h-16" src="https://res.cloudinary.com/dlxqwjiv6/image/upload/v1692574297/images/bj1mvwiplnf3vhetxwku.png" alt="" srcset="">
+                                
+                                    <hr>
+                  
+                                <div class="flex items-center mt-1  mb-1 space-x-4">
+                                    
+                                    <button type="button" id="likeReply" data-id="64e2a2599616df4e47e5f80e" data-postid="64d3b9472fe7d2786ad88e45" class="flex  items-center text-sm text-gray-500  ">
+                                    
+                                    <i id="liked-icon-64e2a2599616df4e47e5f80e" class="bi text-md mr-1 bi-heart-fill text-red-500 hover:text-red-600"></i>
+                                      
+                                <span id="liked-c-64e2a2599616df4e47e5f80e">    1</span> 
+                                </button>
+                                </div>
+                                <hr>
+                  
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
 
         </div>
 
     </div>
+</div>
+
+    <br>
     <div class="flex flex-wrap ">
         
         <% for(let images of allimage){ %>
-            <a href="/home/image/<%=images._id %>" class="border ml-2 rounded-xl">
+            <a href="/home/image/<%=images._id %>" class="mb-2 border ml-2 rounded-xl">
                 <div style="width: 12em; height: 14em;" class="border">
                 <img class="w-52 h-22" src="<%=images.imageurl %>" alt="" srcset="">
             </div>

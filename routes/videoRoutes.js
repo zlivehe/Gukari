@@ -15,8 +15,11 @@ const VideoUpload = require('../model/home/upload/videoupload')
 const translate = require('@iamtraction/google-translate');
 const pinyinlite = require('pinyinlite');
 const wanakana = require('wanakana');
+const QuizCard = require('../model/home/quizapp/quizcard')
 
-const upload = multer();
+const {storage} = require('../cloudinary/index')
+
+const upload = multer({storage})
 
 const Video = require('../model/home/upload/videoupload')
 
@@ -326,6 +329,38 @@ Router.post('/api/translate',upload.none(), async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+Router.post('/video/edit/:id',upload.single('thumbnail'), async (req, res) => {
+  const { id } = req.params;
+  const { title, description, visibility,category, thumbnail,quizcard} = req.body;
+  
+  console.log(req.file)
+  const Video = await VideoUpload.findById(id)
+  console.log(title, description, visibility,category, thumbnail)
+  console.log(req.body)
+
+  Video.title = title;
+  Video.description = description;
+  Video.visibility = visibility;
+  Video.category = category;
+  Video.thumbnail = thumbnail;
+  if(req.file){
+    Video.thumbnail = req.file.path
+  }
+
+  const quizcardfind = await QuizCard.findById(quizcard)
+  Video.quizCard.push(quizcardfind._id)
+  quizcardfind.video.push(Video._id)
+  await Video.save();
+  await quizcardfind.save();
+  console.log(quizcardfind)
+
+  res.send(Video)
+  
+
+});
+
+  
 
 module.exports = Router
 

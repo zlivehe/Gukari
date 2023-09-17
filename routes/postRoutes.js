@@ -780,7 +780,7 @@ console.log(reply)
     await comment.save();
     await Videoc.save();
   
-    res.json({ comment: comment, reply: reply, user: user });
+    res.json({ comment: comment,foundcomment:comment, reply: reply, user: user ,upload:Videoc});
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Server error' });

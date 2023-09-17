@@ -400,7 +400,11 @@ Router.get('/video/:id',catchAsync(async(req,res)=>{
     }).populate({
       path: 'comments.user',
       model: 'User',
-    });
+    }).populate({
+        path: 'quizCard',
+        model: 'Quizcard',
+        });
+        console.log(uplaod.quizCard)
     const allvideo = await VideoUpload.find({}).populate('author comments.user');
     uplaod.viewcount += 1;
     console.log(uplaod)
@@ -414,6 +418,7 @@ Router.get('/video/:id',catchAsync(async(req,res)=>{
   Router.get('/video/:id/edit', catchAsync(async (req, res) => {
     const { id } = req.params;
     const upload = await VideoUpload.findById(id);
+    const user = req.user
      
     // Check if upload exists
     // if (!upload.author._id.equals(req.user._id)) {
@@ -427,14 +432,16 @@ Router.get('/video/:id',catchAsync(async(req,res)=>{
     //   req.flash('error', 'You do not have permission to do that!');
     //   return res.redirect(`/video/${id}`);
     // }
-    
+    const userobjectquiz = await user.quizCard.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
+    const userQuizCards = await QuizCard.find({ _id: { $in: userobjectquiz } });
     const foundquiz = await QuizCard.findById(id);
     const objectIdString = upload.author[0]._id.toString();
 
     const quizowner = await User.findById(objectIdString);
+
     const totalquiz = await QuizCard.find({});
     
-    res.render('content/home/upload/edit.ejs', { upload, totalquiz, quizowner });
+    res.render('content/home/upload/edit.ejs', { upload, totalquiz, quizowner,userQuizCards });
   }));
   
   
@@ -445,7 +452,15 @@ Router.get('/video/:id',catchAsync(async(req,res)=>{
   
 Router.get('/image/:id',catchAsync(async(req,res)=>{
     const {id} = req.params
-    const upload = await ImageUpload.findById(id)
+    const upload = await ImageUpload.findById(id).populate({
+        path: 'author',
+        model: 'User',
+      }).populate({
+        path: 'comments.user',
+        model: 'User',
+      });
+      upload.viewcount += 1;
+
     const allimage = await ImageUpload.find({})
 
     res.render('content/home/upload/image.ejs',{upload,allimage})
