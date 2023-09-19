@@ -127,8 +127,12 @@ Router.get('/course',(req,res)=>{
 Router.get('/blog',(req,res)=>{
     res.render('content/home/blog/index.ejs')
 })
-Router.get('/discover',(req,res)=>{
-    res.render('content/home/discover.ejs')
+Router.get('/discover',async(req,res)=>{
+    const card = await QuizCard.find({}).populate('author')
+    const video = await VideoUpload.find({}).populate('author')
+    const image = await ImageUpload.find({}).populate('author')
+
+    res.render('content/home/discover.ejs', {card,video,image})
 })
 
 Router.get('/create/upload',(req,res)=>{

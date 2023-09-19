@@ -14,6 +14,7 @@ const { json } = require('body-parser');
 const ImageUpload = require('../model/home/upload/upload')
 const VideoUpload = require('../model/home/upload/videoupload')
 const User = require('../model/auth/user')
+const Folder = require('../model/auth/folder')
 const {storage} = require('../cloudinary/index')
 
 const upload = multer({storage})
@@ -816,13 +817,43 @@ Router.post('/quiz/:id/clone',async(req,res)=>{
   res.redirect(`/home/quiz/${newQuiz._id}`)
 
 })
-Router.post('/quiz/:id/combined',(req,res)=>{
-  const {id} = req.params;
+
+Router.post('/quiz/:id/combined',async(req,res)=>{
+  const cardid = req.params.id.toString(); // Convert to string if necessary
+  const  combineid  = req.body.quizid.toString(); // Convert to string if necessary
+  console.log(cardid)
   const user = req.user;
-  const quiz = QuizCard.findById(id);
-  const slectedid = req.body.selected;
+
+  const Cardcombine = await QuizCard.findById(combineid);
+  const Currentcard = await QuizCard.findById(cardid);
+  
+//combime the Cardcombine to the cardfind
+if(user._id.toString() !== cardfind.author.toString()){
+  return res.status(401).json({ error: 'You do not have permission to do that!' });
+}
+console.log(Currentcard.cards)
+Cardcombine.cards = Cardcombine.cards.concat(Currentcard.cards); // Combine the arrays
+
+await Cardcombine.save();
+res.status(200).json({ Cardcombine });
 
 })
+
+
+Router.post('/folder/new',async(req,res)=>{
+  const {title,visibility} = req.body;
+  const user = req.user;
+  const folder = new Folder({
+    name: title,
+    visibility,
+  })
+  user.folder.push(folder._id);
+  await user.save();
+  await folder.save();
+  console.log(folder)
+  res.status(200).json({folder});
+}
+)
   
   
 

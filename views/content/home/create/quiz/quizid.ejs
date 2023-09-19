@@ -154,7 +154,7 @@
                                             <div
                                                 class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                                                 <button type="button"
-                                                    class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center  dark:hover:text-white"
                                                     data-modal-toggle="deleteModal">
                                                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor"
                                                         viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -202,7 +202,7 @@
                                             <span class="text-xl ">Slect white you would like to combined</span>
                                             
                                             <select id="usercards" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                                            <option selected>Choose a country</option>
+                                            <option selected>Choose a Card</option>
                                             <% for( userquiz of userQuizCards){ %>
                                                 <% if(userquiz._id !== foundquiz._id){ %>
                                                     <option value="<%= userquiz._id %>"><%= userquiz.title %></option>
@@ -214,6 +214,93 @@
                                             <button id="addterms" class="mt-3 mb-2 p-3 w-22 h-13 text-xs text-white rounded-xl bg-blue-500">Add</button>
                                         </div>
                                         <br>
+
+                                        </div>
+
+                                        <div data-id="folders" class=" hidden folders absolute clone-ppopup mb-28  rounded-xl p-2 bg-gray-200 flex flex-col">
+                                            <span class="text-xl ">Save quizcard to</span>
+                                            <div id="dropdownSearch" class="z-10  bg-white rounded-lg shadow w-60 ">
+                                                <div class="p-3">
+                                                  <label for="input-group-search" class="sr-only">Search</label>
+                                                  <div class="relative">
+                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                      <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                                    </svg>
+                                                    </div>
+                                                    <input type="text" id="input-group-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 " placeholder="Search user">
+                                                  </div>
+                                                </div>
+                                                <ul class="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 " aria-labelledby="dropdownSearchButton">
+                                                  <li>
+                                                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
+                                                      <input id="checkbox-item-11" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                                      <label for="checkbox-item-11" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Bonnie Green</label>
+                                                    </div>
+                                                  </li>
+                                                  <li>
+                                                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
+                                                        <input checked id="checkbox-item-12" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                                        <label for="checkbox-item-12" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Jese Leos</label>
+                                                      </div>
+                                                  </li>
+                                                  <li>
+                                                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
+                                                      <input id="checkbox-item-13" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                                      <label for="checkbox-item-13" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Michael Gough</label>
+                                                    </div>
+                                                  </li>
+                                                  <li>
+                                                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
+                                                      <input id="checkbox-item-14" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                                      <label for="checkbox-item-14" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Robert Wall</label>
+                                                    </div>
+                                                  </li>
+                                                  <li>
+                                                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
+                                                      <input id="checkbox-item-15" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                                      <label for="checkbox-item-15" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Joseph Mcfall</label>
+                                                    </div>
+                                                  </li>
+                                                  <li>
+                                                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
+                                                      <input id="checkbox-item-16" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                                      <label for="checkbox-item-16" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Leslie Livingston</label>
+                                                    </div>
+                                                  </li>
+                                                        <li>
+                                                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
+                                                      <input id="checkbox-item-17" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                                      <label for="checkbox-item-17" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Roberta Casas</label>
+                                                    </div>
+                                                  </li>
+                                                </ul>
+                                                <div class="newfolder hidden p-1">
+                                                    <div>
+                                                        <span class="text-xs">title</span>
+                                                        <input type="text" id="title" class="w-full rounded-xl p-2 border-0 bg-gray-100">
+                                                    </div>
+                                                    <div>
+                                                        <div>
+                                                            <label for="visibility" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+                                                            <select id="visibility"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                                              <option selected>visibility</option>
+                                                              <option value="public">Public</option>
+                                                              <option value="private">Private</option>
+                                                              <option value="unlisted">Unlisted</option>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <button class="create">Create</button>
+
+
+                                                </div>
+                                                <button class="flex newfolderbtn items-center p-3 text-sm font-medium bg-gray-100 border-t border-gray-200 rounded-b-lg hover:underline">
+                                                Create a new folder
+                                                 
+                                                </button>
+                                            </div>
 
                                         </div>
                                         <div class="flex"> 
@@ -472,5 +559,79 @@
 
             duplicatepopout.classList.remove('hidden');
         })
+    const addterms = document.getElementById('addterms');
+    addterms.addEventListener('click',function(e){
+        const cardid = '<%= foundquiz._id %>'
+        e.preventDefault(); // Prevent default form submission behavior
+        const url = '/quiz/<%= foundquiz._id %>/combined';
+        const method = 'POST';
+        const data = {
+            quizid: document.getElementById('usercards').value,
+
+        };
+        fetch(url, {
+            method: method,
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.status == 200) {
+                    Swal.fire('Success', data.message, 'success');
+                    window.location.href = '/home/quiz/' + quizid;
+                } else {
+                    Swal.fire('Error', data.message, 'error');
+                }
+            })
+            .catch((error) => {
+                Swal.fire('Error', error.message, 'error');
+                console.error('Error:', error);
+            });
+    })
+    const newfolder = document.querySelector('.newfolder');
+    const newfolderbtn = document.querySelector('.newfolderbtn');
+
+    newfolderbtn.addEventListener('click',function(e){
+        e.preventDefault(); // Prevent default form submission behavior
+        newfolder.classList.toggle('hidden');
+        newfolderbtn.classList.toggle('hidden');
+
+    })
+    const create = document.querySelector('.create');
+    const title = document.getElementById('title');
+    const visibility = document.getElementById('visibility');
+    create.addEventListener('click',function(e){
+        e.preventDefault(); // Prevent default form submission behavior
+        const url = '/folder/new';
+        const method = 'POST';
+        const data = {
+            title: title.value,
+            visibility: visibility.value,
+        };
+        fetch(url, {
+            method: method,
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.status == 200) {
+                    Swal.fire('Success', data.message, 'success');
+                    window.location.href = '/home/quiz/' + quizid;
+                } else {
+                    Swal.fire('Error', data.message, 'error');
+                }
+            })
+            .catch((error) => {
+                Swal.fire('Error', error.message, 'error');
+                console.error('Error:', error);
+            });
+    })
+
+    
     </script>
         <br><br><br>
