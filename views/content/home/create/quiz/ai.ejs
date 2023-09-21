@@ -1,0 +1,89 @@
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    .searchinput:focus{
+        border: 0;
+        outline: none;
+
+    }
+    footer{
+    height: 100px; 
+    width:100%;
+    position: absolute;
+    left: 0;
+    bottom: 0; 
+    padding-left: 25%;
+    padding-right: 25%;
+    
+}
+</style>
+<div class="content" style="margin-left: 20%; margin-right: 20%;">
+    <div class="center border p-3 " style=" height: auto;">
+        <div class="flex items-center">
+            <div class="fotter ]" style="width: 90%;">
+                <div id="msgs" class="response flex flex-col">
+                    <div class="flex items-center mb-1">
+                    <div class="bg-blue-400 w-10 h-10 items-center text-center content-center rounded-full p-3 ">
+                        <img class="w-7  h-6" src="/imgs/home/icon.png" alt="">
+                    </div>
+                    <div class="bg-gray-100 rounded-t-lg rounded-r-lg ml-2 p-3">
+                        <span class="r">It seems like you've entered some random text again. If you have any questions or need assistance with the content you're studying, please let me know.</span>
+                    </div>
+                </div>
+
+                </div>
+                <footer> 
+
+                <div class="shearch  shadow-lg flex items-center border rounded-xl w-full p-3">
+                    <textarea name="" placeholder="Enter Something" class="searchinput text-lg  w-full border-0 p-3 resize-none h-12 overflow-hidden"  onkeyup="this.style.height='24px'; this.style.height = this.scrollHeight + 12 + 'px';" id="text" cols="30" rows="10"></textarea>
+                    <button type="submit" class="ml-2 h-full sendmsg">
+                        <span class="p-4 border h-full rounded-xl" >Send</span>
+                    </button>
+                </div>
+            </footer>
+            <br><br>
+              
+            </div>
+        
+        </div>
+
+    </div>
+</div>
+<script>
+    const sendmsg = document.querySelector('.sendmsg')
+    const msgvalue = document.querySelector('.searchinput')
+    sendmsg.addEventListener('click', async function(e){
+  console.log(msgvalue.value)
+  e.preventDefault();
+  const method = 'POST';
+
+  const response = await fetch('/ai/feach', {
+    method: method,
+    body: JSON.stringify({
+      msg: msgvalue.value,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
+  // Get the response body
+  const responseBody = await response.json()
+  const responsediv = document.querySelector('#msgs')
+  const msgappend = `
+  <div class="flex items-center mb-1">
+                    <div class="bg-blue-400 w-10 h-10 items-center text-center content-center rounded-full p-3 ">
+                        <img class="w-7  h-6" src="/imgs/home/icon.png" alt="">
+                    </div>
+                    <div class="bg-gray-100 rounded-t-lg rounded-r-lg ml-2 p-3">
+                        <span class="r">${responseBody.ai}</span>
+                    </div>
+                </div>
+  `
+responsediv.insertAdjacentHTML('beforeend',msgappend)
+  // Do something with the response body
+  console.log(responseBody)
+  msgvalue.value = ''
+})
+    
+    
+</script>

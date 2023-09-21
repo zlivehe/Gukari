@@ -16,6 +16,7 @@ const Event = require('../model/home/reminder/event')
 const VideoUpload = require('../model/home/upload/videoupload')
 const ImageUpload = require('../model/home/upload/upload')
 const Upload = require('../model/home/upload/upload')
+const Folder = require('../model/auth/folder')
 
 const isLoggedIn = (req,res,next)=>{
     if(!req.isAuthenticated()){
@@ -81,6 +82,8 @@ Router.get('/project',isLoggedIn,catchAsync(async(req,res)=>{
     const quizCardIds = user.quizCard.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
     const userQuizCards = await QuizCard.find({ _id: { $in: quizCardIds } });
     const userWorkspace = await Workspace.find({author: user._id});
+    const userFolder = await Folder.find({author: user._id});
+
     //find videouoload
     const videoUploadIds = user.VideoUpload.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
     const userVideoUpload = await VideoUpload.find({ _id: { $in: videoUploadIds } });
@@ -96,7 +99,7 @@ Router.get('/project',isLoggedIn,catchAsync(async(req,res)=>{
     
 
 
-    res.render('content/home/project.ejs',{user,userQuizCards,userWorkspace,recentlyview,userVideoUpload,userupload})
+    res.render('content/home/project.ejs',{user,userQuizCards,userWorkspace,recentlyview,userVideoUpload,userupload,userFolder})
 }))
 Router.get('/analytics',isLoggedIn,catchAsync(async(req,res)=>{
     const user = req.user;
@@ -195,6 +198,8 @@ Router.get('/quiz/:id',catchAsync(async(req,res)=>{
     
     foundquiz.viewcount += 1;
     await foundquiz.save()
+    const folders = await Folder.find({author: user._id})
+
 
     if(!req.user.recentCard.includes(foundquiz._id)){
         req.user.recentCard.push(foundquiz)
@@ -202,7 +207,7 @@ Router.get('/quiz/:id',catchAsync(async(req,res)=>{
     }
     await req.user.save()
 
-    res.render('content/home/create/quiz/quizid.ejs',{foundquiz,quizowner,userQuizCards,totalquiz})
+    res.render('content/home/create/quiz/quizid.ejs',{foundquiz,quizowner,userQuizCards,totalquiz,folders})
 }else{
 
     res.render('content/home/create/quiz/quizid.ejs',{foundquiz,quizowner,totalquiz})
@@ -450,9 +455,11 @@ Router.get('/video/:id',catchAsync(async(req,res)=>{
   
   
   
-  
-  
-  
+Router.get('/list/:id',catchAsync(async(req,res)=>{
+    const {id} = req.params
+    const folder = await Folder.findById(id).populate('author')
+    res.render('content/home/Account/list.ejs',{folder})
+}))
   
 Router.get('/image/:id',catchAsync(async(req,res)=>{
     const {id} = req.params
@@ -571,6 +578,8 @@ Router.get('/get-metric-data/:metric/:startDate/:endDate', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+
 
 module.exports = Router
 

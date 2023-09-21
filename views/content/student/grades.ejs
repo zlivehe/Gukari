@@ -1,6 +1,5 @@
 <% layout('./layouts/boilerplate.ejs') %>
     <div class="content" id="content-menu">
-        <%- include('../../layouts/partials/settings.ejs') %>
 
             <div class="tops flex justify-center mt-1 ">
 
@@ -133,10 +132,10 @@
                                                 <div class="pooints flex">
                                                     <input name="points"
                                                         class="form-control w-20 text-xs ml-2 firstclass <%= point.Type %>"
-                                                        value="<%= point.Points.split('/')[0].trim() %>" type="number">
+                                                        value="<%= point.Points.split('/')[0] %>" type="number">
                                                     <input
                                                         class="form-control w-20 total-points text-xs <%= point.Type %>"
-                                                        value="<%= point.Points.split('/')[1].trim() %>" type="text">
+                                                        value="<%= point.Points.split('/')[1] %>" type="text">
                                                 </div>
                                             </div>
                                             <% } %>

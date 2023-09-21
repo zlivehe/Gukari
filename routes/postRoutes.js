@@ -16,9 +16,13 @@ const VideoUpload = require('../model/home/upload/videoupload')
 const User = require('../model/auth/user')
 const Folder = require('../model/auth/folder')
 const {storage} = require('../cloudinary/index')
+const  OpenAI = require("openai");
 
 const upload = multer({storage})
 
+const openai = new OpenAI({
+	apiKey: "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",
+});
 
 const videostorage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -827,10 +831,10 @@ Router.post('/quiz/:id/combined',async(req,res)=>{
   const Cardcombine = await QuizCard.findById(combineid);
   const Currentcard = await QuizCard.findById(cardid);
   
-//combime the Cardcombine to the cardfind
-if(user._id.toString() !== cardfind.author.toString()){
-  return res.status(401).json({ error: 'You do not have permission to do that!' });
-}
+// //combime the Cardcombine to the cardfind
+// if(user._id.toString() !== cardfind.author.toString()){
+//   return res.status(401).json({ error: 'You do not have permission to do that!' });
+// }
 console.log(Currentcard.cards)
 Cardcombine.cards = Cardcombine.cards.concat(Currentcard.cards); // Combine the arrays
 
@@ -852,6 +856,18 @@ Router.post('/folder/new',async(req,res)=>{
   await folder.save();
   console.log(folder)
   res.status(200).json({folder});
+}
+)
+Router.post('/card/:id/list/:listid',async(req,res)=>{
+  const {id} = req.params;
+  const {listid} = req.params;
+  const user = req.user;
+  const card = await QuizCard.findById(id);
+  const list = await Folder.findById(listid);
+  console.log(list)
+  list.cards.push(card._id);
+  await list.save();
+  res.status(200).json({list});
 }
 )
   
@@ -919,8 +935,31 @@ Router.get('/search', async (req, res) => {
 //   }
 // });
 
+//ai chat
+async function main() {
+  const completion = await openai.chat.completions.create({
+    messages: [{ role: 'user', content: 'give me a story in korean short one' }],
+    model: 'gpt-3.5-turbo',
+  })
+
+  console.log(completion.choices);
+}
+
+Router.post('/ai/feach', async(req,res)=>{
+  const body = req.body
+  const completion = await openai.chat.completions.create({
+    messages: [{ role: 'user', content: body.msg }],
+    model: 'gpt-3.5-turbo',
+  })
+  
+  const content = completion.choices[0].message.content;
+  console.log(content)
+  console.log(completion.choices[0]);
+
+  res.send({ai:content,name:'ss'})
 
 
+})
 module.exports = Router
 
 

@@ -38,10 +38,12 @@ let client = await login(DISTRICT_URL, USERNAME,PASSWORD );
 
 let results = await Promise.all([
     client.getStudentInfo().then((value) => JSON.parse(value).StudentInfo),
-    client.getGradebook(mp1).then((value) => JSON.parse(value).Gradebook.Courses.Course),
+    client.getGradebook().then((value) => JSON.parse(value).Gradebook.Courses.Course),
 
 
 ])
+
+console.log(results)
 
 let ns = 'yes'
 

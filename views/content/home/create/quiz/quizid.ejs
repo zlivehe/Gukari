@@ -186,7 +186,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <% } else{ %>
+                                    <% }%>
                                         <div class="flex flex-col">
                                         <div data-id="cardpopout" class="absolute clone-ppopup hidden rounded-xl p-2 bg-gray-200 flex flex-col">
                                             <span class="text-xl ">Are you sure you want to clone this card</span>
@@ -232,53 +232,26 @@
                                                   </div>
                                                 </div>
                                                 <ul class="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 " aria-labelledby="dropdownSearchButton">
+                                                    <%for(let folder of folders){%>
                                                   <li>
                                                     <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
-                                                      <input id="checkbox-item-11" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                                                      <label for="checkbox-item-11" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Bonnie Green</label>
+                                                      <input data-id="<%=folder._id %>" id="checkbox-item" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                                      <label for="checkbox-item-11" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"><%=folder.name%></label>
                                                     </div>
                                                   </li>
+                                                <% } %>
                                                   <li>
                                                     <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
                                                         <input checked id="checkbox-item-12" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
                                                         <label for="checkbox-item-12" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Jese Leos</label>
                                                       </div>
                                                   </li>
-                                                  <li>
-                                                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
-                                                      <input id="checkbox-item-13" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                                                      <label for="checkbox-item-13" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Michael Gough</label>
-                                                    </div>
-                                                  </li>
-                                                  <li>
-                                                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
-                                                      <input id="checkbox-item-14" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                                                      <label for="checkbox-item-14" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Robert Wall</label>
-                                                    </div>
-                                                  </li>
-                                                  <li>
-                                                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
-                                                      <input id="checkbox-item-15" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                                                      <label for="checkbox-item-15" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Joseph Mcfall</label>
-                                                    </div>
-                                                  </li>
-                                                  <li>
-                                                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
-                                                      <input id="checkbox-item-16" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                                                      <label for="checkbox-item-16" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Leslie Livingston</label>
-                                                    </div>
-                                                  </li>
-                                                        <li>
-                                                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
-                                                      <input id="checkbox-item-17" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                                                      <label for="checkbox-item-17" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Roberta Casas</label>
-                                                    </div>
-                                                  </li>
+                                                 
                                                 </ul>
                                                 <div class="newfolder hidden p-1">
                                                     <div>
                                                         <span class="text-xs">title</span>
-                                                        <input type="text" id="title" class="w-full rounded-xl p-2 border-0 bg-gray-100">
+                                                        <input type="text" id="title" class="w-full titleinput rounded-xl p-2 border-0 bg-gray-100">
                                                     </div>
                                                     <div>
                                                         <div>
@@ -292,8 +265,9 @@
                                                         </div>
                                                         
                                                     </div>
-                                                    <button class="create">Create</button>
-
+                                                    <div class="flex justify-between w-full p-2 ">
+                                                    <button id="createbtn" class="create p-3 rounded-xl w-16 h-5">Create</button>
+                                                </div>
 
                                                 </div>
                                                 <button class="flex newfolderbtn items-center p-3 text-sm font-medium bg-gray-100 border-t border-gray-200 rounded-b-lg hover:underline">
@@ -316,7 +290,6 @@
 
                                     </div>
                                     </div>
-                                        <% } %>
                                             <% } else{%>
 
                                                 <button class="border-none bg-gray-100 hover:bg-gray-200 ml-2 p-2 rounded">
@@ -432,8 +405,44 @@
                         </span>
                     <% }) %>
                 </span>
+                <%
+                const createdAt = new Date(); // Assuming createdAt is a Date object
+                const options = {
+                  weekday: 'short', // Short weekday name (e.g., Sat)
+                  day: '2-digit',    // Day of the month with leading zeros (e.g., 23)
+                  year: 'numeric'    // Full year (e.g., 2021)
+                };
+                const Quizcreated = createdAt.toLocaleDateString('en-US', options);
+                
+                // Calculate the time difference in milliseconds
+                const timeDifference = Date.now() - createdAt.getTime();
+                
+                // Define time intervals in milliseconds
+                const minute = 60 * 1000;
+                const hour = minute * 60;
+                const day = hour * 24;
+                const week = day * 7;
+                const month = day * 30; // Assuming 30 days in a month
+                
+                let formattedDate;
+                
+                if (timeDifference < minute) {
+                  formattedDate = `${Math.floor(timeDifference / 1000)} seconds ago`;
+                } else if (timeDifference < hour) {
+                  formattedDate = `${Math.floor(timeDifference / minute)} minutes ago`;
+                } else if (timeDifference < day) {
+                  formattedDate = `${Math.floor(timeDifference / hour)} hours ago`;
+                } else if (timeDifference < week) {
+                  formattedDate = `${Math.floor(timeDifference / day)} days ago`;
+                } else if (timeDifference < month) {
+                  formattedDate = `${Math.floor(timeDifference / week)} weeks ago`;
+                } else {
+                  const monthsAgo = Math.floor(timeDifference / month);
+                  formattedDate = `${monthsAgo} ${monthsAgo === 1 ? 'month' : 'months'} ago`;
+                }
+                %>
                 <span class="plays text-sm">
-                    <i class="bi bi-play-fill text-sm text-red-700"></i> <%= quiz.plays%> . 1 week ago
+                    <i class="bi bi-play-fill text-sm text-red-700"></i> <%= quiz.viewcount%> . <%=formattedDate %>
                 </span>
 
 
@@ -590,48 +599,93 @@
                 console.error('Error:', error);
             });
     })
+    const duplicatecard3 = document.querySelector('.duplicatecard3')
+    const createbtn2 = document.querySelector('#createbtn');
+    console.log(createbtn2)
+    const create = document.querySelector('.create');
+
+const title = document.getElementById('title')
+// const titleinput = document.querySelector('.titleinput').value
+const visibility = document.getElementById('visibility');
+create.addEventListener('click',function(e){
+    e.preventDefault(); // Prevent default form submission behavior
+    console.log('okkk')
+    const url = '/folder/new';
+    const method = 'POST';
+    const data = {
+        title: title.value,
+        visibility: visibility.value,
+    };
+    fetch(url, {
+        method: method,
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.status == 200) {
+                Swal.fire('Success', data.message, 'success');
+                window.location.href = '/home/quiz/' + quizid;
+            } else {
+                Swal.fire('Error', data.message, 'error');
+            }
+        })
+        .catch((error) => {
+            Swal.fire('Error', error.message, 'error');
+            console.error('Error:', error);
+        });
+})
+
+    duplicatecard3.addEventListener('click',function(e){
+        console.log('click')
+        e.preventDefault(); // Prevent default form submission behavior
+        const dataid = duplicatecard3.getAttribute('data-id');
+        const duplicatepopout = document.querySelector(`.folders`);
+        console.log(duplicatepopout)
+        duplicatepopout.classList.toggle('hidden');
+    })
     const newfolder = document.querySelector('.newfolder');
     const newfolderbtn = document.querySelector('.newfolderbtn');
-
+        
     newfolderbtn.addEventListener('click',function(e){
         e.preventDefault(); // Prevent default form submission behavior
         newfolder.classList.toggle('hidden');
         newfolderbtn.classList.toggle('hidden');
 
     })
-    const create = document.querySelector('.create');
-    const title = document.getElementById('title');
-    const visibility = document.getElementById('visibility');
-    create.addEventListener('click',function(e){
-        e.preventDefault(); // Prevent default form submission behavior
-        const url = '/folder/new';
-        const method = 'POST';
-        const data = {
-            title: title.value,
-            visibility: visibility.value,
-        };
-        fetch(url, {
-            method: method,
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.status == 200) {
-                    Swal.fire('Success', data.message, 'success');
-                    window.location.href = '/home/quiz/' + quizid;
-                } else {
-                    Swal.fire('Error', data.message, 'error');
-                }
-            })
-            .catch((error) => {
-                Swal.fire('Error', error.message, 'error');
-                console.error('Error:', error);
-            });
-    })
+  
+    const checkbox = document.getElementById('checkbox-item');
 
-    
+checkbox.addEventListener('change', function() {
+  if (this.checked) {
+    // Make the POST request here
+    makePostRequest();
+  }
+});
+
+function makePostRequest(id,listid) {
+// Your code to make the POST request goes here
+// You can use methods like fetch or XMLHttpRequest
+fetch(`/card/${id}/list/${listid}`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    // Add any other headers if required
+  },
+  body: JSON.stringify({
+    // Add any data you want to send in the request body
+    // For example, you might want to send folder._id or folder.name
+  })
+})
+.then(response => response.json())
+.then(data => {
+  // Handle the response from the server if needed
+})
+.catch(error => {
+  console.error('Error:', error);
+});
+}
     </script>
         <br><br><br>

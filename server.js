@@ -38,7 +38,7 @@ async function main() {
    const completion = await openai.chat.completions.create({
      messages: [{ role: 'user', content: 'give me a story in korean short one' }],
      model: 'gpt-3.5-turbo',
-   });
+   })
  
    console.log(completion.choices);
  }
@@ -62,6 +62,7 @@ const videoRoutes = require('./routes/videoRoutes')
 const boardRoutes = require('./routes/workSpace')
 const extensionRoutes = require('./routes/api/extensionRoutes')
 const mobileRoutes = require('./routes/api/mobile')
+const AiRoutes = require('./routes/aiRoutes')
 //server
 const serverPost = require('./routes/server/serverPost')
 const serverGet = require('./routes/server/serverGet')
@@ -123,11 +124,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(async(req, res, next) => {
 
-   const users = await User.findById('64bc4922b2aafaad4ddbbb50')
-   console.log(users)
-    req.user=users
-   if(req.user){
-   }
+  //  const users = await User.findById('64bc4922b2aafaad4ddbbb50')
+  //  console.log(users)
+  //   req.user=users
+  //  if(req.user){
+  //  }
 
    res.locals.currentUser = req.user;
   
@@ -150,6 +151,7 @@ app.use(async(req, res, next) => {
  app.use ('/server', serverGet)
  app.use ('/', boardRoutes)
  app.use('/model',models)
+ app.use('/ai',AiRoutes)
 
  //api
  app.use('/ext', extensionRoutes)

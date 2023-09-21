@@ -131,6 +131,8 @@ defaultsearch.addEventListener('input', async function (e) {
         navclass.classList.add('hidden');
         return;
     }
+    // Use 'Enter' to detect the Enter key press    
+
    
   
 
@@ -140,6 +142,10 @@ defaultsearch.addEventListener('input', async function (e) {
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
+        }
+        //if i press enter key
+        if (e.keyCode === 13) {
+            window.location.href = `/home/results/search_query/${searchTerm}`;
         }
     
         const data = await response.json();
@@ -161,7 +167,6 @@ defaultsearch.addEventListener('input', async function (e) {
         navclass.classList.remove('hidden');
           // Use 'Enter' to detect the Enter key press
           console.log('Enter key pressed');
-        window.location.href = `/home/results/search_query/${searchTerm}`;
     
     } catch (error) {
         console.error('Error fetching data:', error);
