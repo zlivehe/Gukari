@@ -1,14 +1,25 @@
 <style>
+   
     @media only screen and (max-width: 600px) {
 
     .search-form{
         display: none;
     }
+
+  
 }
+
 </style>
 <nav class=" top-nav bg-theme-transparent ">
+    <div class="mobilesearch hidden flex p-3 ml-2 mr-2">
+        <button class="seefullnav navitemscontent">
+            <i class="bi text-2xl font-bold bi-chevron-left"></i>
 
-    <div class=" flex mt-1 flex-wrap items-center justify-between ml-2 mr- p-2">
+        </button>
+        <input type="text" placeholder="Search Something" class="w-full p-3 rounded-md  bg-gray-100" name="" id="">
+      </div>
+
+    <div class=" navfull flex mt-1 flex-wrap items-center justify-between ml-2 mr- p-2">
         <div class="flex ">
         <a href="/home" class="imagebuttom">
             <img src="/imgs/home/logo.png" id="iconlogo" class="icon-logo-resize logo-icon " style="    width: 153px;
@@ -20,6 +31,7 @@
         <button id="fullscreentab" class="">
             <i class="bi text-2xl bi-window"></i>
         </button>
+        
         <div class="tabheading ml-5  flex-col">
             
             <span class="bg-gray-150 font-medium text-md">👋 Hello </span>
@@ -48,9 +60,14 @@
                 
             </div>
         </div>
+      
         <div class="flex items-center justify-between md:order-2  w-32">
             <button class="" id="theme">
                 <i id="togglechange" class="bi text-xl bi-moon"></i>
+
+            </button>
+            <button class="ml-1 mr-1 searchbutton">
+                <i class="bi bi-search"></i>
 
             </button>
             
@@ -118,6 +135,20 @@
     </div>
 </nav>
 <script>
+    const searchbutton = document.querySelector('.searchbutton')
+    const navfull = document.querySelector('.navfull')
+    const navitemscontent = document.querySelector('.navitemscontent')
+    const mobilesearch  =  document.querySelector('.mobilesearch')
+
+    navitemscontent.addEventListener('click', () => {
+        navfull.classList.remove('hidden')
+        mobilesearch.classList.add('hidden')
+    })
+    searchbutton.addEventListener('click', () => {
+        navfull.classList.add('hidden')
+        
+        mobilesearch.classList.remove('hidden')
+    })
     const defaultsearch = document.getElementById('default-search')
 const navclass = document.querySelector('.navclass')
 

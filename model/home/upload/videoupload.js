@@ -19,7 +19,6 @@ const commentreplySchema = new Schema({
   ],
   content: {
     type: String,
-    required: true,
   },
   likes: [
     {
@@ -44,7 +43,6 @@ const commentSchema = new Schema({
   ],
   content: {
     type: String,
-    required: true,
   },
   likes: [
     {
@@ -73,7 +71,6 @@ const likeschema = new Schema({
 const dislikeschema = new Schema({ 
   user: {
     type: String,
-    required: true,
   },
 }).plugin(autopopulate);
 
@@ -81,6 +78,8 @@ const VideoUploadSchema = new Schema({
   title: {
     type: String,
     required: true,
+
+    
   },
   tags: {
     type: [String],
@@ -96,13 +95,15 @@ const VideoUploadSchema = new Schema({
     type: Number,
     default: 0
   },
+  videocreated:{
+    type:Date,
+  },
   description: {
     type: String,
-    required: true,
   },
   VideoUrl: {
-    required: true,
     type: String,
+    required: true,
   },
   quizCard:[
     {

@@ -30,12 +30,11 @@
     .nav-icons {
         font-size: 1.3em;
     }
-    #videoContainer {
+    #videoContainer1 {
     position: relative;
     width: 100%;
-    display: none;
     height: 0;
-    width: 28em;
+    max-width: 24em;
     padding-bottom: 56.25%; /* 16:9 aspect ratio, adjust as needed */
     background-color: #000;
   }
@@ -58,6 +57,305 @@
     100% { transform: rotate(360deg); }
   }
 
+.video-container {
+  position: relative;
+  /* width: 90%; */
+  max-width: 1000px;
+  display: flex;
+  justify-content: center;
+  margin-inline: auto;
+  background-color: black;
+}
+
+.video-container.theater,
+.video-container.full-screen {
+  max-width: initial;
+  width: 100%;
+}
+
+.video-container.theater {
+  max-height: 90vh;
+}
+
+.video-container.full-screen {
+  max-height: 100vh;
+}
+
+video {
+  width: 100%;
+}
+
+.video-controls-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: white;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 150ms ease-in-out;
+}
+
+
+.video-container:hover .video-controls-container,
+.video-container:focus-within .video-controls-container,
+.video-container.paused .video-controls-container {
+  opacity: 1;
+}
+
+.video-controls-container .controls {
+  display: flex;
+  gap: .5rem;
+  padding: .25rem;
+  align-items: center;
+}
+
+.video-controls-container .controls button {
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+  height: 30px;
+  width: 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: .85;
+  transition: opacity 150ms ease-in-out;
+}
+
+.video-controls-container .controls button:hover {
+  opacity: 1;
+}
+
+.video-container.paused .pause-icon {
+  display: none;
+}
+
+.video-container:not(.paused) .play-icon {
+  display: none;
+}
+
+.video-container.theater .tall {
+  display: none;
+}
+
+.video-container:not(.theater) .wide {
+  display: none;
+}
+
+.video-container.full-screen .open {
+  display: none;
+}
+
+.video-container:not(.full-screen) .close {
+  display: none;
+}
+
+.volume-high-icon,
+.volume-low-icon,
+.volume-muted-icon {
+  display: none;
+}
+
+.video-container[data-volume-level="high"] .volume-high-icon {
+  display: block;
+}
+
+.video-container[data-volume-level="low"] .volume-low-icon {
+  display: block;
+}
+
+.video-container[data-volume-level="muted"] .volume-muted-icon {
+  display: block;
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+}
+
+.volume-slider1 {
+  width: 0;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: width 150ms ease-in-out, transform 150ms ease-in-out;
+}
+
+.volume-container:hover .volume-slider1,
+.volume-slider1:focus-within {
+  width: 100px;
+  transform: scaleX(1);
+}
+
+.duration-container {
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+  flex-grow: 1;
+}
+
+.video-container.captions1 .captions1-btn1 {
+  border-bottom: 3px solid #f54251;
+}
+
+.video-controls-container .controls button.wide-btn {
+  width: 50px;
+}
+
+.timeline-container {
+  height: 7px;
+  margin-inline: .5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.timeline {
+  height: 3px;
+  width: 100%;
+  position: relative
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: calc(100% - var(--preview-position) * 100%);
+  background-color: rgb(150, 150, 150);
+  display: none;
+}
+
+.timeline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: calc(100% - var(--progress-position) * 100%);
+  background-color: red;
+}
+
+.timeline .thumb-indicator {
+  --scale: 0;
+  position: absolute;
+  transform: translateX(-50%) scale(var(--scale));
+  height: 200%;
+  top: -50%;
+  left: calc(var(--progress-position) * 100%);
+  background-color: red;
+  border-radius: 50%;
+  transition: transform 150ms ease-in-out;
+  aspect-ratio: 1 / 1;
+}
+
+.timeline .preview-img1 {
+  position: absolute;
+  height: 80px;
+  aspect-ratio: 16 / 9;
+  top: -1rem;
+  transform: translate(-50%, -100%);
+  left: calc(var(--preview-position) * 100%);
+  border-radius: .25rem;
+  border: 2px solid white;
+  display: none;
+}
+
+.thumbnail-img1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.video-container.scrubbing .thumbnail-img1 {
+  display: block;
+}
+
+.video-container.scrubbing .preview-img1,
+.timeline-container:hover .preview-img1 {
+  display: block;
+}
+
+.video-container.scrubbing .timeline::before,
+.timeline-container:hover .timeline::before {
+  display: block;
+}
+
+.video-container.scrubbing .thumb-indicator,
+.timeline-container:hover .thumb-indicator {
+  --scale: 1;
+}
+
+.video-container.scrubbing .timeline,
+.timeline-container:hover .timeline {
+  height: 100%;
+}
+.video-card {
+        width: 100%;
+    }
+    .videoElement{
+      width: 50em;
+    }
+   
+    .liked{
+        color: black;
+    }
+    .reco2{
+      display: flex;
+      
+    }
+    .sugest{
+      width: 30%;
+    }
+    .videow{
+      width: 70%;
+    }
+    @media screen and (max-width: 858px) {
+        .video-card {
+            width: 100%;
+        }
+        .sugest{
+          width: 100%;
+        }
+        .centers {
+           flex-direction: column;
+        }
+        .comments-reco{
+            width: 100%;
+        }
+        .reco2{
+          display: flex;
+          flex-direction: column;
+        }
+        .videow{
+          width: 100%;
+        }
+
+        
+    }
+    .gradient-icon {
+    background: linear-gradient(45deg, #ff0000, #00ff00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+    .disliked{
+        color: black;
+    }
+    .bg-opacity-50{
+      display: none;
+    }
+    .theathorfull{
+  display: block;
+}
+.fullwidth{
+  width: 100%;
+}
 </style>
 
 <!-- Side Navbar -->
@@ -82,14 +380,14 @@
             <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
                 <ul class="py-2 text-sm text-gray-700 " aria-labelledby="multiLevelDropdownButton">
                     <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Board</a>
+                        <button  data-modal-target="uploadmodel" data-modal-toggle="uploadmodel"  class="block px-4 w-full py-2 hover:bg-gray-100 ">Video</button>
                     </li>
 
                     <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Upload</a>
+                        <button   data-modal-target="uploadmodel" data-modal-toggle="uploadmodel" class="block px-4 w-full py-2 hover:bg-gray-100 ">Upload</a>
                     </li>
                     <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Booklet</a>
+                        <button  data-modal-target="uploadmodel" data-modal-toggle="uploadmodel" class="block px-4 w-full py-2 hover:bg-gray-100 ">Course</a>
                     </li>
                 </ul>
             </div>
@@ -300,19 +598,19 @@
 
             <div class=" uplod-type p-6 text-center">
                 <div class="flex justify-between flex-wrap">
-                    <button id="video"
+                    <button id="video1"
                         class="p-4  hover:bg-gray-300 rounded-md bg-gray-200 flex flex-col justify-center items-center content-center"
                         style="width: 12em; height: 12em;">
                         <i class=" text-5xl bi bi-cloud-arrow-up-fill"></i>
-                        <span class="text-2xl mb-1">Video</span>
+
+                        <span class="text-2xl mb-1">Video</span> 
                     </button>
+                    <input type="file" id="videouploadinput" style="display: none;" accept="video/*">
+
                     <button id="image"
-                        class="p-4 hover:bg-gray-300 mb-3 rounded-md bg-gray-200 flex flex-col justify-center items-center content-center"
+                        class="p-4 hover:bg-gray-300 text-2xl mb-3 rounded-md bg-gray-200 flex flex-col justify-center items-center content-center"
                         style="width: 12em; height: 12em;">
-                        <img width="64" height="64"
-                            src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/external-image-multimedia-kiranshastry-lineal-kiranshastry-1.png"
-                            alt="external-image-multimedia-kiranshastry-lineal-kiranshastry-1" /> <span
-                            class="text-2xl mb-1">Image</span>
+                        <i class="bi text-5xl bi-card-image"></i>Image</span>
                     </button>
                     <button id="text"
                         class="p-4 hover:bg-gray-300 mb-3 rounded-md bg-gray-200 flex flex-col justify-center items-center content-center"
@@ -348,7 +646,7 @@
                                     <label for="large-input"
                                         class="block mb-2 text-sm font-medium text-gray-500 ">Title</label>
                                     <input name="title" type="text" id="large-input"
-                                        class="block w-full p-4 text-gray-900 border border-gray-300 rounded bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500" required>
+                                        class="block titlevideo w-full p-4 text-gray-900 border border-gray-300 rounded bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500" required>
                                 </div>
                                 <label for="message" class="block mb-2 text-sm font-medium text-gray-500 ">Description
                                 </label>
@@ -357,6 +655,7 @@
                                     placeholder="Write your thoughts here..."></textarea>
                             </div>
                             <br><br>
+                            <input class="videoid hidden"  name="videoid"  type="text">
 
                             <br>
                             <div class="thumbnail">
@@ -383,44 +682,26 @@
 
                             <div class="visability">
                                 <span class="text-2xl">Visibility</span><br>
-                                <span class="text-sm">Choose when to publish and who can see your video
-                                </span>
+                                <span class="text-sm">Choose when to publish and who can see your video</span>
                                 <div class="border rounded-md p-3">
                                     <div class="flex">
-                                      <div class="flex items-center h-5">
-                                        <input id="helper-checkbox" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="w-4 h-4 rounded-full text-blue-600 bg-gray-100 border-gray-300 rounded">
-                                      </div>
-                                      <div class="ml-2 text-sm">
-                                        <label for="helper-checkbox" class="font-medium text-gray-900">Save or publish</label>
-                                        <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Make your video public, unlisted, or private</p>
-                                        <div class="flex flex-col p-2">
-                                          <div class="flex flex-col">
-                                            <div class="private flex">
-                                              <input type="checkbox" name="visibility" value="private" class="rounded-md mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300" onclick="handleVisibilityChange('private')">
-                                              <div class="flex ml-1 flex-col">
-                                                <label for="helper-checkbox" class="font-medium text-gray-900">Private</label>
-                                                <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Only you and people chosen have access</p>
-                                              </div>
+                                        <div class="ml-2 text-sm">
+                                            <label for="visibility-select" class="font-medium text-gray-900">Save or publish</label>
+                                            <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Make your video public, unlisted, or private</p>
+                                            <div class="flex flex-col p-2">
+                                                <div class="flex flex-col">
+                                                    <label for="visibility-select" class="font-medium text-gray-900">Visibility</label>
+                                                    <select id="visibility-select" name="visibility" class="w-full p-2 border rounded-md text-gray-900 bg-gray-100 border-gray-300">
+                                                      private
+                                                        <option value="private">Private</option>
+                                                        <option value="unlisted">Unlisted</option>
+                                                        <option value="public">Public</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                            <div class="unlisted flex">
-                                              <input type="checkbox" name="visibility" value="unlisted" class="rounded-md mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300" onclick="handleVisibilityChange('unlisted')">
-                                              <div class="flex ml-1 flex-col">
-                                                <label for="helper-checkbox" class="font-medium text-gray-900">Unlisted</label>
-                                                <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Anyone with the video link can watch your video</p>
-                                              </div>
-                                            </div>
-                                            <div class="public flex">
-                                              <input type="checkbox" name="visibility" value="public" class="rounded-md mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300" onclick="handleVisibilityChange('public')">
-                                              <div class="flex ml-1 flex-col">
-                                                <label for="helper-checkbox" class="font-medium text-gray-900">Public</label>
-                                                <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Everyone has access</p>
-                                              </div>
-                                            </div>
-                                          </div>
                                         </div>
-                                      </div>
                                     </div>
-                                  </div>
+                                </div>
                             </div>
 
                             <br><br>
@@ -468,13 +749,85 @@
                         </div>
                         <div class="flex justify-center flex-col text-center items-center">
                             <div>
-                                <div id="uploadContainer">
-                                    <label for="videoFile" class="custom-file-upload">
-                                        <span><i class="bi bi-cloud-upload"></i> Upload Video</span>
-                                        <input type="file" name="video" id="videoFile" accept="video/*">
-                                      </label>                                  </div>
+                               
                                       <br>
-                                  <div  id="videoContainer"></div>
+                                  <div  id="videoContainer1">
+                                    <div class="video-container paused" data-volume-level="high">
+                                        <img class="thumbnail-img1">
+                                        <div class="video-controls-container">
+                                          <div class="timeline-container">
+                                            <div class="timeline">
+                                              <img class="preview-img1">
+                                              <div class="thumb-indicator"></div>
+                                            </div>
+                                          </div>
+                                          <div class="controls">
+                                            <button class="play-pause-btn1">
+                                              <svg class="play-icon" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+                                              </svg>
+                                              <svg class="pause-icon" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
+                                              </svg>
+                                            </button>
+                                            <div class="volume-container">
+                                              <button class="mute-btn1">
+                                                <svg class="volume-high-icon" viewBox="0 0 24 24">
+                                                  <path fill="currentColor" d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z" />
+                                                </svg>
+                                                <svg class="volume-low-icon" viewBox="0 0 24 24">
+                                                  <path fill="currentColor" d="M5,9V15H9L14,20V4L9,9M18.5,12C18.5,10.23 17.5,8.71 16,7.97V16C17.5,15.29 18.5,13.76 18.5,12Z" />
+                                                </svg>
+                                                <svg class="volume-muted-icon" viewBox="0 0 24 24">
+                                                  <path fill="currentColor" d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z" />
+                                                </svg>
+                                              </button>
+                                              <input class="volume-slider1" type="range" min="0" max="1" step="any" value="1">
+                                            </div>
+                                            <div class="duration-container">
+                                              <div class="current-time1">0:00</div>
+                                              /
+                                              <div class="total-time1"></div>
+                                            </div>
+                                            <button class="captions1-btn1">
+                                              <svg viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M18,11H16.5V10.5H14.5V13.5H16.5V13H18V14A1,1 0 0,1 17,15H14A1,1 0 0,1 13,14V10A1,1 0 0,1 14,9H17A1,1 0 0,1 18,10M11,11H9.5V10.5H7.5V13.5H9.5V13H11V14A1,1 0 0,1 10,15H7A1,1 0 0,1 6,14V10A1,1 0 0,1 7,9H10A1,1 0 0,1 11,10M19,4H5C3.89,4 3,4.89 3,6V18A2,2 0 0,0 5,20H19A2,2 0 0,0 21,18V6C21,4.89 20.1,4 19,4Z" />
+                                              </svg>
+                                            </button>
+                                            <button class="speed-btn1 wide-btn">
+                                              1x
+                                            </button>
+                                            <button class="mini-player-btn1">
+                                              <svg viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zm-10-7h9v6h-9z"/>
+                                              </svg>
+                                            </button>
+                                            <button class="theater-btn1">
+                                              <svg class="tall" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M19 6H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H5V8h14v8z"/>
+                                              </svg>
+                                              <svg class="wide" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M19 7H5c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 8H5V9h14v6z"/>
+                                              </svg>
+                                            </button>
+                                            <button class="full-screen-btn1">
+                                              <svg class="open" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+                                              </svg>
+                                              <svg class="close" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
+                                              </svg>
+                                            </button>
+                                          </div>
+                                        </div>
+
+                                        <video class="videourl videomakepreview" src="url" >
+                                            <track kind="captions1" srclang="en" src="assets/subtitles.vtt">
+                                
+                                          </video>
+                                      </div>
+                                  
+                                  </div>
                                   
                                   
                                 <div class="bg-dark pb-3 text-left" >
@@ -729,6 +1082,19 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+ const fileopenup = document.getElementById('video1');
+const videoinput = document.getElementById('videouploadinput');
+
+fileopenup.addEventListener('click', function(e){
+    e.preventDefault();
+    console.log('click')
+    console.log(videoinput)
+
+    videoinput.click(); // This will programmatically click the file input
+});
+
+
+
      // Get the input field and preview element
   const input = document.getElementById('large-input');
   const preview = document.getElementById('titlePreview');
@@ -780,6 +1146,7 @@
 
   
     const videobtn = document.getElementById('video')
+
     const imagebtn = document.getElementById('image')
     const textbtn = document.getElementById('text')
     const returnbtn = document.getElementById('returnbtn')
@@ -808,10 +1175,10 @@
         imageform.classList.remove('hidden')
         uploadform.classList.toggle('hidden')
     })
-    videobtn.addEventListener('click', (req, res) => {
-        videoform.classList.remove('hidden')
-        uploadform.classList.toggle('hidden')
-    })
+    // videobtn.addEventListener('click', (req, res) => {
+    //     videoform.classList.remove('hidden')
+    //     uploadform.classList.toggle('hidden')
+    // })
     returnbtn.addEventListener('click', (req, res) => {
         videoform.classList.toggle('hidden')
         uploadform.classList.remove('hidden')
@@ -933,5 +1300,284 @@
         });
     });
 
+
+    let titlevideo = document.querySelector('.titlevideo')
+
+    videoinput.addEventListener('change', function() {
+    // Access the selected file using `this.files[0]`
+    const selectedFile = this.files[0];
+
+    // Create a FormData object to send the file
+    const formData = new FormData();
+    formData.append('video', selectedFile);
+
+    // Send the POST request with the FormData
+    fetch(`/video/upload/new`, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .catch(error => {
+        // Handle error
+        console.error('Error uploading file:', error);
+    })
+    .then(data => {
+        // Handle success
+        console.log('Upload successful:', data);
+        videoform.classList.remove('hidden')
+        uploadform.classList.toggle('hidden')
+        const videoid = document.querySelector('.videoid')
+        let videoElement = document.querySelector('.videourl');
+
+        videoElement.src = data.videopost.VideoUrl
+        titlevideo = data.videopost.title
+        videoid.value = data.videopost._id
+        console.log(videoid)
+        console.log(data)
+        console.log(data.videopost)
+
+
+
+
+    })
+   
+});
+
+//video play
+
+const playPauseBtn1 = document.querySelector(".play-pause-btn1")
+const theaterBtn1 = document.querySelector(".theater-btn1")
+const fullScreenBtn1 = document.querySelector(".full-screen-btn1")
+const miniPlayerBtn1 = document.querySelector(".mini-player-btn1")
+const muteBtn1 = document.querySelector(".mute-btn1")
+const captions1Btn1 = document.querySelector(".captions1-btn1")
+const speedBtn1 = document.querySelector(".speed-btn1")
+const currentTimeElem1 = document.querySelector(".current-time1")
+const totalTimeElem1 = document.querySelector(".total-time1")
+const previewImg1 = document.querySelector(".preview-img1")
+const thumbnailImg1 = document.querySelector(".thumbnail-img1")
+const volumeSlider1 = document.querySelector(".volume-slider1")
+const videoContainer1 = document.querySelector(".video-container")
+const timelineContainer1 = document.querySelector(".timeline-container")
+const video1 = document.querySelector(".videomakepreview")
+
+document.addEventListener("keydown", e => {
+  const tagName = document.activeElement.tagName.toLowerCase()
+
+  if (tagName === "input") return
+
+  switch (e.key.toLowerCase()) {
+    case " ":
+      if (tagName === "button") return
+    case "k":
+      togglePlay()
+      break
+    case "f":
+      toggleFullScreenMode()
+      break
+    case "t":
+      toggleTheaterMode()
+      break
+    case "i":
+      toggleMiniPlayerMode()
+      break
+    case "m":
+      toggleMute()
+      break
+    case "arrowleft":
+    case "j":
+      skip(-5)
+      break
+    case "arrowright":
+    case "l":
+      skip(5)
+      break
+    case "c":
+      toggleCaptions()
+      break
+  }
+})
+
+// Timeline
+timelineContainer1.addEventListener("mousemove", handleTimelineUpdate)
+timelineContainer1.addEventListener("mousedown", toggleScrubbing)
+document.addEventListener("mouseup", e => {
+  if (isScrubbing1) toggleScrubbing(e)
+})
+document.addEventListener("mousemove", e => {
+  if (isScrubbing1) handleTimelineUpdate(e)
+})
+
+let isScrubbing1 = false
+let wasPaused1
+function toggleScrubbing(e) {
+  const rect = timelineContainer1.getBoundingClientRect()
+  const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width
+  isScrubbing1 = (e.buttons & 1) === 1
+  videoContainer1.classList.toggle("scrubbing", isScrubbing1)
+  if (isScrubbing1) {
+    wasPaused1 = video1.paused
+    video1.pause()
+  } else {
+    video1.currentTime = percent * video1.duration
+    if (!wasPaused1) video1.play()
+  }
+
+  handleTimelineUpdate(e)
+}
+
+function handleTimelineUpdate(e) {
+  const rect = timelineContainer1.getBoundingClientRect()
+  const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width
+  const previewImg1Number = Math.max(
+    1,
+    Math.floor((percent * video1.duration) / 10)
+  )
+  const previewImg1Src = `assets/previewImg1s/preview${previewImg1Number}.jpg`
+  previewImg1.src = previewImg1Src
+  timelineContainer1.style.setProperty("--preview-position", percent)
+
+  if (isScrubbing1) {
+    e.preventDefault()
+    thumbnailImg1.src = previewImg1Src
+    timelineContainer1.style.setProperty("--progress-position", percent)
+  }
+}
+
+// Playback Speed
+speedBtn1.addEventListener("click", changePlaybackSpeed)
+
+function changePlaybackSpeed() {
+  let newPlaybackRate = video1.playbackRate + 0.25
+  if (newPlaybackRate > 2) newPlaybackRate = 0.25
+  video1.playbackRate = newPlaybackRate
+  speedBtn1.textContent = `${newPlaybackRate}x`
+}
+
+// Captions
+const captions1 = video1.textTracks[0]
+captions1.mode = "hidden"
+
+captions1Btn1.addEventListener("click", toggleCaptions)
+
+function toggleCaptions() {
+  const isHidden = captions1.mode === "hidden"
+  captions1.mode = isHidden ? "showing" : "hidden"
+  videoContainer1.classList.toggle("captions1", isHidden)
+}
+
+// Duration
+video1.addEventListener("loadeddata", () => {
+  totalTimeElem1.textContent = formatDuration(video1.duration)
+})
+
+video1.addEventListener("timeupdate", () => {
+  currentTimeElem1.textContent = formatDuration(video1.currentTime)
+  const percent = video1.currentTime / video1.duration
+  timelineContainer1.style.setProperty("--progress-position", percent)
+})
+
+const leadingZeroFormatter1 = new Intl.NumberFormat(undefined, {
+  minimumIntegerDigits: 2,
+})
+function formatDuration(time) {
+  const seconds = Math.floor(time % 60)
+  const minutes = Math.floor(time / 60) % 60
+  const hours = Math.floor(time / 3600)
+  if (hours === 0) {
+    return `${minutes}:${leadingZeroFormatter1.format(seconds)}`
+  } else {
+    return `${hours}:${leadingZeroFormatter1.format(
+      minutes
+    )}:${leadingZeroFormatter1.format(seconds)}`
+  }
+}
+
+function skip(duration) {
+  video1.currentTime += duration
+}
+
+// Volume
+muteBtn1.addEventListener("click", toggleMute)
+volumeSlider1.addEventListener("input", e => {
+  video1.volume = e.target.value
+  video1.muted = e.target.value === 0
+})
+
+function toggleMute() {
+  video1.muted = !video1.muted
+}
+
+video1.addEventListener("volumechange", () => {
+  volumeSlider1.value = video1.volume
+  let volumeLevel
+  if (video1.muted || video1.volume === 0) {
+    volumeSlider1.value = 0
+    volumeLevel = "muted"
+  } else if (video1.volume >= 0.5) {
+    volumeLevel = "high"
+  } else {
+    volumeLevel = "low"
+  }
+
+  videoContainer1.dataset.volumeLevel = volumeLevel
+})
+
+// View Modes
+theaterBtn1.addEventListener("click", toggleTheaterMode)
+fullScreenBtn1.addEventListener("click", toggleFullScreenMode)
+miniPlayerBtn1.addEventListener("click", toggleMiniPlayerMode)
+
+function toggleTheaterMode() {
+  const reco2  = document.querySelector('.reco2');
+  const videow = document.querySelector('.videow');
+  videow.classList.toggle('fullwidth');
+  reco2.classList.toggle('theathorfull');
+  videoContainer1.classList.toggle("theater")
+}
+
+function toggleFullScreenMode() {
+  if (document.fullscreenElement == null) {
+    videoContainer1.requestFullscreen()
+  } else {
+    document.exitFullscreen()
+  }
+}
+
+function toggleMiniPlayerMode() {
+  if (videoContainer1.classList.contains("mini-player")) {
+    document.exitPictureInPicture()
+  } else {
+    video1.requestPictureInPicture()
+  }
+}
+
+document.addEventListener("fullscreenchange", () => {
+  videoContainer1.classList.toggle("full-screen", document.fullscreenElement)
+})
+
+video1.addEventListener("enterpictureinpicture", () => {
+  videoContainer1.classList.add("mini-player")
+})
+
+video1.addEventListener("leavepictureinpicture", () => {
+  videoContainer1.classList.remove("mini-player")
+})
+
+// Play/Pause
+playPauseBtn1.addEventListener("click", togglePlay)
+video1.addEventListener("click", togglePlay)
+
+function togglePlay() {
+  video1.paused ? video1.play() : video1.pause()
+}
+
+video1.addEventListener("play", () => {
+  videoContainer1.classList.remove("paused")
+})
+
+video1.addEventListener("pause", () => {
+  videoContainer1.classList.add("paused")
+})
 
 </script>

@@ -46,8 +46,7 @@ Router.get('/',isLoggedIn,catchAsync(async(req,res)=>{
         model: 'Event'
       }
     });
-    console.log(user)
-    console.log(req.user)
+   
   
     const Tasks = user.reminder.flatMap(reminder => reminder.Event);
     const recentlyview = []
@@ -230,15 +229,29 @@ Router.get('/quiz/:id/ext',catchAsync(async(req,res)=>{
 }))
 Router.get('/quiz/:id/edit',catchAsync(async(req,res)=>{
     const {id} = req.params
+    const user = req.user
     const foundquiz =await QuizCard.findById(id)
     console.log(foundquiz)
 
     const quizowner = await User.findById(foundquiz.author)
+    if(user._id !==quizowne._id ){
+        return 
+    }
 
     
     res.render('content/home/create/quiz/quizedit.ejs',{foundquiz,quizowner})
 
 }))
+Router.get('/quizcard/:id/gubot', catchAsync(async (req, res) => {
+    const {id} = req.params
+    const foundquiz =await QuizCard.findById(id)
+    console.log(foundquiz)
+
+
+    res.render('content/home/create/quiz/ai.ejs',{foundquiz})
+  
+    
+  }))
 Router.get('/quiz/:id/delete',catchAsync(async(req,res)=>{
     const {id} = req.params
     const foundquiz = await QuizCard.findByIdAndDelete(id)
@@ -452,6 +465,7 @@ Router.get('/video/:id',catchAsync(async(req,res)=>{
     
     res.render('content/home/upload/edit.ejs', { upload, totalquiz, quizowner,userQuizCards });
   }));
+  
   
 Router.get('/folder/:id',catchAsync(async(req,res)=>{
     const {id} = req.params

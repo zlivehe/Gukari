@@ -56,14 +56,14 @@ video {
 }
 
 .video-controls-container::before {
-  content: "";
+  /* content: "";
   position: absolute;
   bottom: 0;
   background: linear-gradient(to top, rgba(0, 0, 0, .75), transparent);
   width: 100%;
   aspect-ratio: 6 / 1;
   z-index: -1;
-  pointer-events: none;
+  pointer-events: none; */
 }
 
 .video-container:hover .video-controls-container,
@@ -359,7 +359,7 @@ if (timeDifference < minuteInMs) {
     <div class="centers videow flex flex-col" >
 
     <div class="video-card" >
-      <div class="flex  w-full flex justify-center " style="height: auto;">
+      <div class="flex  w-full flex justify-center " style="min-height:27em; ">
         <div class="video-container paused" data-volume-level="high">
           <img class="thumbnail-img">
           <div class="video-controls-container">
@@ -428,7 +428,7 @@ if (timeDifference < minuteInMs) {
               </button>
             </div>
           </div>
-          <video src="<%= uplaod.VideoUrl %>" >
+          <video class="karivideo" src="<%= uplaod.VideoUrl %>" >
             <track kind="captions" srclang="en" src="assets/subtitles.vtt">
 
           </video>
@@ -504,7 +504,7 @@ if (timeDifference < minuteInMs) {
           </div>
           <div class="sub">
             <div class="flex items-center">
-              <% if(!uplaod.quizCard ){ %>
+              <% if(uplaod.quizCard ){ %>
                 <a href="/home/quiz/<%= uplaod.quizCard[0]._id %>" class="mr-3">
                     <i class="bi   text-gray-500 text-2xl  bi-tv"></i>
                 </a>
@@ -1089,12 +1089,12 @@ if (timeDifference < minuteInMs) {
         } else {
           VideoformattedDate = uplaod.createdAt.toDateString(); // Use the full date if it's more than a week ago
         } %>
-        <% if(video.VideoUrl && video.VideoUrl !== ''){ %>
+        <% if(video.author[0] && video.VideoUrl && video.VideoUrl !== ''){ %>
           <a href="/home/video/<%=video._id %>" class="flex mb-4">
             <img style="width: 12em;" class=" rounded-xl" src="<%=video.thumbnail%>" alt="" srcset="">
             <div class="ml-1 flex flex-col">
               <span class="text-sm font-semibold"><%=video.title%></span>
-              <span class="text-gray-600 text-xs"><%=video.author[0].username%></span>
+              <span class="text-gray-600 text-xs">          <%=video.author[0].username%>              </span>
               <div class="flex text-xs text-gray-600 items-center">
                 <span><%=video.viewcount%> views </span> <span>.</span> <span><%=VideoformattedDate %></span>
               </div>
@@ -1617,6 +1617,7 @@ function Deletereply(videoId, action,reply,useid) {
   };
   xhr.send();
 }
+
 const playPauseBtn = document.querySelector(".play-pause-btn")
 const theaterBtn = document.querySelector(".theater-btn")
 const fullScreenBtn = document.querySelector(".full-screen-btn")
@@ -1631,8 +1632,8 @@ const thumbnailImg = document.querySelector(".thumbnail-img")
 const volumeSlider = document.querySelector(".volume-slider")
 const videoContainer = document.querySelector(".video-container")
 const timelineContainer = document.querySelector(".timeline-container")
-const video = document.querySelector("video")
-
+const video = document.querySelector(".karivideo")
+console.log('ok')
 document.addEventListener("keydown", e => {
   const tagName = document.activeElement.tagName.toLowerCase()
 
@@ -1851,6 +1852,7 @@ video.addEventListener("play", () => {
 video.addEventListener("pause", () => {
   videoContainer.classList.add("paused")
 })
+console.log('ok')
 
 
 </script>

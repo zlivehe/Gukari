@@ -1,4 +1,7 @@
 const  express  = require('express');
+
+const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
 const Router = express.Router()
 const QuizCard = require('../model/home/quizapp/quizcard')
 const multer = require('multer');
@@ -221,7 +224,7 @@ Router.post('/quizcard',  upload.array('image'), isLoggedIn, catchAsync(async (r
 
 //   if (req.files && req.files.length > 0) {
 //     const uploadedFiles = req.files;
-//     const imageUrls = uploadedFiles.map((file) => `/uploads/${file.filename}`);
+//     const imageUrls = uploadedFiles.map((file) => `${file.filename}`);
 
 //     updatedData.imageUrl = imageUrls[0]; // Assuming only one image is uploaded for now
 //   }
@@ -267,7 +270,7 @@ Router.post('/quizcard/:id/edit',  upload.array('image'), isLoggedIn, catchAsync
      console.log(req.files)
     const cardArray = validCards.map((card) => {
       const uploadedFile = req.files.find((file) => file.originalname === card.image);
-      const imageUrl = uploadedFile ? `/uploads/${uploadedFile.path}` : '';
+      const imageUrl = uploadedFile ? `${uploadedFile.path}` : '';
 
     return {
       term: card.term,
@@ -278,7 +281,7 @@ Router.post('/quizcard/:id/edit',  upload.array('image'), isLoggedIn, catchAsync
     };
     });
     if(orniginalimg === '' || orniginalimg === undefined){ 
-      orniginalimg = '/uploads/quizcard.jpg'
+      orniginalimg = 'quizcard.jpg'
     }
     const imageUrls = req.files.map((file) => `${file.path}` );
     const imageur = imageUrls[0] ? imageUrls[0] : headtingimg;
@@ -403,7 +406,7 @@ const newWorkspace = new Workspace({
     tags: ['tag1', 'tag2', 'tag3'],
     image:img,
     
-    imageurl: `/uploads/${req.file.filename}`,
+    imageurl: `${req.file.filename}`,
 })
 
   user.Workspace.push(newWorkspace);
@@ -535,40 +538,133 @@ Router.get('/api/quizcard/:id/quiz/:quzid', catchAsync(async (req, res) => {
 
 
 //Upload Video
+
+
+Router.post('/video/upload/new',async(req,res)=>{
+  console.log('hi')
+  console.log(req.file)
+   console.log(req.files)
+  const storage = multer.diskStorage({
+    filename: (req, file, cb) => {
+      const fileExt = file.originalname.split(".").pop();
+      const filename = `${new Date().getTime()}.${fileExt}`;
+      cb(null, filename);
+    },
+  });
+
+  // Filter the file to validate if it meets the required video extension
+  const fileFilter = (req, file, cb) => {
+    if (file.mimetype === "video/mp4") {
+      cb(null, true);
+    } else {
+      cb(
+        {
+          message: "Unsupported File Format",
+        },
+        false
+      );
+    }
+  };
+    // Set the storage, file filter and file size with multer
+    const upload = multer({
+      storage,
+      limits: {
+        fieldNameSize: 2000,
+        fileSize: 60 * 1024 * 1024,
+      },
+      fileFilter,
+    }).single("video");
+  
+    upload(req, res, (err) => {
+      if (err) {
+        return res.send(err);
+      }
+  
+      // SEND FILE TO CLOUDINARY
+      cloudinary.config({
+        cloud_name: `dlxqwjiv6`,
+        api_key: `497857977683336`,
+        api_secret: `_wMbQV7GimlFp9WlLaRVVScwsUE`
+    });
+      const { path } = req.file; // file becomes available in req at this point
+      const fName = req.file.originalname.split(".")[0];
+      cloudinary.uploader.upload(
+        path,
+        {
+          resource_type: "video",
+          public_id: `VideoUploads/${fName}`,
+          chunk_size: 6000000,
+          eager: [
+            {
+              width: 300,
+              height: 300,
+              crop: "pad",
+              audio_codec: "none",
+            },
+            {
+              width: 160,
+              height: 100,
+              crop: "crop",
+              gravity: "south",
+              audio_codec: "none",
+            },
+          ],
+        },
+        // Send cloudinary response or catch error
+        async(err, video) => {
+
+          if (err) return res.send(err);
+          console.log(video)
+
+              console.log('Pathh' )
+      const videopost = new VideoUpload({
+        VideoUrl:video.url,
+        title:video.public_id,
+        videocreated:video.created_at,
+        visibility:'unlisted',
+        author: req.user._id
+      })
+      await videopost.save()
+        
+      console.log(videopost)
+          fs.unlinkSync(path);
+          return res.send({video,videopost});
+        }
+      );
+
+    });
+
+    
+})
 Router.post('/videoupload', videoupload.fields([
-  { name: 'video', maxCount: 1 },
   { name: 'thumbnail', maxCount: 1 }
 ]), catchAsync(async (req, res) => {
   try {
-    console.log(req.body);
+    const { title, description, category, tags, visibility, videoid } = req.body;
+    const { thumbnail } = req.files;
 
-    const { title, description, category, tags,visabi } = req.body;
-    const { video, thumbnail } = req.files;
-    const user = req.user;
-    const newVideo = new VideoUpload({
-      tags: tags.split(',').map(tag => tag.trim()),
-      title,
-      description,
-      author: user,
-      category,
-      visibility:visabi,
-      VideoUrl: `/uploads/${video[0].filename}`,
-      thumbnail: `/uploads/${thumbnail[0].filename}`
-    });
+    // Find the video by ID
+    const videoToUpdate = await VideoUpload.findById(videoid);
 
-    // Save the new video
-    await newVideo.save();
-    user.VideoUpload.push(newVideo._id);
-    await user.save();
-    
+    // Update the video properties
+    videoToUpdate.title = title;
+    videoToUpdate.description = description;
+    videoToUpdate.category = category;
+    videoToUpdate.tags = tags.split(',').map(tag => tag.trim());
+    videoToUpdate.visibility = visibility;
+    videoToUpdate.thumbnail = thumbnail.url;
+    console.log(req.files)
 
-    console.log(user);
-    res.redirect(`/home/video/${newVideo._id}`);
+    // Save the updated video
+    await videoToUpdate.save();
+
+    res.redirect(`/home/video/${videoToUpdate._id}`);
   } catch (e) {
     req.flash('error', e.message);
     res.json(e.message);
   }
 }));
+
 
 Router.post('/imageupload', upload.single('image'), catchAsync(async (req, res) => {
   try {
@@ -945,18 +1041,30 @@ async function main() {
 
   console.log(completion.choices);
 }
-
+let conversation = [
+  {
+    role: 'system',
+    content: 'You will follow the conversation and respond to the queries asked by the \'user\'\'s content. You will act as the assistant'
+  }
+];
 Router.post('/ai/feach', async(req,res)=>{
   const body = req.body
+  conversation.push({
+    role: 'user',
+    content: body.msg
+  }) 
   const completion = await openai.chat.completions.create({
-    messages: [{ role: 'user', content: body.msg }],
+    messages: conversation,
     model: 'gpt-3.5-turbo',
   })
-  
+ 
   const content = completion.choices[0].message.content;
   console.log(content)
   console.log(completion.choices[0]);
-
+  conversation.push({
+    role: 'assistant',
+    content:content
+  })
   res.send({ai:content,name:'ss'})
 
 

@@ -330,34 +330,48 @@ Router.post('/api/translate',upload.none(), async (req, res) => {
   }
 });
 
-Router.post('/video/edit/:id',upload.single('thumbnail'), async (req, res) => {
-  const { id } = req.params;
-  const { title, description, visibility,category, thumbnail,quizcard} = req.body;
-  
-  console.log(req.file)
-  const Video = await VideoUpload.findById(id)
-  console.log(title, description, visibility,category, thumbnail)
-  console.log(req.body)
+Router.post('/video/edit/:id', upload.single('thumbnail'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, visibility, category, thumbnail, quizcard } = req.body;
 
-  Video.title = title;
-  Video.description = description;
-  Video.visibility = visibility;
-  Video.category = category;
-  Video.thumbnail = thumbnail;
-  if(req.file){
-    Video.thumbnail = req.file.path
+    // Find the video by ID
+    const video = await VideoUpload.findById(id);
+
+    // Update video properties
+    video.title = title;
+    video.description = description;
+    video.visibility = visibility;
+    video.category = category;
+
+    // Update thumbnail if a new one was uploaded
+    if (req.file) {
+      video.thumbnail = req.file.path;
+    }
+
+    // Check if there's an existing quizCard, if so, replace it
+    if (video.quizCard && video.quizCard.length > 0) {
+      // Assuming quizCard is an array, you may need to adjust this logic if it's a single object
+      const existingQuizCard = video.quizCard[0]; // Replace this with appropriate logic
+
+      // Remove the old quizCard association
+      await QuizCard.findByIdAndUpdate(existingQuizCard, { $pull: { video: id } });
+    }
+
+    // Find and associate the new quizCard
+    const quizcardfind = await QuizCard.findById(quizcard);
+    if (quizcardfind) {
+      video.quizCard = [quizcardfind._id];
+      quizcardfind.video.push(id);
+      await video.save();
+      await quizcardfind.save();
+    }
+
+    res.send(video);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
   }
-
-  const quizcardfind = await QuizCard.findById(quizcard)
-  Video.quizCard.push(quizcardfind._id)
-  quizcardfind.video.push(Video._id)
-  await Video.save();
-  await quizcardfind.save();
-  console.log(quizcardfind)
-
-  res.send(Video)
-  
-
 });
 
   

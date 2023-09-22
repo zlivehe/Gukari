@@ -1,4 +1,7 @@
-<script src="https://cdn.tailwindcss.com"></script>
+<% layout('./layouts/boilerplate.ejs')%>
+<%- include('../../../../layouts/partials/settings.ejs') %>
+
+<title>Gukari-<%= foundquiz.title %> - Bot</title>
 <style>
     .searchinput:focus{
         border: 0;
@@ -21,6 +24,7 @@
 }
 </style>
 <div class="content" style="margin-left: 20%; margin-right: 20%;">
+    
     <div class="center   p-3 " style=" height: auto;">
         <div class="flex  chatboxes">
             <div class="fotter ]" style="width: 90%;">
