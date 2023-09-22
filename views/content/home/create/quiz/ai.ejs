@@ -15,10 +15,14 @@
     padding-right: 25%;
     
 }
+.chatboxes{
+    overflow-y: scroll;
+    height: 36em;
+}
 </style>
 <div class="content" style="margin-left: 20%; margin-right: 20%;">
-    <div class="center border p-3 " style=" height: auto;">
-        <div class="flex items-center">
+    <div class="center   p-3 " style=" height: auto;">
+        <div class="flex  chatboxes">
             <div class="fotter ]" style="width: 90%;">
                 <div id="msgs" class="response flex flex-col">
                     <div class="flex items-center mb-1">
@@ -29,6 +33,19 @@
                         <span class="r">It seems like you've entered some random text again. If you have any questions or need assistance with the content you're studying, please let me know.</span>
                     </div>
                 </div>
+                <div class="flex items-center mb-2 justify-end w-full">
+             
+                    <div class="bg-gray-100 rounded-t-lg rounded-l-lg ml-2 p-3" style="max-width: 21em;">
+                        <span class="r">Ie let me know.</span>
+                    </div>
+                    <div class="bg-blue-400 ml-1 w-10 h-10 items-center text-center content-center rounded-full p-3 ">
+                        <img class="w-7  h-6" src="/imgs/home/icon.png" alt="">
+                    </div>
+                </div>
+
+                </div>
+                <br>
+                 
 
                 </div>
                 <footer> 
@@ -43,7 +60,9 @@
             <br><br>
               
             </div>
-        
+            <br><br>
+            <br><br>
+
         </div>
 
     </div>
@@ -51,9 +70,25 @@
 <script>
     const sendmsg = document.querySelector('.sendmsg')
     const msgvalue = document.querySelector('.searchinput')
+    const responsediv = document.querySelector('#msgs')
+
     sendmsg.addEventListener('click', async function(e){
   console.log(msgvalue.value)
   e.preventDefault();
+  const userdiv = `
+  <div class="flex items-center mb-2 justify-end w-full">
+             
+             <div class="bg-gray-100 rounded-t-lg rounded-l-lg ml-2 p-3">
+                 <span class="r">${msgvalue.value}</span>
+             </div>
+             <div class="">
+                 <img class="w-12 rounded-full h-12" src="https://images6.alphacoders.com/862/862332.jpg" alt="">
+             </div>
+         </div>
+  `
+
+  responsediv.insertAdjacentHTML('beforeend',userdiv)
+
   const method = 'POST';
 
   const response = await fetch('/ai/feach', {
@@ -65,14 +100,14 @@
       'Content-Type': 'application/json',
     },
   })
+  msgvalue.value = ''
 
   // Get the response body
   const responseBody = await response.json()
-  const responsediv = document.querySelector('#msgs')
   const msgappend = `
   <div class="flex items-center mb-1">
-                    <div class="bg-blue-400 w-10 h-10 items-center text-center content-center rounded-full p-3 ">
-                        <img class="w-7  h-6" src="/imgs/home/icon.png" alt="">
+                    <div class="bg-red-600 w-10 h-10 items-center text-center content-center rounded-full p-3 ">
+                        <img class=" w-5 h-5 rounded-full " src="/imgs/home/icon.png" alt="">
                     </div>
                     <div class="bg-gray-100 rounded-t-lg rounded-r-lg ml-2 p-3">
                         <span class="r">${responseBody.ai}</span>
@@ -82,7 +117,6 @@
 responsediv.insertAdjacentHTML('beforeend',msgappend)
   // Do something with the response body
   console.log(responseBody)
-  msgvalue.value = ''
 })
     
     

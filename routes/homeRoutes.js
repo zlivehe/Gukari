@@ -453,7 +453,12 @@ Router.get('/video/:id',catchAsync(async(req,res)=>{
     res.render('content/home/upload/edit.ejs', { upload, totalquiz, quizowner,userQuizCards });
   }));
   
-  
+Router.get('/folder/:id',catchAsync(async(req,res)=>{
+    const {id} = req.params
+    const folder = await Folder.findById(id).populate('user')
+    res.render('content/home/Account/folder.ejs',{folder})
+}
+))
   
 Router.get('/list/:id',catchAsync(async(req,res)=>{
     const {id} = req.params
@@ -578,6 +583,7 @@ Router.get('/get-metric-data/:metric/:startDate/:endDate', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
 
 
 

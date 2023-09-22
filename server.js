@@ -124,11 +124,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(async(req, res, next) => {
 
-  //  const users = await User.findById('64bc4922b2aafaad4ddbbb50')
-  //  console.log(users)
-  //   req.user=users
-  //  if(req.user){
-  //  }
+   const users = await User.findById('64bc4922b2aafaad4ddbbb50')
+   console.log(users)
+    req.user=users
+   if(req.user){
+   }
 
    res.locals.currentUser = req.user;
   

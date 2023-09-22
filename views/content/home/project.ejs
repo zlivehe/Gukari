@@ -280,7 +280,7 @@
       <div class="flex justify-between">
         <%for(let folders of userFolder){ %>
 
-        <div class="border rounded flex items-center justify-between p-3 rounded-xl" style="width: 14em;">
+        <a href="/home/folder/<%= folders._id%>" class="border hover:bg-gray-100 rounded flex items-center justify-between p-3 rounded-xl" style="width: 14em;">
           <div class="flex items-center">
             <i class="bi text-2xl bi-folder-fill text-gray-700"></i>
             <span class="text-gray-600 ml-3">
@@ -289,7 +289,7 @@
           </div>
           <i class="bi text-xl bi-three-dots-vertical"></i>
 
-        </div>
+        </a>
         <% } %>
 
       </div>

@@ -1061,6 +1061,7 @@ display: flex;
 //                     const truncatedDescription = event.description.length > 60
 //   ? event.description.slice(0, 60) + "..."
 //   : event.description;
+                    if(event.imageurl){
 
                     events += `
                 <div class="event ${event._id} rounded-2xl border  bg-white">
@@ -1070,6 +1071,7 @@ display: flex;
                     <h3 class="event-title  ">${event.title}</h3>
                     <div class="event-description text-sm">${event.description}</div>
                       <div class="mb-1 text-gray text-sm">Event is at <b class="text-red-500"> ${event.time} </b></div>
+                      
                        <img src="${event.imageurl}" alt="image" class="w-10 rounded h-10">
                     </div>
                 </div>
@@ -1077,6 +1079,22 @@ display: flex;
 
             </div><br>
             `
+                    }else{
+                        events += `
+                        <div class="event ${event._id} rounded-2xl border  bg-white">
+                <div class="title flex">
+                    <i class="bi bi-circle remove-event flex text-2xl" ></i>
+                    <div class="ml-2">
+                    <h3 class="event-title  ">${event.title}</h3>
+                    <div class="event-description text-sm">${event.description}</div>
+                      <div class="mb-1 text-gray text-sm">Event is at <b class="text-red-500"> ${event.time} </b></div>
+                                          </div>
+                </div>
+                
+
+            </div><br>
+            `
+        }
                 }
             })
             if (events == "") {

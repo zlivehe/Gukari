@@ -333,7 +333,7 @@ Router.post('/newtask', upload.single('image'), catchAsync(async (req, res) => {
     const { title, description, image, time, startdate, priority, enddate } = req.body;
     const user = req.user;
     let reminder;
-    const imageurl = req.file ? `${req.file.path}` : image;
+    const imageurl = req.file ? `${req.file.path}` : '';
 
     const tasksCount = await Event.countDocuments(); // Get the count of existing tasks
 
@@ -852,6 +852,7 @@ Router.post('/folder/new',async(req,res)=>{
     visibility,
   })
   user.folder.push(folder._id);
+  folder.user.push(user._id);
   await user.save();
   await folder.save();
   console.log(folder)
