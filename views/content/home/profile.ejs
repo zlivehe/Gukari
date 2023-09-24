@@ -1,10 +1,11 @@
 <% layout('./layouts/boilerplate.ejs')%>
 <%- include('../../layouts/partials/settings.ejs') %>
+<title>
+    <%= user.username%> - Gukari
 
+</title>
     <style>
        
-
-
 
         
 
@@ -26,10 +27,10 @@
         }
 
         .userlayc {
-            background: url('https://wallpapercave.com/wp/wp8991907.jpg');
-            background-size: cover;
-            height: 15em;
-            background-repeat: no-repeat;
+            background: url('https://yt3.googleusercontent.com/QtY6L3kVmM6fkVd77-wBxNS8PVzuzmhQ0QiTTrOLH1ico1DaZz5VhaIsZ9a5gTIuqt9wsGa3qU0=w2560-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj');
+    background-size: contain;
+    height: 100%;
+    background-repeat: no-repeat;
         }
 
       
@@ -58,23 +59,25 @@
         }
     </style>
 
-    <div class="content white-black t st fullscreen" id="content-menu" style="padding: 0;">
+    <div class="content white-black t st fullscreen" id="content-menu" style="padding: 0; height: 100vh; overflow: scroll;">
 
         <input type="text" class="studenturl1" style="display:none"
             value="https://cdn.dribbble.com/users/2173663/avatars/normal/c4c633361e233ae7e0b9882264c95b1a.jpg?1579775888&compress=1&resize=80x80 "
             name="" id="">
+        <div class="" style="height: 17em;">
+            <div class="userlayc"></div>
 
-        <div class="userlayc"></div>
+        </div>
 
         <div class="setting pl-2 pr-3">
             <div class="usercard">
                 <div class="usercon flex justify-between">
-                    <div class="aboutuser  flex">
+                    <div class="aboutuser  flex items-center">
                         <div class="whiteb">
                             <div id="main1" class=" rounded-md  student-photo1">
                                 <% if(user){ %>
                                 <% if(user.photourl){ %>
-                                <img class="w-16 h-16 rounded-full" src="/uploads/<%= user.photourl %>" alt="" srcset="">
+                                <img class="w-16 h-16 rounded-full" src="<%= user.photourl %>" alt="" srcset="">
                                 <% }else{ %>
                                     <% const firstLetter = user.username.charAt(0); %>
 
@@ -90,13 +93,13 @@
                                 ">teacher</span>
                             </span>
                             <span class="font-600 text-gray-500 text-sm">
-                              <%= user.email %>
+                             @ <%= user.handle %>
                             </span>
                         </div>
                     </div>
                     <div class="button">
                      
-                        <button id="follow" class="p-3 border-0 rounded-lg border hover:bg-red-600 text-white rounded bg-red-500">States</button>
+                        <button id="follow" class="p-3 border-0 rounded-lg border hover:bg-gray-800 text-white rounded bg-black">Follow</button>
                     </div>
                 </div>
            
@@ -113,35 +116,56 @@
                             <li class="mr-2" role="presentation">
                                 <button
                                     class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'IT' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
+                                    id="Home-tab" data-tabs-target="#Home" type="button" role="tab" aria-controls="Home"
+                                    aria-selected="{{activeTab === 'Home' ? 'true' : 'false'}}"><i
+                                        class="bi bi-train-freight-front"></i>HOME
+                                    </button>
+                            </li>
+
+                            <li class="mr-2" role="presentation">
+                                <button
+                                    class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'IT' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
                                     id="IT-tab" data-tabs-target="#IT" type="button" role="tab" aria-controls="IT"
                                     aria-selected="{{activeTab === 'IT' ? 'true' : 'false'}}"><i
-                                        class="bi bi-train-freight-front"></i>Projects
+                                        class="bi bi-train-freight-front"></i>QUIZCARD
                                     </button>
                             </li>
                             <li class="mr-2" role="presentation">
                                 <button
                                     class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'dashboard' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
-                                    id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab"
-                                    aria-controls="dashboard"
-                                    aria-selected="{{activeTab === 'dashboard' ? 'true' : 'false'}}">Dashboard</button>
-                            </li>
-                            <li class="mr-2" role="presentation">
-                                <button
-                                    class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'settings' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
-                                    id="settings-tab" data-tabs-target="#settings" type="button" role="tab"
-                                    aria-controls="settings"
-                                    aria-selected="{{activeTab === 'settings' ? 'true' : 'false'}}">Settings</button>
+                                    id="Video-tab" data-tabs-target="#Video" type="button" role="tab"
+                                    aria-controls="Video"
+                                    aria-selected="{{activeTab === 'Video' ? 'true' : 'false'}}">VIDEO</button>
                             </li>
                             <li role="presentation">
                                 <button
                                     class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'contacts' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
-                                    id="contacts-tab" data-tabs-target="#contacts" type="button" role="tab"
-                                    aria-controls="contacts"
-                                    aria-selected="{{activeTab === 'contacts' ? 'true' : 'false'}}">Contacts</button>
+                                    id="Uploads-tab" data-tabs-target="#Uploads" type="button" role="tab"
+                                    aria-controls="Uploads"
+                                    aria-selected="{{activeTab === 'Uploads' ? 'true' : 'false'}}">UPLOADS</button>
+                            </li>
+                            <li class="mr-2" role="presentation">
+                                <button
+                                    class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'settings' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
+                                    id="Playlist-tab" data-tabs-target="#Playlist" type="button" role="tab"
+                                    aria-controls="Playlist"
+                                    aria-selected="{{activeTab === 'Playlist' ? 'true' : 'false'}}">PLAYLIST</button>
+                            </li>
+                     
+                            <li role="presentation">
+                                <button
+                                    class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'contacts' ? 'border-b-2 border-blue-500' : 'border-b-0'}}"
+                                    id="Accounts-tab" data-tabs-target="#Accounts" type="button" role="tab"
+                                    aria-controls="Accounts"
+                                    aria-selected="{{activeTab === 'Accounts' ? 'true' : 'false'}}">ACCOUNT</button>
                             </li>
                         </ul>
                     </div>
                     <div id="myTabContent">
+                        <div class="hidden p-1 rounded-lg ap-ct " id="Home" role="tabpanel" aria-labelledby="Home-tab">
+                        <span>HomeTab</span>                            
+                        </div>
+
                         <div class="hidden p-1 rounded-lg ap-ct " id="IT" role="tabpanel" aria-labelledby="IT-tab">
                             <span class="text-2xl"><%=user.username%> projects(<%=userQuizCards.length %>)</span>
 
@@ -220,44 +244,32 @@
                               </div>
                               
                         </div>
-                        <div class="hidden p-2 rounded-lg ap-ct " id="dashboard" role="tabpanel"
+                        <div class="hidden p-2 rounded-lg ap-ct " id="Video" role="tabpanel"
                             aria-labelledby="dashboard-tab">
-                            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
-                             user
-                                <div class="p-3">
-                                    <a href="#">
-                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">AP Computer Science A
-                                        </h5>
-                                    </a>
-                                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Get familiar with the concepts
-                                        and
-                                        You'll do
-                                        hands-on work to design, write, and test computer programs that solve problems or
-                                        accomplish
-                                        tasks.</p>
-                                    <div class="both-split flex justify-between">
+                            <div class="flex flex-wrap"> 
+                         <%for(let video of userVideoUpload){%>
+                            <a href="/home/video/<%=video._id%>" class="ml-5  mb-2" style="width: 16em; display: block;">
+                <img class="rounded-lg" style="width: 100%" src="<%=video.thumbnail%>" alt="" srcset="">
         
-                                        <a href="/course/ap/lang"
-                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 ">
-                                            Read more
-                                            <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor"
-                                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd"
-                                                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>
-                                        </a>
-                                        <a href="#"
-                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-600 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 ">
-                                            Calculate
-        
-                                        </a>
-                                    </div>
-        
-                                </div>
-                            </div>
+                <div class="pt-1 recent-cardd">
+                  <!-- <span>4:22</span> -->
+                  <div class="content-card flex flexcontent-center">
+                    <img  src="https://yt3.ggpht.com/ytc/AOPolaTEEuiBNC3ZvDRXQlRj6d0tfCDyl8aY-9z3sQeUhA=s68-c-k-c0x00ffffff-no-rj" class="userimg mb-3 w-10 rounded h-10 rounded-full" alt="" srcset="">
+                    <div class="card-info ml-1">
+                        
+                      <span class="text-sm font-medium w-full leading-3">Learn Chinese Conversation for Elementary Students, Chinese English lesson/span&gt;<br>
+                      <div class="flex">
+                        <span class="text-sm text-gray-400">Mike tyson</span>
+                        <span class="ml-3 text-sm text-gray-400">9k views</span>
+                      </div>
+                    </span></div>
+                  </div>
+                </div>
+              </a>
+                            <%}%>
                         </div>
-                        <div class="hidden p-4 rounded-lg ap-ct " id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                        </div>
+                        <div class="hidden p-4 rounded-lg ap-ct " id="Playlist" role="tabpanel" aria-labelledby="Playlist-tab">
                             <p class="text-sm  ">This is some placeholder content the <strong
                                     class="font-medium text-gray-800 dark:text-white">Settings tab's associated
                                     content</strong>.
@@ -265,7 +277,7 @@
                                 swaps
                                 classes to control the content visibility and styling.</p>
                         </div>
-                        <div class="hidden p-4 rounded-lg ap-ct " id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+                        <div class="hidden p-4 rounded-lg ap-ct " id="Uploads" role="tabpanel" aria-labelledby="Uploads-tab">
                             <p class="text-sm  ">This is some placeholder content the <strong
                                     class="font-medium text-gray-800 dark:text-white">Contacts tab's associated
                                     content</strong>.
@@ -273,6 +285,15 @@
                                 swaps
                                 classes to control the content visibility and styling.</p>
                         </div>
+                        <div class="hidden p-4 rounded-lg ap-ct " id="Accounts" role="tabpanel" aria-labelledby="Accounts-tab">
+                            <p class="text-sm  ">This is some placeholder content the <strong
+                                    class="font-medium text-gray-800 dark:text-white">Contacts tab's associated
+                                    content</strong>.
+                                Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript
+                                swaps
+                                classes to control the content visibility and styling.</p>
+                        </div>
+                        
                     </div>
         
         
@@ -282,10 +303,37 @@
             </section>
 
             <div class="about-prfile">
-               
+                <div>
+                    <div class="description flex flex-col">
+                        <div class="flex justify-between">
+                           <span>  @zlivehe55</span>
+                           <div class="flex">
+                            <span class="text-gray-700">
+                            3.2M Followers
+                            </span>
+                            <span class="text-gray-700 ml-3">300 videos</span>
+                            </div>
+                            </div>
+                            <br>
+                    <span>Description</span>
+                        <span class="text-sm"> <%=user.description%></span>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <span>Stats</span>
+                            <hr>
+                            <span class="mb-1">Joined <%= (new Date(user.createdAt)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+                            <hr>
+                            <span class="mb-1">Views</span>
+
+                        </div>
+                    </div>
+            
+
                 <br>
                 <span class="text-xl font-medium " >Active Course</span>
                 <div>
+                 
 <div class="flex">
                                 <a href="#" class="html" style="width: 14em;">
                                     <img class="rounded-md" src="https://html.com/wp-content/uploads/html-hpg-featured-new.png"

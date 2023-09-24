@@ -27,6 +27,7 @@
     
     <div class="center   p-3 " style=" height: auto;">
         <div class="flex  chatboxes">
+            <textarea  name="" id="foundquizid" class="hidden" cols="30" rows="10"><%=foundquiz._id %></textarea>
             <div class="fotter ]" style="width: 90%;">
                 <div id="msgs" class="response flex flex-col">
                     <div class="flex items-center mb-1">
@@ -75,6 +76,7 @@
     const sendmsg = document.querySelector('.sendmsg')
     const msgvalue = document.querySelector('.searchinput')
     const responsediv = document.querySelector('#msgs')
+    const foundquizid = document.querySelector('#foundquizid')
 
     sendmsg.addEventListener('click', async function(e){
   console.log(msgvalue.value)
@@ -99,6 +101,7 @@
     method: method,
     body: JSON.stringify({
       msg: msgvalue.value,
+      quizid:foundquizid.value
     }),
     headers: {
       'Content-Type': 'application/json',

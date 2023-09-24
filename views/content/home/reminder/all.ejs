@@ -2,24 +2,12 @@
 <%- include('../../../layouts/partials/settings.ejs') %>
 
 <style>
-    ul {
-  margin:0;
-  padding:0
-}
-li {
-  cursor:move;
-  display:block;
-  padding:20px 10px;
-  background:white;
-  border-bottom:solid 1px gray;
-}
+ 
 .image-upload {
   position: relative;
 }
 
-input[type="file"] {
-  display: none;
-}
+
 
 .custom-upload-button {
   background-color: #4CAF50;
@@ -48,7 +36,7 @@ input[type="file"] {
 }
 }
 </style>
-    <div class="content fullscreen" id="content-menu">
+    <div class="amp content fullscreen" id="content-menu">
         <div class="flex w-full">
             <div class=" main-content ">
                 <div class="flex p-2 justify-between">
@@ -91,10 +79,16 @@ input[type="file"] {
                             <div class="flex justify-between">
                                 <span name="title" id="title-<%= task._id %>" style="height: 2em;" class="text-xl w-full resize-none border-none p-0 focus:outline-none  h-auto font-medium"><%=task.title%></span>
 
-                                <button data-modal-target="defaultModal<%=task.title%>" data-modal-toggle="defaultModal<%=task.title%>"  class=""><i class="i bi-three-dots"></i></button>
+                                <button data-tg="<%= task._id %>"  class="menuttask"><i class="i bi-three-dots"></i></button>
 
-                               
-                                
+                              <div id="tasktoggle<%= task._id %>" class="absolute flex hidden w-full mt-4  justify-end" style="margin-top: 2em; margin-left: -7em;">
+                                <div class=" bg-gray-700 p-3" style="width: 11em;">
+                                  <button data-id="<%= task._id %>" class="deleteEvent w-full bg-gray-500 text-white">Delete</button>
+    
+                                    </div>
+
+                              </div>
+                              
 
                             </div>
                             <textarea id="description-<%=task._id%>" name="description" style="height: 3em;" class="text-gray-500 text-sm w-full p-1 focus:outline-none  h-auto  resize-none"><%= task.description %></textarea><br>
@@ -122,15 +116,15 @@ input[type="file"] {
                                                 <% } %>
                                                 <div class="ml-1 preview-containerd" id="preview-<%=task._id %>">
                                     </div>
-                                                  <button class="photobutton" type="submit"> 
+                                                  <!-- <button class="photobutton" type="submit"> 
                                                 <i class="bi text-gray-600 text-5xl ml-2 bi-plus-square-fill"></i>
-                                            </button>
+                                            </button> -->
 
                                         </div>
                                 </div>
 
                                 <div class="mb-5">
-                                    <button>
+                                    <!-- <button>
                                         <i class="bi bi-paperclip"></i>
                                         <span class="text-xs"> 1</span>
 
@@ -140,9 +134,10 @@ input[type="file"] {
                                         <span class="text-xs font-medium"> 0</span>
 
                                     </button>
+                                    -->
                                     <button class="ml-3 opencard" data-id="<%=task._id %>">
                                         <i class="bi bi-fullscreen"></i>
-                                    </button>
+                                    </button> 
 
 
                                 </div>
@@ -182,7 +177,7 @@ input[type="file"] {
   
                             <div class="relative w-full">
                                 <div class="image-upload">
-                                    <input name="image" data-id="<%= task._id%>" type="file" id="upload-<%= task._id%>" multiple accept="image/*">
+                                    <input name="image" class="hidden" data-id="<%= task._id%>" type="file" id="upload-<%= task._id%>" multiple accept="image/*">
                                     <label for="upload" data-id="<%= task._id%>" class="custom-upload-button">Choose Images</label>
                                   </div>
                                   <div class="flex mt-3 items-center">
@@ -400,6 +395,44 @@ input[type="file"] {
         </div>
     </div>
 <script>
+  const deleteEvent = document.querySelectorAll('.deleteEvent')
+
+  deleteEvent.forEach(Event => {
+        Event.addEventListener('click', function (e) {
+          const id = Event.dataset.id;
+            const cardsection = document.getElementById(`task${id}`);
+
+              cardsection.classList.toggle('bg-red-100');
+              //set a timeput to remove the card and add fading effect
+              setTimeout(() => {
+                  cardsection.remove();
+              }, 1000);
+          fetch(`/tasks/${id}/delete`, {
+                method: 'POST',
+            }).then(res => res.json())
+                .then(data => {
+                
+                })
+                .catch(err => console.log(err))
+
+
+        })})
+
+   const menuttask = document.querySelectorAll('.menuttask')
+   console.log(menuttask)
+   menuttask.forEach(Event => {
+        Event.addEventListener('click', function (e) {
+          console.log(e)
+          const id = Event.dataset.tg;
+          const mueoshow = document.querySelector(`#tasktoggle${id}`)
+          console.log(mueoshow)
+          mueoshow.classList.toggle('hidden')
+
+
+        })}
+        )
+
+
 function handleFormSubmit(event) {
   event.preventDefault(); // Prevent the default form submission
 
@@ -503,6 +536,8 @@ opencard.forEach(card => {
             e.preventDefault();
             const id = task.dataset.task;
             const cardsection = document.getElementById(`task${id}`);
+           const cardescripion = document.getElementById(`description-${id}`);
+
             cardsection.classList.toggle('bg-green-100');
             //set a timeput to remove the card and add fading effect
             setTimeout(() => {
@@ -511,6 +546,8 @@ opencard.forEach(card => {
            
             task.classList.toggle('bg-green-500');
             task.classList.toggle('border-green-500');
+            cardescripion.classList.toggle('bg-green-100');
+
             fetch(`/tasks/${id}/completed`, {
                 method: 'POST',
             }).then(res => res.json())

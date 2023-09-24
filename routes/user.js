@@ -224,7 +224,38 @@ Router.post('/mobilelogin',passport.authenticate('local',
     
 })
 
+Router.post('/info/profile', upload.fields([
+  { name: 'profileimage', maxCount: 1 },
+  { name: 'bannerimage', maxCount: 1 },
+]), (req, res) => {
+  const user = req.user;
+  console.log(req.files)
+  // Check if there's a new profile image
+  if (req.files['profileimage']) {
+    const profileImage = req.files['profileimage'][0];
+    // Update user's profile image here
+    user.photourl = profileImage.path;
+  }
 
+  // Check if there's a new banner image
+  if (req.files['bannerimage']) {
+    const bannerImage = req.files['bannerimage'][0];
+  user.bannerImage = bannerImage.path;
+  }
+
+  // Check if there are other fields
+  if (req.body.username) {
+    user.username = req.body.username;
+    user.handel = req.body.handel;
+    user.description = req.body.description;
+    user.email = req.body.email;
+  }
+
+  user.save();
+  console.log(user)
+
+  res.send('Profile updated successfully');
+});
 Router.post('/extlogin',passport.authenticate('local',
  {failureFlash:true, failureRedirect: '/login'}),(req,res)=>{
 

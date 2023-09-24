@@ -1,6 +1,178 @@
 <% layout('./layouts/boilerplate.ejs')%>
 <%- include('../../../layouts/partials/settings.ejs') %>
+<title>
+    <%=folder.name %> - playlist
+</title>
 <div class="content fullscreen" id="content-menu">
 
-<span>Hi</span>
+<style>
+
+tbody tr {
+        cursor: move;
+    }
+</style>
+<div>
+    <div class="flex p-3 ml-3 mr-3 headding bg-gray-200">
+
+        <div class="imgae">
+            <img class="shadow rounded-sm" style="width: 20em; height: 15em;" src="https://www.musicgrotto.com/wp-content/uploads/2022/11/student-in-school-holding-books-at-lockers.jpg" alt="" srcset="">
+        </div>
+        <div class="playlist ml-3 flex flex-col">
+            <span class="text-lg">Public Playlist</span>
+            <span class="text-7xl font-semibold mt-4 mb-4">    <%=folder.name %>             </span>
+            <span class="text-gray-800 mb-4 mt-4">Rock legends & epic songs that continue to inspire generations. Cover: Foo Fighters            </span>
+            <div class="flex items-center">
+                <img class="rounded-full w-8 h-8" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGFDkSm37r9dKab-tOoHf-IrcNrsgAyifTD3LQ4tzo685SnJ1_Mv2rSR0gjrKlzDmBJxU&usqp=CAU" alt="" srcset="">
+                <span>Made by Zlive  324,232 likes 31 video</span> 
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="videoin">
+    <div class="play flex justify-between">
+        <div class="flex items-center">
+            <button class="ml-3 text-4xl "><i class="bi text-gray-600 bi-play-circle-fill"></i></button>
+
+        <button class="text-3xl ml-3"><i class=" text-gray-600 bi bi-heart-fill"></i>            </button>
+
+    </div>
+    <button class="text-3xl text-gray-700">
+        <i class="bi bi-three-dots"></i>
+
+    </button>
+
+    </div>
+
+    <div>
+
+        <div class="mt-8">
+            <table class="w-full text-sm text-left text-gray-500 ">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            #
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Title
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Date
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Length
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="sortable">
+                    <% for(let mainfolder of folder.quizCard){ %>  
+                    <tr class="bg-gray-100 border-b ">
+                        <td class="px-6 py-4">
+                            <%= mainfolder.position %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= mainfolder.cardId.title %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= (new Date(mainfolder.createdAt)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= mainfolder.cardId.cards.length %>
+                        </td>
+                    </tr>
+                    <% } %>
+                    <tr class="bg-gray-100 border-b ">
+                        <td class="px-6 py-4">
+                            2
+                        </td>
+                        <td class="px-6 py-4">
+                            Item 2
+                        </td>
+                        <td class="px-6 py-4">
+                            2023-09-25
+                        </td>
+                        <td class="px-6 py-4">
+                            4:15
+                        </td>
+                    </tr>
+                    <tr class="bg-gray-100 border-b ">
+                        <td class="px-6 py-4">
+                            3
+                        </td>
+                        <td class="px-6 py-4">
+                            Item 3
+                        </td>
+                        <td class="px-6 py-4">
+                            2023-09-26
+                        </td>
+                        <td class="px-6 py-4">
+                            2:45
+                        </td>
+                    </tr>
+                    <tr class="bg-gray-100 ">
+                        <td class="px-6 py-4">
+                            4
+                        </td>
+                        <td class="px-6 py-4">
+                            Item 4
+                        </td>
+                        <td class="px-6 py-4">
+                            2023-09-27
+                        </td>
+                        <td class="px-6 py-4">
+                            5:00
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+
 </div>
+<br><br><br><br><br>
+
+</div>
+
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tbody = document.getElementById('sortable');
+
+        new Sortable(tbody, {
+            animation: 150,
+            onUpdate: function (evt) {
+                const rows = evt.from.children;
+                for (let i = 0; i < rows.length; i++) {
+                    rows[i].children[0].textContent = i + 1;
+                }
+                const data = [];
+            for (let i = 0; i < rows.length; i++) {
+                const position = rows[i].children[0].textContent;
+                const title = rows[i].children[1].textContent;
+                const date = rows[i].children[2].textContent;
+                const length = rows[i].children[3].textContent;
+                data.push({ position, title, date, length });
+            }
+
+            // Send a POST request
+            fetch('/your-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        
+
+            }
+        });
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>

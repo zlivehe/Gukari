@@ -43,6 +43,9 @@ const cardSchema = new Schema({
   videolink:{
     type:String
   },
+  foldersave:{
+    type:Number
+  },
   author: {
     type: Schema.Types.ObjectId,
     ref: "User"

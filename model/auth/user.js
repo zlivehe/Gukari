@@ -17,10 +17,25 @@ const UserSchema = new Schema({
         require:true,
         unique: true
     },
+    bannerImage:{
+        type:String,
+    },
+    banner:{
+        type:String,
+
+    },
    profilecolor:{
         type:String,
     },
-
+    handle:{
+        type:String
+    },
+    description:{
+        type:String
+    },
+    links:{
+        type:String
+    },
     photourl: {
         type: String,
     },

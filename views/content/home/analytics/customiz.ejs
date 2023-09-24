@@ -1,1 +1,257 @@
-<span>Custom</span>
+<style>
+    .profilewidth{
+        height: 14em;
+        width: 20em;
+    }
+    .p-legth{
+        width: 30em;
+    }
+    .description-change{
+        color: rgb(89, 88, 88);
+    }
+   
+.preview{
+    height: 16em;
+}
+.banner{
+    width: 50%;
+}
+.picturefile{
+    width: 50%;
+}
+.flex-cuztom{
+    display: flex;
+}
+@media only screen and (max-width: 600px) {
+    .banner{
+    width: 100%;
+}
+.picturefile{
+    width: 100%;
+}
+.flex-cuztom{
+    display: flex;
+    flex-direction: column;
+}
+}
+</style>
+<form  id="profilechange"> 
+
+<div>
+
+    <span class="text-2xl font-semibold">Profile customization    </span>
+    <div class="flex justify-between items-center flex-wrap w-full p-2">
+        <div class="flex items-center">
+
+        <button data-math="Profiletab" class="active-ap custoomnav p-3 text- rounded-lg">
+            Profile
+        </button>
+           <button data-math="branding" class="active-ap ml-5 custoomnav p-3 text- rounded-lg bg-blue-500 text-white">
+            Layout
+        </button>
+      
+        <button data-math="Basicinfo" class="active-ap custoomnav ml-5 p-3 text- rounded-lg ">
+            Info
+        </button>
+    </div>
+    <div class="flex items-center">
+        <a href="http://" class="text-blue-600 mr-3">VIEW Profile</a>
+        <button class="ml-2">CANCEL</button>
+        <button class="p-3 text-white ml-2 text-center bg-blue-700 publish">PUBLISH</button>
+    </div>
+
+    </div>
+    <div id="branding" class="branding p-3 w-full h- hidden">
+       
+
+    </div>
+    <div id="Profiletab" class="Profiletab ">
+        <div class="flex-cuztom ">
+            <div class="picturefile w-full flex flex-col"> 
+                <span> <b> Picture</b> </span>
+        
+                <span class="text-gray-500">Your profile photo will be displayed whenever your profile is displayed on Gukari, such as next to your videos and comments.</span>
+                
+                <img class="profilewidth" id="profileImage" src="<%=currentUser.photourl %>" alt="" srcset="">
+                
+                <span class="description-change">It is advised that you choose a photo that is at least 100 × 100 pixels in size and 4MB or less in size. Use a PNG or GIF file with no animations. Make sure your image adheres to the Gukari Community Guidelines. </span>
+                
+                <button class="text-blue-500 font-semibold change-photo">Change</button>
+                
+                <input name="profileimage" type="file" id="cuztomfileInput" accept="image/*" style="display:none;">
+            </div>
+
+        <div class="banner flex flex-col">
+
+            <span><b>Banner image</b></span>
+            <span class="text-gray-600">This image will appear across the top of your channel
+            </span>
+            <div class="w-full flex  justify-center flex-col ">
+            <div class="preview  style-scope ytcp-banner-upload"><svg width="290" height="160" viewBox="0 0 290 160" class="style-scope ytcp-banner-upload"><rect x="65" y="15" width="160" stroke="var(--ytcp-static-brand-red)" fill="var(--ytcp-static-brand-red)" class="style-scope ytcp-banner-upload" height="26.122448979591837"></rect><image class="svg-image banner-preview style-scope ytcp-banner-upload" x="65" y="15" width="160" preserveAspectRatio="none"  href="<%=currentUser.bannerImage%>" height="26.122448979591837" visibility="visible"></image><rect x="65" y="40" width="160" height="65" stroke="var(--ytcp-brand-background-solid)" fill="var(--ytcp-brand-background-solid)" class="style-scope ytcp-banner-upload"></rect><rect x="65" y="15" width="160" height="90" stroke="var(--ytcp-general-background-c-inverse)" stroke-width="4" fill="transparent" class="style-scope ytcp-banner-upload"></rect><polyline points="65, 103 225, 103" stroke="var(--ytcp-general-background-c-inverse)" stroke-width="8" fill="var(--ytcp-general-background-c-inverse)" class="style-scope ytcp-banner-upload"></polyline><rect x="80" y="70" width="90" stroke="var(--ytcp-static-brand-red)" fill="var(--ytcp-static-brand-red)" class="style-scope ytcp-banner-upload" height="14.894698239393891"></rect><image class="svg-image style-scope banner-preview ytcp-banner-upload" x="80" y="70" width="90" preserveAspectRatio="none" href="<%=currentUser.bannerImage%>" height="14.894698239393891" visibility="visible"></image><rect x="80" y="85" width="90" height="35" stroke="var(--ytcp-brand-background-solid)" fill="var(--ytcp-brand-background-solid)" class="style-scope ytcp-banner-upload"></rect><rect x="80" y="70" width="90" height="50" stroke="var(--ytcp-general-background-c-inverse)" stroke-width="2" fill="transparent" class="style-scope ytcp-banner-upload"></rect><polygon points="80, 120 170, 120 182, 140 68, 140" stroke="var(--ytcp-general-background-c-inverse)" fill="var(--ytcp-general-background-c-inverse)" class="style-scope ytcp-banner-upload"></polygon><polyline points="80, 120 170, 120" stroke="var(--ytcp-brand-background-solid-inverse)" stroke-width="1" fill="var(--ytcp-brand-background-solid-inverse)" class="style-scope ytcp-banner-upload"></polyline><polyline points="67, 142 183, 142" stroke="var(--ytcp-general-background-c-inverse)" stroke-width="4" fill="var(--ytcp-general-background-c-inverse)" class="style-scope ytcp-banner-upload"></polyline><polyline points="68, 140 182, 140" stroke="var(--ytcp-brand-background-solid-inverse)" stroke-width="1" fill="var(--ytcp-brand-background-solid-inverse)" class="style-scope ytcp-banner-upload"></polyline><rect x="180" y="80" width="26" stroke="var(--ytcp-static-brand-red)" fill="var(--ytcp-static-brand-red)" class="style-scope ytcp-banner-upload" height="7.126699366706227"></rect><image class="svg-image style-scope ytcp-banner-upload banner-preview" x="180" y="80" width="26" preserveAspectRatio="none" href="<%=currentUser.bannerImage%>" height="7.126699366706227" visibility="visible"></image><rect x="180" y="86" width="26" height="39" stroke="var(--ytcp-brand-background-solid)" fill="var(--ytcp-brand-background-solid)" class="style-scope ytcp-banner-upload"></rect><rect x="180" y="80" width="26" height="45" stroke="var(--ytcp-general-background-c-inverse)" stroke-width="2" fill="transparent" class="style-scope ytcp-banner-upload"></rect><polyline points="179, 125 207, 125" stroke="var(--ytcp-general-background-c-inverse)" stroke-width="6" fill="var(--ytcp-general-background-c-inverse)" class="style-scope ytcp-banner-upload"></polyline><polyline points="190, 125 196, 125" stroke="var(--ytcp-general-background-c)" stroke-width="1" fill="var(--ytcp-general-background-c)" class="style-scope ytcp-banner-upload"></polyline></svg></div>
+            <span class="description-change">Use a picture that is at least 2048 by 1152 pixels and 6MB or less for the best effects on all platforms. </span>
+            <button class="text-blue-500 font-semibold change-banner">Change</button>
+            <input name="bannerimage" type="file" id="bannerFileInput" accept="image/*" style="display:none;">
+
+        </div>
+        </div>
+        </div>
+    </div>
+
+    <div id="Basicinfo" class="Basicinfo hidden ">
+        <div class=" ml-1" style="margin-right: 15%;">
+            <div class="name-change flex flex-col">
+
+        <span><b>Name</b></span>
+        <span class="text-gray-700 text-sm">
+            Select a channel name that accurately describes you and your stuff. Changes to your name and profile image are only displayed on Gukari and not on other Google services. You have 14 days to change your name twice. 
+        </span>
+        <input name="username" class="  p-2 rounded-sm border border-gray-400" value="<%= currentUser.username%>" type="text">
+
+    </div>
+    <br>
+    <div class="handdel-change flex flex-col">
+
+        <span><b>Handel</b></span>
+        <span class="text-gray-700 text-sm">
+            Create your own handle by combining letters and numbers. You have 14 days to change your handle back. Every 14 days, the handles can be changed.         </span>
+        <input name="handel" class="  p-2 rounded-sm border border-gray-400" value="@<%= currentUser.handle%>" type="text">
+        
+    </div>
+
+    <br>
+    <div class="description-change flex flex-col">
+
+        <span><b>Description</b></span>
+        <textarea name="description" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 " placeholder="Write your profile thoughts here..."><%=currentUser.description %></textarea>
+
+    </div>
+
+        <br>
+    <div class="handdel-change flex flex-col">
+
+        <span><b>Contact info        </b></span>
+        <span class="text-gray-700 text-sm">
+            Inform folks how to reach you for business queries. The email address you submit may be shown to viewers in the About section of your channel. </span>
+            <div style="width: 30%;">
+                <input name="email" type="text" id="first_name" class="border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " value="<%=currentUser.email %>" required>
+            </div>        
+    </div>
+
+    </div>
+
+    </div>
+    <div id="SocialTab" class="SocialTab hidden">
+        <span>SocialTab</span>
+    </div>
+</div>
+</form>
+
+
+<script>
+
+document.getElementById('profilechange').addEventListener('submit', function(event) {
+            if (!event.target.classList.contains('publish')) {
+        event.preventDefault();
+    }
+
+            // Create FormData object to serialize the form data
+            var formData = new FormData(this);
+
+            // Send the POST request using Fetch API
+            fetch('/info/profile', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text(); // You can change this to response.json() if the server returns JSON
+            })
+            .then(data => {
+                console.log('Post sent successfully', data);
+            })
+            .catch(error => {
+                console.error('Error sending post', error);
+            });
+        });
+     const cuztomfileInput = document.getElementById('cuztomfileInput');
+    const profileImage = document.getElementById('profileImage');
+
+    cuztomfileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function() {
+            profileImage.src = reader.result;
+        }
+
+        reader.readAsDataURL(file);
+    });
+
+    const bannerFileInput = document.getElementById('bannerFileInput');
+    const bannerPreview = document.querySelectorAll('.banner-preview');
+
+    bannerFileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function() {
+            for(let ban of bannerPreview){
+                ban.setAttribute('href', reader.result);
+            }
+        }
+
+        reader.readAsDataURL(file);
+    });
+
+    const changeBannerButton = document.querySelector('.change-banner');
+    changeBannerButton.addEventListener('click', function() {
+        bannerFileInput.click();
+    });
+
+
+
+
+
+
+
+    const changePhotoButton = document.querySelector('.change-photo');
+    changePhotoButton.addEventListener('click', function() {
+        cuztomfileInput.click();
+    });
+
+
+
+
+
+
+const cuztombtn = document.querySelectorAll(".custoomnav");
+let activecuztomtab = ''
+cuztombtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        cuztombtn.forEach((btn) => {
+            const Profiletab = document.getElementById("Profiletab");
+            btn.classList.remove("bg-blue-500", "text-white");
+        });
+        btn.classList.add("bg-blue-500", "text-white");
+
+        if (activecuztomtab != '') {
+            const math = document.getElementById(activecuztomtab);
+            math.classList.add("hidden");
+        }
+        activecuztomtab = btn.dataset.math;
+        Profiletab.classList.add("hidden");
+        const data = btn.dataset.math;
+        activecuztomtable = data;
+        const math = document.getElementById(data);
+
+        math.classList.remove("hidden");
+
+
+    });
+}
+);
+
+
+</script>

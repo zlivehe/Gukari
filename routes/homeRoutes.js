@@ -103,12 +103,11 @@ Router.get('/project',isLoggedIn,catchAsync(async(req,res)=>{
 Router.get('/analytics',isLoggedIn,catchAsync(async(req,res)=>{
     const user = req.user;
       //find posts
-      console.log(user)
       const recentlyview = []
-      for(let viewof of user.recentCard){
-          const view = await QuizCard.findById(viewof)
-          recentlyview.push(view)
-      }  
+    //   for(let viewof of user.recentCard){
+    //       const view = await QuizCard.findById(viewof)
+    //       recentlyview.push(view)
+    //   }  
     const quizCardIds = user.quizCard.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
     const videoUploadIds = user.VideoUpload.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
     const userPosts = await user.Uploads.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
@@ -148,13 +147,17 @@ Router.get('/create/folder',(req,res)=>{
     res.render('content/home/create/folder.ejs')
 })
 
-Router.get('/profile/:id',async(req,res)=>{
+Router.get('/profile/:id',catchAsync(async(req,res)=>{
+    
     const id = req.params.id
-    const user = await User.findById(id)
-    console.log(user)
-    const userQuizCards = await QuizCard.find({author: user._id})
-    res.render('content/home/profile.ejs', { user, userQuizCards })
-})
+    const user = await User.findById(id).populate('quizCard')
+    const videoUploadIds = user.VideoUpload.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
+    const userVideoUpload = await VideoUpload.find({ _id: { $in: videoUploadIds } });
+
+    console.log(userVideoUpload)
+    let userQuizCards = []
+    res.render('content/home/profile.ejs', { user, userQuizCards,userVideoUpload })
+}))
 Router.get('/student',async(req,res)=>{
     const DISTRICT_URL = 'https://md-mcps-psv.edupoint.com/';
     const USERNAME = '206840';
@@ -245,7 +248,6 @@ Router.get('/quizcard/:id/gubot', catchAsync(async (req, res) => {
     const {id} = req.params
     const foundquiz =await QuizCard.findById(id)
     console.log(foundquiz)
-
 
     res.render('content/home/create/quiz/ai.ejs',{foundquiz})
   
@@ -475,12 +477,18 @@ Router.get('/video/:id',catchAsync(async(req,res)=>{
   }));
   
   
-Router.get('/folder/:id',catchAsync(async(req,res)=>{
-    const {id} = req.params
-    const folder = await Folder.findById(id).populate('user')
-    res.render('content/home/Account/folder.ejs',{folder})
-}
-))
+  Router.get('/folder/:id', catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const folder = await Folder.findById(id)
+        .populate('user')
+        .populate({
+            path: 'quizCard.cardId',  // Populate the cardId field
+            model: 'Quizcard'
+        });
+
+    res.render('content/home/Account/folder.ejs', { folder });
+}));
+
   
 Router.get('/list/:id',catchAsync(async(req,res)=>{
     const {id} = req.params

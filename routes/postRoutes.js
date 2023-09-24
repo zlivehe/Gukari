@@ -20,6 +20,7 @@ const User = require('../model/auth/user')
 const Folder = require('../model/auth/folder')
 const {storage} = require('../cloudinary/index')
 const  OpenAI = require("openai");
+const quizcard = require('../model/home/quizapp/quizcard');
 
 const upload = multer({storage})
 
@@ -204,6 +205,7 @@ Router.post('/quizcard',  upload.array('image'), isLoggedIn, catchAsync(async (r
   }));
 
 
+
 // Router.post('/quizcard/:id/edit', upload.array('image'), isLoggedIn, catchAsync(async (req, res) => {
 //   const { id } = req.params;
 
@@ -331,9 +333,48 @@ Router.post('/quizcard/:id/save', catchAsync(async (req, res) => {
     }
 }));
 
+Router.post('/quiz/:id/playlist/:playId', async (req, res) => {
+  const id = req.params.id;
+  const Quizfoundid = req.params.playId;
+  const Quizfound = await QuizCard.findById(Quizfoundid);
+  const folder = await Folder.findById(id);
+
+  // Check if the quiz is already in the folder
+  const existingQuizIndex = folder.quizCard.findIndex(card => card.cardId.equals(Quizfound._id));
+
+  if (existingQuizIndex !== -1) {
+      // Remove the quiz from the folder
+      folder.quizCard.splice(existingQuizIndex, 1);
+      await folder.save();
+
+      // Update Quizfound's foldersave property
+      // Quizfound.foldersave =  Quizfound.foldersave - 1;
+      await Quizfound.save();
+
+      return res.send(folder);
+  }
+
+  const newQuizCard = {
+      cardId: Quizfound._id,
+      position: folder.quizCard.length + 1
+  };
+
+  folder.quizCard.push(newQuizCard);
+  await folder.save();
+
+  // Quizfound.foldersave =   Quizfound.foldersave + 1
+  await Quizfound.save();
+
+  res.send(folder);
+});
+
+
 Router.post('/newtask', upload.single('image'), catchAsync(async (req, res) => {
   try {
     const { title, description, image, time, startdate, priority, enddate } = req.body;
+    if(title == '' || null){
+      return res.send('please enter a title')
+    }
     const user = req.user;
     let reminder;
     const imageurl = req.file ? `${req.file.path}` : '';
@@ -472,6 +513,11 @@ Router.post('/tasks/:id/completed',catchAsync(async(req,res)=>{
   }
 }
 ))
+Router.post('/tasks/:id/delete',catchAsync(async(req,res)=>{
+  const {id} = req.params;
+  const task = await Event.findByIdAndDelete(id);
+    res.send('ok')
+}))
 
 Router.post('/tasks/:id/update',catchAsync(async(req,res)=>{
   try{
@@ -1051,21 +1097,28 @@ async function main() {
 
   console.log(completion.choices);
 }
-let conversation = [
-  {
-    role: 'system',
-    content: 'You will follow the conversation and respond to the queries asked by the \'user\'\'s content. You will act as the assistant'
-  }
-];
+
 Router.post('/ai/feach', async(req,res)=>{
   const body = req.body
+  const quizfind = await QuizCard.findById(body.quizid)
+  console.log(quizfind.cards)
+  let conversation = [
+    {
+      role: 'system',
+      content: 'You will follow the conversation and respond to the queries asked by the \'user\'\'s content. You will act as the assistant'
+    },
+    {
+    role:'system',
+    content: `Here are the quiz Date throughout conversation you may be asked to use it ${quizfind.cards}`
+    }
+  ];
   conversation.push({
     role: 'user',
     content: body.msg
   }) 
   const completion = await openai.chat.completions.create({
     messages: conversation,
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4',
   })
  
   const content = completion.choices[0].message.content;

@@ -7,14 +7,26 @@ const autopopulate = require('mongoose-autopopulate');
 const Folderschema = new Schema({
     quizCard:[
         {
-            type:Schema.Types.ObjectId,
-            ref:"Quizcard",
+            cardId: {
+                type: Schema.Types.ObjectId,
+                ref: "Quizcard",
+            },
+            position: {
+                type: Number,
+            }
         }
     ],
     ImageUpload:[
         {
             type:Schema.Types.ObjectId,
             ref:"ImageUpload",
+        }
+    ],
+    hearts:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:"User"
+
         }
     ],
     VideoUpload:[
