@@ -102,24 +102,23 @@ Router.get('/project',isLoggedIn,catchAsync(async(req,res)=>{
 }))
 Router.get('/analytics',isLoggedIn,catchAsync(async(req,res)=>{
     const user = req.user;
+      //find posts
+      console.log(user)
+      const recentlyview = []
+      for(let viewof of user.recentCard){
+          const view = await QuizCard.findById(viewof)
+          recentlyview.push(view)
+      }  
     const quizCardIds = user.quizCard.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
-    const userQuizCards = await QuizCard.find({ _id: { $in: quizCardIds } });
-    const userWorkspace = await Workspace.find({author: user._id});
-    //find videouoload
     const videoUploadIds = user.VideoUpload.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
-    const userVideoUpload = await VideoUpload.find({ _id: { $in: videoUploadIds } });
-    //find posts
-    const recentlyview = []
-    for(let viewof of user.recentCard){
-        const view = await QuizCard.findById(viewof)
-        recentlyview.push(view)
-    }
-
     const userPosts = await user.Uploads.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
-    const userupload = await Upload.find({ _id: { $in: userPosts } });
-    
 
-    res.render('content/home/analytics.ejs',{user,userQuizCards,userWorkspace,recentlyview,userVideoUpload,userupload})
+    const userQuizCards = await QuizCard.find({ _id: { $in: quizCardIds } });
+    const userVideoUpload = await VideoUpload.find({ _id: { $in: videoUploadIds } });
+    const userupload = await Upload.find({ _id: { $in: userPosts } });
+
+
+    res.render('content/home/analytics.ejs',{user,userQuizCards,recentlyview,userVideoUpload,userupload})
 
 }))
 
@@ -441,7 +440,16 @@ Router.get('/video/:id',catchAsync(async(req,res)=>{
     const { id } = req.params;
     const upload = await VideoUpload.findById(id);
     const user = req.user
-     
+    const uplaod = await VideoUpload.findById(id).populate({
+        path: 'author',
+        model: 'User',
+      }).populate({
+        path: 'comments.user',
+        model: 'User',
+      }).populate({
+          path: 'quizCard',
+          model: 'Quizcard',
+          });
     // Check if upload exists
     // if (!upload.author._id.equals(req.user._id)) {
     //     req.flash('error', 'You do not have permission to do that!');
@@ -463,7 +471,7 @@ Router.get('/video/:id',catchAsync(async(req,res)=>{
 
     const totalquiz = await QuizCard.find({});
     
-    res.render('content/home/upload/edit.ejs', { upload, totalquiz, quizowner,userQuizCards });
+    res.render('content/home/upload/edit.ejs', { upload, totalquiz,uplaod, quizowner,userQuizCards });
   }));
   
   

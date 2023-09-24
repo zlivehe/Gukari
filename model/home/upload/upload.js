@@ -36,7 +36,6 @@ const commentSchema = new mongoose.Schema({
       },
     ],
     imageurl:{
-      required: true,
         type: String
     },
     visability:{
@@ -45,12 +44,14 @@ const commentSchema = new mongoose.Schema({
     viewcount:{
       type:Number
     },
+    stars:{
+      type:Number
+    },
     description: {
       type: String,
-      required: true,
     },
     
   
     comments: [commentSchema],
-  });
+  },{timestamps:true});
 module.exports = mongoose.model('ImageUpload',UploadSchema)

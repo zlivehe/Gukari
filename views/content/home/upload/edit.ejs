@@ -6,7 +6,7 @@
         }
 </style>
 <div class="content fullscreen"  id="content-menu">
-    <div class="flex justify-between">
+    <div class="flex justify-between items-center">
     <ul class="flex border rounded-lg white-black mt-2 flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
         <li class="mr-2" role="presentation">
             <button class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'IT' ? 'border-b-2 border-blue-500' : 'border-b-0'}} text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500" id="Content-tab" data-tabs-target="#Content" type="button" role="tab" aria-controls="Content" aria-selected="true"><i class="bi bi-train-freight-front"></i>Content
@@ -22,8 +22,9 @@
             <button class="inline-block p-4 rounded-t-lg focus:outline-none focus:border-blue-500 {{activeTab === 'contacts' ? 'border-b-2 border-blue-500' : 'border-b-0'}} dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300" id="Settings-tab" data-tabs-target="#Settings" type="button" role="tab" aria-controls="Settings" aria-selected="false">Settings</button>
         </li>
     </ul>
+    <button  id="savevideo" class="border-none bg-cyan-600 w-26  p-4 text-center text-white rounded">Save</button>
+
 </div>
-<button  id="savevideo" class="border-none bg-cyan-600 w-26  p-4 text-center text-white rounded">Save</button>
 
 <form id="videoedit" enctype="multipart/form-data">
 
@@ -95,9 +96,11 @@
                                         <select id="visibility-select" name="quizcard" class="w-full p-2 border rounded-md text-gray-900 bg-gray-100 border-gray-300">
                                           <%for(let quizcard of userQuizCards){ %>
 
-                                            <option value="<%=quizcard._id%>"><%=quizcard.title %></option>
+                                            <option selected value="<%=quizcard._id%>"><%=quizcard.title %></option>
 
                                             <% } %>
+                                            <option value="none">none</option>
+
                                         </select>
                                     </div>
                                 </div>
@@ -107,6 +110,7 @@
                   </div>
                 <br><br>
                 <div class="visability">
+
                   <span class="text-2xl">Visibility</span><br>
                   <span class="text-sm">Choose when to publish and who can see your video</span>
                   <div class="border rounded-md p-3">
@@ -117,11 +121,11 @@
                               <div class="flex flex-col p-2">
                                   <div class="flex flex-col">
                                       <label for="visibility-select" class="font-medium text-gray-900">Visibility</label>
-                                      <select id="visibility-select" name="visibility" class="w-full p-2 border rounded-md text-gray-900 bg-gray-100 border-gray-300">
-                                        <%=upload.visibility %>
-                                          <option value="private">Private</option>
-                                          <option value="unlisted">Unlisted</option>
-                                          <option value="public">Public</option>
+                                      <select id="visibility-select" name="visibility" class="w-full p-2 border rounded-md text-gray-900 bg-gray-100 border-gray-300">                                                                                 
+                                         <option value="<%=upload.visibility %>"> <%=upload.visibility %>    </option>
+                                          <option value="private">private</option>
+                                          <option value="unlisted">unlisted</option>
+                                          <option value="public">public</option>
                                       </select>
                                   </div>
                               </div>
@@ -131,7 +135,7 @@
               </div>
               
 
-                <br><br>
+                <br>
                 <div class="flex justify-between">
              
             
@@ -139,7 +143,6 @@
                     <div>
 
                         <label for="category" class="block text-sm font-medium">Categorie</label>
-                        <br>
                         <select name="category" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option selected="" value="<%=upload.category %>"><%=upload.category %></option>
                             <option value="technology">Technology</option>
@@ -206,7 +209,6 @@
                 <div class="flex flex-col ml-3 w-full">
                   <div class="flex w-full justify-between">
                     <b><%= upload.viewcount %></b>
-                   <span class="text-green-400"> <i class="bi  bi-graph-up"> 23% </i></span>
                   </div>
 
                   <span class="text-sm text-gray-500">Avg Clicks</span>
@@ -225,7 +227,6 @@
                 <div class="flex flex-col ml-3 w-full">
                   <div class="flex w-full justify-between">
                     <b><%= upload.likes.length%></b>
-                   <span class="text-red-400"> <i class="bi  bi-graph-down"> 2% </i></span>
                   </div>
 
                   <span class="text-sm text-gray-500">Likes</span>
@@ -243,7 +244,6 @@
                 <div class="flex flex-col ml-3 w-full">
                   <div class="flex w-full justify-between">
                     <b><%= upload.comments.length%></b>
-                   <span class="text-green-400"> <i class="bi  bi-graph-up"> 2% </i></span>
                   </div>
 
                   <span class="text-sm text-gray-500">Total Commets</span>
@@ -274,31 +274,368 @@
               </div>
             </div>
           </div>
-          <div class="container mx-auto my-8">
-            <div class="flex items-center justify-between mb-4">
-              <label class="cursor-pointer">
-                <input type="checkbox" id="subscribersToggle" class="hidden">
-                <span class="bg-blue-500 w-12 h-6 rounded-full inline-block"></span>
-                <span class="ml-2 text-gray-700">Subscribers</span>
-              </label>
-              <label class="cursor-pointer">
-                <input type="checkbox" id="likesToggle" class="hidden">
-                <span class="bg-purple-500 w-12 h-6 rounded-full inline-block"></span>
-                <span class="ml-2 text-gray-700">Likes</span>
-              </label>
-            </div>
-            <canvas id="myChart"></canvas>
-          </div>
-    </div>
-    <div class="p-4 rounded-lg ap-ct hidden" id="Commets" role="tabpanel" aria-labelledby="Commets-tab">
+        
+  
+</div>
+<div class="p-4 rounded-lg ap-ct hidden" id="Commets" role="tabpanel" aria-labelledby="Commets-tab">
     
+            <div class="comments p-3" style="height: auto; overflow: scroll;">
+              <% for(let comment of uplaod.comments){ %>
+                <div class="flex items-start w-full mb-2 align-center" id="livecommetn-<%= comment._id%>-<%= comment.user[0]._id %>">
+                  <div>
+                    <div class="like mr-1 bg-gray-200 p-2 rounded" style="position: relative; height: 5em; display: flex; justify-content: center; align-items: center;">
+                      <div class="flex text-center items-center flex-col">
+                        <% if(currentUser){ %>
+                        <% let likefill = comment.likes.includes(currentUser._id) ? 'bi-caret-up-fill' : 'bi-caret-up'; %>
+                        <button id="likebtn<%= comment._id %>" class="like-commets <%= likefill %>" onclick="likeComment('<%= comment._id %>')"></button>
+                        <% }else{ %>
+                          <button class="like-commets bi-caret-up" onclick="likeComment('<%= comment._id %>')"></button>
+                        <% } %>
+                        <% 
+                        let likes = comment.likes.length;
+                        let dislikes = comment.dislikes.length;
+                        let avrage = likes - dislikes;
+                        %>
+                        <span class="like-dislike-count" id="<%= comment._id %>"><%= avrage %></span>
+                        <% if(currentUser){ %>
+                        <% let dislikefill = comment.dislikes.includes(currentUser._id) ? 'bi-caret-down-fill' : 'bi-caret-down'; %>
+                        <button id="dislikebtn<%= comment._id %>" class="dislike-commets <%= dislikefill %>" onclick="dislikeComment('<%= comment._id %>')"></button>
+                        <% }else{ %>
+                          <button class="dislike-commets bi-caret-down" onclick="dislikeComment('<%= comment._id %>')"></button>
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment w-full mb-3 flex">
+                    <% if(!comment.user[0].photourl || comment.user[0].photourl === '') { %>
+                      <div class="user-img rounded-full bg-blue-200 w-11 h-11 text-center flex justify-center" src="https://yt3.ggpht.com/ytc/AOPolaSHoC37xAqzya3OaA1wyAKEqd9623gkoy6D5oMylA=s88-c-k-c0x00ffffff-no-rj" alt="" srcset="">
+                        <span  class="mt-1 font-medium text-md"><%= comment.user[0].username.substring(0, 1) %></span>
+                      </div>
+                    <% } else { %>
+                      <img class="user-img rounded-full w-11 h-11" src="<%= comment.user[0].photourl %>" alt="" srcset="">
+                    <% } %>
+                    <div class="comment-text ml-1" style="width: 98%;">
+                      <div class="flex w-full justify-between">
+                        <% const commentDate = new Date(comment.createdAt);
+                        const currentDate = new Date();
+                        const timeDiff = Math.abs(currentDate - commentDate);
+                        const minutes = Math.floor(timeDiff / (1000 * 60));
+                        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+                        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                        const months = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 30));
+                        const years = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365));
+                        let formattedDate;
+                        if (minutes < 60) {
+                          formattedDate = minutes + ' minutes ago';
+                        } else if (hours < 24) {
+                          formattedDate = hours + ' hours ago';
+                        } else if (days < 30) {
+                          formattedDate = days + ' days ago';
+                        } else if (months < 12) {
+                          formattedDate = months + ' months ago';
+                        } else {
+                          formattedDate = years + ' years ago';
+                        }
+                        %>
+                        <span class="text-sm">@<%= comment.user[0].username %> <span class="text-gray-500 text-md"><%= formattedDate %></span></span>
+                        <button  data-modal-target="more<%= comment.content%>popup" data-modal-toggle="more<%= comment.content%>popup"><i class="bi bi-three-dots ml-2"></i></button>
+                          <!-- Dropdown menu -->
 
-    </div>
-    <div class="p-4 rounded-lg ap-ct hidden" id="Settings" role="tabpanel" aria-labelledby="Settings-tab">
-        <p class="text-sm  ">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>.
-            Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps
-            classes to control the content visibility and styling.</p>
-    </div>
+                      </div>
+                      <div class="flex justify-end">
+                        <div id="more<%= comment.content%>popup" id="dropdownDelay" class="z-10 hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-16 ">
+                          <ul class="py-2 text-sm text-gray-700 " aria-labelledby="dropdownDelayButton">
+                            <% if(currentUser){ %>
+                            <% if (comment.user[0]._id.equals(currentUser._id)) { %>
+                              <li>
+                              <button  data-modal-hide="more<%= comment.user[0]._id%>popup"  data-modal-target="edit<%= comment.user[0]._id%>popup"  data-modal-toggle="edit<%= comment.user[0]._id%>popup" class="block w-full px-4 py-2 hover:bg-gray-100 ">Edit</button>
+                            </li>
+                            <li>
+                              <button href="#"  data-modal-hide="more<%= comment.user[0]._id%>popup" onclick="Deletecommets('<%= uplaod._id%>','<%=comment._id%>','<%= comment.user[0]._id%>')" class="block px-4 py-2 hover:bg-gray-100 ">Delete</button>
+                            </li>
+                            <% } else{ %>
+                            <li>
+                              <a href="#"  class="block px-4 py-2 hover:bg-gray-100 ">Report</a>
+                            </li>
+                            <% } %>
+                            <% } %>
+                          </ul>
+                        </div>
+                        
+                      </div>
+                  
+                      <span id="comment-<%=comment._id %>" class="text-gray-700 text-lg"><%= comment.content %></span><br>
+                      <% if (comment.replies && comment.replies.length> 0) { %>
+
+                  <button  data-modal-target="replying-<%=comment.replies[0]._id%>Modal" data-modal-toggle="replying-<%=comment.replies[0]._id%>Modal"><i class="bi bi-chevron-down"></i>
+                    <%=comment.replies.length%> replies</button>
+              
+                  <div class="flex replies-class hidden  " id="replying-<%=comment.replies[0]._id%>Modal"  data-modal-backdrop="static" > 
+                    <div class="flex replymodel-<%=comment._id %> flex-col w-full" >
+              <% for(let replies of comment.replies){%>
+                <div class="flex mb-1 " id="livereply-<%=replies._id %>-<%= replies.user[0]._id%>">
+                  <div class="like mr-1 bg-gray-200 p-1 rounded" style="height: 3.3em;">
+                    <div class="flex text-center items-center flex-col" style="font-size: 0.5em;">
+                      <% let likes = replies.likes.length;
+                       let dislikes = replies.dislikes.length; 
+                       let avrage = likes - dislikes;
+                       const commentDate1 = new Date(replies.createdAt);
+                            const currentDate1 = new Date();
+                            const timeDiff1 = Math.abs(currentDate1 - commentDate1);
+                            const minutes1 = Math.floor(timeDiff1 / (1000 * 60));
+                            const hours1 = Math.floor(timeDiff1 / (1000 * 60 * 60));
+                            const days1 = Math.floor(timeDiff1 / (1000 * 60 * 60 * 24));
+                            const months1 = Math.floor(timeDiff1 / (1000 * 60 * 60 * 24 * 30));
+                            const years1 = Math.floor(timeDiff1 / (1000 * 60 * 60 * 24 * 365));
+                            let formattedDate1;
+                            if (minutes1 < 60) {
+                              formattedDate1 = minutes1 + ' minutes ago';
+                            } else if (hours1 < 24) {
+                              formattedDate1 = hours1 + ' hours ago';
+                            } else if (days1 < 30) {
+                              formattedDate1 = days1 + ' days ago';
+                            } else if (months1 < 12) {
+                              formattedDate1 = months1 + ' months ago';
+                            } else {
+                              formattedDate1 = years1 + ' years ago';
+                            }
+
+                        %>
+                        <% if(currentUser){ %>
+                          <%                             let likefill = replies.likes.includes(currentUser._id) ? 'bi-caret-up-fill' : 'bi-caret-up';
+                          let dislikefill = replies.dislikes.includes(currentUser._id) ? 'bi-caret-down-fill' : 'bi-caret-down'; %>
+                        
+                        <button id="likebtn<%= replies._id %>" class="like-reply <%= likefill %>" onclick="likeReply('<%= comment._id %>', '<%= replies._id %>')"></button>
+
+                      <span class="avrage" id="<%= replies._id %>"><%=avrage %></span>
+                      <button id="dislikebtn<%= replies._id %>" class="dislike-reply <%= dislikefill %>" onclick="dislikeReply('<%= comment._id %>', '<%= replies._id %>')"></button>
+                        <% }else{ %>
+
+                          <button id="likebtn<%= replies._id %>" class="like-reply bi-caret-up " onclick="likeReply('<%= comment._id %>', '<%= replies._id %>')"></button>
+
+                      <span class="avrage" id="<%= replies._id %>"><%=avrage %></span>
+                      <button id="dislikebtn<%= replies._id %>" class="dislike-reply bi-caret-down" onclick="dislikeReply('<%= comment._id %>', '<%= replies._id %>')"></button>
+                        <% } %>
+                    </div>
+                </div>
+                   <div class="p-2 rereply w-full">
+                <div class="flex justify-between w-full">
+                  <div class="flex">
+                  <% if(!comment.user[0].photourl && comment.user[0].photourl == '') { %>
+                <div class="user-img rounded-full bg-red-200 w-8 h-8 text-center flex justify-center" src="https://yt3.ggpht.com/ytc/AOPolaSHoC37xAqzya3OaA1wyAKEqd9623gkoy6D5oMylA=s88-c-k-c0x00ffffff-no-rj" alt="" srcset=""> <span class="mt-2 font-medium text-md"> <%= replies.user[0].username %></span></div>
+                <%} else{%>
+                    <img class="user-img rounded-full w-7 h-7" src="<%= replies.user[0].photourl %>" alt="" srcset="">
+                    <% } %>
+               <span class="ml-1 text-sm">@<%= replies.user[0].username %> <span class="text-gray-500 text-xs"><%=formattedDate1 %> </span>
+          
+                     </span>
+                </div>
+                <span>  
+                  <button  data-modal-target="re-more<%= replies.content%>popup" data-modal-toggle="re-more<%= replies.content%>popup"><i class="bi bi-three-dots ml-2"></i></button>            
+                    </span>
+                    <div class="" style="
+    width: 55%;
+    margin-top: 1em;
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;">
+                      <div id="re-more<%= replies.content%>popup" id="dropdownDelay" class="z-10 hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-16 ">
+                        <ul class="py-2 text-sm text-gray-700 " aria-labelledby="dropdownDelayButton">
+                          <% if(currentUser){ %>
+                          <% if (comment.user[0]._id.equals(currentUser._id)) { %>
+                            <li>
+                            <button  data-modal-hide="re-more<%= replies.content%>popup"  data-modal-target="re-reply<%= replies.content%>edit"  data-modal-toggle="re-reply<%= replies.content%>edit" class="block px-4 py-2 hover:bg-gray-100 ">Edit</button>
+                          </li>
+                          <li>
+                            <button  href="#" data-modal-hide="re-more<%= comment.user[0]._id%>popup" onclick="Deletereply('<%= uplaod._id%>','<%=comment._id%>' ,'<%= replies._id%>' ,'<%= replies.user[0]._id%>')" class="block px-4 py-2 hover:bg-gray-100 ">Delete</button>
+                          </li>
+                          <% } else{ %>
+                          <li>
+                            <a href="#"  class="block px-4 py-2 hover:bg-gray-100 ">Report</a>
+                          </li>
+                          <% } %>
+                          <% } %>
+                        </ul>
+                      </div>
+                    </div>
+
+              </div>
+              <div>
+                <% if (replies.targetuser ) { %>
+                  <span   class=" text-white text-xs p-1 rounded border-0 bg-blue-900"><%= replies.targetuser[0].username %></span> <span id="repyied-<%=replies._id %>" > <%= replies.content %></span> 
+                  <% }else{%>
+
+              <span id="repyied-<%=replies._id %>" class="text-xs text-gray-600"><%= replies.content %></span>
+            <% } %>
+
+              </div>
+              <div class="reply-reply">
+                <button  data-modal-target="<%=replies._id %>ReplayreplyModal" data-modal-toggle="<%=replies._id %>ReplayreplyModal"  class="replsy-btn text-xs" >
+                      Reply</button>
+                    <!-- //re reEdit -->
+                      <div style="margin-left: -3em;" class="kd w-full hidden " id="re-reply<%= replies.content%>edit" >
+                        <div class="flex flex-col">
+    
+                        <span> Editing to  <b class="text-red-700"> <%=replies.user[0].username %></b></span>
+    <form id="re-replyeditform" action="/video/<%=uplaod._id %>/comments/<%=comment._id %>/replies/<%=replies._id %>/edit" data-comment-id="<%=replies._id %>" method="post">
+                          <div class="flex items-center  p-1 border rounded-lg bg-gray-50">
+    
+                        <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                            <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                          </svg>
+                          <span class="sr-only">Upload image</span>
+                        </button>
+                       
+                        <textarea id="chat" name="comment" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder=""><%=replies.content %></textarea>
+                        <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                          <svg class="w-5 h-5 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                            <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
+                          </svg>
+                          <span class="sr-only">Send message</span>
+                        </button>
+                      </div>
+                    </div>
+    
+                    </form>
+    
+                      </div>
+                      <!-- /Edit -->
+                      <div style="margin-left: -3em;" class="kd w-full hidden " id="<%=replies._id %>ReplayreplyModal" >
+                        <div class="flex flex-col">
+    
+                        <span>re Replying to  <b class="text-red-700"> <%=replies.user[0]._id %></b></span>
+    <form id="replyform" action="/video/<%=uplaod._id %>/comments/<%=comment._id %>/replies/<%=replies.user[0]._id %>" data-comment-id="<%=comment._id %>" method="post">
+                          <div class="flex items-center  p-1 border rounded-lg bg-gray-50">
+    
+                        <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                            <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                          </svg>
+                          <span class="sr-only">Upload image</span>
+                        </button>
+                       
+                        <textarea id="chat" name="comment" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea>
+                        <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                          <svg class="w-5 h-5 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                            <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
+                          </svg>
+                          <span class="sr-only">Send message</span>
+                        </button>
+                      </div>
+                    </div>
+    
+                    </form>
+    
+                      </div>
+                    
+              </div>
+
+              </div>
+
+
+                </div>
+              <% } %>
+          
+                  </div>
+                  
+
+                   
+                  </div>
+                  <% } %>
+
+                  <div class="flex justify-between w-full" style="    width: 100%;
+                  margin-left: -2em;">
+                    <button  data-modal-target="<%=comment._id %>ReplayModal" data-modal-toggle="<%=comment._id %>ReplayModal"  class="replsy-btn" >
+                        <i class="bi bi-reply"></i>
+                            Reply</button>
+                           
+                            
+                          
+                        </div>
+                  <!-- Editmodel -->
+                  <form id="replyeditform" action="/video/<%=uplaod._id %>/comments/<%=comment._id %>/edit" data-comment-id="<%=comment._id %>" method="post">
+                  <div style="" class="kd w-full justify-end hidden " id="edit<%= comment.user[0]._id%>popup"  >
+                    <div class="flex flex-col">
+
+                    <span>Editing to  <b class="text-red-700"> <%=comment.user[0].username %></b></span>
+                      <div class="flex items-center px-3 py-2 border rounded-lg bg-gray-50">
+
+                    <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                      <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                        <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                      </svg>
+                      <span class="sr-only">Upload image</span>
+                    </button>
+                   
+                    <textarea id="commesnt-<%=comment._id %>" name="comment" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."><%=comment.content%></textarea>
+                    <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                      <svg class="w-5 h-5 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                        <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
+                      </svg>
+                      <span class="sr-only">Send message</span>
+                    </button>
+                  </div>
+                </div>
+
+
+                  </div>
+                </form>
+
+                  <!-- //end of edit model -->
+
+
+                  <div style="  justify-content: flex-start;" class="kd justify-end w-full hidden " id="<%=comment._id %>ReplayModal" >
+                    <div class="flex w-full flex-col">
+
+                    <span>Replying to <div class="p-2  rounded-md bg-gray-400 w-full flex flex-col <%=comment.user[0].profilecolor%>">
+                      <div class="flex items-center ">
+                        <img class="w-8 h-8 rounded-full" src="<%= comment.user[0].photourl %>" alt="" srcset="">
+                        <b class="text-red-700 ml-1"> <%=comment.user[0].username %></b>
+                      
+                      </div>
+                    
+                <form id="replyform" action="/video/<%=uplaod._id %>/comments/<%=comment._id %>/replies/<%=comment.user[0]._id %>" data-comment-id="<%=comment._id %>" method="post">
+                      <div class="flex mt-1 items-center px-3 py-2  rounded-lg ">
+
+                
+                   
+                    <textarea id="chat" name="comment" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea>
+                    <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                      <svg class="w-5 h-5 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                        <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
+                      </svg>
+                      <span class="sr-only">Send message</span>
+                    </button>
+                  </div>
+                </div>
+
+                </form>
+              </div> </span>
+
+                  </div>
+
+                </div>
+                
+              </div>
+              
+                          </div>
+                          
+              <% } %>
+
+            </div>
+
+</div>
+<div class="p-4 rounded-lg ap-ct hidden" id="Settings" role="tabpanel" aria-labelledby="Settings-tab">
+    <p class="text-sm  ">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>.
+        Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps
+        classes to control the content visibility and styling.</p>
 </div>
 </form>
 

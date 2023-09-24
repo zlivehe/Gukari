@@ -93,7 +93,8 @@ const VideoUploadSchema = new Schema({
   },
    viewcount: {
     type: Number,
-    default: 0
+    default: 0,
+    
   },
   videocreated:{
     type:Date,

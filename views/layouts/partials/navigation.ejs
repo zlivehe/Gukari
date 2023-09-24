@@ -356,6 +356,26 @@ video {
 .fullwidth{
   width: 100%;
 }
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
 
 <!-- Side Navbar -->
@@ -661,7 +681,7 @@ video {
                             <div class="thumbnail">
                                 <span>Thumbnail</span> <br>
                                 <span class="text-sm text-gray-500">
-                                  Select or upload a picture that shows what's in your video. A good thumbnail stands out and draws viewers' attention. <a href="#" class="text-blue-500">Learn more</a>
+                                  Select or upload a picture that shows what's in your video. A good thumbnail stands out and draws viewers' attention.
                                 </span>
                                 <br>
                                 <div>
@@ -703,7 +723,35 @@ video {
                                     </div>
                                 </div>
                             </div>
+                            <br>
+                    
+                            <div>
+                                <span class="text-2xl font-medium">Card Quiz</span><br>
+                                <span class="text-sm text-gray-500">Add cards into your video</span>
+                                <div class="border rounded-md p-3">
+                                    <div class="flex">
+                                        <div class="ml-2 text-sm">
+                                            <label for="visibility-select" class="font-medium text-gray-900">Save or publish</label>
+                                            <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">Choose one of your quizcard</p>
+                                            <div class="flex flex-col p-2 w-full">
+                                                <div class="flex flex-col w-full">
+            
+                                                    <label for="visibility-select" class="font-medium text-gray-900">Quizcard</label>
+                                                    <select id="visibility-select" name="quizcard" class="w-full p-2 border rounded-md text-gray-900 bg-gray-100 border-gray-300">
+                                                      
+                                                        <%for(let quizcard of currentUser.quizCard){ %>
+                                                            <option value="<%=quizcard._id %>"><%=quizcard.title %></option>
 
+                                                            <% } %>
+            
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
                             <br><br>
                             <div class="flex justify-between">
                             <div class="tags">
@@ -1312,6 +1360,8 @@ fileopenup.addEventListener('click', function(e){
     formData.append('video', selectedFile);
 
     // Send the POST request with the FormData
+    const cloudupload = document.querySelector('.bi-cloud-arrow-up-fill')
+    cloudupload.classList.add('loader')
     fetch(`/video/upload/new`, {
         method: 'POST',
         body: formData
@@ -1332,6 +1382,8 @@ fileopenup.addEventListener('click', function(e){
         videoElement.src = data.videopost.VideoUrl
         titlevideo = data.videopost.title
         videoid.value = data.videopost._id
+            cloudupload.classList.remove('loader')
+
         console.log(videoid)
         console.log(data)
         console.log(data.videopost)

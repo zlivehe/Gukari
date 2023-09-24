@@ -1,0 +1,119 @@
+<span class="text-2xl">Channel analytics</span>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+
+<div class="flex justify-between">
+
+<div class="mb-4">
+    <label class="block mb-1">Filter by:</label>
+    <select id="filter" class="border border-gray-300 px-3 py-2 rounded-md w-48">
+        <option value="views">Views</option>
+        <option value="followers">Followers</option>
+        <option value="stars">Stars</option>
+    </select>
+</div>
+<div class="mb-4">
+    <label class="block mb-1">Select Date Range:</label>
+    <input id="dateRange" class="border border-gray-300 px-3 py-2 rounded-md w-48" readonly>
+</div>
+</div>
+
+
+<canvas id="myChart" class="border border-gray-300 rounded-md"></canvas>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        flatpickr('#dateRange', {
+            mode: 'range',
+            dateFormat: 'Y-m-d'
+        });
+
+        // Generate random data for demonstration
+        function generateRandomData(length) {
+            return Array.from({ length }, () => Math.floor(Math.random() * 100));
+        }
+
+        const initialData = {
+            labels: ['2023-01-01', '2023-01-02', '2023-01-03', '2023-01-04', '2023-01-05', '2023-01-06', '2023-01-07', '2023-01-08', '2023-01-09', '2023-01-10', '2023-01-11', '2023-01-12'],
+            views: generateRandomData(12),
+            followers: generateRandomData(12),
+            stars: generateRandomData(12)
+        };
+
+        let data = {
+            labels: initialData.labels,
+            views: initialData.views,
+            followers: initialData.followers,
+            stars: initialData.stars
+        };
+
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Views',
+                    data: data.views,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }, {
+                    label: 'Followers',
+                    data: data.followers,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }, {
+                    label: 'Stars',
+                    data: data.stars,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        document.getElementById('filter').addEventListener('change', function () {
+            const selectedFilter = this.value;
+            myChart.data.datasets.forEach((dataset, index) => {
+                dataset.data = data[selectedFilter];
+            });
+            myChart.update();
+        });
+
+        document.getElementById('dateRange').addEventListener('change', function () {
+            const selectedDates = this.value.split(' to ');
+            const startDate = selectedDates[0];
+            const endDate = selectedDates[1];
+
+            const startIdx = data.labels.indexOf(startDate);
+            const endIdx = data.labels.indexOf(endDate);
+
+            if (startIdx !== -1 && endIdx !== -1) {
+                const newData = {
+                    labels: data.labels.slice(startIdx, endIdx + 1),
+                    views: data.views.slice(startIdx, endIdx + 1),
+                    followers: data.followers.slice(startIdx, endIdx + 1),
+                    stars: data.stars.slice(startIdx, endIdx + 1)
+                };
+
+                myChart.data.labels = newData.labels;
+                myChart.data.datasets[0].data = newData.views;
+                myChart.data.datasets[1].data = newData.followers;
+                myChart.data.datasets[2].data = newData.stars;
+                myChart.update();
+            }
+        });
+    });
+</script>

@@ -7,7 +7,7 @@
           <button data-math="Booklet" class="active-ap apclass p-3 text- rounded-lg">
               Booklet
           </button>
-          <button data-math="Videos" class="active-ap apclass p-3 text- rounded-lg hidden">
+          <button data-math="Videos" class="active-ap apclass p-3 text- rounded-lg ">
               Videos
           </button>
           <button data-math="Workspace" class="active-ap apclass p-3 text- rounded-lg hidden">
@@ -189,125 +189,190 @@
         <div class="recent overflow-y-scroll">
 
           <hr>
+              
           <br>
-          <div class="flex justify-between">
-            <div class=" videotag" >
-              <span>
-                Video
-              </span> 
-            </div>
-            <div class="w-full options w-full justify-between flex">
-              <span>
-                Visibility
-              </span>
-              <span>
-                Restriction
-              </span>
-              <span>
-                Date
-              </span>
-              <span>
-                Views
-              </span>
-              <span>
-                Comments
-              </span>
-              <span>
-                Likes
-              </span>
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Video
+                </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Visibility
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Date
+                    </th>
+                    <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Views
+                    </th>
+                    <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Comments
+                    </th>
+                  
+                    <th scope="col" class="relative px-6 py-3">
+                        <span class="sr-only">Edit</span>
+                    </th>
+                </tr>
+            </thead>
+            <%for(video of userVideoUpload){ %>
+              <a  href="/home/video/<%= video._id%>" class="hover:bg-gray-50">
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          
+                            <div class="text-sm flex   max-w-sm overflow-hidden text-gray-900">
+                                <img class="w-8" src="<%= video.thumbnail %>" alt="" srcset="">
+                             <span class="ml-1">  <%= video.title %>    </span>        
+                                  </div>
+                        </td>
 
-            </div>
-          </div>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm datesub text-gray-900">
+                                <div class="states">
+                                        <span> <%=video.visability %></span>
+                                       
+                                </div>
+
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">
+                               <%=video.createdAt.toLocaleDateString(undefined, { month: 'short'
+                               , day: 'numeric'}) %>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-gray-900">
+                             <%=video.viewcount %>
+                          </div>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">
+                               <%=video.comments.length %>
+                            </div>
+                      </td>
+                       
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <a href="/home/video/<%= video._id%>/edit" 
+                                class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                        </td>
+                    </tr>
+                    <!-- More rows can be added here -->
+                </tbody>
+                </a>
+                <% } %>
+            </table>
+
           <br>
           <hr>
-          <br><br>
-          <div class="videos" >
-            <%for(video of userVideoUpload){ %>
-              <a href="/home/video/<%= video._id%>" class="flex mb-3 justify-between">
-                <div class=" videotag" >
-                    <div class="flex">
-                      <img class="w-34 h-24" src="<%=video.thumbnail %>" alt="">
-                      <div class="flex flex-col ml-1">
-                        <span><%=video.title%></span>
-                        <div class=" max-descrip">
-                          <span class="text-gray-700">
-                            <%=video.description %>
-                          </span>
-                        </div>
-                     
-                      </div>
-                    </div>
-                </div>
-                
-                <div class="w-full options w-full justify-between flex">
-                  <span class="">
-                    <%=video.visibility %>
-                  </span>
-                  <span class="">
-                    None
-                  </span>
-                  <span class="titlecard">
-                    <%
-                    const createdAt =video.createdAt // Replace this with your actual date
-
-                    const options = {
-                      weekday: 'short', // Short weekday name (e.g., Sat)
-                      day: '2-digit',    // Day of the month with leading zeros (e.g., 23)
-                      year: 'numeric'    // Full year (e.g., 2021)
-                    };
-  
-                    const videocreated = createdAt.toLocaleDateString('en-US', options);
-                    %>
-                    <%=video.videocreated %>
-                  </span>
-                  <span class="titlecard">
-                    <%=video.viewcount %>
-                  </span>
-                  <span class="titlecard">
-                    <%=video.comments.length %>
-
-                  </span>
-                  <span class="titlecard">
-                    <%=video.likes.length %>
-
-                  </span>
-    
-                </div>
-              </a>
-                <% } %>
-      </div>
+      
 
 
 
       <div id="Workspace" class="Workspace hidden">
         <span class="text-2xl">Workspace</span>
     <div class="p-2 flex justify-between">
-      <%for(let wp of userWorkspace){  %>
-      <a href="/home/workspace/<%=wp._id %>" class="workspace-card border rounded-md p-2" style="width: 17em;">
-      <img class="wpcover" src="" alt="" srcset="">
-      <div class="des">
 
-        <span class="font-medium text-lg"> <%=wp.title %> </span>
-        <br>
-        <span class="text-sm"> <%=wp.description %> </span>
-
-      </div>
-      </a>
-        <% } %>
     </div>
       </div>
-      <div id="Posts" class="Posts hidden">
-          <%=userupload%>
-      </div>
-      <div id="Comments" class="Comments hidden">
-          <span>English Tabh</span>
-      </div>
-      <div id="ArtTab" class="ArtTab hidden">
-          <span>ArtTab</span>
-      </div>
-  </div>
    
   </div>
+
+   
+  </div>
+  <div id="Posts" class="Posts hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+          <tr>
+              <th scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Post
+          </th>
+              <th scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Visibility
+              </th>
+              <th scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date
+              </th>
+              <th scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Views
+              </th>
+              <th scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Comments
+              </th>
+            
+              <th scope="col" class="relative px-6 py-3">
+                  <span class="sr-only">Edit</span>
+              </th>
+          </tr>
+      </thead>
+      <%for(upload of userupload){ %>
+        <a href="/home/image/<%=upload._id %>"  class="hover:bg-gray-50">
+          <tbody class="bg-white divide-y divide-gray-200">
+              <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    
+                      <div class="text-sm flex   max-w-sm overflow-hidden text-gray-900">
+                          <img class="w-8" src="<%= upload.imageurl %>" alt="" srcset="">
+                       <span class="ml-1">  <%= upload.title %>    </span>        
+                            </div>
+                  </td>
+
+                  <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm datesub text-gray-900">
+                          <div class="states">
+                                  <span> <%=upload.visability %></span>
+                                 
+                          </div>
+
+                      </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">
+                        <% if(upload.createdAt){ %>
+                         <%=upload.createdAt.toLocaleDateString(undefined, { month: 'short'
+                         , day: 'numeric'}) %>
+                         <% } %>
+                      </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">
+                       <%=upload.viewcount %>
+                    </div>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">
+                         <%=upload.comments.length %>
+                      </div>
+                </td>
+                 
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <a href="/home/image/<%=upload._id %>"
+                          class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                  </td>
+              </tr>
+              <!-- More rows can be added here -->
+          </tbody>
+          </a>
+          <% } %>
+      </table>
+
+</div>
+<div id="Comments" class="Comments hidden">
+    <span>English Tabh</span>
+</div>
+<div id="ArtTab" class="ArtTab hidden">
+    <span>ArtTab</span>
+</div>
+
   <div>
     <span>Your videos</span>
   </div>

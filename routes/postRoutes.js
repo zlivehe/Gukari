@@ -544,6 +544,7 @@ Router.post('/video/upload/new',async(req,res)=>{
   console.log('hi')
   console.log(req.file)
    console.log(req.files)
+   const user = req.user
   const storage = multer.diskStorage({
     filename: (req, file, cb) => {
       const fileExt = file.originalname.split(".").pop();
@@ -622,9 +623,12 @@ Router.post('/video/upload/new',async(req,res)=>{
         title:video.public_id,
         videocreated:video.created_at,
         visibility:'unlisted',
-        author: req.user._id
+        author: user._id
       })
       await videopost.save()
+      user.VideoUpload.push(videopost._id)
+      await user.save();
+
         
       console.log(videopost)
           fs.unlinkSync(path);
@@ -640,12 +644,12 @@ Router.post('/videoupload', videoupload.fields([
   { name: 'thumbnail', maxCount: 1 }
 ]), catchAsync(async (req, res) => {
   try {
-    const { title, description, category, tags, visibility, videoid } = req.body;
+    const { title, description, category, quizcard,tags, visibility, videoid } = req.body;
     const { thumbnail } = req.files;
-
+    console.log(req.body)
     // Find the video by ID
     const videoToUpdate = await VideoUpload.findById(videoid);
-
+    const quizCard = await QuizCard.findById(quizcard)
     // Update the video properties
     videoToUpdate.title = title;
     videoToUpdate.description = description;
@@ -653,10 +657,16 @@ Router.post('/videoupload', videoupload.fields([
     videoToUpdate.tags = tags.split(',').map(tag => tag.trim());
     videoToUpdate.visibility = visibility;
     videoToUpdate.thumbnail = thumbnail.url;
+    if(quizcard && quizcard !== 'none'){
+    videoToUpdate.quizCard = quizCard._id
+    quizCard.video = videoToUpdate._id
     console.log(req.files)
-
+    }
+    console.log(videoToUpdate)
     // Save the updated video
     await videoToUpdate.save();
+    await quizCard.save()
+    
 
     res.redirect(`/home/video/${videoToUpdate._id}`);
   } catch (e) {

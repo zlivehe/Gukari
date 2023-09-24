@@ -128,8 +128,9 @@ app.use(async(req, res, next) => {
     req.user=users
    if(req.user){
    }
-
-   res.locals.currentUser = req.user;
+   const currentuser = await User.findById(req.user._id).populate('quizCard')
+   console.log(currentuser)
+   res.locals.currentUser = currentuser;
   
 
    res.locals.success = req.flash('success');
