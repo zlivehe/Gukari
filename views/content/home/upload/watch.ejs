@@ -425,7 +425,7 @@ if (timeDifference < minuteInMs) {
               </button>
             </div>
           </div>
-          <video class="karivideo" src="<%= uplaod.VideoUrl %>" >
+          <video class="karivideo" src="<%= uplaod.VideoUrl %> playsinline" >
             <track kind="captions" srclang="en" src="assets/subtitles.vtt">
 
           </video>
@@ -991,7 +991,7 @@ if (timeDifference < minuteInMs) {
                         <div class="video-overlay"></div>
                           <% }else{ %>
                             
-                              <video class="rounded-md" style="     min-width: 9em;
+                              <video playsinline class="rounded-md" style="     min-width: 9em;
                               width: 22em; max-width: 9em;" height="350"  controlsList="nodownload noremoteplayback nofullscreen">
                                 <% if (video.VideoUrl) { %>
                                   <source src="<%= video.VideoUrl %>" type="video/mp4">

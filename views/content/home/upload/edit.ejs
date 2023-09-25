@@ -164,7 +164,7 @@
             <div class="flex justify-center flex-col text-center items-center">
                 <div>
                     <div id="uploadContainer">
-                        <video id="videoElement" class="rounded-sm w-full" height="350" controls>
+                        <video id="videoElement" class="rounded-sm w-full" height="350" controls playsinline>
                             <% if (upload.VideoUrl) { %>
                               <source class="rounded-lg w-full" src="<%= upload.VideoUrl %>" type="video/mp4">
                               <source class="rounded-lg h-full" src="<%= upload.VideoUrl %>" type="video/webm">
