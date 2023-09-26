@@ -28,7 +28,6 @@ passport.use(new GoogleStrats({
                 steps: false,
                 googleId: profile.sub
             }).save().then((newUser) => {
-                console.log('new user:', newUser)
                 done(null, newUser)
             }).catch(err => {
                 console.log(err)
