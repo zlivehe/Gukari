@@ -52,8 +52,8 @@
                     </svg>
                 </div>
                 <input type="search" id="default-search"
-                    class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-transparent  "
-                    placeholder="Search Mockups, Logos..." required>
+                    class="block w-full p-4 pl-10 text-sm text-gray-900 shaodw border-gray-300 rounded-lg   " style="background-color: var(--navblack);"
+                    placeholder="Search" required>
 
             </div>
             <div class="bg-gray-200 rounded-lg mt-2 mb-2 absolute hidden navclass" id="navclass " style="width: 50%; min-height: 2em; z-index: 99999;">
@@ -151,11 +151,17 @@
     })
     const defaultsearch = document.getElementById('default-search')
 const navclass = document.querySelector('.navclass')
-
-defaultsearch.addEventListener('input', async function (e) {
-
+defaultsearch.addEventListener('blur', function () {
+    navclass.classList.add('hidden');
+});
+defaultsearch.addEventListener('keydown', async function (e) {
+    console.log(e)
     const searchTerm = defaultsearch.value.trim();
-    
+     //if i press enter key
+     if (e.key === 'Enter' || e.key === 'Return') { // Check if the key pressed is Enter or Return
+        e.preventDefault(); // Prevent the default form submission
+        window.location.href = `/home/results/search_query/${searchTerm}`;
+    }
     navclass.innerHTML = '';
 
     if (searchTerm === '') {
@@ -174,11 +180,7 @@ defaultsearch.addEventListener('input', async function (e) {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        //if i press enter key
-        if (e.keyCode === 13) {
-            window.location.href = `/home/results/search_query/${searchTerm}`;
-        }
-    
+       
         const data = await response.json();
 
         const resultsList = document.createElement('ul');

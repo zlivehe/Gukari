@@ -112,7 +112,9 @@ const VideoUploadSchema = new Schema({
         ref:"Quizcard",
     }
 ],
-
+duration:{
+  type: Number,
+},
   category: {
     type: String,
     enum: ['general', 'technology', 'education', 'health', 'sports', 'trending', 'music', 'food', 'news', 'art'],

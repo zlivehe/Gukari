@@ -669,7 +669,8 @@ Router.post('/video/upload/new',async(req,res)=>{
         title:video.public_id,
         videocreated:video.created_at,
         visibility:'unlisted',
-        author: user._id
+        author: user._id,
+        duration:video.duration
       })
       await videopost.save()
       user.VideoUpload.push(videopost._id)

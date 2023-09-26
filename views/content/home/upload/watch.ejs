@@ -15,7 +15,7 @@
 
 .video-container {
   position: relative;
-  /* width: 90%; */
+  width: 100%;
   max-width: 1000px;
   display: flex;
   justify-content: center;
@@ -53,14 +53,14 @@ video {
 }
 
 .video-controls-container::before {
-  /* content: "";
+  content: "";
   position: absolute;
   bottom: 0;
   background: linear-gradient(to top, rgba(0, 0, 0, .75), transparent);
   width: 100%;
   aspect-ratio: 6 / 1;
   z-index: -1;
-  pointer-events: none; */
+  pointer-events: none;
 }
 
 .video-container:hover .video-controls-container,
@@ -351,7 +351,7 @@ if (timeDifference < minuteInMs) {
 
 
 
-<div class=" fullscreen border" id="content-menu" style="overflow: scroll; height: 100vh;">
+<div class=" fullscreen " id="content-menu" style="overflow: scroll; height: 100vh;">
   <div class="reco2 ">
     <div class="centers videow flex flex-col" >
 
@@ -425,7 +425,7 @@ if (timeDifference < minuteInMs) {
               </button>
             </div>
           </div>
-          <video class="karivideo" src="<%= uplaod.VideoUrl %> playsinline" >
+          <video class="karivideo" src="<%= uplaod.VideoUrl %> "playsinline autoplay >
             <track kind="captions" srclang="en" src="assets/subtitles.vtt">
 
           </video>
@@ -991,8 +991,8 @@ if (timeDifference < minuteInMs) {
                         <div class="video-overlay"></div>
                           <% }else{ %>
                             
-                              <video playsinline class="rounded-md" style="     min-width: 9em;
-                              width: 22em; max-width: 9em;" height="350"  controlsList="nodownload noremoteplayback nofullscreen">
+                              <video  class="rounded-md" style="     min-width: 9em;
+                              width: 22em; max-width: 9em;" height="350"  controlsList="nodownload noremoteplayback nofullscreen playsinline">
                                 <% if (video.VideoUrl) { %>
                                   <source src="<%= video.VideoUrl %>" type="video/mp4">
                                   <source src="<%= video.VideoUrl %>" type="video/webm">
@@ -1034,28 +1034,28 @@ if (timeDifference < minuteInMs) {
 
 <div class="ml-2 mr-1  ">
   <div class="flex h-6" style="overflow: scroll; width: 100%;">
-    <button class="p-1 flex border w  bg-gray-100 items-center h-6 w-full" style="width: 8em;">
+    <button class="p-1 flex border w shadow items-center h-6 w-full" style="width: 8em;">
         <i class="bi text-sm bi-globe"></i>
         <span class="font-sm text-xs" text-xs="">Trnding</span>
     </button>
    
-        <button class="p-1 ml-1 flex border w  bg-gray-100 items-center h-6 w-full" style="width: 8em;">
+        <button class="p-1 ml-1 flex border w shadow items-center h-6 w-full" style="width: 8em;">
 
         <i class="bi text-sm bi-peace-fill"></i>
         <span class="font-sm text-xs ml-2">Sport</span>
     </button>
-        <button class="p-1 ml-1 flex border w  bg-gray-100 items-center h-6 w-full" style="width: 8em;">
+        <button class="p-1 ml-1 flex border w shadow items-center h-6 w-full" style="width: 8em;">
 
         <i class="bi text-sm bi-mortarboard-fill"></i>
         <span class="font-sm text-xs ml-2">Education</span>
     </button>
-        <button class="p-1 ml-1 flex border w  bg-gray-100 items-center h-6 w-full" style="width: 8em;">
+        <button class="p-1 ml-1 flex border w shadow items-center h-6 w-full" style="width: 8em;">
 
         <i class="bi text-sm bi-handbag-fill"></i>
         <span class="font-sm text-xs ml-2">Fashion</span>
     </button>
 
-        <button class="p-1 ml-1 flex border w  bg-gray-100 items-center h-6 w-full" style="width: 8em;">
+        <button class="p-1 ml-1 flex border w shadow items-center h-6 w-full" style="width: 8em;">
 
         <i class="bi text-sm bi-emoji-smile-fill"></i>
         <span class="font-sm text-xs ml-2">Entertinment</span>
@@ -1086,24 +1086,31 @@ if (timeDifference < minuteInMs) {
         } else {
           VideoformattedDate = uplaod.createdAt.toDateString(); // Use the full date if it's more than a week ago
         } %>
-        <% if(video.author[0] && video.VideoUrl && video.VideoUrl !== ''){ %>
-          <a href="/home/video/<%=video._id %>" class="flex mb-4">
-            <img style="width: 12em;" class=" rounded-xl" src="<%=video.thumbnail%>" alt="" srcset="">
-            <div class="ml-1 flex flex-col">
-              <span class="text-sm font-semibold"><%=video.title%></span>
-              <span class="text-gray-600 text-xs">          <%=video.author[0].username%>              </span>
-              <div class="flex text-xs text-gray-600 items-center">
-                <span><%=video.viewcount%> views </span> <span>.</span> <span><%=VideoformattedDate %></span>
-              </div>
-              <div>
-                <span class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 text-center items-center rounded ">new</span>
-        
-              </div>
-        
-            </div>
-          </a>
-              
-    <% } %>
+     <%
+     const twoDaysInMillis = 2 * 24 * 60 * 60 * 1000; // 2 days in milliseconds
+     const currentMillis = new Date().getTime();
+     const videoCreatedAtMillis = new Date(video.createdAt).getTime();
+     const isNewVideo = (currentMillis - videoCreatedAtMillis) < twoDaysInMillis;
+ %>
+ 
+ <% if(video.author[0] && video.VideoUrl && video.VideoUrl !== ''){ %>
+   <a href="/home/video/<%=video._id %>" class="flex mb-4">
+     <img style="width: 10em; height: 6em;" class=" rounded-xl" src="<%=video.thumbnail%>" alt="" srcset="">
+     <div class="ml-1 flex flex-col">
+      <h2 aria-label="Track name" class="font-medium font-semibold text-sm overflow-hidden" style="width: 17em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+        <%=video.title%>
+      </h2>
+             <span class="text-gray-600 text-xs"><%=video.author[0].username%></span>
+       <div class="flex text-xs text-gray-600 items-center">
+         <span><%=video.viewcount%> views </span> <span>.</span> <span><%=VideoformattedDate %></span>
+       </div>
+       <% if(isNewVideo){ %>
+         <span class="newtag bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 text-center items-center rounded" style="width: 5em;">new</span>
+       <% } %>
+     </div>
+   </a>
+ <% } %>
+ 
         <% } %>
 </div>
 </div>

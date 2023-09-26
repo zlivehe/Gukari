@@ -57,7 +57,7 @@
     100% { transform: rotate(360deg); }
   }
 
-.video-container {
+.video-container1 {
   position: relative;
   /* width: 90%; */
   max-width: 1000px;
@@ -67,17 +67,17 @@
   background-color: black;
 }
 
-.video-container.theater,
-.video-container.full-screen {
+.video-container1.theater,
+.video-container1.full-screen {
   max-width: initial;
   width: 100%;
 }
 
-.video-container.theater {
+.video-container1.theater {
   max-height: 90vh;
 }
 
-.video-container.full-screen {
+.video-container1.full-screen {
   max-height: 100vh;
 }
 
@@ -85,7 +85,7 @@ video {
   width: 100%;
 }
 
-.video-controls-container {
+.video-controls-container1 {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -97,20 +97,20 @@ video {
 }
 
 
-.video-container:hover .video-controls-container,
-.video-container:focus-within .video-controls-container,
-.video-container.paused .video-controls-container {
+.video-container1:hover .video-controls-container1,
+.video-container1:focus-within .video-controls-container1,
+.video-container1.paused1 .video-controls-container1 {
   opacity: 1;
 }
 
-.video-controls-container .controls {
+.video-controls-container1 .controls {
   display: flex;
   gap: .5rem;
   padding: .25rem;
   align-items: center;
 }
 
-.video-controls-container .controls button {
+.video-controls-container1 .controls button {
   background: none;
   border: none;
   color: inherit;
@@ -123,31 +123,31 @@ video {
   transition: opacity 150ms ease-in-out;
 }
 
-.video-controls-container .controls button:hover {
+.video-controls-container1 .controls button:hover {
   opacity: 1;
 }
 
-.video-container.paused .pause-icon {
+.video-container1.paused1 .pause-icon {
   display: none;
 }
 
-.video-container:not(.paused) .play-icon {
+.video-container1:not(.paused1) .play-icon {
   display: none;
 }
 
-.video-container.theater .tall {
+.video-container1.theater .tall {
   display: none;
 }
 
-.video-container:not(.theater) .wide {
+.video-container1:not(.theater) .wide {
   display: none;
 }
 
-.video-container.full-screen .open {
+.video-container1.full-screen .open {
   display: none;
 }
 
-.video-container:not(.full-screen) .close {
+.video-container1:not(.full-screen) .close {
   display: none;
 }
 
@@ -157,19 +157,19 @@ video {
   display: none;
 }
 
-.video-container[data-volume-level="high"] .volume-high-icon {
+.video-container1[data-volume-level="high"] .volume-high-icon {
   display: block;
 }
 
-.video-container[data-volume-level="low"] .volume-low-icon {
+.video-container1[data-volume-level="low"] .volume-low-icon {
   display: block;
 }
 
-.video-container[data-volume-level="muted"] .volume-muted-icon {
+.video-container1[data-volume-level="muted"] .volume-muted-icon {
   display: block;
 }
 
-.volume-container {
+.volume-container1 {
   display: flex;
   align-items: center;
 }
@@ -181,28 +181,28 @@ video {
   transition: width 150ms ease-in-out, transform 150ms ease-in-out;
 }
 
-.volume-container:hover .volume-slider1,
+.volume-container1:hover .volume-slider1,
 .volume-slider1:focus-within {
   width: 100px;
   transform: scaleX(1);
 }
 
-.duration-container {
+.duration-container1 {
   display: flex;
   align-items: center;
   gap: .25rem;
   flex-grow: 1;
 }
 
-.video-container.captions1 .captions1-btn1 {
+.video-container1.captions1 .captions1-btn1 {
   border-bottom: 3px solid #f54251;
 }
 
-.video-controls-container .controls button.wide-btn {
+.video-controls-container1 .controls button.wide-btn {
   width: 50px;
 }
 
-.timeline-container {
+.timeline1-container1 {
   height: 7px;
   margin-inline: .5rem;
   cursor: pointer;
@@ -210,13 +210,13 @@ video {
   align-items: center;
 }
 
-.timeline {
+.timeline1 {
   height: 3px;
   width: 100%;
   position: relative
 }
 
-.timeline::before {
+.timeline1::before {
   content: "";
   position: absolute;
   left: 0;
@@ -227,7 +227,7 @@ video {
   display: none;
 }
 
-.timeline::after {
+.timeline1::after {
   content: "";
   position: absolute;
   left: 0;
@@ -237,7 +237,7 @@ video {
   background-color: red;
 }
 
-.timeline .thumb-indicator {
+.timeline1 .thumb-indicator {
   --scale: 0;
   position: absolute;
   transform: translateX(-50%) scale(var(--scale));
@@ -250,7 +250,7 @@ video {
   aspect-ratio: 1 / 1;
 }
 
-.timeline .preview-img1 {
+.timeline1 .preview-img1 {
   position: absolute;
   height: 80px;
   aspect-ratio: 16 / 9;
@@ -273,27 +273,27 @@ video {
   display: none;
 }
 
-.video-container.scrubbing .thumbnail-img1 {
+.video-container1.scrubbing .thumbnail-img1 {
   display: block;
 }
 
-.video-container.scrubbing .preview-img1,
-.timeline-container:hover .preview-img1 {
+.video-container1.scrubbing .preview-img1,
+.timeline1-container1:hover .preview-img1 {
   display: block;
 }
 
-.video-container.scrubbing .timeline::before,
-.timeline-container:hover .timeline::before {
+.video-container1.scrubbing .timeline1::before,
+.timeline1-container1:hover .timeline1::before {
   display: block;
 }
 
-.video-container.scrubbing .thumb-indicator,
-.timeline-container:hover .thumb-indicator {
+.video-container1.scrubbing .thumb-indicator,
+.timeline1-container1:hover .thumb-indicator {
   --scale: 1;
 }
 
-.video-container.scrubbing .timeline,
-.timeline-container:hover .timeline {
+.video-container1.scrubbing .timeline1,
+.timeline1-container1:hover .timeline1 {
   height: 100%;
 }
 .video-card {
@@ -800,11 +800,11 @@ video {
                                
                                       <br>
                                   <div  id="videoContainer1">
-                                    <div class="video-container paused" data-volume-level="high">
+                                    <div class="video-container1 paused1" data-volume-level="high">
                                         <img class="thumbnail-img1">
-                                        <div class="video-controls-container">
-                                          <div class="timeline-container">
-                                            <div class="timeline">
+                                        <div class="video-controls-container1">
+                                          <div class="timeline1-container1">
+                                            <div class="timeline1">
                                               <img class="preview-img1">
                                               <div class="thumb-indicator"></div>
                                             </div>
@@ -818,7 +818,7 @@ video {
                                                 <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
                                               </svg>
                                             </button>
-                                            <div class="volume-container">
+                                            <div class="volume-container1">
                                               <button class="mute-btn1">
                                                 <svg class="volume-high-icon" viewBox="0 0 24 24">
                                                   <path fill="currentColor" d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z" />
@@ -832,7 +832,7 @@ video {
                                               </button>
                                               <input class="volume-slider1" type="range" min="0" max="1" step="any" value="1">
                                             </div>
-                                            <div class="duration-container">
+                                            <div class="duration-container1">
                                               <div class="current-time1">0:00</div>
                                               /
                                               <div class="total-time1"></div>
@@ -1409,8 +1409,8 @@ const totalTimeElem1 = document.querySelector(".total-time1")
 const previewImg1 = document.querySelector(".preview-img1")
 const thumbnailImg1 = document.querySelector(".thumbnail-img1")
 const volumeSlider1 = document.querySelector(".volume-slider1")
-const videoContainer1 = document.querySelector(".video-container")
-const timelineContainer1 = document.querySelector(".timeline-container")
+const videoContainer1 = document.querySelector(".video-container1")
+const timeline1Container1 = document.querySelector(".timeline1-container1")
 const video1 = document.querySelector(".videomakepreview")
 
 document.addEventListener("keydown", e => {
@@ -1451,8 +1451,8 @@ document.addEventListener("keydown", e => {
 })
 
 // Timeline
-timelineContainer1.addEventListener("mousemove", handleTimelineUpdate)
-timelineContainer1.addEventListener("mousedown", toggleScrubbing)
+timeline1Container1.addEventListener("mousemove", handleTimelineUpdate)
+timeline1Container1.addEventListener("mousedown", toggleScrubbing)
 document.addEventListener("mouseup", e => {
   if (isScrubbing1) toggleScrubbing(e)
 })
@@ -1463,12 +1463,12 @@ document.addEventListener("mousemove", e => {
 let isScrubbing1 = false
 let wasPaused1
 function toggleScrubbing(e) {
-  const rect = timelineContainer1.getBoundingClientRect()
+  const rect = timeline1Container1.getBoundingClientRect()
   const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width
   isScrubbing1 = (e.buttons & 1) === 1
   videoContainer1.classList.toggle("scrubbing", isScrubbing1)
   if (isScrubbing1) {
-    wasPaused1 = video1.paused
+    wasPaused1 = video1.paused1
     video1.pause()
   } else {
     video1.currentTime = percent * video1.duration
@@ -1479,7 +1479,7 @@ function toggleScrubbing(e) {
 }
 
 function handleTimelineUpdate(e) {
-  const rect = timelineContainer1.getBoundingClientRect()
+  const rect = timeline1Container1.getBoundingClientRect()
   const percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width
   const previewImg1Number = Math.max(
     1,
@@ -1487,12 +1487,12 @@ function handleTimelineUpdate(e) {
   )
   const previewImg1Src = `assets/previewImg1s/preview${previewImg1Number}.jpg`
   previewImg1.src = previewImg1Src
-  timelineContainer1.style.setProperty("--preview-position", percent)
+  timeline1Container1.style.setProperty("--preview-position", percent)
 
   if (isScrubbing1) {
     e.preventDefault()
     thumbnailImg1.src = previewImg1Src
-    timelineContainer1.style.setProperty("--progress-position", percent)
+    timeline1Container1.style.setProperty("--progress-position", percent)
   }
 }
 
@@ -1526,7 +1526,7 @@ video1.addEventListener("loadeddata", () => {
 video1.addEventListener("timeupdate", () => {
   currentTimeElem1.textContent = formatDuration(video1.currentTime)
   const percent = video1.currentTime / video1.duration
-  timelineContainer1.style.setProperty("--progress-position", percent)
+  timeline1Container1.style.setProperty("--progress-position", percent)
 })
 
 const leadingZeroFormatter1 = new Intl.NumberFormat(undefined, {
@@ -1621,15 +1621,15 @@ playPauseBtn1.addEventListener("click", togglePlay)
 video1.addEventListener("click", togglePlay)
 
 function togglePlay() {
-  video1.paused ? video1.play() : video1.pause()
+  video1.paused1 ? video1.play() : video1.pause()
 }
 
 video1.addEventListener("play", () => {
-  videoContainer1.classList.remove("paused")
+  videoContainer1.classList.remove("paused1")
 })
 
 video1.addEventListener("pause", () => {
-  videoContainer1.classList.add("paused")
+  videoContainer1.classList.add("paused1")
 })
 
 </script>

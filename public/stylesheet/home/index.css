@@ -9,6 +9,17 @@ body{
     --create-background-theme:#f6f8fc;
     --white-balck:#fff;
     height: 100vh;
+    --bg-gray-50: rgb(249 250 251);
+    --bg-gray-100:rgb(243 244 246);
+    --bg-gray-200:rgb(229 231 235);
+    --bg-gray-300: rgb(206 210 217);
+    --bg-gray-400: rgb(173 181 189);
+    --bg-gray-500: rgb(140 150 160);
+    --bg-gray-600: rgb(108 120 132);
+    --bg-gray-700: rgb(75 90 104);
+    --bg-gray-800: rgb(42 60 76);
+    --bg-gray-900: rgb(9 30 48);
+    --navblack:rgb(243 244 246);
 
     overflow: hidden;
 
@@ -21,7 +32,47 @@ body.dark{
     color: rgb(244, 242, 242);
     --background-theme: #313339;
     --background-them: #2B2D31;
+    --navblack:rgb(20, 20, 20);
 
+    --bg-gray-50: rgb(200 200 200);
+    --bg-gray-100: rgb(180 180 180);
+    --bg-gray-200: rgb(150 150 150);
+    --bg-gray-300: rgb(206 210 217);
+    --bg-gray-300: rgb(107 113 121);
+    --bg-gray-400: rgb(81 89 97);
+    --bg-gray-500: rgb(55 63 71);
+    --bg-gray-600: rgb(29 37 45);
+    --bg-gray-700: rgb(3 11 19);
+    --bg-gray-800: rgb(0 0 0);
+    --bg-gray-900: rgb(0 0 0);
+
+}
+.bg-gray-300 {
+    background-color: var(--bg-gray-300);
+}
+
+.bg-gray-400 {
+    background-color: var(--bg-gray-400);
+}
+
+.bg-gray-500 {
+    background-color: var(--bg-gray-500);
+}
+
+.bg-gray-600 {
+    background-color: var(--bg-gray-600);
+}
+
+.bg-gray-700 {
+    background-color: var(--bg-gray-700);
+}
+
+.bg-gray-800 {
+    background-color: var(--bg-gray-800);
+}
+
+.bg-gray-900 {
+    background-color: var(--bg-gray-900);
 }
 .content{
     margin-left: 14em;

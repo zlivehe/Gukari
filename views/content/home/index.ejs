@@ -6,12 +6,14 @@
     }
 </style>
 <title>Gukari</title>
-    <div class="content fullscreen"  id="content-menu">
+    <div class="content fullscreen"  id="content-menu" style="overflow: hidden;">
 
 
             <div class="w-full flex">
                 <div class="main-content">
+                    <% if(user.reminder[0]){ %>
                     <textarea name="" class="hidden" id="evenclasses" cols="30" rows="10"><%=JSON.stringify(user.reminder[0].Event) %></textarea>
+                    <% } %>
                     <section class="create p-2 flex">
                         <a href="home/create/board" style="width: 100%;" class="block white-black make-card shadow max-w-full p-6 border border-gray-200 rounded-lg hover:bg-gray-100">
                           <div class="flex">
@@ -51,7 +53,7 @@
                                                 <i class="bi arrow bi-caret-left-fill text-xl"></i>
 
                         <div
-                            class="calendar-card w-full  justify-between shadow border flex p-3 rounded-lg white-black overflow-x-scroll overflow-y-hidden relative">
+                            class="calendar-card w-full  justify-between shadow border flex p-3 rounded-lg white-black overflow-x-huidden overflow-y-hidden relative">
                             <div class="month w-16 flex ml-4 flex-col items-center content-center">
                                 
                                 <span class="mb-2 text-sm text-gray-400">SUN</span>
@@ -683,6 +685,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const evenclasses = document.getElementById('evenclasses');
+            if(evenclasses){
             const eventsdate = JSON.parse(evenclasses.value);   
             console.log(eventsdate);
             const events = []
@@ -695,18 +698,19 @@
 
             }
             console.log(events);
-//             const events = [
-//     { date: '2023-08-20', color: 'bg-blue-200' },
-//     { date: '2023-08-20', color: 'bg-red-400' },    
-//     { date: '2023-08-19', color: 'bg-yellow-200' },
-//     { date: '2023-08-19', color: 'bg-red-200' },
-//     { date: '2023-08-18', color: 'bg-blue-200' },
-//     { date: '2023-08-18', color: 'bg-red-400' },
-//     { date: '2023-08-18', color: 'bg-indigo-400' },
-//     { date: '2023-08-17', color: 'bg-blue-200' },
-//     { date: '2023-08-16', color: 'bg-gray-400' },
-//     { date: '2023-08-14', color: 'bg-red-200' }
-// ];
+        }
+            const events = [
+    { date: '2023-08-20', color: 'bg-blue-200' },
+    { date: '2023-08-20', color: 'bg-red-400' },    
+    { date: '2023-08-19', color: 'bg-yellow-200' },
+    { date: '2023-08-19', color: 'bg-red-200' },
+    { date: '2023-08-18', color: 'bg-blue-200' },
+    { date: '2023-08-18', color: 'bg-red-400' },
+    { date: '2023-08-18', color: 'bg-indigo-400' },
+    { date: '2023-08-17', color: 'bg-blue-200' },
+    { date: '2023-08-16', color: 'bg-gray-400' },
+    { date: '2023-08-14', color: 'bg-red-200' }
+];
  
     const calendarCard = document.querySelector('.calendar-card');
     const today = new Date();

@@ -233,15 +233,16 @@ Router.get('/quiz/:id/edit',catchAsync(async(req,res)=>{
     const {id} = req.params
     const user = req.user
     const foundquiz =await QuizCard.findById(id)
-    console.log(foundquiz)
 
     const quizowner = await User.findById(foundquiz.author)
-    if(user._id !==quizowne._id ){
+    console.log(user._id,quizowner._id )
+    if(user._id.equals(quizowner._id) ){
+
+    res.render('content/home/create/quiz/quizedit.ejs',{foundquiz,quizowner})
+    }else{
         return 
     }
 
-    
-    res.render('content/home/create/quiz/quizedit.ejs',{foundquiz,quizowner})
 
 }))
 Router.get('/quizcard/:id/gubot', catchAsync(async (req, res) => {
