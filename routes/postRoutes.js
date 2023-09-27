@@ -1052,13 +1052,6 @@ async function searchInData(searchTerm) {
 }
 
 
-function deduplicate(results) {
-  // You may need to implement deduplication logic here if there are duplicates.
-  // For simplicity, we'll assume there are no duplicates.
-  return results;
-}
-
-
 Router.get('/search', async (req, res) => {
     const searchTerm = req.query.term;
 
@@ -1076,6 +1069,10 @@ Router.get('/search', async (req, res) => {
 
 
 
+function deduplicate(results) {
+  const uniqueResults = Array.from(new Set(results.map(JSON.stringify))).map(JSON.parse);
+  return uniqueResults;
+}
 // Router.get('/search', async (req, res) => {
 //   const searchTerm = req.query.term; // Get the search term from the query string.
   
