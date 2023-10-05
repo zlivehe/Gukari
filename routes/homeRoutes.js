@@ -186,7 +186,6 @@ Router.get('/quiz/:id',catchAsync(async(req,res)=>{
     
     const {id} = req.params
     const user = req.user;
-    console.log(id)
     const foundquiz = await  QuizCard.findById(id)
     //get all the user quizcard
     const quizowner = await User.findById(foundquiz.author)
@@ -197,7 +196,7 @@ Router.get('/quiz/:id',catchAsync(async(req,res)=>{
     const userQuizCards = await QuizCard.find({ _id: { $in: quizCardIds } });
 
     
-    foundquiz.viewcount += 1;
+    
     await foundquiz.save()
     const folders = await Folder.find({author: user._id})
 

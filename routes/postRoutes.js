@@ -368,7 +368,9 @@ Router.post('/quiz/:id/playlist/:playId', async (req, res) => {
   res.send(folder);
 });
 
-
+Router.post('/quiz/:id/viewcount',(req,res)=>{
+  res.send('Saw')
+})
 Router.post('/newtask', upload.single('image'), catchAsync(async (req, res) => {
   try {
     const { title, description, image, time, startdate, priority, enddate } = req.body;

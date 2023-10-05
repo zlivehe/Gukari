@@ -124,10 +124,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(async(req, res, next) => {
 
-  //  const users = await User.findById('64bc4922b2aafaad4ddbbb50')
-  //   req.user=users
+   const users = await User.findById('64bc4922b2aafaad4ddbbb50')
+    req.user=users
     
-  //  const currentuser = await User.findById(req.user._id).populate('quizCard')
+   const currentuser = await User.findById(req.user._id).populate('quizCard')
   //  console.log(currentuser)
    res.locals.currentUser = req.user;
   
@@ -261,31 +261,7 @@ app.post("/audio/upload", async (req, res) => {
     );
   });
 });
-const SitemapGenerator = require('sitemap-generator');
- 
-// create generator
-const generator = SitemapGenerator('http://gukari.com', {
-  stripQuerystring: false
-});
 
-// register event listeners
-generator.on('done', (res) => {
-  // sitemaps created
-  try {
-    const fs = require('fs');
-    fs.writeFileSync('sitemap.xml', res);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-generator.on('error', (error) => {
-  
-  console.log(error);
-});
-
-// start the crawler
-generator.start();
 
 app.post("/video/upload", async (req, res) => {
    console.log('piost')

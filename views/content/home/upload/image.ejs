@@ -172,3 +172,31 @@
     </div>
 </div>
 <br><br><br><br><br>
+
+<script>
+              const id = '<%=video._id%>'
+function sendPostRequest() {
+            fetch(`/video/${id}/viewcount`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                console.log('POST request successful');
+                // alert('send')
+            })
+            .catch(error => {
+                console.error('There was a problem with the POST request:', error);
+                // alert('no')
+
+            });
+        }
+
+        // Set up an interval to send the POST request every 10 seconds
+        setTimeout(sendPostRequest, 10000);
+</script>

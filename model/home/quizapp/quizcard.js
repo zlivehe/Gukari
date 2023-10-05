@@ -10,6 +10,7 @@ const cardSchema = new Schema({
     min: [3, 'Too short'],
     max: [50, 'Too long']
   },
+
   imageUrl:{
     type: String,
     required: false,
@@ -91,6 +92,7 @@ const cardSchema = new Schema({
 
     }
   ],
+
   // color: {
   //   type: String,
   //   default: 'white',
@@ -108,7 +110,15 @@ const cardSchema = new Schema({
       definition: String,
     }],
     default: []
-  }
+  },
+  views:[{
+    type:Schema.Types.ObjectId,
+    ref: "User",
+    type:Date
+
+  },
+ 
+]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Quizcard', cardSchema);
