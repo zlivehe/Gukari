@@ -199,7 +199,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (hamnav) {
         hamnav.style.display = 'flex'
       }
-      contentMenu.classList.remove('content')
       for (carde of makecard) {
         carde.classList.remove('max-w-sm')
       }

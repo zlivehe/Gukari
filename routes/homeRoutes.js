@@ -141,7 +141,7 @@ Router.get('/create/upload',(req,res)=>{
 Router.get('/create/board',(req,res)=>{
     res.render('content/home/create/board.ejs')
 })
-
+  
 
 Router.get('/create/folder',(req,res)=>{
     res.render('content/home/create/folder.ejs')
