@@ -126,11 +126,11 @@ app.use(async(req, res, next) => {
 
   //  const users = await User.findById('64bc4922b2aafaad4ddbbb50')
   //   req.user=users
-    if(req.user){
-   const currentuser = await User.findById(req.user._id).populate('quizCard')
-  //  console.log(currentuser)
-  req.user = currentuser
-    }
+  //   if(req.user){
+  //  const currentuser = await User.findById(req.user._id).populate('quizCard')
+  // //  console.log(currentuser)
+  // req.user = currentuser
+  //   }
    res.locals.currentUser = req.user;
   
 
@@ -187,7 +187,70 @@ app.get('/api/card', async(req,res)=>{
       // res.json(card)
       } ) 
    
- 
+      app.get('/atom.xml', async (req, res) => {
+        try {
+          const baseUrl = 'http://gukari.com'; // Update with your website's base URL
+          const currentDate = new Date().toISOString();
+      
+          // Generate the sitemap XML dynamically
+          let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
+          sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+      
+          // Add URLs dynamically from your website
+          sitemap += `<url>
+            <loc>${baseUrl}/</loc>
+            <lastmod>${currentDate}</lastmod>
+            <priority>1.0</priority>
+          </url>\n`;
+         
+      
+          // Add URLs from other sources, like database entries
+          const quizcards = await QuizCard.find({});
+          quizcards.forEach((quizcard) => {
+            sitemap += `<url>
+              <loc>${baseUrl}/home/quiz/${quizcard._id}</loc>
+              <lastmod>${currentDate}</lastmod>
+              <priority>0.5</priority>
+            </url>\n`;
+          });
+          const users = await User.find({});
+          users.forEach((user) => {
+            sitemap += `<url>
+              <loc>${baseUrl}/home/profile/${user._id}</loc>
+              <lastmod>${currentDate}</lastmod>
+              <priority>0.5</priority>
+            </url>\n`;
+          });
+          const videos = await Videos.find({});
+          videos.forEach((video) => {
+            sitemap += `<url>
+              <loc>${baseUrl}/home/video/${video._id}</loc>
+              <lastmod>${currentDate}</lastmod>
+              <priority>0.5</priority>
+            </url>\n`;
+          });
+          sitemap += `<url>
+          <loc>http://gukari.com/discover</loc>
+          <lastmod>${currentDate}</lastmod>
+          <priority>0.9</priority>
+        </url>\n
+      
+        
+        `;
+          sitemap += '</urlset>';
+      
+          // Save the generated sitemap XML to a file
+          const filePath = path.join(__dirname, 'public', 'sitemap.xml');
+          fs.writeFileSync(filePath, sitemap, 'utf8');
+      
+          // Set the content type header and send the file as the response
+          res.header('Content-Type', 'application/xml');
+          res.sendFile(filePath);
+        } catch (error) {
+          console.error('Error generating sitemap:', error);
+          res.status(500).send('Internal Server Error');
+        }
+      });
 //  -------- --------TESTT -------- --------
 
 

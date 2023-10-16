@@ -71,9 +71,9 @@ Router.get('/calendar', isLoggedIn,catchAsync(async(req,res)=>{
           model: 'Event'
         }
       });
-    console.log(mainuser.reminder)
+    // console.log(mainuser.reminder)
       const Tasks = mainuser.reminder.flatMap(reminder => reminder.Event);
-      console.log(Tasks)
+    //   console.log(Tasks)
     res.render('content/home/calender.ejs', { Tasks, user })
 }))
 Router.get('/project',isLoggedIn,catchAsync(async(req,res)=>{
@@ -81,8 +81,8 @@ Router.get('/project',isLoggedIn,catchAsync(async(req,res)=>{
     const quizCardIds = user.quizCard.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
     const userQuizCards = await QuizCard.find({ _id: { $in: quizCardIds } });
     const userWorkspace = await Workspace.find({author: user._id});
-    const userFolder = await Folder.find({author: user._id});
-
+    const userFolder = await Folder.find({user: user._id});
+    // console.log(userFolder)
     //find videouoload
     const videoUploadIds = user.VideoUpload.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
     const userVideoUpload = await VideoUpload.find({ _id: { $in: videoUploadIds } });
@@ -154,7 +154,7 @@ Router.get('/profile/:id',catchAsync(async(req,res)=>{
     const videoUploadIds = user.VideoUpload.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
     const userVideoUpload = await VideoUpload.find({ _id: { $in: videoUploadIds } });
 
-    console.log(userVideoUpload)
+    // console.log(userVideoUpload)
     let userQuizCards = []
     res.render('content/home/profile.ejs', { user, userQuizCards,userVideoUpload })
 }))
@@ -166,7 +166,7 @@ Router.get('/student',async(req,res)=>{
     try {
         let client = await login(DISTRICT_URL, USERNAME, PASSWORD);
         let attendanceData = await client.getGradebook(2).then((value) => JSON.parse(value));
-        console.log(attendanceData)
+        // console.log(attendanceData)
         res.render('content/home/student.ejs', { attendanceData });
     } catch (error) {
         console.error(error);
@@ -189,7 +189,7 @@ Router.get('/quiz/:id',catchAsync(async(req,res)=>{
     const foundquiz = await  QuizCard.findById(id)
     //get all the user quizcard
     const quizowner = await User.findById(foundquiz.author)
-const totalquiz = await QuizCard.find({}).limit(25);
+const totalquiz = await QuizCard.find({});
     if(user){
         const quizCardIds = user.quizCard.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
 
@@ -218,7 +218,7 @@ const totalquiz = await QuizCard.find({}).limit(25);
 Router.get('/quiz/:id/ext',catchAsync(async(req,res)=>{
     
     const {id} = req.params
-    console.log(id)
+    // console.log(id)
     const foundquiz = await  QuizCard.findById(id)
     foundquiz.viewcount += 1;
     await foundquiz.save()
@@ -234,7 +234,7 @@ Router.get('/quiz/:id/edit',catchAsync(async(req,res)=>{
     const foundquiz =await QuizCard.findById(id)
 
     const quizowner = await User.findById(foundquiz.author)
-    console.log(user._id,quizowner._id )
+    // console.log(user._id,quizowner._id )
     if(user._id.equals(quizowner._id) ){
 
     res.render('content/home/create/quiz/quizedit.ejs',{foundquiz,quizowner})
@@ -247,7 +247,7 @@ Router.get('/quiz/:id/edit',catchAsync(async(req,res)=>{
 Router.get('/quizcard/:id/gubot', catchAsync(async (req, res) => {
     const {id} = req.params
     const foundquiz =await QuizCard.findById(id)
-    console.log(foundquiz)
+    // console.log(foundquiz)
 
     res.render('content/home/create/quiz/ai.ejs',{foundquiz})
   
@@ -427,10 +427,10 @@ Router.get('/video/:id',catchAsync(async(req,res)=>{
         path: 'quizCard',
         model: 'Quizcard',
         });
-        console.log(uplaod.quizCard)
+        // console.log(uplaod.quizCard)
     const allvideo = await VideoUpload.find({}).populate('author comments.user');
     uplaod.viewcount += 1;
-    console.log(uplaod)
+    // console.log(uplaod)
 
     await uplaod.save();
     
@@ -571,7 +571,7 @@ function deduplicate(results) {
 Router.get('/get-metric-data/:metric/:startDate/:endDate', async (req, res) => {
     try {
         const { metric, startDate, endDate } = req.params;
-        console.log(metric, startDate, endDate)
+        // console.log(metric, startDate, endDate)
         const filter = {
             createdAt: {
                 $gte: new Date(startDate),

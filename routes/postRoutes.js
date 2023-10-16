@@ -74,9 +74,9 @@ function getRandomColor() {
 }
 
 Router.post('/reminder/:id', upload.single('image'), catchAsync(async (req, res) => {
-  console.log(req.file)
+  // console.log(req.file)
   const id = req.params.id;
-  console.log(req.body)
+  // console.log(req.body)
   const { title, description, endDate, time,reminder,location,reminderday } = req.body;
   const event = await Event.findById(id);
   //update event
@@ -90,7 +90,7 @@ Router.post('/reminder/:id', upload.single('image'), catchAsync(async (req, res)
   if(req.file){
   event.imageurl = req.file.path;
 }
-console.log(event)
+// console.log(event)
   event.save();
   res.status(200).send({event});
   req.flash('success', 'Event updated successfully');
@@ -110,7 +110,7 @@ Router.post('/event/:id',async(req,res)=>{
     // Find the task by its ID and update its position
     const updatedEvent = await Event.findByIdAndUpdate(taskId, { position: newPosition }, { new: true });
    
-   console.log(updatedEvent)
+  //  console.log(updatedEvent)
     res.json({ message: 'Task position updated successfully' });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while updating task position' });
@@ -238,7 +238,7 @@ Router.post('/quizcard',  upload.array('image'), isLoggedIn, catchAsync(async (r
 // }));
 
 Router.post('/quizcard/:id/edit',  upload.array('image'), isLoggedIn, catchAsync(async (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
 
   const { id } = req.params;
 
@@ -266,7 +266,7 @@ Router.post('/quizcard/:id/edit',  upload.array('image'), isLoggedIn, catchAsync
     }
 
     const user = req.user;
-    console.log(req.files)
+    // console.log(req.files)
     // Create an array of card objects
     const validCards = cards.filter(card => card && card.term && card.definition);
      console.log(req.files)
@@ -482,9 +482,9 @@ await newBoard.save();
 workspace.kanbanboard.push(newBoard._id);
 
 await workspace.save();
-console.log(workspace)
+// console.log(workspace)
 
-console.log(Reminder)
+// console.log(Reminder)
 res.redirect(`/home/b/${newBoard._id}`)
   }catch(e){
     req.flash('error',e.message);
@@ -571,7 +571,7 @@ Router.post('/api/quizcard/:id/quiz/:quzid', catchAsync(async (req, res) => {
   const { quzid } = req.params;
   const user = await User.findById(id);
   const  Quizfound = await QuizCard.findById(quzid);
-  console.log(Quizfound)
+  // console.log(Quizfound)
    res.json({Quizfound});
 } ));
 Router.get('/api/quizcard/:id/quiz/:quzid', catchAsync(async (req, res) => {
@@ -579,7 +579,7 @@ Router.get('/api/quizcard/:id/quiz/:quzid', catchAsync(async (req, res) => {
   const { quzid } = req.params;
   const user = await User.findById(id);
   const  Quizfound = await QuizCard.findById(quzid);
-  console.log(Quizfound)
+  // console.log(Quizfound)
   res.json({Quizfound});
 } ));
 
@@ -589,9 +589,7 @@ Router.get('/api/quizcard/:id/quiz/:quzid', catchAsync(async (req, res) => {
 
 
 Router.post('/video/upload/new',async(req,res)=>{
-  console.log('hi')
-  console.log(req.file)
-   console.log(req.files)
+
    const user = req.user
   const storage = multer.diskStorage({
     filename: (req, file, cb) => {
