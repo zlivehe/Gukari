@@ -117,8 +117,8 @@ Router.post('/event/:id',async(req,res)=>{
   }
 })
 Router.post('/quizcard',  upload.array('image'), isLoggedIn, catchAsync(async (req, res) => {
-    console.log(req.body)
-    console.log(req.files)
+    // console.log(req.body)
+    // console.log(req.files)
 
     try {
       const { error, value } = quizCardSchema.validate(req.body);

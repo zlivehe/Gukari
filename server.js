@@ -124,7 +124,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(async(req, res, next) => {
 
-   const users = await User.findById('64bc4922b2aafaad4ddbbb50')
+  //  const users = await User.findById('64bc4922b2aafaad4ddbbb50')
     req.user=users
     
    const currentuser = await User.findById(req.user._id).populate('quizCard')

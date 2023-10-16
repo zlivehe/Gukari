@@ -1,11 +1,22 @@
 <style>
    
+   .mobileimg{
+        display: none;
+    }
+    .dkimg{
+        display: flex;
+    }
     @media only screen and (max-width: 600px) {
 
     .search-form{
         display: none;
     }
-
+    .mobileimg{
+        display: flex;
+    }
+    .dkimg{
+        display: none;
+    }
   
 }
 
@@ -21,7 +32,12 @@
 
     <div class=" navfull flex mt-1 flex-wrap items-center justify-between ml-2 mr- p-2">
         <div class="flex ">
-        <a href="/home" class="imagebuttom">
+            <a href="/home" class="imagebuttom w-10 h-10 mobileimg ">
+                <img src="/imgs/home/mini-gukari.png" id="iconlogo" class="icon-logo-resize logo-icon " style="    width: 153px;
+                " />
+            </a>     
+
+        <a href="/home" class="imagebuttom dkimg ">
             <img src="/imgs/home/logo.png" id="iconlogo" class="icon-logo-resize logo-icon " style="    width: 153px;
             " />
 

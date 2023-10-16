@@ -47,6 +47,7 @@ Router.get('/',isLoggedIn,catchAsync(async(req,res)=>{
       }
     });
    
+    console.log(user)
   
     const Tasks = user.reminder.flatMap(reminder => reminder.Event);
     const recentlyview = []
@@ -189,7 +190,7 @@ Router.get('/quiz/:id',catchAsync(async(req,res)=>{
     const foundquiz = await  QuizCard.findById(id)
     //get all the user quizcard
     const quizowner = await User.findById(foundquiz.author)
-    const totalquiz = await QuizCard.find({})
+    const totalquiz = await QuizCard.find({}).limit(25);
     if(user){
         const quizCardIds = user.quizCard.map(id => ObjectId(id)); // Convert the array of strings to ObjectIds
 
