@@ -69,6 +69,7 @@ const serverGet = require('./routes/server/serverGet')
 const studentRoutes = require('./routes/studentRoutes')
 const apRoutes= require('./routes/apRoutes')
 const { promises } = require('dns');
+const MongoStore = require('connect-mongo');
 
 //models 
 const models = require('./routes/models/indexRoutes')
@@ -82,14 +83,18 @@ const sessionConfig = {
    httpOnly:true,
    expires: Date.now() + 100 * 60 * 60 * 24 * 7,
    maxAge: 100 * 60 * 60 * 24 * 7
-   }
+   },
+   store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URL,
+    touchAfter: 1024 * 3600 // time period in seconds
+  })
+  
 }
 
 
 // dbUrl = 'mongodb+srv://bdi:dqrJ6h81tQh2OjLt@cluster0.5lauo.mongodb.net/test'
-dbUrl = 'mongodb+srv://zlivhe:pVGMDmaGmxRCenYU@gukari.w3j3o1v.mongodb.net/'
 
-mongoose.connect(dbUrl, 
+mongoose.connect(process.env.MONGODB_URL, 
 {useNewUrlParser: true,
 useUnifiedTopology: true})
 
