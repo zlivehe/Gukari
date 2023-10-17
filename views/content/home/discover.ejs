@@ -278,7 +278,143 @@
               </a>
         </div>
     </div>
-        
+        <section>
+            <div class="mb-4">
+                <div class="flex items-center pl-4"><i data-v-63245ebc=""
+                        class="flex items-center text-brand-c fas fa-star  text-yellow-400" style="font-size: 20px;"></i>
+                    <h2 aria-label="World Languages" class="text-sm md:text-2xl text-dark-2 ml-2 font-semibold"><span
+                            translate="no" class="_i18n-container LANG_en" maxlenght="-1">General</span></h2>
+                    <div class="hidden md:block ml-auto"><button data-v-100aaadc="" aria-label="See more" type="button"
+                            translate="no"
+                            class="ml-auto flex items-center justify-center px-4 py-1 text-sm font-semibold h-8 base bg-lilac-faded text-lilac hover:text-lilac-light active:text-lilac-dark rounded-full  secondary transition-colors duration-200 ease-in-out flex relative min-w-max"
+                            data-cy="recommendations-see-more-btn"><!----> <!----> <span data-v-100aaadc="" class="title">
+                                See more
+                            </span> <!----> <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="currentColor"
+                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg> <!---->
+                            <!----> <!----> <!----> </button></div>
+                    <div class="block md:hidden ml-auto"><button data-v-100aaadc="" aria-label="See more" type="button"
+                            translate="no"
+                            class="ml-auto whitespace-nowrap flex items-center justify-center px-3 py-1 text-xs font-semibold h-6 base bg-lilac-faded text-lilac hover:text-lilac-light active:text-lilac-dark rounded-full  secondary transition-colors duration-200 ease-in-out flex relative min-w-max"><!---->
+                            <!----> <span data-v-100aaadc="" class="title">
+                                See more
+                            </span> <!----> <i data-v-63245ebc="" data-v-100aaadc=""
+                                class="flex items-center fas fa-chevron-right ml-2" style="font-size: 11px;"></i> <!---->
+                            <!----> <!----> <!----> </button></div>
+                </div>
+               <div class="ml-4">
+                <div class="flex flex-wrap">
+                    <%
+                    let shuffledCards = card.slice(); // Create a copy of the card array
+                    shuffledCards.sort(() => Math.random() - 0.5); // Shuffle the copy
+                    
+                    let displayedCards = 0;
+                    for(let Card of shuffledCards) {
+                        if (displayedCards >= 10) break;
+                        if (Card.author && Card.imageUrl && Card.cards.length > 1) {
+                            displayedCards++;
+                    %>
+                <a href="/home/quiz/<%=Card._id %>" class="mb-2 bg-white ml-2 p-3 recent-cardd rounded-lg  border" style="width: 16em; height: 23em">
+                    <div class="kr flex justify-between rounded-lg">
+                      <!-- <article class="font-medium text-lg"> <%=Card.title %>  </article> -->
+                      <h2 aria-label="Track name" class=" font-medium whitespace-nowrap overflow-hidden text-ellipsis"><%=Card.title %> </h2>
+                      <!-- <button><i class="bi bi-three-dots"></i></button> -->
+                    </div>
+                    <br>
+                    <div class="flex justify-center items-center">
+                      <%if(!Card.imageUrl || Card.imageUrl == '/uploads/china_1687455698709.jpeg'){%>
+                      <img style="
+                          height: 8em;
+                          max-height: 8em;
+                          max-width: 15em;
+                          min-width: 15em;
+                        " class="w-full rounded-md" src="/uploads/ParadiseCity1_1690131738414.jpg" alt="" srcset="">
+                        <%}else{%>
+                        <img style="
+                            height: 8em;
+                            max-height: 8em;
+                            max-width: 15em;
+                            min-width: 15em;
+                            " class="w-full rounded-md" src="<%=Card.imageUrl%>" alt="" srcset="">
+                            <%}%>
+    
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text text-gray-600">
+                        <%=Card.cards.length%> tearms
+                      </span>
+                      <div class="flex items-center ">
+                        <i class="bi bi-play-fill text-red-800"></i>
+                        <span class="text text-gray-600">  <%=Card.plays%> plays </span>
+    
+                      </div>
+                    </div>
+                    <br>
+            
+                    <div>
+                      <span class="text-sm">Keys</span>
+                      <div class="flex flex-wrap" style="width: 8em">
+                        <span class=" bg-purple-200 mb-3 text-xs text-black font-medium mr-2 px-2.5 py-0.5 rounded">
+                              <%= Card.category %>
+                        </span>
+                      </div>
+                    </div>
+                    <br>
+                    <div style="margin-top: 0em" class="about flex w-full justify-between">
+                      <div class="flex items-center  text-center">
+                        <img class="rounded-full w-8 h-8" src="<%=Card.author.photourl %>" alt="" srcset="">
+                        <span aria-label="Track name" class="ml-1 font-medium whitespace-nowrap overflow-hidden text-ellipsis"><%=Card.author.username %> </span>
+                      </div>
+                      <div class="tags text-center items-center content-center ml-5 flex">
+                        <span class="bg-red-700 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                          Education
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                  <% } 
+                 } %>
+            </div>
+            <br>
+            <hr>
+    <div class="p-3 bg-gray-200 rounded-xl"> 
+            <div class="flex overflow-hidden">
+        <% let displayedImages = 0; %>
+        <% for(cardimage of image) { %>
+            <% if (displayedImages >= 5) break; // Stop rendering after 5 images %>
+            <a href="/home/image/<%=cardimage._id%>" class="ml-3 mb-2" style="width: 16em">
+                <img class="rounded-lg" style="width: 100%; height: 20em" src="<%=cardimage.imageurl%>" alt="" srcset="">
+                <div class="p-2 recent-cardd ">
+                    <!-- <span>4:22</span> -->
+                    <div class="content-card flex items-center content-center">
+                        <img src="<%=cardimage.author.photourl%>" class="userimg mb-3 w-10 rounded h-10 rounded-full" alt="" srcset="">
+                        <div class="card-info ml-2">
+                            <span class="text-md font-medium w-full leading-3"><%=cardimage.title%></span><br>
+                            <div class="flex">
+                                <span class="text-sm text-gray-400"><%=cardimage.author.username%></span>
+                                <span class="ml-5 bg-gray-100 mb-1 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Pdf</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <% displayedImages++; // Increment the counter %>
+        <% } %>
+    </div>
+    
+    </div>
+               </div>
+            </div>
+        </section>
+       
+    
+        <section class="mb-4">
+            <h2 aria-label="TOp picks" class="text-sm md:text-2xl text-dark-2 ml-2 font-semibold"><span translate="no"
+                    class="_i18n-container LANG_en" maxlenght="-1">World Languages</span></h2>
+        </section>
     </div>
         <script>
         const search = document.getElementById('searchinput')
