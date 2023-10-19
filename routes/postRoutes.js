@@ -116,93 +116,98 @@ Router.post('/event/:id',async(req,res)=>{
     res.status(500).json({ error: 'An error occurred while updating task position' });
   }
 })
-Router.post('/quizcard',  upload.array('image'), isLoggedIn, catchAsync(async (req, res) => {
-    // console.log(req.body)
-    // console.log(req.files)
+Router.post('/quizcard', upload.array('image'), isLoggedIn, catchAsync(async (req, res) => {
+  try {
+      // Validate the request body
+      // const { error, value } = quizCardSchema.validate(req.body);
+      // if (error) {
+      //     req.flash('error', error.details[0].message);
+      //     return res.status(400).send(error.details[0].message);
+      // }
 
-    try {
-      const { error, value } = quizCardSchema.validate(req.body);
-  
-      if (error) {
-        // Handle validation error
-        req.flash('error', error.details[0].message);
-        return res.status(400).send(error.details[0].message);
-      }
-      
-      const { title, description,  tags, cards,category } = value;
-  if(!cards){
-    req.flash('error', 'Cards must be an array');
-    return res.status(400).send('Please enter cards');
-
-  }
-      // Create an array of tag objects with color property
-      const tagArray = tags.split(',').map((tag) => ({
-        name: tag.trim(),
-        color: getRandomColor(),
-      }));
-  
-      // Check if the cards field is an array
+      // Destructure the validated request body
+      const { title, description, tags, cards, category } = req.body;
+    console.log(cards)
+      // Ensure the cards field is an array
       if (!Array.isArray(cards)) {
-        req.flash('error', 'Cards must be an array');
-        return res.status(400).send('Cards must be an enterd/array');
-
+          req.flash('error', 'Cards must be an array');
+          return res.status(400).send('Cards must be an array');
       }
-  
+
+      // Process the tags and cards data
+      const tagArray = tags.split(',').map(tag => ({ name: tag.trim(), color: getRandomColor() }));
+      const validCards = cards.filter(card => card && card.term && card.definition);
+
+      const cardArray = validCards.flatMap((card, outerIndex) => {
+        if (Array.isArray(card.term) &&
+            Array.isArray(card.position) &&
+            Array.isArray(card.definition) &&
+            Array.isArray(card.image)) {
+            // When the properties are arrays, create a new card object for each value
+            return card.term.map((term, innerIndex) => {
+                const totalIndex = outerIndex + innerIndex;
+                const definition = card.definition[innerIndex];
+                const image = card.image[innerIndex];
+      
+                const uploadedFile = req.files.find((file) => file.originalname === image);
+                const imageUrl = uploadedFile ? `${uploadedFile.path}` : '';
+      
+                return {
+                    term: term,
+                    position: totalIndex + 1,  // Adjusted position value
+                    imageUrl: imageUrl,
+                    image: uploadedFile ? uploadedFile.path : image,
+                    definition: definition,
+                };
+            });
+        } else {
+            // When the properties are not arrays, create a single card object
+            const uploadedFile = req.files.find((file) => file.originalname === card.image);
+            const imageUrl = uploadedFile ? `${uploadedFile.path}` : '';
+      
+            return {
+                term: card.term,
+                position: outerIndex + 1,  // Adjusted position value
+                imageUrl: imageUrl,
+                image: uploadedFile ? uploadedFile.path : card.image,
+                definition: card.definition,
+            };
+        }
+      });
+          
+
+      // Get the logged-in user
       const user = req.user;
-  
-      // Create an array of card objects
-    
-      const cardArray = cards.map((card) => {
-        // Find the uploaded file based on the card.image field
-        const uploadedFile = req.files.find((file) => file.originalname === card.image);
-      
-        // If no file is uploaded for this card, use the default image filename
-        const defaultImageFilename = '';
-        const imageUrl = uploadedFile ? `${uploadedFile.path}` : `${defaultImageFilename}`;
-      
-        // Check if the uploaded file exists and store only the filename
-        const imageFilename = uploadedFile ? uploadedFile.filename : '';
-      
-        return {
-          term: card.term,
-          position: card.position,
-          imageUrl: imageUrl,
-          image: imageFilename, // Store only the filename
-          definition: card.definition,
-        };
-      });
-      
-        console.log(cardArray)
-      // Create a new QuizCard object
-      let uploadedfile = req.files[0];
-      const imageUrl = uploadedfile ? `${uploadedfile.path}` : ``;
 
+      // Determine the imageUrl
+      const imageUrls = req.files.map(file => `${file.path}`);
+      const imageUrl = imageUrls[0] || '';
+
+      // Construct the new QuizCard object
       const newQuizCard = new QuizCard({
-        title,
-        description,
-        tags: tagArray,
-        cards: cardArray,
-        category:category,
-        author: user._id,
-        
-        imageUrl: imageUrl,
+          title,
+          description,
+          tags: tagArray,
+          cards: cardArray,
+          category,
+          author: user._id,
+          imageUrl,
       });
-  
 
-  
+      // Save the new QuizCard to the database
       user.quizCard.push(newQuizCard);
       await user.save();
-  
-      // Save the QuizCard to the database
+      console.log(newQuizCard)
       await newQuizCard.save();
       const id = newQuizCard._id;
-  
-      res.send({newQuizCard, id});
-    } catch (e) {
+
+      // Respond with the new QuizCard and its ID
+      res.send({ newQuizCard, id });
+  } catch (e) {
       req.flash('error', e.message);
       res.status(500).json({ success: false, message: e.message });
-    }
-  }));
+  }
+}));
 
 
 
@@ -252,7 +257,7 @@ Router.post('/quizcard/:id/edit',  upload.array('image'), isLoggedIn, catchAsync
     // }
     
     let { title, description, visability, tags, cards,category, orniginalimg,headtingimg} = req.body;
-
+console.log(cards)
     // Create an array of tag objects with color property
     const tagArray = tags.split(',').map((tag) => ({
       name: tag.trim(),
@@ -266,22 +271,47 @@ Router.post('/quizcard/:id/edit',  upload.array('image'), isLoggedIn, catchAsync
     }
 
     const user = req.user;
-    // console.log(req.files)
-    // Create an array of card objects
-    const validCards = cards.filter(card => card && card.term && card.definition);
-     console.log(req.files)
-    const cardArray = validCards.map((card) => {
+
+const validCards = cards.filter(card => card && card.term && card.definition);
+
+const cardArray = validCards.flatMap((card, outerIndex) => {
+  if (Array.isArray(card.term) &&
+      Array.isArray(card.position) &&
+      Array.isArray(card.definition) &&
+      Array.isArray(card.image)) {
+      // When the properties are arrays, create a new card object for each value
+      return card.term.map((term, innerIndex) => {
+          const totalIndex = outerIndex + innerIndex;
+          const definition = card.definition[innerIndex];
+          const image = card.image[innerIndex];
+
+          const uploadedFile = req.files.find((file) => file.originalname === image);
+          const imageUrl = uploadedFile ? `${uploadedFile.path}` : '';
+
+          return {
+              term: term,
+              position: totalIndex + 1,  // Adjusted position value
+              imageUrl: imageUrl,
+              image: uploadedFile ? uploadedFile.path : image,
+              definition: definition,
+          };
+      });
+  } else {
+      // When the properties are not arrays, create a single card object
       const uploadedFile = req.files.find((file) => file.originalname === card.image);
       const imageUrl = uploadedFile ? `${uploadedFile.path}` : '';
 
-    return {
-      term: card.term,
-      position: card.position,
-      imageUrl: imageUrl,
-      image: uploadedFile ? uploadedFile.path : card.image, // Store only the filename
-      definition: card.definition,
-    };
-    });
+      return {
+          term: card.term,
+          position: outerIndex + 1,  // Adjusted position value
+          imageUrl: imageUrl,
+          image: uploadedFile ? uploadedFile.path : card.image,
+          definition: card.definition,
+      };
+  }
+});
+    
+
     if(orniginalimg === '' || orniginalimg === undefined){ 
       orniginalimg = 'quizcard.jpg'
     }

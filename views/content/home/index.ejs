@@ -14,41 +14,9 @@
                     <% if(user.reminder[0]){ %>
                     <textarea name="" class="hidden" id="evenclasses" cols="30" rows="10"><%=JSON.stringify(user.reminder[0].Event) %></textarea>
                     <% } %>
-                    <section class="create p-2 flex">
-                        <a href="home/create/board" style="width: 100%;" class="block white-black make-card shadow max-w-full p-6 border border-gray-200 rounded-lg hover:bg-gray-100">
-                          <div class="flex">
-                            <img class="w-16 h-16" src="https://cdn4.iconfinder.com/data/icons/project-management-104/1600/agile_board_ieration_scrum_tasks_completed-512.png" alt="" srcset="">
-                            <div class="title flex ml-2 flex-col text-2xl">
-                              <span class="text-lg font-medium">Create Board</span>
-                              <span class="text-gray-400 text-xs">Public board everyone admir see you ideas</span>
-                            </div>
-                          </div>
-                        </a>
-                        <button data-modal-target="uploadmodel" style="width: 100%;" data-modal-toggle="uploadmodel" class="block text-left white-black make-card shadow ml-2 max-w-full p-6 border border-gray-200 rounded-lg hover:bg-gray-100">
-                          <div class="flex">
-                            <img class="w-16 h-16" src="https://cdn-icons-png.flaticon.com/512/2270/2270665.png" alt="" srcset="">
-                            <div class="title flex ml-2 flex-col text-2xl">
-                              <span class="text-lg font-medium">Upload</span>
-                              <span class="text-gray-400 text-xs">Upload video/img with gukari and get started</span>
-                            </div>
-                          </div>
-                        </button>
-                        <a href="home/create/booklet" style="width: 100%;" class="block white-black make-card shadow ml-2 max-w-full p-6 border border-gray-200 rounded-lg hover:bg-gray-100">
-                          <div class="flex">
-                            <img class="w-16 h-16" src="https://cdn-icons-png.flaticon.com/512/2784/2784539.png" alt="" srcset="">
-                            <div class="title flex ml-2 flex-col text-2xl">
-                              <span class="text-lg font-medium">Create Booklet</span>
-                              <span class="text-gray-400 text-xs">Booklet lets you keep all your content intact</span>
-                            </div>
-                          </div>
-                        </a>
-                      </section>
-                      <section class=" calendar">
+                    <section class=" calendar">
 
-                        <div class="flex w-full mb-2 mt-2 justify-between">
-                            <span class="text-xl">Calendar</span>
-                            <!-- <a class="p-2  text-white text-blue-500 ">Full calendar</a> -->
-                        </div>
+                       <br>
                         <div class="flex items-center">
                                                 <i class="bi arrow bi-caret-left-fill text-xl"></i>
 
@@ -120,6 +88,36 @@
                                             <i class="bi arrow bi-caret-right-fill text-xl"></i>
                                         </div>
                     </section>
+                    <section class="create p-2 flex">
+                        <a href="home/create/board" style="width: 100%;" class="block white-black make-card shadow max-w-full p-6 border border-gray-200 rounded-lg hover:bg-gray-100">
+                          <div class="flex">
+                            <img class="w-16 h-16" src="https://cdn4.iconfinder.com/data/icons/project-management-104/1600/agile_board_ieration_scrum_tasks_completed-512.png" alt="" srcset="">
+                            <div class="title flex ml-2 flex-col text-2xl">
+                              <span class="text-lg font-medium">Create Board</span>
+                              <span class="text-gray-400 text-xs">Public board everyone admir see you ideas</span>
+                            </div>
+                          </div>
+                        </a>
+                        <button data-modal-target="uploadmodel" style="width: 100%;" data-modal-toggle="uploadmodel" class="block text-left white-black make-card shadow ml-2 max-w-full p-6 border border-gray-200 rounded-lg hover:bg-gray-100">
+                          <div class="flex">
+                            <img class="w-16 h-16" src="https://cdn-icons-png.flaticon.com/512/2270/2270665.png" alt="" srcset="">
+                            <div class="title flex ml-2 flex-col text-2xl">
+                              <span class="text-lg font-medium">Upload</span>
+                              <span class="text-gray-400 text-xs">Upload video/img with gukari and get started</span>
+                            </div>
+                          </div>
+                        </button>
+                        <a href="home/create/booklet" style="width: 100%;" class="block white-black make-card shadow ml-2 max-w-full p-6 border border-gray-200 rounded-lg hover:bg-gray-100">
+                          <div class="flex">
+                            <img class="w-16 h-16" src="https://cdn-icons-png.flaticon.com/512/2784/2784539.png" alt="" srcset="">
+                            <div class="title flex ml-2 flex-col text-2xl">
+                              <span class="text-lg font-medium">Create Booklet</span>
+                              <span class="text-gray-400 text-xs">Booklet lets you keep all your content intact</span>
+                            </div>
+                          </div>
+                        </a>
+                      </section>
+                   
 
                     <section class="  boards status">
 

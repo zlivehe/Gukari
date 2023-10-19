@@ -3,6 +3,7 @@
 <title>Gukari-<%= foundquiz.title %></title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
 
     <div class="content fullscreen" id="content-menu">
         <style>
@@ -237,7 +238,7 @@
                                               src="https://img.icons8.com/android/24/000000/minus.png" alt="minus" />
                                       </button>
                                   </div>
-                                  <div class="full flex flex-wrap justify-center items-center w-full"><button data-index="<%=card.position %>" class="flipbutton"> <img class="w-11 h-11" src="https://media.discordapp.net/attachments/1105375686203555913/1145395058145763388/swap.png?width=896&height=896" alt="" srcset=""> </button> </div>
+                                  <div class="full flex flex-wrap justify-center items-center w-full"><span data-index="<%=card.position %>" class="flipbutton"> <img class="w-11 h-11" src="https://media.discordapp.net/attachments/1105375686203555913/1145395058145763388/swap.png?width=896&height=896" alt="" srcset=""> </span> </div>
   
                                   <div class="w-full flex px-2 mb-6 md:mb-0">
                                       <div class="w-full px-2">
@@ -295,7 +296,7 @@
                                   </div>
                               <input class="card-input hidden  rounded-md" type="text"
                                   name="cards[<%= card.position%>][image]" value="<%= card.image %>"
-                                  id="preview2_<%=card.position %>" placeholder="Enter imgae" required>
+                                  id="preview2_<%=card.position %>" placeholder="Enter imgae" >
                               </div>
                               <% }) %>
                     </div>
@@ -333,10 +334,9 @@
             
 <script>
   let cardCount = document.querySelectorAll('.card').length; 
-  // let cardCount = document.querySelectorAll('.card').length + 1; 
-
 let UsedLanguage = 'zh-cn'; 
-  function flipterm(){
+function flipterm(){
+const flipb1utton = document.querySelectorAll('.flipbutton');
 const flipbutton = document.querySelectorAll('.flipbutton');
 console.log(flipbutton)
 flipbutton.forEach((dd) => {
@@ -357,8 +357,7 @@ flipbutton.forEach((dd) => {
     })
     });
   }
-      flipterm()
-
+  flipterm()
 const ctx = document.getElementById('metricChart').getContext('2d');
 let metric = 'plays';
 let startDate = '';
@@ -444,6 +443,7 @@ apbtn.forEach((btn) => {
   };
   reader.readAsDataURL(event.target.files[0]);
 }
+
 
         const defaultImageURL1 = '/public/uploads/china_1687641298604.jpeg';
 
@@ -649,11 +649,12 @@ function updateInputNameAtIndex(inputName, newIndex) {
             
 
     `;
-    flipterm()
 
     const languageDropdown = cardContainer.querySelector(`#languges${cardCount}`);
     languageDropdown.addEventListener('change', () => {
         showLanguageMessage(cardCount);
+                          flipterm()
+
     });
 
     function showLanguageMessage(cardCount) {
@@ -778,11 +779,15 @@ languageDropdown1.addEventListener('change',function(e){
 })
         
 
+
 function TranslatePost(event, cardCount) {
     console.log(event)
+
   var definitionTextarea = event.target;
-  
   const termTextarea = document.getElementById(`term_${cardCount}`);
+  const defintionfind = document.getElementById(`definition_${cardCount}`)
+    console.log(defintionfind)
+
   var definition = definitionTextarea.value.trim();
 
   // Check if the definition is not empty
@@ -853,98 +858,94 @@ function TranslatePost(event, cardCount) {
     clearDefinitions();
   }
 }
-
-  function showDefinitions(definitions, cardCount) {
+function showDefinitions(definitions, cardCount) {
 
    
             
-    console.log('definitionsList' + cardCount - 1); 
 
-    var definitionsList = document.getElementById(`definitionsList${cardCount}`);
-    console.log(definitionsList);
-    definitionsList.style.display = "block";
-    definitionsList.innerHTML = "";
+var definitionsList = document.getElementById(`definitionsList${cardCount}`);
+definitionsList.style.display = "block";
+definitionsList.innerHTML = "";
 
-    var definitionsUl = document.createElement("ul");
-    definitionsUl.classList.add("definitions-ul");
-    var definitionTextarea = document.getElementById(`definition_${cardCount}`);
-      
+var definitionsUl = document.createElement("ul");
+definitionsUl.classList.add("definitions-ul");
+var definitionTextarea = document.getElementById(`definition_${cardCount}`);
   
-      const termTextarea = document.getElementById(`term_${cardCount}`);
-      var definition = termTextarea.value.trim();
-      console.log(definition);
-    
-    
-      
-    definitions.forEach((definition, index) => {
-      var definitionLi = document.createElement("li");
-      definitionLi.textContent = `${index + 1}. ${definition.definition}`;
 
-      definitionsUl.appendChild(definitionLi);
+  const termTextarea = document.getElementById(`term_${cardCount}`);
+  var definition = termTextarea.value.trim();
 
-      definitionLi.onclick = function () {
-      // Fill the definition textarea with the selected recommendation
-      var selectedRecommendation = this.textContent;
-      console.log(selectedRecommendation);
-      var definitionTextarea = document.getElementById(`definition_${cardCount}`);
-      definitionTextarea.value = selectedRecommendation;
-      definitionsList.style.display = "none";
 
-      // Clear the recommendations dropdown or list after selection
-      clearDefinitions()
-    };
-    });
+  
+definitions.forEach((definition, index) => {
+  var definitionLi = document.createElement("li");
+  definitionLi.textContent = ` ${definition.definition}`;
 
-    definitionsList.appendChild(definitionsUl);
-      // Check if the definition is not empty
-        // Get the selected language from the dropdown
-        const languageDropdown = document.getElementById(`languges${cardCount}`);
-              const selectedLanguage = languageDropdown.value;
-    
-              // Make a POST request to the /api/translate endpoint to translate the definition
-              const translateApiUrl = '/api/translate';
-              const formData = new FormData();
-              formData.append('text', definition);
-              formData.append('targetLanguage', selectedLanguage);
-    
-              fetch(translateApiUrl, {
-                method: 'POST',
-                body: formData,
-                
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data);
-                  // Update the definition textarea with the translated text
-                  const translatedText = data.translatedText;
-                  const definitionTextarea = document.getElementById(`definition_${cardCount}`);
-                  if(selectedLanguage === 'zh-cn'){
-                    definitionsUl.appendChild(translatedText.text) + ' ' + translatedText.pinyin;
-                    }else{
-                        var definitionLi = document.createElement("span");
+  definitionsUl.appendChild(definitionLi);
+
+  definitionLi.onclick = function () {
+  // Fill the definition textarea with the selected recommendation
+  var selectedRecommendation = this.textContent;
+  console.log(selectedRecommendation);
+  var definitionTextarea = document.getElementById(`definition_${cardCount}`);
+  definitionTextarea.value = selectedRecommendation;
+  definitionsList.style.display = "none";
+
+  // Clear the recommendations dropdown or list after selection
+  // clearDefinitions()
+};
+});
+
+definitionsList.appendChild(definitionsUl);
+  // Check if the definition is not empty
+    // Get the selected language from the dropdown
+    const languageDropdown = document.getElementById(`languges${cardCount}`);
+          const selectedLanguage = languageDropdown.value;
+
+          // Make a POST request to the /api/translate endpoint to translate the definition
+          const translateApiUrl = '/api/translate';
+          const formData = new FormData();
+          formData.append('text', definition);
+          formData.append('targetLanguage', selectedLanguage);
+
+          fetch(translateApiUrl, {
+            method: 'POST',
+            body: formData,
+            
+          })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+              // Update the definition textarea with the translated text
+              const translatedText = data.translatedText;
+              const definitionTextarea = document.getElementById(`definition_${cardCount}`);
+              if(selectedLanguage === 'zh-cn'){
+                definitionsUl.appendChild(translatedText.text) + ' ' + translatedText.pinyin;
+                }else{
+                    var definitionLi = document.createElement("span");
 definitionLi.textContent = ` ${translatedText.text}`;
 definitionsUl.insertAdjacentElement('beforebegin', definitionLi);
 
 // Add the event listener after the new list item is inserted
 definitionLi.addEventListener('click', function() {
-  definitionTextarea.value = translatedText.text;
-  definitionsList.style.display = "none";
+definitionTextarea.value = translatedText.text;
+definitionsList.style.display = "none";
 });
-                    }   
-    
-                })
-                .catch((error) => {
-                    console.log(error)
-                  console.error('Error translating definition:', error);
-                });
-  }
+                }   
 
-  function clearDefinitions() {
-    // Clear the definitions list
-    var definitionsList = document.getElementById(`definitionsList${cardCount -1 }`);
-    definitionsList.innerHTML = "";
-    definitionsList.style.display = "none";
-  }
+            })
+            .catch((error) => {
+                console.log(error)
+              console.error('Error translating definition:', error);
+            });
+}
+
+function clearDefinitions() {
+// Clear the definitions list
+var definitionsList = document.getElementById(`definitionsList${cardCount -1 }`);
+definitionsList.innerHTML = "";
+definitionsList.style.display = "none";
+}
 
   function addCardElement(cardCount) {
     // ... Your existing code for adding card elements ...
@@ -1023,24 +1024,6 @@ definitionLi.addEventListener('click', function() {
   }
 }
 savebtn.addEventListener('click', submitForm());
-const flipbutton = document.querySelectorAll('.flipbutton');
-flipbutton.forEach((button) => {
-    button.addEventListener('click', function(e){
-      console.log('clicked')
-      const dataid = button.dataset.index;
-      console.log(dataid);
-      const term = document.getElementById(`term_${dataid}`);
-      const definition = document.getElementById(`definition_${dataid}`);
-      console.log(term.value);
-      console.log(definition.value);
-      //switrch the values
-      const temp = term.value;  
-      term.value = definition.value;
-      definition.value = temp;
-      //switch the images
-
-    })
-    });
 
 
             </script>

@@ -61,7 +61,11 @@
         }
 
 </style>
-<%- include('../../../layouts/partials/createnav.ejs') %>
+<link rel="stylesheet" href="/stylesheet/home/index.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+<%- include('../../../layouts/partials/navlay.ejs') %>
 <div class="" style="height: 100vh; overflow: auto;">
 
     <div class="create-contednt" style="overflow: scroll; overflow: scroll;" id="codntent-menu">
@@ -162,16 +166,83 @@
 
                     <div class="mt-2">
                         <span>Enter a card</span>
-                        <div class="flex flex-col justify-between flex-wrap" id="card_container">
+                        <div id="existing-cards-container">
+                            <!-- Existing cards will be inserted here -->
+                            <div class="card mb-4 border p-5 rounded-lg">
+                                <div class="flex justify-between items-center content-center">
+                                    <div class="card-number">
+                                        1
+                                    </div>
+                                    <button class="remove-card-button p-2 text-center flex justify-center mt-3 rounded-md bg-red-400">
+                                        <img width="20" height="20" src="https://img.icons8.com/android/24/000000/minus.png" alt="minus">
+                                    </button>
+                                </div>
+                                <div class="full flex flex-wrap justify-center items-center w-full"><button data-index="1" class="flipbutton"> <img class="w-11 h-11" src="https://media.discordapp.net/attachments/1105375686203555913/1145395058145763388/swap.png?width=896&amp;height=896" alt="" srcset=""> </button> </div>
 
+                                <div class="w-full flex px-2 mb-6 md:mb-0">
+                                    <div class="w-full px-2">
+                                      
+
+                                        <label class="w-full block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="term_1">
+                                            Term
+                                        </label>
+                                        <textarea onchange="TranslatePost(event, '1')" class="card-input rounded-md resize-none w-full bg-gray-50 border-none" type="text" name="cards[1][term]" id="term_1" required="">sam</textarea>
+
+                                    </div>
+                                    <div class="w-full px-2">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="definition_1">
+                                            Definition
+                                        </label>
+                                        <input class="card-input rounded-md" type="text" name="cards[1][position]" value="1" readonly="" style="display: none;">
+
+                                        <textarea class="card-input rounded-md resize-none w-full bg-gray-50 border-none" type="text" name="cards[1][definition]" id="definition_1" required="">1. Surface-to-air missile
+</textarea>
+                                         
+                                            <div style="height:6em; overflow:scroll; padding:0.5em " class=" hidden bg-gray-200 rounded-lg z-50 w-full hidden" id="definitionsList1"></div>
+
+
+                                    </div>
+                                    <br>
+ 
+                                </div>
+                                <div class="flex justify-between">
+                                <input class="card-input  rounded-md" type="file" name="image" id="image_${cardCount}" style="margin-top: 0.5rem;" onchange="previewImage1(event, `1`)" value="/public/uploads/china_1687641298604.jpeg">
+                                
+                                        <img class="h-16 w-16 hidden" id="preview_1" src="" alt="" srcset="">
+                                     
+                                    <div> 
+                                    <label for="languges" class="block mb-2 text-sm font-medium text-gray-900 ">Select language</label>
+                                    <select id="languges1" class="bg-gray-50 border border-gray-300 languagec text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                        <option value="en">English</option>
+                                        <option value="fr">French</option>
+                                        <option value="ja">Japanese</option>
+                            
+                                        <option selected="" value="zh-cn">Chinese</option>
+                                        <option value="es">Spanish</option>
+                                        <option value="ko">Korean</option>
+                                    </select>
+                                </div>
+                                </div>
+                            <input class="card-input hidden  rounded-md" type="text" name="cards[1][image]" value="" id="preview2_1" placeholder="Enter imgae" required="">
+                            </div>
                         </div>
 
                         <div>
-                            <button type="button"
-                                class="add-card-button p-2 text-center flex justify-center mt-3 rounded-md bg-purple-400">
-                                <img width="20" height="20" src="https://img.icons8.com/android/24/000000/plus.png"
+                            <div class="flex justify-center">
+                                <button type="button" id="add-card-button"
+                                    class="add-card-button items-center p-3 text-center flex justify-center mt-3 rounded-md bg-green-500 text-white font-medium">
+                                    <img width="20" height="20" src="https://img.icons8.com/android/24/000000/plus.png"
+                                        alt="plus" />
+                                    <span class="ml-2">Add Card</span>
+                                </button>
+                                <button type="button"  id="savebtn" type="submit"
+                                class="add-card-button items-center-3 p-3 ml-3 text-center flex justify-center mt-3 rounded-md bg-blue-500 text-white font-medium">
+                                <img width="20" height="20" src="https://img.icons8.com/color/48/save--v1.png"
                                     alt="plus" />
+                                <span class="ml-2">Save</span>
                             </button>
+        
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -182,7 +253,38 @@
 
         <br><br><br>
     <script>
-        function coverimagePreview(event) {
+ let cardCount = document.querySelectorAll('.card').length; 
+  // let cardCount = document.querySelectorAll('.card').length + 1; 
+
+let UsedLanguage = 'zh-cn'; 
+  function flipterm(){
+const flipbutton = document.querySelectorAll('.flipbutton');
+console.log(flipbutton)
+flipbutton.forEach((dd) => {
+    dd.addEventListener('click', function(e){
+      e.preventDefault()
+      console.log('clicked')
+      const dataid = dd.dataset.index;
+      console.log(dataid);
+      const term = document.getElementById(`term_${dataid}`);
+      const definition = document.getElementById(`definition_${dataid}`);
+      console.log(term.value);
+      console.log(definition.value);
+      //switrch the values
+      const temp = term.value;  
+      term.value = definition.value;
+      definition.value = temp;
+
+    })
+    });
+  }
+      flipterm()
+
+
+                const savebtn = document.getElementById('savebtn');
+     var output = document.getElementById('coverimagePreview');
+
+                    function coverimagePreview(event) {
   var reader = new FileReader();
   reader.onload = function () {
     var output = document.getElementById('coverimagePreview');
@@ -190,20 +292,10 @@
   };
   reader.readAsDataURL(event.target.files[0]);
 }
-let UsedLanguage = 'zh-cn';
 
-        const tagInput = document.getElementById('tag_input');
-        const tagsContainer = document.getElementById('tags_container');
-        const cardContainer = document.getElementById('card_container');
-        const addCardButton = document.querySelector('.add-card-button');
-        const posttagsInput = document.querySelector('.tags-post');
-        let inputElement = document.getElementById("tags-post");
+        const defaultImageURL1 = '/public/uploads/china_1687641298604.jpeg';
 
-
-        let cardCount = 0;
-        const defaultImageURL = '/public/uploads/china_1687641298604.jpeg';
-
-        function previewImage(event, cardCount) {
+        function previewImage1(event, cardCount) {
             const input = event.target;
             const preview = document.getElementById(`preview_${cardCount}`);
             const preview2 = document.getElementById(`preview2_${cardCount}`);
@@ -227,19 +319,98 @@ let UsedLanguage = 'zh-cn';
             }
         }
 
+                function getTagColorClass(tag) {
+                    const tagColors = {
+                        computer: 'text-cyan-600 bg-cyan-200',
+                        science: 'text-pink-600 bg-pink-200',
+                        programming: 'text-blue-600 bg-blue-200',
+                    };
 
-            addCardButton.addEventListener('click', function () {
-                cardCount++;
+                    return tagColors[tag.toLowerCase()] || '';
+                }
+                // Function to update the card numbers
+                function updateCardNumbers() {
+                    const cardNumbers = document.querySelectorAll('.card-number');
+                    cardNumbers.forEach((cardNumber, index) => {
+                        cardNumber.textContent = index + 1;
+                    });
+                }
 
-                const card = document.createElement('div');
-                card.className = 'card w-full mb-4 border p-5 rounded-lg';
-                card.innerHTML = `
-        <div class="flex justify-between items-center content-center"> 
+                // Function to remove a card
+                function removeCard(event) {
+  const cardContainer = event.target.closest('.card');
+  const cardIndex = [...cardContainer.parentNode.children].indexOf(cardContainer);
+  cardContainer.remove();
+
+  const cardInputs = document.querySelectorAll('.card-input');
+  cardInputs.forEach((input) => {
+    const inputName = input.name;
+    const inputIndex = getInputIndexFromName(inputName);
+
+    if (inputIndex > cardIndex) {
+      const newIndex = inputIndex - 1;
+      const newInputName = updateInputNameAtIndex(inputName, newIndex);
+      input.name = newInputName;
+    }
+  });
+
+  updateCardNumbers();
+}
+
+function getInputIndexFromName(inputName) {
+  const regex = /cards\[(\d+)\]/;
+  const match = inputName.match(regex);
+  return match ? parseInt(match[1]) : -1;
+}
+
+function updateInputNameAtIndex(inputName, newIndex) {
+  const regex = /cards\[\d+\]/;
+  return inputName.replace(regex, `cards[${newIndex}]`);
+}
+                const defaultImageURL = '/public/uploads/china_1687641298604.jpeg';
+
+                function previewImage(event, cardCount) {
+                    const input = event.target;
+                    const preview = document.getElementById(`preview_${cardCount}`);
+                    const preview2 = document.getElementById(`preview2_${cardCount}`);
+
+
+                    if (input.files && input.files[0]) {
+                        const reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            preview.src = e.target.result;
+                            preview.style.display = 'block';
+
+                        };
+                        console.log(input.files[0]);
+                        preview2.value = input.files[0].name;
+                        reader.readAsDataURL(input.files[0]);
+
+                    } else {
+                        preview.src = defaultImageURL;
+                        preview.style.display = 'block';
+                    }
+                }
+
+
+                // Function to add a new card
+                function addCard() {
+                    var definitionsList = document.getElementById(`definitionsList${cardCount -1 }`);
+                    if(definitionsList){
+                    definitionsList.style.display = "none";
+                    }
+                    const cardContainer = document.createElement('div');
+                    cardCount++;
+                    cardContainer.className = 'card mb-4 border p-5 rounded-lg';
+                    cardContainer.innerHTML = `
+                    <div class="flex justify-between items-center content-center"> 
         <div class="card-number">${cardCount}</div>
         <button class="remove-card-button p-2 text-center flex justify-center mt-3 rounded-md bg-red-400">
             <img width="20" height="20" src="https://img.icons8.com/android/24/000000/minus.png" alt="minus" />
         </button>
         </div>
+        <div class="full flex flex-wrap justify-center items-center w-full"><button data-index="${cardCount}" class="flipbutton"> <img class="w-11 h-11" src="https://media.discordapp.net/attachments/1105375686203555913/1145395058145763388/swap.png?width=896&height=896" alt="" srcset=""> </button> </div>
 
         <div class="w-full flex px-2 mb-6 md:mb-0">
         <div class="w-full px-2">
@@ -265,6 +436,7 @@ let UsedLanguage = 'zh-cn';
             <input
             class="card-input rounded-md"
             type="text"
+            
             name="cards[${cardCount - 1}][position]"
             value="${cardCount}"
             readonly
@@ -275,7 +447,7 @@ let UsedLanguage = 'zh-cn';
             type="text"
             name="cards[${cardCount - 1}][definition]"
             id="definition_${cardCount}"
-            onchange="TranslatePost()"
+            onchange=""
             placeholder="Enter definition"
             required></textarea>
             <div style="height:6em; overflow:scroll; padding:0.5em " class=" hidden bg-gray-200 rounded-lg z-50 w-full hidden" id="definitionsList${cardCount - 1}"></div>
@@ -294,19 +466,21 @@ let UsedLanguage = 'zh-cn';
             style="margin-top: 0.5rem;"
             onchange="previewImage(event, ${cardCount}) "
             value="${defaultImageURL}" 
-            >
+            > 
             <img id="preview_${cardCount}" class=" ml-5 mb-1 mt-1 w-16 h-16" src="${defaultImageURL}" alt="Preview" style="display: none;">
             <div class="w-1/2 px-2 flex flex-wrap">
         <label for="languges" class="block mb-2 text-sm font-medium text-gray-900 ">Select language</label>
         <select id="languges${cardCount}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             <option selected  value="${UsedLanguage}">${UsedLanguage}</option>
-            <option  value="en">English</option>
             <option value="fr">French</option>
-            <option value="zh-cn">Chinese</option>
-            <option  value="es">Spanish</option>
-            <option value="ko">Korean</option>
+            <option  value="ja">Japanese</option>
+            <option   value="en">English</option>
+            <option   value="zh-cn">Chinese</option>
+            <option   value="es">Spanish</option>
+            <option   value="ko">Korean</option>
         </select>
     </div>
+    
 </div>
 
 
@@ -323,13 +497,9 @@ let UsedLanguage = 'zh-cn';
             
 
     `;
+    flipterm()
 
-                cardContainer.appendChild(card);
-                updateCardNumbers();
-            });
-
-    
-            const languageDropdown = cardContainer.querySelector(`#languges${cardCount}`);
+    const languageDropdown = cardContainer.querySelector(`#languges${cardCount}`);
     languageDropdown.addEventListener('change', () => {
         showLanguageMessage(cardCount);
     });
@@ -349,160 +519,117 @@ function getLanguageName(languageCode) {
     // Implement this function to map language codes to their respective language names
     // Example implementation:
     const languageMap = {
-        'en': 'English',
-        'fr': 'French',
-        'ja': 'Japanese',
+      'English': 'English',
+        'French': 'French',
+        'Japanese': 'Japanese',
         'zh-cn': 'Chinese',
-        'es': 'Spanish',
-        'ko': 'Korean',
+        'Spanish': 'Spanish',
+        'Korean': 'Korean',
     };
     return languageMap[languageCode] || 'Unknown Language';
 }
 
-        function updateCardNumbers() {
-            const cards = cardContainer.getElementsByClassName('card');
-            for (let i = 0; i < cards.length; i++) {
-                const card = cards[i];
-                const cardNumber = card.querySelector('.card-number');
-                cardNumber.textContent = i + 1;
-            }
-            cardCount = cards.length;
-        }
+       
 
-        cardContainer.addEventListener('click', function (event) {
-            if (event.target.classList.contains('remove-card-button')) {
-                const card = event.target.closest('.card');
-                if (card) {
-                    card.remove();
+
+const removeButton = cardContainer.querySelector('.remove-card-button');
+                
+                    removeButton.addEventListener('click', removeCard);
+
+                    const cardContainer1 = document.getElementById('existing-cards-container');
+                    cardContainer1.appendChild(cardContainer);
                     updateCardNumbers();
                 }
-            }
-        });
 
-        function getRandomColor() {
-            const colors = ['bg-red-200', 'bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-purple-200'];
-            const randomIndex = Math.floor(Math.random() * colors.length);
-            return colors[randomIndex];
-        }
-        // Replace the existing initialization of values with this code
-        const values = inputElement.value.split(',');
-
-        tagInput.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                const tag = tagInput.value.trim();
-                if (tag !== '') {
+                const addCardButton = document.getElementById('add-card-button');
+                addCardButton.addEventListener('click', addCard);
+                function addTag(tagValue) {
+                    const tagsContainer = document.getElementById('tags_container');
                     const tagElement = document.createElement('span');
-                    const randomColor = getRandomColor();
-                    tagElement.classList.add(
-                        'text-xs',
-                        'ml-3',
-                        'font-semibold',
-                        'inline-block',
-                        'mb-2',
-                        'py-1',
-                        'px-2',
-                        'uppercase',
-                        'rounded',
-                        'text-gray-600',
-                        randomColor,
-                        'uppercase',
-                        'last:mr-0',
-                        'mr-1'
-                    );
-                    tagElement.innerText = tag;
+                    tagElement.className = 'text-xs ml-3 mb-2 font-semibold inline-block py-1 px-2 uppercase rounded';
+                    tagElement.textContent = tagValue;
 
-                    // Create a color input element
-                    const colorInput = document.createElement('input');
-                    colorInput.type = 'hidden';
-                    colorInput.name = 'color[]';
-                    colorInput.value = randomColor;
-                    tagElement.appendChild(colorInput);
-
-                    // Push the tag to the values array
-                    values.push(tag);
-
-                    // Update the value of the inputElement
-                    inputElement.value = values.join(',');
-                    console.log(inputElement.value);
+                    // Add tag color class based on the tag value
+                    tagElement.classList.add(getTagColorClass(tagValue));
 
                     tagsContainer.appendChild(tagElement);
-
-                    tagInput.value = '';
                 }
-            }
-        });
+                // Prevent form submission when Enter key is pressed
+                // Add event listener to the tag input field for Enter keydown event
+                const tagInput1 = document.getElementById('tag_input');
+                tagInput1.addEventListener('keydown', function (e) {
+                    e.preventDefault();
 
-        tagsContainer.addEventListener('click', function (event) {
-            if (event.target.classList.contains('tag-remove')) {
-                event.target.parentNode.remove();
-            }
-        });
-
-        const quizForm = document.getElementById('quizForm');
-  quizForm.addEventListener('submit', handleFormSubmit);
-    const successMessage = document.getElementById('successMessage');
-    const successText = document.getElementById('successText');
-    const errorMessage = document.getElementById('errorMessage');
-    const errorText = document.getElementById('errorText');
-    const warningMessage = document.getElementById('warningMessage');
-    const warningText = document.getElementById('warningText');
-  function handleFormSubmit(event) {
-    event.preventDefault();
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const tagValue = tagInput1.value.trim();
+                        if (tagValue) {
+                            addTag(tagValue);
+                            tagInput1.value = '';
+                        }
+                    }
+                });
 
 
-    // Serialize the form data
-    const formData = new FormData(quizForm);
+                // Add event listeners to existing remove card buttons
+                const removeCardButtons = document.querySelectorAll('.remove-card-button');
+                removeCardButtons.forEach((button) => {
+                    button.addEventListener('click', removeCard);
+                });
 
-    // Create a new XMLHttpRequest instance
-    const xhr = new XMLHttpRequest();
+                function submitForm() {
+    const form = document.getElementById('quizForm');
+    const formData = new FormData(form);
 
-    // Configure the request
-    xhr.open('POST', '/quizcard');
-
-    // Define the function to handle the response
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        if(xhr.status === 500){
-            console.log('Error sending card data:', xhr.status, xhr.statusText);
-            // You can update the UI or display an error message here
-          
-            errorMessage.style.display = 'block';
-            errorText.innerHTML = 'Error sending card data!';
-        }
-        if(xhr.status === 400){
-            // You can update the UI or display an error message here
-            successMessage.style.display = 'block';
-            successText.innerHTML = xhr.responseText;
-            warningMessage.style.display = 'block';
-            warningText.innerHTML = 'Please fill all the fields! including the cards ';
-
-        }
-        if (xhr.status === 200) {
-          // Request was successful, do something with the response
-          console.log('Card data successfully sent!');
-          successMessage.style.display = 'block';
-          successText.innerHTML = 'Card data successfully sent!';
-          // You can update the UI or display a success message here
-          const id = xhr.responseText.id;
-     
-        //   window.location.href = `/home/quiz/${id}`; // Replace '/success-page' with the URL of the page you want to redirect to
-
-        } else {
-          // Request failed, handle the error
-          console.error('Error sending card data:', xhr.status, xhr.statusText);
-          errorMessage.style.display = 'block';
-            errorText.innerHTML = 'Error sending card data!';
-          // You can update the UI or display an error message here
-        }
-      }
-    };
-
-    // Send the request with the form data
-    xhr.send(formData);
+    fetch(form.action, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+      // Process the response if needed (data variable contains the response)
+      console.log(data);
+    })
+    .catch(error => {
+      // Handle any errors that occurred during form submission
+      console.error('Error:', error);
+    });
   }
-  function TranslatePost(event, cardCount) {
+
+  // Add event listener to the "Done" button to submit the form
+  const doneButton = document.querySelector('.p-3.bg-blue-500.text-white.rounded');
+  doneButton.addEventListener('click', () => {
+    submitForm();
+  });
+
+  // Add event listener to the form itself to handle form submission on Enter keypress
+  const form = document.getElementById('quizForm');
+  form.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      submitForm();
+    }
+  });
+//   languageDropdown.addEventListener('change', () => {
+//     TranslatePost();
+//   });
+const languageDropdown1 = document.getElementById(`languges${cardCount + 1}`);
+console.log(cardCount +1)
+console.log(languageDropdown1)
+
+languageDropdown1.addEventListener('change',function(e){
+  console.log('smadd')
+  const selectedLanguage = languageDropdown1.value;
+          UsedLanguage = selectedLanguage;
+          
+      console.log(UsedLanguage+'witth,' + selectedLanguage)
+})
+        
+
+function TranslatePost(event, cardCount) {
+    console.log(event)
   var definitionTextarea = event.target;
+  
   const termTextarea = document.getElementById(`term_${cardCount}`);
   var definition = definitionTextarea.value.trim();
 
@@ -510,7 +637,9 @@ function getLanguageName(languageCode) {
     // Get the selected language from the dropdown
     const languageDropdown = document.getElementById(`languges${cardCount}`);
           const selectedLanguage = languageDropdown.value;
-
+          UsedLanguage = selectedLanguage;
+          
+      console.log(UsedLanguage+'witth,' + selectedLanguage)
           // Make a POST request to the /api/translate endpoint to translate the definition
           const translateApiUrl = '/api/translate';
           const formData = new FormData();
@@ -531,9 +660,184 @@ function getLanguageName(languageCode) {
               if(selectedLanguage === 'zh-cn'){
                 definitionTextarea.value = translatedText.text + ' ' + translatedText.pinyin;
                 }else{
+                  definitionTextarea.value = translatedText.text 
+                  console.log( translatedText.text);
+                  const definitionlist = [{
+                    definition: translatedText.text
+                  }]
+                  showDefinitions(definitionlist, cardCount);
+                  
+
+                }   
+
+            })
+            .catch((error) => {
+              console.error('Error translating definition:', error);
+            });
+  if (definition !== "") {
+
+    // Make the API call to the dictionary API to get recommendations
+    var apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${definition}`;
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        const texttrans = data[0].word
+        if (data.length > 0 && data[0].meanings && data[0].meanings[0].definitions) {
+          const definitions = data[0].meanings[0].definitions;
+          console.log(definitions);
+          // Display the definitions in a list on the card
+          
+          showDefinitions(definitions, cardCount);
+
+        
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching recommendations:', error);
+        clearDefinitions();
+      });
+  } else {
+    // If the definition is empty, clear the recommendations dropdown or list
+    clearDefinitions();
+  }
+}
+
+  function showDefinitions(definitions, cardCount) {
+
+   
+            
+    console.log('definitionsList' + cardCount - 1); 
+
+    var definitionsList = document.getElementById(`definitionsList${cardCount}`);
+    console.log(definitionsList);
+    definitionsList.style.display = "block";
+    definitionsList.innerHTML = "";
+
+    var definitionsUl = document.createElement("ul");
+    definitionsUl.classList.add("definitions-ul");
+    var definitionTextarea = document.getElementById(`definition_${cardCount}`);
+      
+  
+      const termTextarea = document.getElementById(`term_${cardCount}`);
+      var definition = termTextarea.value.trim();
+      console.log(definition);
+    
+    
+      
+    definitions.forEach((definition, index) => {
+      var definitionLi = document.createElement("li");
+      definitionLi.textContent = `${index + 1}. ${definition.definition}`;
+
+      definitionsUl.appendChild(definitionLi);
+
+      definitionLi.onclick = function () {
+      // Fill the definition textarea with the selected recommendation
+      var selectedRecommendation = this.textContent;
+      console.log(selectedRecommendation);
+      var definitionTextarea = document.getElementById(`definition_${cardCount}`);
+      definitionTextarea.value = selectedRecommendation;
+      definitionsList.style.display = "none";
+
+      // Clear the recommendations dropdown or list after selection
+      clearDefinitions()
+    };
+    });
+
+    definitionsList.appendChild(definitionsUl);
+      // Check if the definition is not empty
+        // Get the selected language from the dropdown
+        const languageDropdown = document.getElementById(`languges${cardCount}`);
+              const selectedLanguage = languageDropdown.value;
+    
+              // Make a POST request to the /api/translate endpoint to translate the definition
+              const translateApiUrl = '/api/translate';
+              const formData = new FormData();
+              formData.append('text', definition);
+              formData.append('targetLanguage', selectedLanguage);
+    
+              fetch(translateApiUrl, {
+                method: 'POST',
+                body: formData,
+                
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                  // Update the definition textarea with the translated text
+                  const translatedText = data.translatedText;
+                  const definitionTextarea = document.getElementById(`definition_${cardCount}`);
+                  if(selectedLanguage === 'zh-cn'){
+                    definitionsUl.appendChild(translatedText.text) + ' ' + translatedText.pinyin;
+                    }else{
+                        var definitionLi = document.createElement("span");
+definitionLi.textContent = ` ${translatedText.text}`;
+definitionsUl.insertAdjacentElement('beforebegin', definitionLi);
+
+// Add the event listener after the new list item is inserted
+definitionLi.addEventListener('click', function() {
+  definitionTextarea.value = translatedText.text;
+  definitionsList.style.display = "none";
+});
+                    }   
+    
+                })
+                .catch((error) => {
+                    console.log(error)
+                  console.error('Error translating definition:', error);
+                });
+  }
+
+  function clearDefinitions() {
+    // Clear the definitions list
+    var definitionsList = document.getElementById(`definitionsList${cardCount -1 }`);
+    definitionsList.innerHTML = "";
+    definitionsList.style.display = "none";
+  }
+
+  function addCardElement(cardCount) {
+    // ... Your existing code for adding card elements ...
+
+    // Add the event listener to the term textarea
+    var termTextarea = document.getElementById(`term_${cardCount}`);
+    termTextarea.addEventListener('keyup', TranslatePost);
+
+    // ... Other code ...
+  }
+  const languageDropdown = document.getElementById(`languges${cardCount}`);
+
+  function TranslatePost2(event) {
+  var definitionTextarea = event.target;
+  const termTextarea = document.getElementById(`definition_${cardCount - 1}`);
+  var definition = definitionTextarea.value.trim();
+
+  // Check if the definition is not empty
+    // Get the selected language from the dropdown
+    const languageDropdown = document.getElementById(`languges${cardCount -1 }`);
+          const selectedLanguage = languageDropdown.value;
+
+          // Make a POST request to the /api/translate endpoint to translate the definition
+          const translateApiUrl = '/api/translate';
+          const formData = new FormData();
+          formData.append('text', definition);
+          formData.append('targetLanguage', selectedLanguage);
+
+          fetch(translateApiUrl, {
+            method: 'POST',
+            body: formData,
+            
+          })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+              // Update the definition textarea with the translated text
+              const translatedText = data.translatedText;
+              const definitionTextarea = document.getElementById(`term_${cardCount}`);
+              if(selectedLanguage === 'zh-cn'){
+                definitionTextarea.value = translatedText.text + ' ' + translatedText.pinyin;
+                }else{
 
               definitionTextarea.value = translatedText.text;
-              
+              submitForm();
                 }   
 
             })
@@ -553,7 +857,7 @@ function getLanguageName(languageCode) {
           console.log(definitions);
           // Display the definitions in a list on the card
           showDefinitions(definitions, cardCount);
-
+          submitForm()
         
         }
       })
@@ -566,51 +870,25 @@ function getLanguageName(languageCode) {
     clearDefinitions();
   }
 }
+savebtn.addEventListener('click', submitForm());
+const flipbutton = document.querySelectorAll('.flipbutton');
+flipbutton.forEach((button) => {
+    button.addEventListener('click', function(e){
+      console.log('clicked')
+      const dataid = button.dataset.index;
+      console.log(dataid);
+      const term = document.getElementById(`term_${dataid}`);
+      const definition = document.getElementById(`definition_${dataid}`);
+      console.log(term.value);
+      console.log(definition.value);
+      //switrch the values
+      const temp = term.value;  
+      term.value = definition.value;
+      definition.value = temp;
+      //switch the images
 
-  function showDefinitions(definitions, cardCount) {
-    console.log('definitionsList' + cardCount - 1); 
-
-    var definitionsList = document.getElementById(`definitionsList${cardCount -1 }`);
-    console.log(definitionsList);
-    definitionsList.style.display = "block";
-    definitionsList.innerHTML = "";
-
-    var definitionsUl = document.createElement("ul");
-    definitionsUl.classList.add("definitions-ul");
-    definitions.forEach((definition, index) => {
-      var definitionLi = document.createElement("li");
-      definitionLi.textContent = `${index + 1}. ${definition.definition}`;
-      definitionsUl.appendChild(definitionLi);
-      definitionLi.onclick = function () {
-      // Fill the definition textarea with the selected recommendation
-      var selectedRecommendation = this.textContent;
-      var definitionTextarea = document.getElementById(`definition_${cardCount}`);
-      definitionTextarea.value = selectedRecommendation;
-
-      // Clear the recommendations dropdown or list after selection
-      clearDefinitions()
-    };
+    })
     });
-
-    definitionsList.appendChild(definitionsUl);
-  }
-
-  function clearDefinitions() {
-    // Clear the definitions list
-    var definitionsList = document.getElementById(`definitionsList${cardCount -1 }`);
-    definitionsList.innerHTML = "";
-    definitionsList.style.display = "none";
-  }
-
-  function addCardElement(cardCount) {
-    // ... Your existing code for adding card elements ...
-
-    // Add the event listener to the term textarea
-    var termTextarea = document.getElementById(`term_${cardCount}`);
-    termTextarea.addEventListener('keyup', TranslatePost);
-
-    // ... Other code ...
-  }
 
 
    </script>

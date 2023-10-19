@@ -232,7 +232,9 @@ Router.get('/quiz/:id/edit',catchAsync(async(req,res)=>{
     const {id} = req.params
     const user = req.user
     const foundquiz =await QuizCard.findById(id)
-
+    // console.log(foundquiz)
+    // foundquiz.viewcount = 100
+    // await foundquiz.save()
     const quizowner = await User.findById(foundquiz.author)
     // console.log(user._id,quizowner._id )
     if(user._id.equals(quizowner._id) ){
