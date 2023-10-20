@@ -271,12 +271,13 @@ Router.get('/quiz/:id/cards',catchAsync(async(req,res)=>{
 }))
 Router.get('/quiz/:id/match',catchAsync(async(req,res)=>{
     const {id} = req.params
-    const foundquiz = await QuizCard.findById(id)
+    const foundquiz = await QuizCard.findById(id).populate('author')
     const quizowner = await User.findById(foundquiz.author)
     // foundquiz.plays += 1;
     // await foundquiz.save()
+    res.render('content/home/create/quiz/emoji/quizcard.ejs',{foundquiz,quizowner})
 
-    res.render('content/home/create/quiz/quizmatch.ejs',{foundquiz,quizowner})
+    // res.render('content/home/create/quiz/quizmatch.ejs',{foundquiz,quizowner})
 }))
 Router.get('/quiz/:id/quiz',catchAsync(async(req,res)=>{
     const {id} = req.params
