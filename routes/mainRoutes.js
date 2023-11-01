@@ -15,4 +15,16 @@ Router.get('/course',(req,res)=>{
     res.render('content/page/courses.ejs')
 
 })
+Router.get('/privacy',(req,res)=>{
+    res.render('content/page/auth/policy.ejs')
+
+})
+Router.get('/cookies',(req,res)=>{
+    res.render('content/page/auth/cookies.ejs')
+
+})
+Router.get('/terms',(req,res)=>{
+    res.render('content/page/auth/terms.ejs')
+
+})
 module.exports = Router

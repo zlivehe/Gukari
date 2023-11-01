@@ -100,6 +100,8 @@ Router.get('/project',isLoggedIn,catchAsync(async(req,res)=>{
 
     res.render('content/home/project.ejs',{user,userQuizCards,userWorkspace,recentlyview,userVideoUpload,userupload,userFolder})
 }))
+
+
 Router.get('/analytics',isLoggedIn,catchAsync(async(req,res)=>{
     const user = req.user;
       //find posts

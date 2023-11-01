@@ -53,23 +53,30 @@ Router.get('/signup',(req,res)=>{
     currentUser = req.user
     
     if(currentUser){
-        res.redirect('/setup')
+        res.redirect('/home')
     } else{
     res.render('content/page/auth/signup.ejs')
     }
 })
 Router.get('/login',(req,res)=>{
-
+  if(req.user){
+    return res.redirect('/home')
+  }
     res.render('content/page/auth/login.ejs')
     
 })
 Router.get('/welcom',(req,res)=>{
+  if(req.user){
+    return res.redirect('/home')
+  }
     res.render('content/page/auth/welcom.ejs')
 })
 
 
 Router.post('/signup',catchAsync(async(req,res)=>{
-  
+  if(req.user){
+    return res.redirect('/home')
+  }
 
     try{
       const tailwindColors = [
