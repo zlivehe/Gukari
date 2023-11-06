@@ -272,9 +272,8 @@ Router.post('/extlogin',passport.authenticate('local',
     
 })
 Router.get('/logout',(req,res)=>{
-    req.user = null;
-    req.flash('success','successfully loged out')
-    res.redirect('/login')
+  req.session.destroy();
+  res.redirect('/login');
 })
 
 module.exports = Router

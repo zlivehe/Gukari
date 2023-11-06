@@ -86,6 +86,27 @@
                 <i class="bi bi-search"></i>
 
             </button>
+
+
+                <button id="multiLevelDropdownButton" data-dropdown-toggle="dropdown" type="button"
+                    class="nav-itemz border-none items-center items-center justify-center flex border  rounded-md  text-white ml-1 mr-1 searchbutton">
+                    <i class="bi  text-purple-900  nav-icons bi-plus-square "></i>
+                </button>
+                <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
+                    <ul class="py-2 text-sm text-gray-700 " aria-labelledby="multiLevelDropdownButton">
+                        <li>
+                            <button  data-modal-target="uploadmodel" data-modal-toggle="uploadmodel"  class="block px-4 w-full py-2 hover:bg-gray-100 ">Video</button>
+                        </li>
+    
+                        <li>
+                            <button   data-modal-target="uploadmodel" data-modal-toggle="uploadmodel" class="block px-4 w-full py-2 hover:bg-gray-100 ">Upload</a>
+                        </li>
+                        <li>
+                            <button  data-modal-target="uploadmodel" data-modal-toggle="uploadmodel" class="block px-4 w-full py-2 hover:bg-gray-100 ">Course</a>
+                        </li>
+                    </ul>
+                </div>
+    
             
             <button>
                 <i class="bi text-xl bi-bell"></i>
@@ -107,7 +128,6 @@
 
                 <%}%>
             </button>
-            <%} %>
 
 
             <!-- Dropdown menu -->
@@ -143,6 +163,7 @@
                     </li>
                 </ul>
             </div>
+            <%} %>
 
         </div>
 

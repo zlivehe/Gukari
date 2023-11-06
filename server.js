@@ -70,6 +70,7 @@ const studentRoutes = require('./routes/studentRoutes')
 const apRoutes= require('./routes/apRoutes')
 const { promises } = require('dns');
 const MongoStore = require('connect-mongo');
+const Grid = require('gridfs-stream');
 
 //models 
 const models = require('./routes/models/indexRoutes')
@@ -93,18 +94,19 @@ const sessionConfig = {
 
 
 // dbUrl = 'mongodb+srv://bdi:dqrJ6h81tQh2OjLt@cluster0.5lauo.mongodb.net/test'
+const upload = multer({ storage: multer.memoryStorage() });
 
-mongoose.connect(process.env.MONGODB_URL, 
-{useNewUrlParser: true,
-useUnifiedTopology: true})
+let gridfsBucket;
 
-.then(()=>{
-   console.log('open')
-})
-.catch(err =>{
-   console.log("Oh no")
-   console.log(err)
-});
+mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(conn => {
+    console.log('MongoDB connected');
+    gridfsBucket = new mongoose.mongo.GridFSBucket(conn.connection.db, {
+      bucketName: 'uploads'
+    });
+    console.log(gridfsBucket)
+  })
+  .catch(err => console.error(err));
 app.set('views engine','ejs')
 app.set('views', path.join(__dirname, 'views')); 
 
@@ -166,9 +168,7 @@ app.use(async(req, res, next) => {
 
 
 
- app.get('/',(req,res)=>{
-    res.render('content/page/index.ejs')
- })
+
 
  //extention
  app.get('/api/video', async(req,res)=>{
@@ -333,93 +333,36 @@ app.post("/audio/upload", async (req, res) => {
 });
 
 
-app.post("/video/upload", async (req, res) => {
-   console.log('piost')
-   console.log(req.file)
-   console.log(req.files)
-  // Get the file name and extension with multer
-  const storage = multer.diskStorage({
-    filename: (req, file, cb) => {
-      const fileExt = file.originalname.split(".").pop();
-      const filename = `${new Date().getTime()}.${fileExt}`;
-      cb(null, filename);
-    },
+app.post('/video/upload', upload.single('video'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send('No file uploaded');
+  }
+
+  const uploadStream = gridfsBucket.openUploadStream(req.file.originalname, {
+    contentType: req.file.mimetype
   });
 
-  // Filter the file to validate if it meets the required video extension
-  const fileFilter = (req, file, cb) => {
-    if (file.mimetype === "video/mp4") {
-      cb(null, true);
-    } else {
-      cb(
-        {
-          message: "Unsupported File Format",
-        },
-        false
-      );
-    }
-  };
+  uploadStream.on('error', err => {
+    console.error('Error during stream creation:', err);
+  });
 
-
-  // Set the storage, file filter and file size with multer
-  const upload = multer({
-    storage,
-    limits: {
-      fieldNameSize: 2000,
-      fileSize: 60 * 1024 * 1024,
-    },
-    fileFilter,
-  }).single("video");
-
-  upload(req, res, (err) => {
+  uploadStream.write(req.file.buffer, err => {
     if (err) {
-      return res.send(err);
+      console.error('Error writing file to GridFS:', err);
+      return res.status(500).send('Error uploading file');
     }
-
-    // SEND FILE TO CLOUDINARY
-    cloudinary.config({
-      cloud_name: `dlxqwjiv6`,
-      api_key: `497857977683336`,
-      api_secret: `_wMbQV7GimlFp9WlLaRVVScwsUE`
-  });
-    const { path } = req.file; // file becomes available in req at this point
-
-    const fName = req.file.originalname.split(".")[0];
-    cloudinary.uploader.upload(
-      path,
-      {
-        resource_type: "video",
-        public_id: `VideoUploads/${fName}`,
-        chunk_size: 6000000,
-        eager: [
-          {
-            width: 300,
-            height: 300,
-            crop: "pad",
-            audio_codec: "none",
-          },
-          {
-            width: 160,
-            height: 100,
-            crop: "crop",
-            gravity: "south",
-            audio_codec: "none",
-          },
-        ],
-      },
-
-      // Send cloudinary response or catch error
-      (err, video) => {
-        if (err) return res.send(err);
-        console.log(video)
-
-        fs.unlinkSync(path);
-        return res.send(video);
-      }
-    );
   });
 
+  uploadStream.on('finish', () => {
+    console.log('Write operation completed.');
+    res.status(200).json({ message: 'File uploaded successfully', file: { filename: req.file.originalname } });
+  });
+
+  uploadStream.on('close', () => {
+    console.log('Stream closed.');
+  });
 });
+
 
 
  // 404 page not found route

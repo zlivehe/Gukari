@@ -390,29 +390,12 @@ video {
 
     <!-- Sidebar Content -->
     <nav style="z-index: 999;" class="text-gray-400 mt-6 ml-1 mr-1 text-sm">
-        <div class="flex">
-
-            <button id="multiLevelDropdownButton" data-dropdown-toggle="dropdown" type="button"
-                class="nav-itemz border-none items-center items-center justify-center flex border p-2 rounded-md mb-3 w-full bg-purple-900 text-white">
-                <i class="bi   nav-icons bi-plus-square "></i>
-                <span class=" ml-1 navtext"> Create</span>
-            </button>
-            <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
-                <ul class="py-2 text-sm text-gray-700 " aria-labelledby="multiLevelDropdownButton">
-                    <li>
-                        <button  data-modal-target="uploadmodel" data-modal-toggle="uploadmodel"  class="block px-4 w-full py-2 hover:bg-gray-100 ">Video</button>
-                    </li>
-
-                    <li>
-                        <button   data-modal-target="uploadmodel" data-modal-toggle="uploadmodel" class="block px-4 w-full py-2 hover:bg-gray-100 ">Upload</a>
-                    </li>
-                    <li>
-                        <button  data-modal-target="uploadmodel" data-modal-toggle="uploadmodel" class="block px-4 w-full py-2 hover:bg-gray-100 ">Course</a>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
+       
+            <a href="/"
+            class="discover nav-link mb-4  flex items-center p-3  text-gray-500  rounded-md  nav-itemz">
+            <i class="bi  nav-icons bi-house-door"></i>
+            <span class="ml-3 navtext">Home</span>
+        </a>
         <a href="/home/discover"
             class="discover nav-link mb-4  flex items-center p-3  text-gray-500  rounded-md  nav-itemz">
             <i class="bi  nav-icons bi-globe"></i>
@@ -738,12 +721,12 @@ video {
             
                                                     <label for="visibility-select" class="font-medium text-gray-900">Quizcard</label>
                                                     <select id="visibility-select" name="quizcard" class="w-full p-2 border rounded-md text-gray-900 bg-gray-100 border-gray-300">
-                                                      
+                                                      <% if(currentUser){ %>
                                                         <%for(let quizcard of currentUser.quizCard){ %>
                                                             <option value="<%=quizcard._id %>"><%=quizcard.title %></option>
 
                                                             <% } %>
-            
+                                                          <% } %>
                                                         
                                                     </select>
                                                 </div>

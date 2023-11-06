@@ -1,0 +1,271 @@
+<% layout('./layouts/boilerplate.ejs')%>
+<%- include('../../layouts/partials/settings.ejs') %>
+<title>Home</title>
+
+<meta name='description'         content="Explore the greatest material for your fit on Gukari, where you can find everything that's ideal for your fit together with content from YouTube, Quizlet, and Koot.">
+<meta property='og:description'  content="Explore the greatest material for your fit on Gukari, where you can find everything that's ideal for your fit together with content from YouTube, Quizlet, and Koot.">
+<div class="content fullscreen" id="content-menu">
+    
+    <div class="videolist">
+        <div class="flex ml-5 flex-wrap">
+            <%
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    // Pick a random index
+                    const j = Math.floor(Math.random() * (i + 1));
+                    // Swap it with the current element
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+            
+            // Create a copy of the video array
+            let shuffledVideos = video.slice();
+            // Shuffle the copy
+            shuffleArray(shuffledVideos);
+            
+            let displayedVideos = 0;
+            for(let Video of shuffledVideos) { // Make sure to iterate over shuffledVideos
+                if (displayedVideos >= 100) break; // Stop after displaying 10 videos
+                if (Video && Video.author[0]) {
+                    displayedVideos++;
+            %>
+            <a href="/home/video/<%=Video._id%>" class=" ml-3 mb-2" style="width: 16em">
+                <div style="max-height: 11em; min-height: 10em;">
+                    <img class="rounded-lg" style="width: 100%;max-height: 11em; min-height: 10em;   " src="<%=Video.thumbnail%>" alt="" srcset="" >
+    
+                    </div>
+        
+                <div class="pt-1 recent-cardd">
+                  <!-- <span>4:22</span> -->
+                  <div class="content-card flex flexcontent-center">
+                    <img src="<%=Video.author[0].photourl%>" class="userimg mb-3 w-10 rounded h-10 rounded-full" alt="" srcset=""  >
+                    <div class="card-info ml-1">
+                      <h2 aria-label="Track name" class=" font-medium  text-sm whitespace-nowrap overflow-hidden text-ellipsis" style="width: 16em;"><%=Video.title%></h2>
+                      <div class="flex">
+                        <span class="text-sm text-gray-400"><%=Video.author[0].username%></span>
+                        <span class="ml-3 text-sm text-gray-400"><%=Video.viewcount%> views</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+    
+              <%
+    }
+}
+%>
+            <a href="/home/video/22" class="" style="width: 16em">
+                <img class="rounded-lg" style="width: 100%" src="https://i.ytimg.com/vi/DIO5-BF8SzM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB8dJX49pJ1huZMcV8dLi9zZAuaPQ" alt="" srcset="">
+        
+                <div class="pt-1 recent-cardd">
+                  <!-- <span>4:22</span> -->
+                  <div class="content-card flex flexcontent-center">
+                    <img src="https://api.time.com/wp-content/uploads/2014/09/brave.jpg?quality=85&amp;w=2100" class="userimg mb-3 w-10 rounded h-10 rounded-full" alt="" srcset="">
+                    <div class="card-info ml-1">
+                      <span class="text-sm font-medium w-full leading-3">Logan Paul vs. Daillon Danis: Face Off</span><br>
+                      <div class="flex">
+                        <span class="text-sm text-gray-400">Saml altma</span>
+                        <span class="ml-3 text-sm text-gray-400">23k views</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <a href="/home/video/22" class="ml-5" style="width: 16em">
+                <img class="rounded-lg" style="width: 100%" src="https://i.ytimg.com/vi/-TNG-Ja6Kl0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCT-ZqvNyv2sQnrYc5JBD6oUSTuGAs" alt="" srcset="">
+        
+                <div class="pt-1 recent-cardd">
+                  <!-- <span>4:22</span> -->
+                  <div class="content-card flex flexcontent-center">
+                    <img src="https://yt3.ggpht.com/ytc/AOPolaTEEuiBNC3ZvDRXQlRj6d0tfCDyl8aY-9z3sQeUhA=s68-c-k-c0x00ffffff-no-rj" class="userimg mb-3 w-10 rounded h-10 rounded-full" alt="" srcset="">
+                    <div class="card-info ml-1">
+                        
+                      <span class="text-sm font-medium w-full leading-3">Learn Chinese Conversation for Elementary Students, Chinese English lesson/span><br>
+                      <div class="flex">
+                        <span class="text-sm text-gray-400">Mike tyson</span>
+                        <span class="ml-3 text-sm text-gray-400">9k views</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+        </div>
+    </div>
+        <section>
+            <div class="mb-4">
+                <div class="flex items-center pl-4"><i data-v-63245ebc=""
+                        class="flex items-center text-brand-c fas fa-star  text-yellow-400" style="font-size: 20px;"></i>
+                    <h2 aria-label="World Languages" class="text-sm md:text-2xl text-dark-2 ml-2 font-semibold"><span
+                            translate="no" class="_i18n-container LANG_en" maxlenght="-1">General</span></h2>
+                    <div class="hidden md:block ml-auto"><button data-v-100aaadc="" aria-label="See more" type="button"
+                            translate="no"
+                            class="ml-auto flex items-center justify-center px-4 py-1 text-sm font-semibold h-8 base bg-lilac-faded text-lilac hover:text-lilac-light active:text-lilac-dark rounded-full  secondary transition-colors duration-200 ease-in-out flex relative min-w-max"
+                            data-cy="recommendations-see-more-btn"><!----> <!----> <span data-v-100aaadc="" class="title">
+                                See more
+                            </span> <!----> <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="currentColor"
+                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg> <!---->
+                            <!----> <!----> <!----> </button></div>
+                    <div class="block md:hidden ml-auto"><button data-v-100aaadc="" aria-label="See more" type="button"
+                            translate="no"
+                            class="ml-auto whitespace-nowrap flex items-center justify-center px-3 py-1 text-xs font-semibold h-6 base bg-lilac-faded text-lilac hover:text-lilac-light active:text-lilac-dark rounded-full  secondary transition-colors duration-200 ease-in-out flex relative min-w-max"><!---->
+                            <!----> <span data-v-100aaadc="" class="title">
+                                See more
+                            </span> <!----> <i data-v-63245ebc="" data-v-100aaadc=""
+                                class="flex items-center fas fa-chevron-right ml-2" style="font-size: 11px;"></i> <!---->
+                            <!----> <!----> <!----> </button></div>
+                </div>
+               <div class="ml-4">
+                <div class="flex flex-wrap">
+                    <%
+                    let shuffledCards = card.slice(); // Create a copy of the card array
+                    shuffledCards.sort(() => Math.random() - 0.5); // Shuffle the copy
+                    
+                    let displayedCards = 0;
+                    for(let Card of shuffledCards) {
+                        if (displayedCards >= 10) break;
+                        if (Card.author && Card.imageUrl && Card.cards.length > 1) {
+                            displayedCards++;
+                    %>
+                <a href="/home/quiz/<%=Card._id %>" class="mb-2 bg-white ml-2 p-3 recent-cardd rounded-lg  border" style="width: 16em; height: 23em">
+                    <div class="kr flex justify-between rounded-lg">
+                      <!-- <article class="font-medium text-lg"> <%=Card.title %>  </article> -->
+                      <h2 aria-label="Track name" class=" font-medium whitespace-nowrap overflow-hidden text-ellipsis"><%=Card.title %> </h2>
+                      <!-- <button><i class="bi bi-three-dots"></i></button> -->
+                    </div>
+                    <br>
+                    <div class="flex justify-center items-center">
+                      <%if(!Card.imageUrl || Card.imageUrl == '/uploads/china_1687455698709.jpeg'){%>
+                      <img style="
+                          height: 8em;
+                          max-height: 8em;
+                          max-width: 15em;
+                          min-width: 15em;
+                        " class="w-full rounded-md" src="/uploads/ParadiseCity1_1690131738414.jpg" alt="" srcset="">
+                        <%}else{%>
+                        <img style="
+                            height: 8em;
+                            max-height: 8em;
+                            max-width: 15em;
+                            min-width: 15em;
+                            " class="w-full rounded-md" src="<%=Card.imageUrl%>" alt="" srcset="">
+                            <%}%>
+    
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text text-gray-600">
+                        <%=Card.cards.length%> tearms
+                      </span>
+                      <div class="flex items-center ">
+                        <i class="bi bi-play-fill text-red-800"></i>
+                        <span class="text text-gray-600">  <%=Card.plays%> plays </span>
+    
+                      </div>
+                    </div>
+                    <br>
+            
+                    <div>
+                      <span class="text-sm">Keys</span>
+                      <div class="flex flex-wrap" style="width: 8em">
+                        <span class=" bg-purple-200 mb-3 text-xs text-black font-medium mr-2 px-2.5 py-0.5 rounded">
+                              <%= Card.category %>
+                        </span>
+                      </div>
+                    </div>
+                    <br>
+                    <div style="margin-top: 0em" class="about flex w-full justify-between">
+                      <div class="flex items-center  text-center">
+                        <img class="rounded-full w-8 h-8" src="<%=Card.author.photourl %>" alt="" srcset="">
+                        <span aria-label="Track name" class="ml-1 font-medium whitespace-nowrap overflow-hidden text-ellipsis"><%=Card.author.username %> </span>
+                      </div>
+                      <div class="tags text-center items-center content-center ml-5 flex">
+                        <span class="bg-red-700 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
+                          Education
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                  <% } 
+                 } %>
+            </div>
+            <br>
+            <hr>
+    <div class="p-3 bg-gray-200 rounded-xl"> 
+            <div class="flex overflow-hidden">
+        <% let displayedImages = 0; %>
+        <% for(cardimage of image) { %>
+            <% if (displayedImages >= 5) break; // Stop rendering after 5 images %>
+            <a href="/home/image/<%=cardimage._id%>" class="ml-3 mb-2" style="width: 16em">
+                <img class="rounded-lg" style="width: 100%; height: 20em" src="<%=cardimage.imageurl%>" alt="" srcset="">
+                <div class="p-2 recent-cardd ">
+                    <!-- <span>4:22</span> -->
+                    <div class="content-card flex items-center content-center">
+                        <img src="<%=cardimage.author.photourl%>" class="userimg mb-3 w-10 rounded h-10 rounded-full" alt="" srcset="">
+                        <div class="card-info ml-2">
+                            <span class="text-md font-medium w-full leading-3"><%=cardimage.title%></span><br>
+                            <div class="flex">
+                                <span class="text-sm text-gray-400"><%=cardimage.author.username%></span>
+                                <span class="ml-5 bg-gray-100 mb-1 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Pdf</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <% displayedImages++; // Increment the counter %>
+        <% } %>
+    </div>
+    
+    </div>
+               </div>
+            </div>
+        </section>
+       
+    
+        <section class="mb-4">
+            <h2 aria-label="TOp picks" class="text-sm md:text-2xl text-dark-2 ml-2 font-semibold"><span translate="no"
+                    class="_i18n-container LANG_en" maxlenght="-1">World Languages</span></h2>
+        </section>
+        
+</div>
+
+<script>
+    // JavaScript code to add to your page
+
+let busy = false; // A flag to prevent multiple simultaneous loads
+let page = 1; // Initialize page counter
+const limit = 10; // Number of videos to fetch per call
+
+// Function to check if the user is at the bottom of the page
+function isScrollAtBottom() {
+    return (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
+}
+
+// Function to load more videos
+function loadMoreVideos() {
+    if (busy) return; // If already fetching, do nothing
+    busy = true;
+
+    fetch(`/api/videos?page=${page}&limit=${limit}`) // This endpoint needs to be implemented server-side
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            // TODO: Process and append data to the video list on the page
+            page++; // Increment page counter for next fetch
+            busy = false; // Reset busy flag
+        })
+        .catch(error => {
+            console.error('Error loading more videos:', error);
+            busy = false; // Reset busy flag even on error
+        });
+}
+
+// Scroll event listener
+window.addEventListener('scroll', () => {
+    if (isScrollAtBottom()) {
+        loadMoreVideos();
+    }
+});
+</script>

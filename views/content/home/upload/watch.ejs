@@ -325,7 +325,7 @@ video {
 }
 </style>
 <title>
-  <%= uplaod.title  %>
+  <%= uplaod.title  %> | Gukari
 </title>
 <% const timeDifference = Date.now() - uplaod.createdAt.getTime();
 let formattedDate = '';
@@ -455,8 +455,9 @@ if (timeDifference < minuteInMs) {
                 </div>
                 </div>
                 <div class="flex content-center">
+                  <% if(currentUser){ %>
+
                     <div class="like mr-3">
-                      <% if(currentUser){ %>
                       <%
                          let dislikefill =''
                          if(uplaod.dislikes.includes(currentUser._id)){
@@ -465,7 +466,6 @@ if (timeDifference < minuteInMs) {
                             dislikefill = 'bi-hand-thumbs-down'
                           }
                           %>
-                      <% } %>
 
                       <% let likefill1 = uplaod.likes.includes(currentUser._id) ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'; %>
                       <% let dislikefill1 = uplaod.dislikes.includes(currentUser._id) ? 'bi-hand-thumbs-down-fill' : 'bi-hand-thumbs-down'; %>
@@ -478,7 +478,7 @@ if (timeDifference < minuteInMs) {
                           <%= uplaod.likes.length %>
                         </span>
                       </div>
-                      
+
                       <div class="dislike">
                         <button class="dislikebtn" data-video-id="<%= uplaod._id %>">
                           <i class="bi mr-1 text-gray-500 text-xl <%=dislikefill1 %> "></i>
@@ -487,6 +487,8 @@ if (timeDifference < minuteInMs) {
                           <%= uplaod.dislikes.length %>
                         </span>
                       </div>
+                      <% } %>
+
                   </div>
             </span>
           </div>
@@ -561,8 +563,9 @@ if (timeDifference < minuteInMs) {
                 <div class="w-full">
                   <div class="flex items-center rounded-lg">
                 <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100">
+                  <% if(currentUser){ %>
                   <img class="w-12 h-12 rounded-full" src="<%=currentUser.photourl%>" alt="user photo">
-  
+                    <% } %>
                 </button>
                
                 <textarea id="chat" name="comment" rows="1" class="block  p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea>
@@ -684,6 +687,8 @@ if (timeDifference < minuteInMs) {
                     <div class="flex replymodel-<%=comment._id %> flex-col w-full" >
               <% for(let replies of comment.replies){%>
                 <div class="flex mb-1 " id="livereply-<%=replies._id %>-<%= replies.user[0]._id%>">
+                  <% if(currentUser){ %>
+
                   <div class="like mr-1 bg-gray-200 p-1 rounded" style="height: 3.3em;">
                     <div class="flex text-center items-center flex-col" style="font-size: 0.5em;">
                       <% let likes = replies.likes.length;
@@ -846,6 +851,7 @@ if (timeDifference < minuteInMs) {
               </div>
 
               </div>
+              <% } %>
 
 
                 </div>

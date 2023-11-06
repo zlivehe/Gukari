@@ -422,22 +422,12 @@ Router.get('/user/:id/task',async(req,res)=>{
 
 Router.get('/video/:id',catchAsync(async(req,res)=>{
     const { id } = req.params;
-    const uplaod = await VideoUpload.findById(id).populate({
-      path: 'author',
-      model: 'User',
-    }).populate({
-      path: 'comments.user',
-      model: 'User',
-    }).populate({
-        path: 'quizCard',
-        model: 'Quizcard',
-        });
+    const uplaod = await VideoUpload.findById(id).populate('author comments.user quizCard')
+
         // console.log(uplaod.quizCard)
     const allvideo = await VideoUpload.find({}).populate('author comments.user');
-    uplaod.viewcount += 1;
-    // console.log(uplaod)
+    await VideoUpload.findByIdAndUpdate(id, { $inc: { viewcount: 1 } });
 
-    await uplaod.save();
     
   
     res.render('content/home/upload/watch.ejs', { uplaod, allvideo });
