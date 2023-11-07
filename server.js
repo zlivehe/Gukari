@@ -215,7 +215,7 @@ app.get('/api/card', async(req,res)=>{
             sitemap += `<url>
               <loc>${baseUrl}/home/quiz/${quizcard._id}</loc>
               <lastmod>${currentDate}</lastmod>
-              <priority>0.5</priority>
+              <priority>0.9</priority>
             </url>\n`;
           });
           const users = await User.find({});
@@ -223,7 +223,7 @@ app.get('/api/card', async(req,res)=>{
             sitemap += `<url>
               <loc>${baseUrl}/home/profile/${user._id}</loc>
               <lastmod>${currentDate}</lastmod>
-              <priority>0.5</priority>
+              <priority>0.7</priority>
             </url>\n`;
           });
           const videos = await Videos.find({});
@@ -231,7 +231,7 @@ app.get('/api/card', async(req,res)=>{
             sitemap += `<url>
               <loc>${baseUrl}/home/video/${video._id}</loc>
               <lastmod>${currentDate}</lastmod>
-              <priority>0.5</priority>
+              <priority>0.9</priority>
             </url>\n`;
           });
           sitemap += `<url>
