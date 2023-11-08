@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV !== "production") {
-   require('dotenv').config();
+  require('dotenv').config();
 }
 
 const fs = require("fs");
@@ -25,7 +25,6 @@ const axios = require('axios')
 const { Parser } = require('m3u8-parser');
 const playlistUrl = 'https://iptv-org.github.io/iptv/index.m3u';
 const QuizCard = require('./model/home/quizapp/quizcard')
-const autopopulate = require('mongoose-autopopulate');
 const Videos = require('./model/home/upload/videoupload');
 const cors = require('cors');
 const  OpenAI = require("openai");
@@ -39,10 +38,10 @@ const  OpenAI = require("openai");
 //      messages: [{ role: 'user', content: 'give me a story in korean short one' }],
 //      model: 'gpt-3.5-turbo',
 //    })
- 
+
 //    console.log(completion.choices);
 //  }
- 
+
 //  main();
 // const openai = new OpenAIApi('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');
 app.use(cors());
@@ -70,43 +69,44 @@ const studentRoutes = require('./routes/studentRoutes')
 const apRoutes= require('./routes/apRoutes')
 const { promises } = require('dns');
 const MongoStore = require('connect-mongo');
-const Grid = require('gridfs-stream');
 
 //models 
 const models = require('./routes/models/indexRoutes')
 
 
 const sessionConfig = {
-   secret :'thisshouldbebetter',
-   resave:false,
-   saveUninitialized:true,
-   cookie:{
-   httpOnly:true,
-   expires: Date.now() + 100 * 60 * 60 * 24 * 7,
-   maxAge: 100 * 60 * 60 * 24 * 7
-   },
-   store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URL,
-    touchAfter: 1024 * 3600 // time period in seconds
-  })
-  
+  secret :'thisshouldbebetter',
+  resave:false,
+  saveUninitialized:true,
+  cookie:{
+  httpOnly:true,
+  expires: Date.now() + 100 * 60 * 60 * 24 * 7,
+  maxAge: 100 * 60 * 60 * 24 * 7
+  },
+  store: MongoStore.create({
+   mongoUrl: process.env.MONGODB_URL,
+   touchAfter: 1024 * 3600 // time period in seconds
+ })
+ 
 }
 
 
 // dbUrl = 'mongodb+srv://bdi:dqrJ6h81tQh2OjLt@cluster0.5lauo.mongodb.net/test'
 const upload = multer({ storage: multer.memoryStorage() });
 
-let gridfsBucket;
+const dbUrl = process.env.MONGODB_URL;
+mongoose.connect(dbUrl, 
+{useNewUrlParser: true,
+useUnifiedTopology: true})
 
-mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(conn => {
-    console.log('MongoDB connected');
-    gridfsBucket = new mongoose.mongo.GridFSBucket(conn.connection.db, {
-      bucketName: 'uploads'
-    });
-    console.log(gridfsBucket)
-  })
-  .catch(err => console.error(err));
+.then(()=>{
+ console.log('open')
+})
+.catch(err =>{
+ console.log("Oh no")
+ console.log(err)
+});
+
 app.set('views engine','ejs')
 app.set('views', path.join(__dirname, 'views')); 
 
@@ -131,255 +131,255 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(async(req, res, next) => {
 
-  //  const users = await User.findById('64bc4922b2aafaad4ddbbb50')
-  //   req.user=users
-  //   if(req.user){
-  //  const currentuser = await User.findById(req.user._id).populate('quizCard')
-  // //  console.log(currentuser)
-  // req.user = currentuser
-  //   }
-   res.locals.currentUser = req.user;
-  
-
-   res.locals.success = req.flash('success');
-   res.locals.warning = req.flash('warning')
-   res.locals.error = req.flash('error');
-   
-   next();
-})
-
- app.use ('/', authRoutes)
- app.use ('/home', homeRoutes)
- app.use ('/', mainRoutes)
- app.use ('/ap', apRoutes)
- app.use ('/student', studentRoutes)
- app.use ('/', postRoutes)
- app.use ('/', videoRoutes)
- app.use ('/server', serverPost)
- app.use ('/server', serverGet)
- app.use ('/', boardRoutes)
- app.use('/model',models)
- app.use('/ai',AiRoutes)
-
- //api
- app.use('/ext', extensionRoutes)
- app.use('/api',mobileRoutes)
+ //  const users = await User.findById('64bc4922b2aafaad4ddbbb50')
+ //   req.user=users
+ //   if(req.user){
+ //  const currentuser = await User.findById(req.user._id).populate('quizCard')
+ // //  console.log(currentuser)
+ // req.user = currentuser
+ //   }
+  res.locals.currentUser = req.user;
  
 
+  res.locals.success = req.flash('success');
+  res.locals.warning = req.flash('warning')
+  res.locals.error = req.flash('error');
+  
+  next();
+})
+
+app.use ('/', authRoutes)
+app.use ('/home', homeRoutes)
+app.use ('/', mainRoutes)
+app.use ('/ap', apRoutes)
+app.use ('/student', studentRoutes)
+app.use ('/', postRoutes)
+app.use ('/', videoRoutes)
+app.use ('/server', serverPost)
+app.use ('/server', serverGet)
+app.use ('/', boardRoutes)
+app.use('/model',models)
+app.use('/ai',AiRoutes)
+
+//api
+app.use('/ext', extensionRoutes)
+app.use('/api',mobileRoutes)
 
 
 
 
- //extention
- app.get('/api/video', async(req,res)=>{
-   const video = await Videos.find({})
-   console.log(video)
-   res.json(video)
+
+
+//extention
+app.get('/api/video', async(req,res)=>{
+  const video = await Videos.find({})
+  console.log(video)
+  res.json(video)
 } )
 app.get('/api/card', async(req,res)=>{ 
-   const card = await QuizCard.find({})
-   console.log(card)
-   res.json(card)
-   } ) 
-   app.post('/api/card', async(req,res)=>{ 
-      const token = req.body.token  
-            console.log('dd')
-      console.log(token)
-      const user = await User.findById(token)
-      console.log(user)
-      // const card = await QuizCard.find({})
-      // console.log(card)
-      // res.json(card)
-      } ) 
-   
-      app.get('/atom.xml', async (req, res) => {
-        try {
-          const baseUrl = 'http://gukari.com'; // Update with your website's base URL
-          const currentDate = new Date().toISOString();
-      
-          // Generate the sitemap XML dynamically
-          let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
-          sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-      
-          // Add URLs dynamically from your website
-          sitemap += `<url>
-            <loc>${baseUrl}/</loc>
-            <lastmod>${currentDate}</lastmod>
-            <priority>1.0</priority>
-          </url>\n`;
-         
-      
-          // Add URLs from other sources, like database entries
-          const quizcards = await QuizCard.find({});
-          quizcards.forEach((quizcard) => {
-            sitemap += `<url>
-              <loc>${baseUrl}/home/quiz/${quizcard._id}</loc>
-              <lastmod>${currentDate}</lastmod>
-              <priority>0.9</priority>
-            </url>\n`;
-          });
-          const users = await User.find({});
-          users.forEach((user) => {
-            sitemap += `<url>
-              <loc>${baseUrl}/home/profile/${user._id}</loc>
-              <lastmod>${currentDate}</lastmod>
-              <priority>0.7</priority>
-            </url>\n`;
-          });
-          const videos = await Videos.find({});
-          videos.forEach((video) => {
-            sitemap += `<url>
-              <loc>${baseUrl}/home/video/${video._id}</loc>
-              <lastmod>${currentDate}</lastmod>
-              <priority>0.9</priority>
-            </url>\n`;
-          });
-          sitemap += `<url>
-          <loc>http://gukari.com/discover</loc>
-          <lastmod>${currentDate}</lastmod>
-          <priority>0.9</priority>
-        </url>\n
-      
+  const card = await QuizCard.find({})
+  console.log(card)
+  res.json(card)
+  } ) 
+  app.post('/api/card', async(req,res)=>{ 
+     const token = req.body.token  
+           console.log('dd')
+     console.log(token)
+     const user = await User.findById(token)
+     console.log(user)
+     // const card = await QuizCard.find({})
+     // console.log(card)
+     // res.json(card)
+     } ) 
+  
+     app.get('/atom.xml', async (req, res) => {
+       try {
+         const baseUrl = 'http://gukari.com'; // Update with your website's base URL
+         const currentDate = new Date().toISOString();
+     
+         // Generate the sitemap XML dynamically
+         let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
+         sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+     
+         // Add URLs dynamically from your website
+         sitemap += `<url>
+           <loc>${baseUrl}/</loc>
+           <lastmod>${currentDate}</lastmod>
+           <priority>1.0</priority>
+         </url>\n`;
         
-        `;
-          sitemap += '</urlset>';
-      
-          // Save the generated sitemap XML to a file
-          const filePath = path.join(__dirname, 'public', 'sitemap.xml');
-          fs.writeFileSync(filePath, sitemap, 'utf8');
-      
-          // Set the content type header and send the file as the response
-          res.header('Content-Type', 'application/xml');
-          res.sendFile(filePath);
-        } catch (error) {
-          console.error('Error generating sitemap:', error);
-          res.status(500).send('Internal Server Error');
-        }
-      });
+     
+         // Add URLs from other sources, like database entries
+         const quizcards = await QuizCard.find({});
+         quizcards.forEach((quizcard) => {
+           sitemap += `<url>
+             <loc>${baseUrl}/home/quiz/${quizcard._id}</loc>
+             <lastmod>${currentDate}</lastmod>
+             <priority>0.9</priority>
+           </url>\n`;
+         });
+         const users = await User.find({});
+         users.forEach((user) => {
+           sitemap += `<url>
+             <loc>${baseUrl}/home/profile/${user._id}</loc>
+             <lastmod>${currentDate}</lastmod>
+             <priority>0.7</priority>
+           </url>\n`;
+         });
+         const videos = await Videos.find({});
+         videos.forEach((video) => {
+           sitemap += `<url>
+             <loc>${baseUrl}/home/video/${video._id}</loc>
+             <lastmod>${currentDate}</lastmod>
+             <priority>0.9</priority>
+           </url>\n`;
+         });
+         sitemap += `<url>
+         <loc>http://gukari.com/discover</loc>
+         <lastmod>${currentDate}</lastmod>
+         <priority>0.9</priority>
+       </url>\n
+     
+       
+       `;
+         sitemap += '</urlset>';
+     
+         // Save the generated sitemap XML to a file
+         const filePath = path.join(__dirname, 'public', 'sitemap.xml');
+         fs.writeFileSync(filePath, sitemap, 'utf8');
+     
+         // Set the content type header and send the file as the response
+         res.header('Content-Type', 'application/xml');
+         res.sendFile(filePath);
+       } catch (error) {
+         console.error('Error generating sitemap:', error);
+         res.status(500).send('Internal Server Error');
+       }
+     });
 //  -------- --------TESTT -------- --------
 
 
 
 app.get('/uploadcloud',(req,res)=>{
-   res.render('content/videotest/index.ejs')
+  res.render('content/videotest/index.ejs')
 })
 app.post("/audio/upload", async (req, res) => {
 
-  // Get the file name and extension with multer
-  const storage = multer.diskStorage({
-    filename: (req, file, cb) => {
-      const fileExt = file.originalname.split(".").pop();
-      const filename = `${new Date().getTime()}.${fileExt}`;
-      cb(null, filename);
-    },
-  });
+ // Get the file name and extension with multer
+ const storage = multer.diskStorage({
+   filename: (req, file, cb) => {
+     const fileExt = file.originalname.split(".").pop();
+     const filename = `${new Date().getTime()}.${fileExt}`;
+     cb(null, filename);
+   },
+ });
 
 
-  // Filter the file to validate if it meets the required audio extension
-  const fileFilter = (req, file, cb) => {
-    if (file.mimetype === "audio/mp3" || file.mimetype === "audio/mpeg") {
-      cb(null, true);
-    } else {
-      cb(
-        {
-          message: "Unsupported File Format",
-        },
-        false
-      );
-    }
-  };
+ // Filter the file to validate if it meets the required audio extension
+ const fileFilter = (req, file, cb) => {
+   if (file.mimetype === "audio/mp3" || file.mimetype === "audio/mpeg") {
+     cb(null, true);
+   } else {
+     cb(
+       {
+         message: "Unsupported File Format",
+       },
+       false
+     );
+   }
+ };
 
-  // Set the storage, file filter and file size with multer
-  const upload = multer({
-    storage,
-    limits: {
-      // fieldNameSize: 200,
-      // fileSize: 5 * 1024 * 1024,
-    },
-    fileFilter,
-  }).single("audio");
+ // Set the storage, file filter and file size with multer
+ const upload = multer({
+   storage,
+   limits: {
+     // fieldNameSize: 200,
+     // fileSize: 5 * 1024 * 1024,
+   },
+   fileFilter,
+ }).single("audio");
 
-  // upload to cloudinary
-  upload(req, res, (err) => {
-    if (err) {
-      return res.send(err);
-    }
+ // upload to cloudinary
+ upload(req, res, (err) => {
+   if (err) {
+     return res.send(err);
+   }
 
-    // SEND FILE TO CLOUDINARY
-    cloudinary.config({
-        cloud_name: `dlxqwjiv6`,
-        api_key: `497857977683336`,
-        api_secret: `_wMbQV7GimlFp9WlLaRVVScwsUE`
-    });
-    const { path } = req.file; // file becomes available in req at this point
+   // SEND FILE TO CLOUDINARY
+   cloudinary.config({
+       cloud_name: `dlxqwjiv6`,
+       api_key: `497857977683336`,
+       api_secret: `_wMbQV7GimlFp9WlLaRVVScwsUE`
+   });
+   const { path } = req.file; // file becomes available in req at this point
 
-    const fName = req.file.originalname.split(".")[0];
-    cloudinary.uploader.upload(
-      path,
-      {
-        resource_type: "raw",
-        public_id: `AudioUploads/${fName}`,
-      },
+   const fName = req.file.originalname.split(".")[0];
+   cloudinary.uploader.upload(
+     path,
+     {
+       resource_type: "raw",
+       public_id: `AudioUploads/${fName}`,
+     },
 
-      // Send cloudinary response or catch error
-      (err, audio) => {
-        if (err) return res.send(err);
+     // Send cloudinary response or catch error
+     (err, audio) => {
+       if (err) return res.send(err);
 
-        fs.unlinkSync(path);
-        res.send(audio);
-      }
-    );
-  });
+       fs.unlinkSync(path);
+       res.send(audio);
+     }
+   );
+ });
 });
 
 
 app.post('/video/upload', upload.single('video'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).send('No file uploaded');
-  }
+ if (!req.file) {
+   return res.status(400).send('No file uploaded');
+ }
 
-  const uploadStream = gridfsBucket.openUploadStream(req.file.originalname, {
-    contentType: req.file.mimetype
-  });
+ const uploadStream = gridfsBucket.openUploadStream(req.file.originalname, {
+   contentType: req.file.mimetype
+ });
 
-  uploadStream.on('error', err => {
-    console.error('Error during stream creation:', err);
-  });
+ uploadStream.on('error', err => {
+   console.error('Error during stream creation:', err);
+ });
 
-  uploadStream.write(req.file.buffer, err => {
-    if (err) {
-      console.error('Error writing file to GridFS:', err);
-      return res.status(500).send('Error uploading file');
-    }
-  });
+ uploadStream.write(req.file.buffer, err => {
+   if (err) {
+     console.error('Error writing file to GridFS:', err);
+     return res.status(500).send('Error uploading file');
+   }
+ });
 
-  uploadStream.on('finish', () => {
-    console.log('Write operation completed.');
-    res.status(200).json({ message: 'File uploaded successfully', file: { filename: req.file.originalname } });
-  });
+ uploadStream.on('finish', () => {
+   console.log('Write operation completed.');
+   res.status(200).json({ message: 'File uploaded successfully', file: { filename: req.file.originalname } });
+ });
 
-  uploadStream.on('close', () => {
-    console.log('Stream closed.');
-  });
+ uploadStream.on('close', () => {
+   console.log('Stream closed.');
+ });
 });
 
 
 
- // 404 page not found route
- app.all('*', (req,res,next)=>{
-   next(new ExpressError('Page Not Found', 404))
+// 404 page not found route
+app.all('*', (req,res,next)=>{
+  next(new ExpressError('Page Not Found', 404))
 })
 // error hadling 
 app.use((err, req, res, next) =>{
-   const { statusCode = 500 } = err;
-   if (!err.message) err.message = 'Oh No, Something Went Wrong!'
-   res.status(statusCode).render('error.ejs', { err })
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = 'Oh No, Something Went Wrong!'
+  res.status(statusCode).render('error.ejs', { err })
 })
 
 
 
 
- //server
- app.listen(3005, () => {
-   console.log('Serving on port 3005')
-})
+//server
+app.listen(3005,'0.0.0.0', function() {
+ console.log("Server running...");
+});
