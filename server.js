@@ -28,6 +28,7 @@ const QuizCard = require('./model/home/quizapp/quizcard')
 const Videos = require('./model/home/upload/videoupload');
 const cors = require('cors');
 const  OpenAI = require("openai");
+const MongoStore = require('connect-mongo');
 
 // const openai = new OpenAI({
 // 	apiKey: "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",
@@ -68,10 +69,10 @@ const serverGet = require('./routes/server/serverGet')
 const studentRoutes = require('./routes/studentRoutes')
 const apRoutes= require('./routes/apRoutes')
 const { promises } = require('dns');
-const MongoStore = require('connect-mongo');
 
 //models 
 const models = require('./routes/models/indexRoutes')
+const dbUrl = process.env.MONGODB_URL;
 
 
 const sessionConfig = {
@@ -83,10 +84,11 @@ const sessionConfig = {
   expires: Date.now() + 100 * 60 * 60 * 24 * 7,
   maxAge: 100 * 60 * 60 * 24 * 7
   },
-  store: MongoStore.create({
-   mongoUrl: process.env.MONGODB_URL,
-   touchAfter: 1024 * 3600 // time period in seconds
- })
+   store: MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 1024 * 3600 // time period in seconds
+  })
+ 
  
 }
 
@@ -94,7 +96,6 @@ const sessionConfig = {
 // dbUrl = 'mongodb+srv://bdi:dqrJ6h81tQh2OjLt@cluster0.5lauo.mongodb.net/test'
 const upload = multer({ storage: multer.memoryStorage() });
 
-const dbUrl = process.env.MONGODB_URL;
 mongoose.connect(dbUrl, 
 {useNewUrlParser: true,
 useUnifiedTopology: true})
